@@ -1,0 +1,187 @@
+    @charset "UTF-8";
+
+        body {
+            background-color: #e9ebe6;
+            
+        
+        }
+
+        .quadrado1 {
+            width: 300px; 
+            height: 200px; 
+            background-color: #f4f1f1;
+            position: fixed;
+            top: 180;
+            left: 270;
+        }
+
+        .quadrado2 {
+            width: 320px; 
+            height: 200px; 
+            background-color: #f4f1f1;
+            position: fixed;
+            top: 180;
+            left: 620;
+        }
+
+        .quadrado3 {
+            width: 320px; 
+            height: 200px; 
+            background-color: #f4f1f1;
+            position: fixed;
+            top: 180;
+            left: 990;
+        }
+
+        .retangulo {
+            width: 1040px; 
+            height: 270px; 
+            background-color: #f4f1f1;
+            position: fixed;
+            top: 420;
+            left: 270;
+        }
+
+        /*  TEXTOS  */
+
+        h1 {
+            color:rgb(0, 0, 58);
+            font-family: "Roboto", sans-serif;
+            font-size: 50px;
+            position: fixed;
+            top: 15;
+            left: 267;
+            margin-top:15px;
+        }
+
+        .bem_vindo {
+            color:rgb(0, 0, 58);
+            font-family: "Roboto", sans-serif;
+            position: fixed;
+            top: 90;
+            left: 270;
+        }
+
+        .fechar {
+            color:rgb(0, 0, 0);
+            font-family: 'Open Sans', sans-serif;
+            font-size:small;
+            position: absolute;
+            top: 20;
+            right: 49;
+        }
+
+        .sair {
+            color:rgb(0, 0, 0);
+            font-family: 'Open Sans', sans-serif;
+            font-size:small;
+            position: absolute;
+            top: 60;
+            right: 50;
+        }
+
+        .titulo_quadrado {
+            color: rgb(0, 0, 58);
+            font-family: "Roboto", sans-serif;
+            margin-left: 20px;
+            margin-top:15px;
+        }
+
+        /*  FONTES   */
+
+        @font-face {
+            font-family: 'OpenSans';
+            
+            src: url('font/opensans_italic.ttf') format('truetype');
+        }	
+
+        /*  IMAGENS  */
+
+        .img_sair {
+            float: right;
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 30;
+            right: 20;
+        }
+
+        .img_fechar {
+            float: right;
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 67;
+            right: 23;
+        }
+
+        /*  GRÁFICOS  */
+
+        .grafico {
+            display: flex;
+            align-items: flex-end;
+            height: 200px;
+            width: 1000px;
+            gap: 25px;
+            padding: 20px;
+            background: #f1f1f1;
+        }
+    
+        .barra {
+            width: 60px;
+            background-color: #3498db;
+            text-align: center;
+            color: white;
+            margin-bottom: 8px;
+        }
+    
+        .barra span {
+            display: block;
+            margin-top: 10px;
+        }
+    
+        .barra1 { 
+            height: 50px; 
+        }
+        .barra2 { 
+            height: 120px; 
+        }
+        .barra3 { 
+            height: 90px; 
+        }
+        .barra4 { 
+            height: 170px; 
+        }
+        .barra5 { 
+            height: 110px; 
+        }
+        
+            .barra6 { 
+            height: 40px; 
+        }
+            .barra7 { 
+            height: 160px; 
+        }
+            .barra8 { 
+            height: 100px; 
+        }
+            .barra9 { 
+            height: 190px; 
+        }
+            .barra10 { 
+            height: 40px; 
+        }
+            .barra11 { 
+            height: 80px; 
+        }
+            .barra12 { 
+            height: 30px; 
+        }
+
+        #graficoLinha {
+            background-color: #f9f9f9;
+            border: 2px solid #c6c6ff;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px #ccc;
+        }

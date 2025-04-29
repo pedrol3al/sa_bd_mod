@@ -1,0 +1,114 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: white;
+  }
+  
+  .conteudo {
+    margin-left: 230px; /* espaço para a barra lateral azul */
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 230px);
+    box-sizing: border-box;
+  }
+  
+  h1 {
+    color: rgb(0, 0, 58);
+    font-family: "Roboto", sans-serif;
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  .linha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #002b5c;
+    min-width: 120px;
+  }
+  
+  input[type="text"],
+  textarea {
+    border: 1px dotted #002b5c;
+    background-color: #f2f2f2;
+    padding: 5px;
+    font-size: 14px;
+    resize: none;
+    flex: 1;
+  }
+  
+  .input-curto {
+    width: 120px;
+  }
+  
+  .input-medio {
+    width: 250px;
+  }
+  
+  .input-longo {
+    width: 100%;
+  }
+  
+  textarea {
+    height: 80px;
+  }
+  
+  .coluna-textarea {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 4px;
+  }
+  
+  .grupo-textareas {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  .botoes {
+    margin-top: 25px;
+    display: flex;
+    gap: 458px;
+  }
+  
+  button {
+    padding: 10px 25px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+  
+  .salvar {
+    background-color: #4caf50;
+  }
+  
+  .pesquisar {
+    background-color: #4caf50;
+  }
+  
+  .novo {
+    background-color: #2196f3;
+  }
+  
