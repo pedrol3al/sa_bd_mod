@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agenda - Julho 2025</title>
+    <link rel="stylesheet" href="css_agenda.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css-home-bar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
+<body>
+
+    <div class="container-geral">
+        <nav class="menu-lateral">
+            <div class="btn-expandir"></div>
+    
+            <div class="top-menu">
+                <ul>
+                    <li class="item-menu">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-house-door"></i></span>
+                            <span class="txt-link">Menu</span>
+                        </a>
+                    </li>
+                    <li class="item-menu">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-calendar"></i></span>
+                            <span class="txt-link">Agenda</span>
+                        </a>
+                    </li>
+                    <li class="item-menu">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-person-fill"></i></span>
+                            <span class="txt-link">Cadastrar Cliente</span>
+                        </a>
+                    </li>
+                    <li class="item-menu">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-person-circle"></i></span>
+                            <span class="txt-link">Cadastro Usuário</span>
+                        </a>
+                    </li>
+                    <li class="item-menu">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-truck"></i></span>
+                            <span class="txt-link">Cadastro Fornecedor</span>
+                        </a>
+                    </li>
+                    <li class="item-menu">
+                        <a href="#" id="estoque">
+                            <span class="icon"><i class="bi bi-box-seam"></i></span>
+                            <span class="txt-link">Estoque <i class="bi bi-chevron-down"></i></span>
+                        </a>
+                        <div id="sub-estoque" class="sub-menu">
+                            <a href="#"><i class="bi bi-circle-fill"></i> Adicionar Estoque</a>
+                            <a href="#"><i class="bi bi-circle-fill"></i> Visualizar Estoque</a>
+                        </div>
+                    </li>
+                    <li class="item-menu">
+                        <a href="#" id="orcamento">
+                            <span class="icon"><i class="bi bi-receipt-cutoff"></i></span>
+                            <span class="txt-link">Orçamento <i class="bi bi-chevron-down"></i></span>
+                        </a>
+                        <div id="sub-orcamento" class="sub-menu">
+                            <a href="#"><i class="bi bi-circle-fill"></i> Novo Orçamento</a>
+                            <a href="#"><i class="bi bi-circle-fill"></i> Histórico</a>
+                        </div>
+                    </li>
+                    <li class="item-menu">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-tools"></i></span>
+                            <span class="txt-link">O.S</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+    
+          <!-- Rodapé -->
+    <div class="footer-contato">
+        <div class="linha-info">
+            <p class="duvidas">Dúvidas?<br><span>Consulte-nos</span></p>
+            <p class="telefone">3025-5458</p>
+        </div>
+        <p class="empresa">Conserta tech</p>
+    </div>
+      
+        </nav>
+    </div>
+    
+    <script src="js.barra.js"></script>
+
+    <div class="conteudo">
+        <h1>AGENDA</h1>
+
+        <div class="calendario">
+            <div class="cabecalho">
+                <button id="mesAnterior">&lt;</button>
+                <span id="mesAno">Maio 2025</span>
+                <button id="mesProximo">&gt;</button>
+              </div>
+              <div class="dias-semana">
+                <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+              </div>
+              <div class="dias" id="diasCalendario">
+                <!-- Os dias serão preenchidos via JavaScript -->
+              </div>
+        </div>
+
+        <div class="botoes">
+            <button class="pesquisar">🔍 Pesquisar</button>
+            <button class="novo">➕ Novo</button>
+        </div>
+
+        <form class="formulario">
+            <div class="linha">
+                <label>Nome:</label>
+                <input class="input-longo" type="text">
+                <label>Código do Cliente:</label>
+                <input type="text">
+            </div>
+        </form>
+
+        <h1 class = "pesquisa">PESQUISA</h1>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-conteudo">
+          <span class="fechar">&times;</span>
+          <h2>Detalhes da Data</h2>
+          <p>Você clicou em: <span id="dataSelecionada"></span></p>
+          <div class="form_data">
+            <label>Nome:</label>
+            <input class="input-longo" type="text">
+          </div>
+        </div>
+    </div>
+
+    <script>
+        // Pega todos os dias do calendário
+        const dias = document.querySelectorAll('.dias div:not(.vazio)');
+        const modal = document.getElementById('modal');
+        const dataSpan = document.getElementById('dataSelecionada');
+        const fecharBtn = document.querySelector('.fechar');
+      
+        dias.forEach(dia => {
+          dia.addEventListener('click', () => {
+            const numero = dia.textContent;
+            dataSpan.textContent = numero + " de Maio de 2025"; // Pode atualizar dinamicamente depois
+            modal.style.display = 'block';
+          });
+        });
+      
+        fecharBtn.addEventListener('click', () => {
+          modal.style.display = 'none';
+        });
+      
+        // Fecha se clicar fora do conteúdo do modal
+        window.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+
+        const meses = [
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+
+  const diasSemana = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+  let dataAtual = new Date(2025, 4); // Maio 2025 (mês começa do 0)
+
+  const mesAno = document.getElementById("mesAno");
+  const diasCalendario = document.getElementById("diasCalendario");
+
+  function renderizarCalendario() {
+    const ano = dataAtual.getFullYear();
+    const mes = dataAtual.getMonth();
+    const primeiroDia = new Date(ano, mes, 1);
+    const ultimoDia = new Date(ano, mes + 1, 0);
+    const diaSemanaInicio = primeiroDia.getDay();
+    const totalDias = ultimoDia.getDate();
+
+    mesAno.textContent = `${meses[mes]} ${ano}`;
+    diasCalendario.innerHTML = "";
+
+    // Espaços vazios até o primeiro dia
+    for (let i = 0; i < diaSemanaInicio; i++) {
+      const vazio = document.createElement("div");
+      vazio.classList.add("vazio");
+      diasCalendario.appendChild(vazio);
+    }
+
+    // Dias do mês
+    for (let dia = 1; dia <= totalDias; dia++) {
+      const divDia = document.createElement("div");
+      divDia.textContent = dia;
+      divDia.classList.add("dia");
+      divDia.addEventListener("click", () => abrirModal(dia, mes, ano));
+      diasCalendario.appendChild(divDia);
+    }
+  }
+
+  function abrirModal(dia, mes, ano) {
+    const modal = document.getElementById('modal');
+    const dataSpan = document.getElementById('dataSelecionada');
+    dataSpan.textContent = `${dia} de ${meses[mes]} de ${ano}`;
+    modal.style.display = 'block';
+  }
+
+  document.getElementById("mesAnterior").addEventListener("click", () => {
+    dataAtual.setMonth(dataAtual.getMonth() - 1);
+    renderizarCalendario();
+  });
+
+  document.getElementById("mesProximo").addEventListener("click", () => {
+    dataAtual.setMonth(dataAtual.getMonth() + 1);
+    renderizarCalendario();
+  });
+
+  // Fecha o modal
+  document.querySelector('.fechar').addEventListener('click', () => {
+    document.getElementById('modal').style.display = 'none';
+  });
+
+  window.addEventListener('click', (e) => {
+    if (e.target === document.getElementById('modal')) {
+      document.getElementById('modal').style.display = 'none';
+    }
+  });
+
+  diasCalendario.classList.remove("fade");
+    void diasCalendario.offsetWidth; // força reflow
+    diasCalendario.classList.add("fade");
+
+  renderizarCalendario(); // Inicializa ao carregar a página
+    </script>
+</body>
+</html>

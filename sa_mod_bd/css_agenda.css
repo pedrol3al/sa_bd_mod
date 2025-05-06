@@ -1,0 +1,185 @@
+body {
+    font-family: sans-serif;
+    background: #f5f5f5;
+    display: flex;
+    padding-top: 40px;
+  }
+
+  h1 {
+    color: rgb(0, 0, 58);
+    font-family: "Roboto", sans-serif;
+    font-size: 36px;
+    position: fixed;
+    top: 30px;
+    left: 300px;  
+  }
+
+  .pesquisa {
+    color: rgb(0, 0, 58);
+    font-family: "Roboto", sans-serif;
+    font-size: 36px;
+    position: fixed;
+    top: 500px;
+    left: 300px;  
+  }
+  
+  .calendario {
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px #ccc;
+    width: 75%;
+    position: fixed;
+    top: 100px;
+    left: 300px;  
+  }
+  
+  .cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .cabecalho button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: not-allowed; /* só visual por enquanto */
+  }
+  
+  .dias-semana, .dias {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+  }
+  
+  .dias-semana div {
+    font-weight: bold;
+    padding: 8px 0;
+  }
+  
+  .dias div {
+    padding: 10px 0;
+    margin: 2px;
+  }
+  
+  .vazio {
+    visibility: hidden;
+  }
+  
+  .formulario {
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 75%;
+    position: fixed;
+    top: 570px;
+    left: 300px;
+  }
+  
+  .linha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  /* RÓTULOS */
+  label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #002B5C;
+    min-width: 120px;
+  }
+  
+  /* CAMPOS */
+  input[type="text"],
+  input[type="date"],
+  select {
+    border: 1px dotted #002B5C;
+    background-color: #F2F2F2;
+    padding: 5px;
+    font-size: 14px;
+    flex: 1;
+  }
+
+  .botoes {
+    margin-top: 25px;
+    display: flex;
+    gap: 200px;
+    position: fixed;
+    top: 650px;
+    left: 650px;
+  }
+  
+  button {
+    padding: 10px 25px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+  
+  .pesquisar {
+    background-color: #4caf50;
+  }
+  
+  .novo {
+    background-color: #2196f3;
+  }
+
+  .modal {
+    display: none; /* Oculto por padrão */
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6); /* escurece fundo */
+  }
+  
+  /* Caixa branca centralizada */
+  .modal-conteudo {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    height: 200px;
+    box-shadow: 0 0 10px #000;
+    text-align: center;
+  }
+  
+  /* Botão de fechar */
+  .fechar {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .form_data {
+    position:absolute;
+    top: 350px;
+    
+  }
+
+  .fade {
+    animation: fadeIn 0.4s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
