@@ -35,8 +35,9 @@ body {
   
   .cabecalho {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 10px;
     margin-bottom: 10px;
   }
   
@@ -94,7 +95,13 @@ body {
     font-weight: bold;
     font-size: 14px;
     color: #002B5C;
-    min-width: 120px;
+    min-width: 70px;
+  }
+
+  .label_modal {
+    margin-left: -20px;
+    flex-direction: column;
+    margin-bottom: 20px;
   }
   
   /* CAMPOS */
@@ -129,8 +136,21 @@ body {
     font-weight: bold;
     border-radius: 4px;
   }
+
+  .botoes_desc {
+    margin-top: 25px;
+    display: flex;
+    gap: 200px;
+    position: fixed;
+    top: 500px;
+    left: 850px;
+  }
   
   .pesquisar {
+    background-color: #4caf50;
+  }
+
+  .salvar {
     background-color: #4caf50;
   }
   
@@ -153,13 +173,23 @@ body {
   /* Caixa branca centralizada */
   .modal-conteudo {
     background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
+    position: fixed;
+    left: 650px;
+    top: 200px;
     border-radius: 10px;
-    width: 300px;
-    height: 200px;
+    width: 500px;
+    height: 400px;
     box-shadow: 0 0 10px #000;
     text-align: center;
+  }
+
+  .modal-conteudo textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    max-height: 200px;
+    margin-top:100px;
   }
   
   /* Botão de fechar */
@@ -171,8 +201,8 @@ body {
 
   .form_data {
     position:absolute;
-    top: 350px;
-    
+    top: 100px;
+    left: 20px;
   }
 
   .fade {
@@ -182,4 +212,34 @@ body {
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  .dia.selecionado {
+    background-color: #353f6e46;
+    color: white;
+  }
+
+  .descricao-evento {
+    font-size: 10px;
+    color: #333;
+    background-color: #f3f3f3;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: block;
+    margin-top: 4px;
+  }
+
+  input::placeholder {
+    color: #888; /* tom acinzentado, opaco */
+    opacity: 0.6;
+  }
+
+  .evento-barra {
+    display: block;
+    width: 70%;
+    height: 6px;
+    background-color: #4CAF50; /* verde para evento */
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: -5px;
   }

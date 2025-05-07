@@ -114,9 +114,9 @@
 
         <form class="formulario">
             <div class="linha">
-                <label>Nome:</label>
-                <input class="input-longo" type="text">
-                <label>Código do Cliente:</label>
+                <label>Data:</label>
+                <input class="input-longo" type="text" id="campoData" placeholder="DD/MM/AAAA">
+                <label>Código OS:</label>
                 <input type="text">
             </div>
         </form>
@@ -129,10 +129,18 @@
           <span class="fechar">&times;</span>
           <h2>Detalhes da Data</h2>
           <p>Você clicou em: <span id="dataSelecionada"></span></p>
+
           <div class="form_data">
-            <label>Nome:</label>
-            <input class="input-longo" type="text">
+            <label class = "label_modal">Título:</label>
+            <input class="input-longo" id="inputTitulo" type="text" maxlength="20" placeholder="Ex: Reunião com cliente" />
+          
+            <label class = "label_modal">Descrição:</label>
+            <textarea id="inputDescricao" rows="3" placeholder="Digite a descrição..." style="resize: none; overflow-y: auto;"></textarea>
           </div>
+          
+          <div class="botoes_desc">
+            <button class="salvar">Salvar</button>
+        </div>
         </div>
     </div>
 
@@ -142,6 +150,7 @@
         const modal = document.getElementById('modal');
         const dataSpan = document.getElementById('dataSelecionada');
         const fecharBtn = document.querySelector('.fechar');
+        const eventosPorData = {};
       
         dias.forEach(dia => {
           dia.addEventListener('click', () => {
@@ -196,17 +205,54 @@
       const divDia = document.createElement("div");
       divDia.textContent = dia;
       divDia.classList.add("dia");
+
+      const dataChave = `${ano}-${mes + 1}-${dia}`;
+      if (eventosPorData[dataChave]) {
+        const barraEvento = document.createElement("div");
+        barraEvento.classList.add("evento-barra");
+
+        barraEvento.addEventListener("click", (e) => {
+        e.stopPropagation(); // evita disparar o evento do dia
+        abrirModal(dia, mes, ano);
+      });
+
+  divDia.appendChild(barraEvento);
+}
+
+
       divDia.addEventListener("click", () => abrirModal(dia, mes, ano));
       diasCalendario.appendChild(divDia);
     }
   }
 
   function abrirModal(dia, mes, ano) {
-    const modal = document.getElementById('modal');
-    const dataSpan = document.getElementById('dataSelecionada');
-    dataSpan.textContent = `${dia} de ${meses[mes]} de ${ano}`;
-    modal.style.display = 'block';
+  const modal = document.getElementById('modal');
+  const dataSpan = document.getElementById('dataSelecionada');
+  const inputDescricao = modal.querySelector('input');
+  const dataChave = `${ano}-${mes + 1}-${dia}`; // Ex: 2025-5-14
+
+  dataSpan.textContent = `${dia} de ${meses[mes]} de ${ano}`;
+  inputDescricao.value = eventosPorData[dataChave] || '';
+  inputDescricao.setAttribute('data-chave', dataChave);
+
+  modal.style.display = 'block';
   }
+
+  document.querySelector('.salvar').addEventListener('click', () => {
+  const modal = document.getElementById('modal');
+  const inputDescricao = modal.querySelector('input');
+  const dataChave = inputDescricao.getAttribute('data-chave');
+  const descricao = inputDescricao.value;
+
+  if (descricao.trim() !== '') {
+    eventosPorData[dataChave] = descricao;
+  } else {
+    delete eventosPorData[dataChave]; // Remove se estiver vazio
+  }
+
+  modal.style.display = 'none';
+  renderizarCalendario(); // Atualiza o calendário com a nova descrição
+  });
 
   document.getElementById("mesAnterior").addEventListener("click", () => {
     dataAtual.setMonth(dataAtual.getMonth() - 1);
@@ -233,7 +279,72 @@
     void diasCalendario.offsetWidth; // força reflow
     diasCalendario.classList.add("fade");
 
+    document.querySelector('.novo').addEventListener('click', () => {
+  document.querySelector('.formulario').reset();
+
+  // Limpa também o campo de data "manualmente", para restaurar o placeholder
+  campoData.value = '';
+  });
+
   renderizarCalendario(); // Inicializa ao carregar a página
-    </script>
+</script>
+
+<script>
+  const campoData = document.getElementById('campoData');
+
+  campoData.addEventListener('input', (e) => {
+    let valor = e.target.value.replace(/\D/g, ''); // Remove não dígitos
+    if (valor.length > 8) valor = valor.slice(0, 8);
+
+    let formatado = '';
+    if (valor.length > 4) {
+      formatado = valor.slice(0, 2) + '/' + valor.slice(2, 4) + '/' + valor.slice(4);
+    } else if (valor.length > 2) {
+      formatado = valor.slice(0, 2) + '/' + valor.slice(2);
+    } else {
+      formatado = valor;
+    }
+
+    e.target.value = formatado;
+  });
+</script>
+
+<script>
+  campoData.addEventListener('blur', () => {
+    const valor = campoData.value;
+    const partes = valor.split('/');
+
+    if (partes.length === 3) {
+      const dia = parseInt(partes[0], 10);
+      const mes = parseInt(partes[1], 10) - 1; // meses começam do zero
+      const ano = parseInt(partes[2], 10);
+
+      const novaData = new Date(ano, mes, dia);
+
+      if (
+        novaData &&
+        novaData.getFullYear() === ano &&
+        novaData.getMonth() === mes &&
+        novaData.getDate() === dia
+      ) {
+        dataAtual = new Date(ano, mes);
+        renderizarCalendario();
+
+        // Destaca o dia no calendário (opcional)
+        setTimeout(() => {
+          const dias = document.querySelectorAll('#diasCalendario .dia');
+          dias.forEach(d => {
+            if (parseInt(d.textContent, 10) === dia) {
+              d.classList.add('selecionado');
+              d.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+              d.classList.remove('selecionado');
+            }
+          });
+        }, 0);
+      }
+    }
+  });
+</script>
 </body>
 </html>
