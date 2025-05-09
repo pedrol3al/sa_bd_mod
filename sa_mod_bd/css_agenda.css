@@ -19,7 +19,7 @@ body {
     font-family: "Roboto", sans-serif;
     font-size: 36px;
     position: fixed;
-    top: 500px;
+    top: 425px;
     left: 300px;  
   }
   
@@ -29,7 +29,7 @@ body {
     box-shadow: 0 0 10px #ccc;
     width: 75%;
     position: fixed;
-    top: 100px;
+    top: 75px;
     left: 300px;  
   }
   
@@ -79,7 +79,7 @@ body {
     gap: 15px;
     width: 75%;
     position: fixed;
-    top: 570px;
+    top: 470px;
     left: 300px;
   }
   
@@ -99,7 +99,7 @@ body {
   }
 
   .label_modal {
-    margin-left: -20px;
+    margin-left: -50px;
     flex-direction: column;
     margin-bottom: 20px;
   }
@@ -120,8 +120,8 @@ body {
     display: flex;
     gap: 200px;
     position: fixed;
-    top: 650px;
-    left: 650px;
+    top: 550px;
+    left: 600px;
   }
   
   button {
