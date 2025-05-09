@@ -114,63 +114,51 @@
 
         <div class="quadrado1">
             <h2 class="titulo_quadrado"> O.S. Abertas</h2>
-
+            <h1 class="num_quadrado" id="num_quadrado1"> 2</h1>
         </div>
 
         <div class="quadrado2">
             <h2 class="titulo_quadrado"> Contas a receber hoje</h2>
+            <h1 class="num_quadrado" id="num_quadrado2"> 1.445,50</h1>
         </div>
 
         <div class="quadrado3">
             <h2 class="titulo_quadrado"> Contas a pagar hoje</h2>
+            <h1 class="num_quadrado" id="num_quadrado3"> 487,00</h1>
         </div>
 
         <div class = "retangulo">
             <h2 class="titulo_quadrado"> Fluxo mensal de Caixa</h2>
+            <canvas id="graficoFluxo" width="400" height="200"></canvas>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
         <script>
-            const ctx = document.getElementById('graficoLinha').getContext('2d');
-            const graficoLinha = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'],
-                    datasets: [{
-                        label: 'Saldo',
-                        data: [18, 28, 25, 36, 37],
-                        borderColor: 'cyan',
-                        backgroundColor: 'transparent',
-                        pointBackgroundColor: 'cyan',
-                        tension: 0.3
-                    }]
-                },
-            options: {
-            responsive: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top',
-                    align: 'end',
-                    labels: {
-                        color: 'black',
-                        font: {
-                            size: 14
-                        }
-                    }
-                }
+          const ctx = document.getElementById('graficoFluxo').getContext('2d');
+          const graficoFluxo = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+              datasets: [{
+                label: 'R$',
+                data: [1200, 1900, 3000, 2500, 3200, 2800],
+                fill: false,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                tension: 0.2
+              }]
             },
-            scales: {
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
                 y: {
-                    beginAtZero: true,
-                    max: 40,
-                    ticks: {
-                        stepSize: 10
-                            }
-                        }
-                    }
+                  beginAtZero: true
                 }
-            });
+              }
+            }
+          });
         </script>
+        
         </section>
     </body>
