@@ -14,6 +14,10 @@ body {
     left: 300px;  
   }
 
+  * {
+    box-sizing: border-box;
+  }
+
   .pesquisa {
     color: rgb(0, 0, 58);
     font-family: "Roboto", sans-serif;
@@ -96,10 +100,12 @@ body {
     font-size: 14px;
     color: #002B5C;
     min-width: 70px;
+    display: block;
+    margin-bottom: 5px;
   }
 
   .label_modal {
-    margin-left: -50px;
+    margin-left: -80px;
     flex-direction: column;
     margin-bottom: 20px;
   }
@@ -113,6 +119,7 @@ body {
     padding: 5px;
     font-size: 14px;
     flex: 1;
+    width: 100%;
   }
 
   .botoes {
@@ -137,14 +144,7 @@ body {
     border-radius: 4px;
   }
 
-  .botoes_desc {
-    margin-top: 25px;
-    display: flex;
-    gap: 200px;
-    position: fixed;
-    top: 500px;
-    left: 850px;
-  }
+  
   
   .pesquisar {
     background-color: #4caf50;
@@ -158,46 +158,76 @@ body {
     background-color: #2196f3;
   }
 
-  .modal {
-    display: none; /* Oculto por padrão */
+  #modal {
+    display: none;
     position: fixed;
-    z-index: 999;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.6); /* escurece fundo */
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
   }
   
-  /* Caixa branca centralizada */
   .modal-conteudo {
     background-color: #fff;
-    position: fixed;
-    left: 650px;
-    top: 200px;
-    border-radius: 10px;
-    width: 500px;
-    height: 400px;
-    box-shadow: 0 0 10px #000;
-    text-align: center;
+    padding: 20px 24px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
-
+  
+  .modal-conteudo label {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .modal-conteudo input,
   .modal-conteudo textarea {
     width: 100%;
     padding: 8px;
     font-size: 14px;
-    box-sizing: border-box;
-    max-height: 200px;
-    margin-top:100px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
   }
   
-  /* Botão de fechar */
-  .fechar {
-    float: right;
-    font-size: 24px;
-    cursor: pointer;
+  #dataSelecionada {
+    font-size: 14px;
+    color: #555;
+    margin-top: 8px;
   }
+  
+  .botoes-modal {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  
+  .botoes-modal button {
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .botoes-modal .salvar {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .botoes-modal .fechar {
+    background-color: #f44336;
+    color: white;
+  }
+  
 
   .form_data {
     position:absolute;
@@ -235,11 +265,14 @@ body {
   }
 
   .evento-barra {
-    display: block;
-    width: 70%;
-    height: 6px;
-    background-color: #4CAF50; /* verde para evento */
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: -5px;
+    width: 80%;
+    height: 5px;
+    background-color: #007bff;
+    margin: 4px auto 0;
+    border-radius: 3px;
+  }
+
+  .dia.evento {
+    border: 2px solid #007bff;
+    border-radius: 6px;
   }
