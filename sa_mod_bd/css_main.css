@@ -11,7 +11,7 @@
             height: 200px; 
             background-color: #f4f1f1;
             position: fixed;
-            top: 180;
+            top: 150;
             left: 270;
         }
 
@@ -20,7 +20,7 @@
             height: 200px; 
             background-color: #f4f1f1;
             position: fixed;
-            top: 180;
+            top: 150;
             left: 620;
         }
 
@@ -29,7 +29,7 @@
             height: 200px; 
             background-color: #f4f1f1;
             position: fixed;
-            top: 180;
+            top: 150;
             left: 990;
         }
 
@@ -38,9 +38,24 @@
             height: 270px; 
             background-color: #f4f1f1;
             position: fixed;
-            top: 420;
+            top: 360;
             left: 270;
         }
+
+        .retangulo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f0f0f0; /* exemplo */
+        }
+        
+        .retangulo canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        
 
         /*  TEXTOS  */
 
@@ -85,6 +100,26 @@
             font-family: "Roboto", sans-serif;
             margin-left: 20px;
             margin-top:15px;
+        }
+
+        .num_quadrado {
+            position:fixed;
+            top: 260px;
+        }
+
+        #num_quadrado1 {
+            position:fixed;
+            left:450px;
+        }
+
+        #num_quadrado2 {
+            position:fixed;
+            left: 700px;
+        }
+
+        #num_quadrado3 {
+            position: fixed;
+            left: 1100px;
         }
 
         /*  FONTES   */

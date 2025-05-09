@@ -124,24 +124,23 @@
         <h1 class = "pesquisa">PESQUISA</h1>
     </div>
 
-    <div id="modal" class="modal">
-        <div class="modal-conteudo">
-          <span class="fechar">&times;</span>
-          <h2>Detalhes da Data</h2>
-          <p>Você clicou em: <span id="dataSelecionada"></span></p>
-
-          <div class="form_data">
-            <label class = "label_modal">Título:</label>
-            <input class="input-longo" id="inputTitulo" type="text" maxlength="20" placeholder="Ex: Reunião com cliente" />
-          
-            <label class = "label_modal">Descrição:</label>
-            <textarea id="inputDescricao" rows="3" placeholder="Digite a descrição..." style="resize: none; overflow-y: auto;"></textarea>
-          </div>
-          
-          <div class="botoes_desc">
-            <button class="salvar">Salvar</button>
+    <div id="modal">
+      <div class="modal-conteudo">
+        <h2 class="modal-titulo">Adicionar Evento</h2>
+    
+        <label for="inputTitulo">Título:</label>
+        <input type="text" id="inputTitulo" />
+    
+        <label for="inputDescricao">Descrição:</label>
+        <textarea id="inputDescricao" rows="4"></textarea>
+    
+        <p id="dataSelecionada"></p>
+    
+        <div class="botoes-modal">
+          <button class="salvar">Salvar</button>
+          <button class="fechar">Fechar</button>
         </div>
-        </div>
+      </div>
     </div>
 
     <script>
@@ -228,30 +227,37 @@
   function abrirModal(dia, mes, ano) {
   const modal = document.getElementById('modal');
   const dataSpan = document.getElementById('dataSelecionada');
-  const inputDescricao = modal.querySelector('input');
-  const dataChave = `${ano}-${mes + 1}-${dia}`; // Ex: 2025-5-14
+  const inputTitulo = document.getElementById('inputTitulo');
+  const inputDescricao = document.getElementById('inputDescricao');
+  const dataChave = `${ano}-${mes + 1}-${dia}`;
 
   dataSpan.textContent = `${dia} de ${meses[mes]} de ${ano}`;
-  inputDescricao.value = eventosPorData[dataChave] || '';
-  inputDescricao.setAttribute('data-chave', dataChave);
+
+  const evento = eventosPorData[dataChave] || { titulo: '', descricao: '' };
+
+  inputTitulo.value = evento.titulo;
+  inputDescricao.value = evento.descricao;
+  inputTitulo.setAttribute('data-chave', dataChave);
 
   modal.style.display = 'block';
-  }
+  };
 
   document.querySelector('.salvar').addEventListener('click', () => {
   const modal = document.getElementById('modal');
-  const inputDescricao = modal.querySelector('input');
-  const dataChave = inputDescricao.getAttribute('data-chave');
-  const descricao = inputDescricao.value;
+  const inputTitulo = document.getElementById('inputTitulo');
+  const inputDescricao = document.getElementById('inputDescricao');
+  const dataChave = inputTitulo.getAttribute('data-chave');
+  const titulo = inputTitulo.value.trim();
+  const descricao = inputDescricao.value.trim();
 
-  if (descricao.trim() !== '') {
-    eventosPorData[dataChave] = descricao;
+  if (titulo !== '' || descricao !== '') {
+    eventosPorData[dataChave] = { titulo, descricao };
   } else {
-    delete eventosPorData[dataChave]; // Remove se estiver vazio
+    delete eventosPorData[dataChave]; // Remove evento vazio
   }
 
   modal.style.display = 'none';
-  renderizarCalendario(); // Atualiza o calendário com a nova descrição
+  renderizarCalendario(); // Atualiza visualmente
   });
 
   document.getElementById("mesAnterior").addEventListener("click", () => {
