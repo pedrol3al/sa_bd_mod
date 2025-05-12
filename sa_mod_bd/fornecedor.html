@@ -94,25 +94,25 @@
         <form class="formulario">
             <div class="linha">
                 <label>Código:</label>
-                <input type="text">
+                <input type="text" id="codigo">
                 <label>Empresa:</label>
-                <input class="input-longo" type="text">
+                <input class="input-longo" type="text" id="empresa">
             </div>
 
             <div class="linha">
                 <label>CNPJ:</label>
-                <input type="text">
+                <input type="text" id="cnpj">
                 <label>CEP:</label>
-                <input type="text">
+                <input type="text" id="cep">
                 <label>Nº:</label>
-                <input type="text">
+                <input type="text" id="num">
             </div>
 
             <div class="linha">
                 <label>Endereço:</label>
-                <input class="input-medio" type="text">
-                <label>UF:</label>
-                <select>
+                <input class="input-medio" type="text" id="endereco">
+                <label for="uf">UF:</label>
+                <select id="uf">
                     <option value="">Selecione</option>
                     <option>AC</option><option>AL</option><option>AP</option>
                     <option>AM</option><option>BA</option><option>CE</option>
@@ -128,16 +128,16 @@
 
             <div class="linha">
                 <label>Complemento:</label>
-                <input class="input-medio" type="text">
+                <input class="input-medio" type="text" id="complemento">
                 <label>Bairro:</label>
-                <input class="input-longo" type="text">
+                <input class="input-longo" type="text" id="bairro">
             </div>
 
             <div class="linha">
                 <label>Cidade:</label>
-                <input type="text">
+                <input type="text" id="cidade">
                 <label>E-Mail:</label>
-                <input class="input-longo" type="text">
+                <input class="input-longo" type="text" id="email">
             </div>
 
             <div class="linha">
@@ -164,25 +164,33 @@
             </div>
 
             <div class="botoes">
-                <button id="bt_cadastrar" class="cadastrar"><i class="bi bi-save"></i>Cadastrar</button>
-                <button onclick="pesquisar()" id="bt_pesquisar" class="pesquisar"><i class="bi bi-search"></i>Pesquisar</button>
+                <button type="button" id="bt_cadastrar" class="cadastrar"><i class="bi bi-save"></i>Cadastrar</button>
+                <button type="button" onclick="pesquisar()" id="bt_pesquisar" class="pesquisar"><i class="bi bi-search"></i>Pesquisar</button>
                 <button id="bt_novo" class="novo"><i class="bi bi-plus-circle"></i>Novo</button>
             </div>
         </form>
     </div>
 
-    <!-- Modal -->
-    <div id="modalPesquisar" class="modal">
-        <div class="modal-conteudo">
-            <div class="modal-cabecalho">
-                <input type="text" id="pesquisa" class="barra-pesquisa" placeholder="Pesquisar por Nome, Código ou CNPJ">
+    <div id="overlay"></div>
+    <div id="modal_pesquisar">
+        <form class="formulario">
+            <h1>PESQUISA</h1>
+            <div id="linha_modal" class="linha">
+              <label>Pesquisar:</label>
+              <input id="campoBusca" class="input-longo" type="text" placeholder="Digite para pesquisar...">
+              <span id="fechar-modal" onclick="fecharModal()">×</span>
             </div>
-            <div class="modal-corpo">
-                <ul id="resultadosPesquisa"></ul>
-            </div>
-        </div>
+            <div id="resultadoPesquisa" class="resultado-pesquisa"></div>
+            <div id="conteudoDetalhes" class="modal-conteudo-menor"></div>
+          </form>
     </div>
 
-    
+    <div id="modalDetalhes" class="modal-menor">
+        <div class="modal-conteudo-menor">
+          <span class="fechar-menor" onclick="fecharDetalhes()">&times;</span>
+          <div id="conteudoDetalhes"></div>
+        </div>
+    </div>
+    <script src="js.fornecedor.js"></script>
 </body>
 </html>
