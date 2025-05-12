@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conserta tech Login</title>
+  <link rel="stylesheet" href="estilo.css" />
+</head>
+<body>
+  <button aria-label="Voltar" class="botao-sair" type="button">
+    <svg viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+
+  <main>
+    <h1>Conserta tech</h1>
+    <p>Login</p>
+
+    <form action="#" method="post" autocomplete="off" >
+      <label for="usuario">Usuário cadastrado:</label>
+      <input id="usuario" name="usuario" type="text" autocomplete="username" />
+
+      <label for="senha">Senha:</label>
+      <input id="senha" name="senha" type="password" autocomplete="current-password" />
+
+      <a href="esqueci minha senha-estilo.html" tabindex="0">Esqueci minha senha</a>
+
+      <button type="button" class="button" onclick="window.location.href='main.html'">Entrar</button>
+    </form>
+
+    <div class="footer">
+      <select id="idioma" name="idioma">
+        <option value="pt">Português (BR)</option>
+        <option value="en">Inglês</option>
+      </select>
+      <button-termos onclick="window.location.href='termos.html'" style="cursor: pointer;">Termos</button-termos>
+    </div>
+  </main>
+</body>
+</html>

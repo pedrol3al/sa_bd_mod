@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conserta tech - Recuperar Senha</title>
+  <link rel="stylesheet" href="estilo.css" />
+</head>
+<body>
+  <button onclick="window.location.href= 'login-estilo.html'"  class="botao-sair" type="button">
+    <svg viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+
+  <main>
+    <h1>Conserta tech</h1>
+    <p>Recuperar Senha</p>
+
+    <form action="#" method="post" autocomplete="off">
+      <label for="email">E-mail cadastrado:</label>
+      <input id="email" name="email" type="email" required autocomplete="email" />
+
+      <h5 style>
+        Informe o e-mail usado no cadastro.
+      </h5>
+
+      <button type="submit" class="button">Recuperar</button>
+    </form>
+
+    <div class="footer">
+      <select id="idioma" name="idioma">
+        <option value="pt">Português (BR)</option>
+        <option value="en">Inglês</option>
+      </select>
+      <button-termos onclick="window.location.href='termos.html'" style="cursor: pointer;">Termos</button-termos>
+    </div>
+  </main>
+</body>
+</html>
