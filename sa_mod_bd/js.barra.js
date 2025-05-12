@@ -1,7 +1,3 @@
-window.onerror = function (message, source, lineno, colno, error) {
-    console.error(`Erro detectado: ${message} em ${source}:${lineno}:${colno}`);
-    alert(`Erro detectado: ${message} em ${source}:${lineno}:${colno}`);
-};
 
 
 

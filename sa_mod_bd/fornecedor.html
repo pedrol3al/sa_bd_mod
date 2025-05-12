@@ -13,29 +13,29 @@
     <div class="container-geral">
         <nav class="menu-lateral">
             <div class="btn-expandir"></div>
-            
+    
             <div class="top-menu">
                 <ul>
                     <li class="item-menu">
-                        <a href="main.html">
+                        <a href="main.html  ">
                             <span class="icon"><i class="bi bi-house-door"></i></span>
                             <span class="txt-link">Menu</span>
                         </a>
                     </li>
                     <li class="item-menu">
-                        <a href="#">
+                        <a href="agenda.html">
                             <span class="icon"><i class="bi bi-calendar"></i></span>
                             <span class="txt-link">Agenda</span>
                         </a>
                     </li>
                     <li class="item-menu">
-                        <a href="#">
+                        <a href="cliente.html">
                             <span class="icon"><i class="bi bi-person-fill"></i></span>
                             <span class="txt-link">Cadastrar Cliente</span>
                         </a>
                     </li>
                     <li class="item-menu">
-                        <a href="#">
+                        <a href="usuario.html">
                             <span class="icon"><i class="bi bi-person-circle"></i></span>
                             <span class="txt-link">Cadastro Usuário</span>
                         </a>
@@ -52,22 +52,22 @@
                             <span class="txt-link">Estoque <i class="bi bi-chevron-down"></i></span>
                         </a>
                         <div id="sub-estoque" class="sub-menu">
-                            <a href="#"><i class="bi bi-circle-fill"></i> Adicionar Estoque</a>
+                            <a href="estoque_cad.html"><i class="bi bi-circle-fill"></i> Adicionar Estoque</a>
                             <a href="#"><i class="bi bi-circle-fill"></i> Visualizar Estoque</a>
                         </div>
                     </li>
                     <li class="item-menu">
-                        <a href="#" id="orcamento">
+                        <a href="orcamento.html" id="orcamento">
                             <span class="icon"><i class="bi bi-receipt-cutoff"></i></span>
                             <span class="txt-link">Orçamento <i class="bi bi-chevron-down"></i></span>
                         </a>
                         <div id="sub-orcamento" class="sub-menu">
-                            <a href="#"><i class="bi bi-circle-fill"></i> Novo Orçamento</a>
-                            <a href="#"><i class="bi bi-circle-fill"></i> Histórico</a>
+                            <a href="financas.html"><i class="bi bi-circle-fill"></i> Finanças</a>
+                            <a href="emitir_nf.html"><i class="bi bi-circle-fill"></i> Emitir NF</a>
                         </div>
                     </li>
                     <li class="item-menu">
-                        <a href="#">
+                        <a href="os.html">
                             <span class="icon"><i class="bi bi-tools"></i></span>
                             <span class="txt-link">O.S</span>
                         </a>
@@ -75,15 +75,15 @@
                 </ul>
             </div>
     
-            <!-- Rodapé -->
-            <div class="footer-contato">
-                <div class="linha-info">
-                    <p class="duvidas">Dúvidas?<br><span>Consulte-nos</span></p>
-                    <p class="telefone">3025-5458</p>
-                </div>
-                <p class="empresa">Conserta tech</p>
-            </div>
-            
+          <!-- Rodapé -->
+    <div class="footer-contato">
+        <div class="linha-info">
+            <p class="duvidas">Dúvidas?<br><span>Consulte-nos</span></p>
+            <p class="telefone">3025-5458</p>
+        </div>
+        <p class="empresa">Conserta tech</p>
+    </div>
+      
         </nav>
     </div>
     
@@ -164,9 +164,9 @@
             </div>
 
             <div class="botoes">
-                <button class="cadastrar"><i class="bi bi-save"></i>Cadastrar</button>
-                <button class="pesquisar"><i class="bi bi-search"></i>Pesquisar</button>
-                <button class="novo"><i class="bi bi-plus-circle"></i>Novo</button>
+                <button id="bt_cadastrar" class="cadastrar"><i class="bi bi-save"></i>Cadastrar</button>
+                <button onclick="pesquisar()" id="bt_pesquisar" class="pesquisar"><i class="bi bi-search"></i>Pesquisar</button>
+                <button id="bt_novo" class="novo"><i class="bi bi-plus-circle"></i>Novo</button>
             </div>
         </form>
     </div>
@@ -183,121 +183,6 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/jquery.inputmask.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Exibir o modal ao clicar no botão "Pesquisar"
-            $(".pesquisar").click(function() {
-                $("#modalPesquisar").fadeIn(); // Abrir o modal
-            });
-
-            // Fechar o modal ao clicar fora do conteúdo
-            $(document).click(function(event) {
-                if ($(event.target).is("#modalPesquisar")) {
-                    $("#modalPesquisar").fadeOut(); // Fechar o modal
-                }
-            });
-
-            // Dados de exemplo (podem vir do banco de dados ou API)
-            const fornecedores = [
-                { nome: "Fornecedor A", codigo: "001", cnpj: "12345678000100" },
-                { nome: "Fornecedor B", codigo: "002", cnpj: "98765432000199" },
-                { nome: "Fornecedor C", codigo: "003", cnpj: "45678901000111" }
-            ];
-
-            // Filtrar resultados conforme a pesquisa
-            $("#pesquisa").on("input", function() {
-                const pesquisa = $(this).val().toLowerCase();
-                const resultados = fornecedores.filter(fornecedor => 
-                    fornecedor.nome.toLowerCase().includes(pesquisa) || 
-                    fornecedor.codigo.includes(pesquisa) || 
-                    fornecedor.cnpj.includes(pesquisa)
-                );
-
-                // Exibir resultados
-                $("#resultadosPesquisa").empty();
-                if (resultados.length > 0) {
-                    resultados.forEach(fornecedor => {
-                        $("#resultadosPesquisa").append(`
-                            <li>
-                                <strong>${fornecedor.nome}</strong><br>
-                                Código: ${fornecedor.codigo}<br>
-                                CNPJ: ${fornecedor.cnpj}
-                            </li>
-                        `);
-                    });
-                } else {
-                    $("#resultadosPesquisa").append("<li>Nenhum resultado encontrado</li>");
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-        // Máscara de celular com 9 dígitos
-        $('#celular').inputmask({
-            mask: '(99) 99999-9999',
-            placeholder: ' ',
-            showMaskOnHover: false,
-            showMaskOnFocus: true
-        });
-
-        // Máscara de telefone fixo com 8 dígitos
-        $('#telefone').inputmask({
-            mask: '(99) 9999-9999',
-            placeholder: ' ',
-            showMaskOnHover: false,
-            showMaskOnFocus: true
-        });
-
-
-        // Exibir o modal ao clicar no botão "Pesquisar"
-        $(".pesquisar").click(function() {
-            $("#modalPesquisar").fadeIn(); // Abrir o modal
-        });
-
-        // Fechar o modal ao clicar fora do conteúdo
-        $(document).click(function(event) {
-            if ($(event.target).is("#modalPesquisar")) {
-                $("#modalPesquisar").fadeOut(); // Fechar o modal
-            }
-        });
-
-        // Dados de exemplo (podem vir do banco de dados ou API)
-        const fornecedores = [
-            { nome: "Fornecedor A", codigo: "001", cnpj: "12345678000100" },
-            { nome: "Fornecedor B", codigo: "002", cnpj: "98765432000199" },
-            { nome: "Fornecedor C", codigo: "003", cnpj: "45678901000111" }
-        ];
-
-        // Filtrar resultados conforme a pesquisa
-        $("#pesquisa").on("input", function() {
-            const pesquisa = $(this).val().toLowerCase();
-            const resultados = fornecedores.filter(fornecedor => 
-                fornecedor.nome.toLowerCase().includes(pesquisa) || 
-                fornecedor.codigo.includes(pesquisa) || 
-                fornecedor.cnpj.includes(pesquisa)
-            );
-
-            // Exibir resultados
-            $("#resultadosPesquisa").empty();
-            if (resultados.length > 0) {
-                resultados.forEach(fornecedor => {
-                    $("#resultadosPesquisa").append(`
-                        <li>
-                            <strong>${fornecedor.nome}</strong><br>
-                            Código: ${fornecedor.codigo}<br>
-                            CNPJ: ${fornecedor.cnpj}
-                        </li>
-                    `);
-                });
-            } else {
-                $("#resultadosPesquisa").append("<li>Nenhum resultado encontrado</li>");
-            }
-        });
-    });
-</script>
+    
 </body>
 </html>
