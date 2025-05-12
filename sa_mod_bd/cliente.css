@@ -68,9 +68,11 @@
     }
 
     .sub-menu {
-      display: none;
+      max-height: 0; /* Inicialmente escondido */
+      overflow: hidden; /* Impede que o conteúdo seja visível quando escondido */
       padding-left: 40px;
       flex-direction: column;
+      transition: max-height 0.3s ease-out; /* Transição suave */
     }
 
     .sub-menu a {
@@ -82,8 +84,9 @@
     }
 
     .sub-menu.active {
-      display: flex;
+      max-height: 500px; /* Ou um valor maior que seja suficiente para o submenu */
     }
+    
 
     .footer-contato {
       color: #fff;
@@ -213,3 +216,19 @@
       content: "+";
     }
  
+    body.cliente-pagina .menu-lateral {
+      display: none; /* Esconde o menu lateral */
+  }
+  .menu-lateral {
+    overflow-y: scroll; /* Permite rolar verticalmente */
+    -ms-overflow-style: none;  /* Para IE */
+    
+}
+
+.menu-lateral::-webkit-scrollbar {
+    display: none; /* Para esconder a barra de rolagem em navegadores Webkit (Chrome, Safari, etc.) */
+}
+
+body {
+  overflow-x: hidden; /* Desativa a rolagem horizontal */
+}  
