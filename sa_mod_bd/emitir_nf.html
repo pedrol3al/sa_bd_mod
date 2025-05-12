@@ -368,17 +368,25 @@
       </div>
     </main>
   </div>
-
   <script>
-    document.getElementById("estoque").addEventListener("click", function (e) {
-      e.preventDefault();
-      document.getElementById("sub-estoque").classList.toggle("active");
-    });
+    function exibirMensagem() {
+      const mensagem = document.getElementById("mensagem");
+      mensagem.style.display = "block";
+      setTimeout(() => mensagem.style.display = "none", 3000);
+    }
 
-    document.getElementById("orcamento").addEventListener("click", function (e) {
-      e.preventDefault();
-      document.getElementById("sub-orcamento").classList.toggle("active");
-    });
+    function togglePesquisa() {
+      const barra = document.getElementById("barraPesquisa");
+      barra.style.display = barra.style.display === "block" ? "none" : "block";
+    }
+
+    function limparCampos() {
+      document.querySelectorAll("input, textarea, select").forEach(campo => campo.value = "");
+      const mensagem = document.getElementById("mensagem");
+      mensagem.style.display = "none";
+      const barra = document.getElementById("barraPesquisa");
+      barra.style.display = "none";
+    }
   </script>
 </body>
 </html>
