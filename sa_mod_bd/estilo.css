@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans&display=swap');
+
+/* Aplica box-sizing: border-box para todos os elementos, fazendo com que padding e border sejam incluídos no tamanho total do elemento */
+* {
+  box-sizing: border-box;
+}
+
+/* Estilo geral da página */
+body {
+  margin: 0; /* Remove a margem padrão do navegador */
+  font-family: 'Open Sans', sans-serif; /* Define a fonte padrão como Open Sans */
+  background-color: #e9ebe6; /* Define a cor de fundo da página */
+  display: flex; /* Usa Flexbox para alinhar os elementos filhos */
+  justify-content: center; /* Centraliza os filhos horizontalmente */
+  align-items: center; /* Centraliza os filhos verticalmente */
+  min-height: 100vh; /* Define a altura mínima da tela como 100% da altura da viewport */
+  position: relative; /* Permite o posicionamento absoluto de elementos filhos (como o botão de voltar) */
+}
+
+/* Estilo para o título principal (h1) */
+h1 {
+  font-family: 'Montserrat', sans-serif; /* Aplica a fonte Montserrat apenas ao h1 */
+  color: #2a3a6f; /* Cor azul escura */
+  font-size: 60px; /* Tamanho de 36px */
+  font-weight: 700; /* Peso da fonte: negrito */
+  margin: 0 0 0.25rem 0; /* Remove margem superior, lateral e aplica 4px na parte inferior */
+}
+h5{
+
+    color: #2a3a6f; /* Cor azul escura */
+    font-size: 19px; /* Tamanho de 18px */
+    margin: 0 0 1rem 0; /* Adiciona espaçamento abaixo do parágrafo */
+    margin-top:6px;
+    border: 1px;
+}
+
+/* Estilo para o subtítulo abaixo do título */
+p {
+  color: #2a3a6f; /* Cor azul escura */
+  font-size: 19px; /* Tamanho de 18px */
+  margin: 0 0 1rem 0; /* Adiciona espaçamento abaixo do parágrafo */
+}
+
+/* Estilo do container principal do formulário */
+main {
+  background-color: #f7f7f0; /* Fundo em tom off-white */
+  border: 1px solid #2a3a6f; /* Borda azul escura */
+  width: 580px; /* Largura fixa do formulário */
+  padding: 30px; /* Espaçamento interno de 32px em todos os lados */
+  display: flex; /* Usa Flexbox para organização interna */
+  flex-direction: column; /* Organiza os elementos em coluna */
+  align-items: center; /* Centraliza horizontalmente os itens */
+  gap: 16px;/* Espaçamento de 16px entre os filhos */
+  height: 480px; /* Largura fixa do formulário */
+}
+
+/* Estilo dos rótulos dos campos */
+label {
+  color: #2a3a6f; /* Cor azul escura */
+  font-weight: 700; /* Negrito */
+  font-size: 20px; /* Tamanho de 18px */
+  display: block; /* Ocupa toda a largura disponível */
+  margin-bottom: 2px; /* Espaço de 4px abaixo do label */
+  text-align: center;
+}
+
+/* Estilo dos campos de entrada de texto e senha */
+input[type="text"],
+input[type="password"],
+input[type="email"]
+{
+  width: 100%;  
+  color: #2a3a6f;
+  font-size: 18px; /* Tamanho de 18px */
+  border: 1px solid black; /* Borda preta */
+  font-size: 18px; /* Tamanho de 18px */
+  padding: 2px 10px; /* Espaço interno: 4px vertical, 8px horizontal */
+  font-family: inherit; /* Usa a mesma fonte do elemento pai */
+  
+}
+
+/* Estilo quando o campo estiver em foco (clicado) */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+  width: 100%; /* Ocupa 100% da largura do container pai */    
+  outline: none; /* Remove contorno azul padrão do navegador */
+  border-color: #2a3a6f; /* Muda a borda para azul escuro */
+  color: #2a3a6f;
+  font-size: 18px; /* Tamanho de 18px */
+
+}
+
+/* Estilo para o link "Esqueci minha senha" */
+a {
+  font-size: 12px; /* Tamanho de 12px */
+  width: 70%; 
+  color: #0047b3; /* Cor azul mais forte */
+  text-decoration: underline; /* Sublinha o texto */
+  align-self: center; /* Alinha à esquerda do container */
+  margin-top: 6px; /* Espaçamento acima do link */
+  cursor: pointer; /* Cursor de clique */
+}
+
+.button-termos {
+  cursor: pointer;
+  font-size: 10px; /* Tamanho de 12px */
+  width: 75%; 
+  margin-top: 3px; /* Espaçamento acima do link */
+  cursor: pointer; /* Cursor de clique */
+}
+
+/* Estilo para o botão de enviar */
+.button {
+    background-color: #2a7a4a;
+    color: white;
+    font-size: 18px;
+    padding: 8px 60px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: 18px;
+    text-align: center;
+    display: block;        /* Permite usar margin auto */
+    margin-left: auto;     /* Centraliza horizontalmente */
+    margin-right: auto;    /* Centraliza horizontalmente */  
+}
+
+/* Efeito ao passar o mouse sobre o botão */
+button:hover {
+  background-color: #246438; /* Escurece o botão no hover */
+}
+
+/* Estilo para o rodapé com idioma e termos */
+.footer {
+  width: 100%; /* Ocupa 100% da largura do main */
+  display: flex; /* Usa Flexbox */
+  justify-content: space-between; /* Espaço entre os itens */
+  font-size: 12px; /* Tamanho de 12px */
+  color: black; /* Cor do texto preta */
+  padding: 0 0.25rem; /* Espaço horizontal de 4px */
+  align-items: center; /* Alinha verticalmente ao centro */
+}
+
+/* Estilo do menu de seleção de idioma */
+select {
+  font-size: 13px;
+  color: black; /* Texto preto */
+  border: 1px solid #ccc; /* Borda cinza clara */
+  border-radius: 0.125rem; /* Cantos levemente arredondados */
+  width: 130px; /* Largura fixa */
+  height: 30px; /* Altura fixa */
+  padding: 0.25rem; /* Espaço interno de 4px */
+  overflow-y: auto; /* Permite rolagem vertical se necessário */
+  cursor: pointer; /* Mostra cursor de clique */
+  font-family: inherit; /* Usa fonte herdada */
+}
+
+/* Estilo do botão circular com seta de voltar */
+.botao-sair {
+  position: absolute; /* Posiciona em relação ao body */
+  top: 1.5rem; /* 24px do topo da tela */
+  left: 1.5rem; /* 24px da esquerda da tela */
+  width: 2.5rem; /* 40px de largura */
+  height: 2.5rem; /* 40px de altura */
+  border: 1px solid black; /* Borda preta */
+  border-radius: 9999px; /* Deixa o botão completamente circular */
+  background: transparent; /* Fundo transparente */
+  display: flex; /* Usa Flexbox para centralizar o ícone */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  cursor: pointer; /* Mostra cursor de clique */
+}
+
+/* Estilo da setinha dentro do botão de voltar */
+.back-button svg {
+  width: 1.5rem; /* 24px de largura */
+  height: 1.5rem; /* 24px de altura */
+  stroke: black; /* Cor da linha: preta */
+  stroke-width: 2; /* Espessura da linha: 2px */
+  fill: none; /* Sem preenchimento */
+}
