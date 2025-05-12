@@ -164,9 +164,9 @@
             </div>
 
             <div class="botoes">
-                <button class="cadastrar"><i class="bi bi-save"></i>Cadastrar</button>
-                <button class="pesquisar"><i class="bi bi-search"></i>Pesquisar</button>
-                <button class="novo"><i class="bi bi-plus-circle"></i>Novo</button>
+                <button id="bt_cadastrar" class="cadastrar"><i class="bi bi-save"></i>Cadastrar</button>
+                <button onclick="pesquisar()" id="bt_pesquisar" class="pesquisar"><i class="bi bi-search"></i>Pesquisar</button>
+                <button id="bt_novo" class="novo"><i class="bi bi-plus-circle"></i>Novo</button>
             </div>
         </form>
     </div>
@@ -183,121 +183,6 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/jquery.inputmask.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Exibir o modal ao clicar no botão "Pesquisar"
-            $(".pesquisar").click(function() {
-                $("#modalPesquisar").fadeIn(); // Abrir o modal
-            });
-
-            // Fechar o modal ao clicar fora do conteúdo
-            $(document).click(function(event) {
-                if ($(event.target).is("#modalPesquisar")) {
-                    $("#modalPesquisar").fadeOut(); // Fechar o modal
-                }
-            });
-
-            // Dados de exemplo (podem vir do banco de dados ou API)
-            const fornecedores = [
-                { nome: "Fornecedor A", codigo: "001", cnpj: "12345678000100" },
-                { nome: "Fornecedor B", codigo: "002", cnpj: "98765432000199" },
-                { nome: "Fornecedor C", codigo: "003", cnpj: "45678901000111" }
-            ];
-
-            // Filtrar resultados conforme a pesquisa
-            $("#pesquisa").on("input", function() {
-                const pesquisa = $(this).val().toLowerCase();
-                const resultados = fornecedores.filter(fornecedor => 
-                    fornecedor.nome.toLowerCase().includes(pesquisa) || 
-                    fornecedor.codigo.includes(pesquisa) || 
-                    fornecedor.cnpj.includes(pesquisa)
-                );
-
-                // Exibir resultados
-                $("#resultadosPesquisa").empty();
-                if (resultados.length > 0) {
-                    resultados.forEach(fornecedor => {
-                        $("#resultadosPesquisa").append(`
-                            <li>
-                                <strong>${fornecedor.nome}</strong><br>
-                                Código: ${fornecedor.codigo}<br>
-                                CNPJ: ${fornecedor.cnpj}
-                            </li>
-                        `);
-                    });
-                } else {
-                    $("#resultadosPesquisa").append("<li>Nenhum resultado encontrado</li>");
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-        // Máscara de celular com 9 dígitos
-        $('#celular').inputmask({
-            mask: '(99) 99999-9999',
-            placeholder: ' ',
-            showMaskOnHover: false,
-            showMaskOnFocus: true
-        });
-
-        // Máscara de telefone fixo com 8 dígitos
-        $('#telefone').inputmask({
-            mask: '(99) 9999-9999',
-            placeholder: ' ',
-            showMaskOnHover: false,
-            showMaskOnFocus: true
-        });
-
-
-        // Exibir o modal ao clicar no botão "Pesquisar"
-        $(".pesquisar").click(function() {
-            $("#modalPesquisar").fadeIn(); // Abrir o modal
-        });
-
-        // Fechar o modal ao clicar fora do conteúdo
-        $(document).click(function(event) {
-            if ($(event.target).is("#modalPesquisar")) {
-                $("#modalPesquisar").fadeOut(); // Fechar o modal
-            }
-        });
-
-        // Dados de exemplo (podem vir do banco de dados ou API)
-        const fornecedores = [
-            { nome: "Fornecedor A", codigo: "001", cnpj: "12345678000100" },
-            { nome: "Fornecedor B", codigo: "002", cnpj: "98765432000199" },
-            { nome: "Fornecedor C", codigo: "003", cnpj: "45678901000111" }
-        ];
-
-        // Filtrar resultados conforme a pesquisa
-        $("#pesquisa").on("input", function() {
-            const pesquisa = $(this).val().toLowerCase();
-            const resultados = fornecedores.filter(fornecedor => 
-                fornecedor.nome.toLowerCase().includes(pesquisa) || 
-                fornecedor.codigo.includes(pesquisa) || 
-                fornecedor.cnpj.includes(pesquisa)
-            );
-
-            // Exibir resultados
-            $("#resultadosPesquisa").empty();
-            if (resultados.length > 0) {
-                resultados.forEach(fornecedor => {
-                    $("#resultadosPesquisa").append(`
-                        <li>
-                            <strong>${fornecedor.nome}</strong><br>
-                            Código: ${fornecedor.codigo}<br>
-                            CNPJ: ${fornecedor.cnpj}
-                        </li>
-                    `);
-                });
-            } else {
-                $("#resultadosPesquisa").append("<li>Nenhum resultado encontrado</li>");
-            }
-        });
-    });
-</script>
+    
 </body>
 </html>
