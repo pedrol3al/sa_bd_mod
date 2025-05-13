@@ -1,54 +1,53 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Seleciona todos os links principais que possuem submenus
-  const menuItems = document.querySelectorAll('.item-menu > a');
+// Função para expandir e recolher submenus com persistência
+function toggleSubMenu(buttonId, subMenuId) {
+  const button = document.getElementById(buttonId);
+  const subMenu = document.getElementById(subMenuId);
+
+  // Verifica se o submenu está no localStorage e o deixa aberto, se necessário
+  if (localStorage.getItem(subMenuId) === "open") {
+    subMenu.classList.add('active');
+  }
+
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    subMenu.classList.toggle('active');
+
+    // Se o submenu estiver aberto, salva no localStorage
+    if (subMenu.classList.contains('active')) {
+      localStorage.setItem(subMenuId, "open");
+    } else {
+      localStorage.setItem(subMenuId, "closed");
+    }
+  });
+}
+
+// Chamadas para os submenus
+toggleSubMenu('estoque', 'sub-estoque');
+toggleSubMenu('orcamento', 'sub-orcamento');
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const menuItems = document.querySelectorAll(".item-menu a");
   
-  // Fecha todos os submenus ao iniciar
-  const subMenus = document.querySelectorAll('.sub-menu');
-  subMenus.forEach(subMenu => {
-      subMenu.style.display = 'none'; // Começa escondido
-  });
+  // Restaurar o estado salvo no localStorage
+  const ativoIndex = localStorage.getItem("ativoIndex");
+  if (ativoIndex !== null) {
+      menuItems[ativoIndex].classList.add("ativo");
+  }
 
-  // Verifica se há estado salvo no localStorage e reabre os submenus correspondentes
-  menuItems.forEach(link => {
-      const subMenu = link.nextElementSibling;
-      if (subMenu && localStorage.getItem(link.id) === "open") {
-          link.classList.add('active');
-          subMenu.style.display = 'block';
-      }
-  });
+  // Adicionar evento de clique para salvar o item clicado
+  menuItems.forEach((item, index) => {
+      item.addEventListener("click", function () {
+          // Remover a classe 'ativo' de todos os itens
+          menuItems.forEach((menuItem) => {
+              menuItem.classList.remove("ativo");
+          });
+          
+          // Adicionar a classe 'ativo' ao item clicado
+          item.classList.add("ativo");
 
-  // Adiciona os eventos de clique nos links principais
-  menuItems.forEach(link => {
-      link.addEventListener('click', function(event) {
-          const subMenu = link.nextElementSibling;
-
-          // Verifica se o submenu existe
-          if (subMenu && subMenu.classList.contains('sub-menu')) {
-              event.preventDefault(); // Evita o redirecionamento do link principal
-
-              // Fecha todos os submenus abertos, exceto o atual
-              subMenus.forEach(menu => {
-                  if (menu !== subMenu) {
-                      menu.style.display = 'none';
-                      const parentLink = menu.previousElementSibling;
-                      if (parentLink) {
-                          parentLink.classList.remove('active');
-                          localStorage.removeItem(parentLink.id);
-                      }
-                  }
-              });
-
-              // Alterna a visibilidade do submenu atual
-              if (subMenu.style.display === 'block') {
-                  subMenu.style.display = 'none';
-                  link.classList.remove('active');
-                  localStorage.removeItem(link.id);
-              } else {
-                  subMenu.style.display = 'block';
-                  link.classList.add('active');
-                  localStorage.setItem(link.id, "open");
-              }
-          }
+          // Salvar o índice do item no localStorage para persistência
+          localStorage.setItem("ativoIndex", index);
       });
   });
 });
