@@ -388,15 +388,7 @@
     body.cliente-pagina .menu-lateral {
       display: none; /* Esconde o menu lateral */
   }
-  .menu-lateral {
-    overflow-y: scroll; /* Permite rolar verticalmente */
-    -ms-overflow-style: none;  /* Para IE */
-    
-}
-
-.menu-lateral::-webkit-scrollbar {
-    display: none; /* Para esconder a barra de rolagem em navegadores Webkit (Chrome, Safari, etc.) */
-}
+  
 
 body {
   overflow-x: hidden; /* Desativa a rolagem horizontal */
