@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Conserta tech - Recuperar Senha</title>
+  <title>Conserta tech Login</title>
   <link rel="stylesheet" href="css/estilo.css" />
 </head>
 <body>
@@ -15,17 +15,17 @@
 
   <main>
     <h1>Conserta tech</h1>
-    <p>RECUPERAR SENHA</p>
+    <p>ALTERAR SENHA</p>
 
-    <form action="#" method="post" autocomplete="off">
-      <label for="email">E-mail cadastrado:</label>
-      <input id="email" name="email" type="email" required autocomplete="email" />
+    <form action="#" method="post" autocomplete="off" >
+      <label for="usuario">Nova senha:</label>
+      <input id="usuario" name="usuario" type="text" autocomplete="username" />
 
-      <h5 style>
-        Informe o e-mail usado no cadastro.
-      </h5>
+      <label for="senha">Digite novamente:</label>
+      <input id="senha" name="senha" type="password" autocomplete="current-password" />
 
-      <button type="button" class="button" onclick="window.location.href='at-senha-estilo.html'">Recuperar</button>
+
+      <button type="button" class="button" onclick="window.location.href='login-estilo.html'">Entrar</button>
     </form>
 
     <div class="footer">

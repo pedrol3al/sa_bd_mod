@@ -95,3 +95,62 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const menuItems = document.querySelectorAll(".item-menu");
+  
+    menuItems.forEach((item) => {
+      item.addEventListener("click", function (e) {
+        // Verifica se o item possui um submenu
+        const subMenu = item.querySelector(".sub-menu");
+  
+        if (subMenu) {
+          e.preventDefault(); // Evita o redirecionamento do link
+  
+          // Alterna a visibilidade do submenu
+          if (item.classList.contains("active")) {
+            item.classList.remove("active");
+          } else {
+            // Fecha todos os outros submenus
+            menuItems.forEach((i) => i.classList.remove("active"));
+            item.classList.add("active");
+          }
+        }
+      });
+    });
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuItems = document.querySelectorAll(".item-menu");
+  
+    // Verifica o estado salvo no localStorage
+    menuItems.forEach((item) => {
+      const id = item.querySelector("a").id;
+      if (localStorage.getItem(id) === "open") {
+        item.classList.add("active");
+      }
+    });
+  
+    menuItems.forEach((item) => {
+      item.addEventListener("click", function (e) {
+        const subMenu = item.querySelector(".sub-menu");
+        const id = item.querySelector("a").id;
+  
+        if (subMenu) {
+          e.preventDefault();
+  
+          if (item.classList.contains("active")) {
+            item.classList.remove("active");
+            localStorage.removeItem(id);
+          } else {
+            menuItems.forEach((i) => {
+              i.classList.remove("active");
+              const otherId = i.querySelector("a").id;
+              localStorage.removeItem(otherId);
+            });
+            item.classList.add("active");
+            localStorage.setItem(id, "open");
+          }
+        }
+      });
+    });
+  });
+  
