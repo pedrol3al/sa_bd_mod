@@ -9,145 +9,122 @@
     font-family: 'Roboto', sans-serif;
 }
 
-/* Garante que html e body ocupem 100% da tela */
 html, body {
     height: 100%;
 }
 
-/* Menu lateral grudado nas bordas */
 nav.menu-lateral {
-    width: 220px; /* Largura do menu */
+    width: 215px; /* Ajuste para um tamanho mais compacto */
     height: 100%;
     background-color: #013d8d;
-    padding: 0;
-    box-shadow: 3px 0 0 #fff;
     position: fixed;
     top: 0;
     left: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    overflow-y: auto;   
-
+    overflow-y: auto;
 }
+
 .menu-lateral::-webkit-scrollbar {
     display: none; 
 }
 
-/* Botão para expandir menu */
-.btn-expandir {
-    width: 100%;
-    padding: 10px;
-}
-
-.btn-expandir > i {
-    color: #fff;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-/* Lista do menu */
 ul {
     list-style: none;
     padding-left: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Garante que o conteúdo comece no topo */
-    flex-grow: 1; /* Permite que a lista ocupe o máximo de espaço */
+    justify-content: flex-start;
+    flex-grow: 1;
 }
 
-/* Estilo de todos os links */
 ul li a {
     color: #fff;
     text-decoration: none;
-    font-size: 22px; 
-    padding: 20px 16px;
+    font-size: 18px;
+    padding: 15px 10px;
     display: flex;
     align-items: center;
-    transition: background 0.5s;
-    width: 100%;
-    box-sizing: border-box; /* Garante que o padding não afete o layout */
+    transition: background 0.3s;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-/* Efeito hover */
 ul li a:hover {
     background-color: #0250c5;
     border-radius: 8px;
 }
 
-/* Espaço entre ícone e texto */
 ul li a .txt-link {
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
-/* Adiciona espaçamento entre os itens do menu */
 ul li {
-    margin-bottom: 10px; 
+    margin-bottom: 5px;
 }
 
-/* Tamanhos dos ícones */
 ul li a .icon > i {
-    font-size: 30px; 
-}
-
-/* Estilização específica para alguns ícones (opcional) */
-ul li.inicio-menu a .icon > i {
-    font-size: 34px; 
-}
-
-/* Ajuste para o conteúdo principal */
-main.conteudo-principal {
-    margin-left: 220px; 
-    padding: 20px;
-    background-color: #f4f4f4;
-    height: 100%;
+    font-size: 22px; /* Ícones menores */
 }
 
 .sub-menu {
-    display: none; /* Inicialmente escondido */
-    padding-left: 20px;
-    transition: max-height 0.3s ease-out;
-    max-height: 0; /* Inicialmente sem altura */
-  }
-  
-  .menu-link i.bi-chevron-down {
-    transition: transform 0.3s ease;
-  }
-  
-  .menu-link.active i.bi-chevron-down {
-    transform: rotate(180deg); /* Rotaciona o ícone ao abrir */
-  }
-  
-  
-  .footer-contato {
+    display: none;
+    margin-left: 10px;
+    background-color: #004aad;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+ul li.item-menu.active .sub-menu {
+    display: block;
+}
+
+.sub-menu a {
+    color: white;
+    padding: 5px 15px;
+    display: block;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.sub-menu a:hover {
+    background-color: #003580;
+}
+
+.footer-contato {
     color: #fff;
     font-size: 13px;
-    padding: 10px 16px;
+    padding: 10px 5px;
     margin-top: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-  }
+}
 
-  .footer-contato .linha-info {
+.footer-contato .linha-info {
     display: flex;
     justify-content: space-between;
     width: 100%;
     font-weight: bold;
-    font-size: 14px;
-  }
+    font-size: 12px;
+}
 
-  .footer-contato .duvidas span {
+.footer-contato .duvidas span {
     font-size: 10px;
     display: block;
-  }
+}
 
-  .footer-contato .empresa {
+.footer-contato .empresa {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 8px;
-  }
+}
 
-  
+main.conteudo-principal {
+    margin-left: 180px; /* Alinhado com o novo tamanho do menu */
+    padding: 20px;
+    background-color: #f4f4f4;
+    height: 100%;
+}
