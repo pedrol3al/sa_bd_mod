@@ -40,35 +40,16 @@ nav.menu-lateral ul li {
   margin-bottom: 10px;
 }
 
-nav.menu-lateral ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 22px;
-  padding: 20px 16px;
-  display: flex;
-  align-items: center;
-  transition: background 0.5s;
-}
-
-nav.menu-lateral ul li a:hover {
-  background-color: #0250c5;
-  border-radius: 8px;
-}
-
-nav.menu-lateral ul li a .icon > i {
-  font-size: 30px;
-}
-
-nav.menu-lateral ul li a .txt-link {
-  margin-left: 20px;
-}
-
 main.conteudo-principal {
   margin-left: 220px;
   padding: 30px;
   background-color: #f4f4f4;
   min-height: 100vh;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 h2 {
@@ -160,3 +141,7 @@ textarea {
 .novo::before {
   content: "+";
 }
+
+body {
+  overflow-x: hidden; /* Desativa a rolagem horizontal */
+}   
