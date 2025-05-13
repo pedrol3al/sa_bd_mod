@@ -39,9 +39,9 @@ document.getElementById("bt_cadastrar").addEventListener("click", () => {
     observacoes: document.getElementById("observacoes").value
   };
 
-  // Verifique se o código já existe no array de cadastros
-  const codigoExistente = cadastros.some(cadastro => cadastro.codigo === dados.codigo);
-  const cnpjExistente = cadastros.some(cadastro => cadastro.cnpj === dados.cnpj);
+  // Verifique se o código ou o CNPJ já existem, exceto quando for o mesmo do cadastro editado
+  const codigoExistente = cadastros.some(cadastro => cadastro.codigo === dados.codigo && cadastro.codigo !== dados.codigo);
+  const cnpjExistente = cadastros.some(cadastro => cadastro.cnpj === dados.cnpj && cadastro.cnpj !== dados.cnpj);
 
   if (codigoExistente) {
     alert("Erro: Já existe um cadastro com o mesmo código.");
@@ -53,10 +53,19 @@ document.getElementById("bt_cadastrar").addEventListener("click", () => {
     return; // Impede o cadastro
   }
 
-  // Se não houver duplicidade, adicione o novo cadastro
-  cadastros.push(dados);
-  alert("Cadastro salvo com sucesso!");
+  // Se o código ou o CNPJ já existir no cadastro atual, só atualize, caso contrário, adicione
+  const index = cadastros.findIndex(cadastro => cadastro.codigo === dados.codigo);
+  if (index !== -1) {
+    // Atualize o cadastro existente
+    cadastros[index] = dados;
+    alert("Cadastro atualizado com sucesso!");
+  } else {
+    // Adicione um novo cadastro
+    cadastros.push(dados);
+    alert("Cadastro salvo com sucesso!");
+  }
 });
+
 
 
 document.getElementById("bt_novo").addEventListener("click", (e) => {
@@ -101,9 +110,9 @@ document.getElementById("campoBusca").addEventListener("input", function () {
         <p><strong>Código:</strong> ${dado.codigo}</p>
         <p><strong>Empresa:</strong> ${dado.empresa}</p>
         <p><strong>CNPJ:</strong> ${dado.cnpj}</p>
-        <button type="button" class="botao-detalhes" onclick='mostrarDetalhes(${JSON.stringify(dado)})'>Detalhes</button>
-        <button type="button" class="botao-editar" onclick='editarCadastro(${JSON.stringify(dado)})'>Editar</button>
-        <button type="button" class="botao-excluir" onclick='excluirCadastro("${dado.codigo}")'>Excluir</button>
+        <button type="button" id="botao_detalhe" class="botao-detalhes" onclick='mostrarDetalhes(${JSON.stringify(dado)})'>Detalhes</button>
+        <button type="button" id="botao_editar" class="botao-editar" onclick='editarCadastro(${JSON.stringify(dado)})'>Editar</button>
+        <button type="button" id="botao_excluir" class="botao-excluir" onclick='excluirCadastro("${dado.codigo}")'>Excluir</button>
         <hr />
       `;
       resultadoDiv.appendChild(item);
