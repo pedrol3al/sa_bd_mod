@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Conserta tech Login</title>
+  <title>Conserta Tech Login</title>
   <link rel="stylesheet" href="css/estilo.css" />
 </head>
 <body>
@@ -14,28 +14,35 @@
   </button>
 
   <main>
-    <h1>Conserta tech</h1>
+    <h1>Conserta Tech</h1>
     <p>LOGIN</p>
 
-    <form action="#" method="post" autocomplete="off" >
-      <label for="usuario">Usuário cadastrado:</label>
-      <input id="usuario" name="usuario" type="text" autocomplete="username" />
+    <form onsubmit="event.preventDefault(); fazerLogin();" autocomplete="off">
+      <label for="usuario">Usuário:</label>
+      <input id="usuario" name="usuario" type="text" autocomplete="username" required />
 
       <label for="senha">Senha:</label>
-      <input id="senha" name="senha" type="password" autocomplete="current-password" />
+      <input id="senha" name="senha" type="password" autocomplete="current-password" required />
 
-      <a href="esqueci minha senha-estilo.html" tabindex="0">Esqueci minha senha</a>
+      <a href="esqueci-minha-senha-estilo.html" tabindex="0">Esqueci minha senha</a>
 
-      <button type="button" class="button" onclick="window.location.href='main.html'">Entrar</button>
+      <button type="submit" class="button">Entrar</button>
     </form>
+
+    <!-- Mensagem de erro (aparece se login falhar) -->
+    <div id="mensagemErro" class="mensagem-erro" style="display: none;">
+      Usuário ou senha incorretos.
+    </div>
 
     <div class="footer">
       <select id="idioma" name="idioma">
         <option value="pt">Português (BR)</option>
         <option value="en">Inglês</option>
       </select>
-      <button-termos onclick="window.location.href='termos.html'" style="cursor: pointer;">Termos</button-termos>
+      <button onclick="window.location.href='termos.html'" style="cursor: pointer;">Termos</button>
     </div>
   </main>
+
+  <script src="js/banco local.js"></script>
 </body>
 </html>

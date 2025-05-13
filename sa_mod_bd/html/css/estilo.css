@@ -180,3 +180,19 @@ select {
   stroke-width: 2; /* Espessura da linha: 2px */
   fill: none; /* Sem preenchimento */
 }
+
+.mensagem-erro {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffdddd;
+  border: 2px solid #ff4d4d;
+  color: #990000;
+  padding: 20px 40px;
+  border-radius: 30px;
+  font-weight: bold;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
