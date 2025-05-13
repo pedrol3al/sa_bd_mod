@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
-
-    
 * { 
   margin: 0;
   padding: 0;
@@ -44,7 +42,7 @@ nav.menu-lateral ul li a {
   color: #fff;
   text-decoration: none;
   font-size: 22px;
-  padding: 20px 16px;
+  padding: 20px ;
   display: flex;
   align-items: center;
   transition: background 0.5s;
