@@ -26,7 +26,7 @@ h1 {
   margin: 0 0 0.25rem 0; /* Remove margem superior, lateral e aplica 4px na parte inferior */
 }
 h5{
-
+    align-items: center;
     color: #2a3a6f; /* Cor azul escura */
     font-size: 19px; /* Tamanho de 18px */
     margin: 0 0 1rem 0; /* Adiciona espaçamento abaixo do parágrafo */
@@ -108,6 +108,7 @@ a {
   width: 75%; 
   margin-top: 3px; /* Espaçamento acima do link */
   cursor: pointer; /* Cursor de clique */
+  border: none;
 }
 
 /* Estilo para o botão de enviar */
@@ -128,7 +129,7 @@ a {
 
 /* Efeito ao passar o mouse sobre o botão */
 button:hover {
-  background-color: #246438; /* Escurece o botão no hover */
+  background-color: #5b88808a; /* Escurece o botão no hover */
 }
 
 /* Estilo para o rodapé com idioma e termos */
@@ -182,17 +183,24 @@ select {
 }
 
 .mensagem-erro {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: none;
+  margin-top: 15px;
+  padding: 12px;
+  border: 1px solid red;
   background-color: #ffdddd;
-  border: 2px solid #ff4d4d;
   color: #990000;
-  padding: 20px 40px;
-  border-radius: 30px;
-  font-weight: bold;
+  border-radius: 6px;
+  font-size: 0.9rem;
   text-align: center;
-  z-index: 1000;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+form {
+  width: 80%;  
+  color: #2a3a6f;
+  font-size: 18px; /* Tamanho de 18px */
+  font-size: 18px; /* Tamanho de 18px */
+  padding: 2px 10px; /* Espaço interno: 4px vertical, 8px horizontal */
+  font-family: inherit; /* Usa a mesma fonte do elemento pai */
 }
