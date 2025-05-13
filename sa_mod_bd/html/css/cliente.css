@@ -15,6 +15,20 @@
       display: flex;
     }
 
+    /* Menu lateral */
+    .menu-lateral {
+      width: 220px;
+      height: 100vh;
+      background-color: #013d8d;
+      box-shadow: 3px 0 0 #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding-bottom: 20px;
+    }
 
     .btn-expandir {
       width: 100%;
