@@ -5,28 +5,30 @@
   <title>Emitir NF</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="css/emitir_nf.css"/>
-  </head>
+</head>
 
+<body>
+
+  <!-- Menu será carregado aqui -->
   <div id="menu-container"></div>
 
-  <body>    
-    <!-- Conteúdo Principal -->
-    <main class="conteudo-principal">
-      <h1>EMITIR NF</h1>
-      <div class="cabecalho">
-        <div class="prestador-esquerda">
-          <p><strong>CNPJ:</strong> 00.623.904/0001-73</p>
-          <p><strong>Nome:</strong> Conserta Tech</p>
-          <p><strong>Endereço:</strong> Rua Imaginária, 142</p>
-        </div>
-        <div class="prestador">
-          <p><strong>Município:</strong> Joinville</p>
-          <p><strong>I.E:</strong> 123.456.789</p>
-          <p><strong>UF:</strong> Santa Catarina</p>
-        </div>
+  <!-- Conteúdo Principal -->
+  <main class="conteudo-principal">
+    <h1>EMITIR NF</h1>
+    <div class="cabecalho">
+      <div class="prestador-esquerda">
+        <p><strong>CNPJ:</strong> 00.623.904/0001-73</p>
+        <p><strong>Nome:</strong> Conserta Tech</p>
+        <p><strong>Endereço:</strong> Rua Imaginária, 142</p>
       </div>
+      <div class="prestador">
+        <p><strong>Município:</strong> Joinville</p>
+        <p><strong>I.E:</strong> 123.456.789</p>
+        <p><strong>UF:</strong> Santa Catarina</p>
+      </div>
+    </div>
 
-      <form id="formulario">
+    <form id="formulario">
       <div class="secao">
         <h3>Tomador de serviço</h3>
         <div class="linha">
@@ -46,30 +48,33 @@
         </div>
 
         <div class="linha">
-          <div class="campo" style="flex: 2;"><label for="forma_pagamento">Forma de pagamento:</label><select id="forma_pagamento" name="forma_pagamento">
-            <option value="">Selecione...</option>
-            <option value="dinheiro">Dinheiro</option>
-            <option value="credito">Cartão de Crédito</option>
-            <option value="debito">Cartão de Débito</option>
-            <option value="pix">Pix</option>
-            <option value="boleto">Boleto Bancário</option>
-            <option value="transferencia">Transferência Bancária</option>
-            <option value="deposito">Depósito em Conta</option>
-            <option value="parcelado">Parcelado no Cartão</option>
-            <option value="link_pagamento">Link de Pagamento</option>            
-
-          </option></select></div>
+          <div class="campo" style="flex: 2;">
+            <label for="forma_pagamento">Forma de pagamento:</label>
+            <select id="forma_pagamento" name="forma_pagamento">
+              <option value="">Selecione...</option>
+              <option value="dinheiro">Dinheiro</option>
+              <option value="credito">Cartão de Crédito</option>
+              <option value="debito">Cartão de Débito</option>
+              <option value="pix">Pix</option>
+              <option value="boleto">Boleto Bancário</option>
+              <option value="transferencia">Transferência Bancária</option>
+              <option value="deposito">Depósito em Conta</option>
+              <option value="parcelado">Parcelado no Cartão</option>
+              <option value="link_pagamento">Link de Pagamento</option>
+            </select>
+          </div>
           <div class="campo" style="flex: 1;"><label for="total_geral">TOTAL:</label><input type="text" id="total_geral" name="total_geral"></div>
         </div>
       </div>
+
       <div class="botoes">
         <button type="submit" class="cadastrar">Cadastrar</button>
         <button type="button" class="pesquisar">Pesquisar</button>
         <button type="reset" class="novo">Novo</button>
       </div>
     </form>
-    </main>
-  </div>
+  </main>
+
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       // Botões e formulário
@@ -77,7 +82,7 @@
       const botaoPesquisar = document.querySelector(".pesquisar");
       const botaoNovo = document.querySelector(".novo");
       const formulario = document.querySelector("form");
-      
+
       // Container da mensagem de cadastro
       const containerMensagem = document.createElement("div");
       containerMensagem.style.backgroundColor = "#d4edda";
@@ -86,24 +91,24 @@
       containerMensagem.style.marginBottom = "15px";
       containerMensagem.style.border = "1px solid #c3e6cb";
       containerMensagem.style.borderRadius = "5px";
-      containerMensagem.style.display = "none"; // Oculto inicialmente
+      containerMensagem.style.display = "none";
       formulario.insertBefore(containerMensagem, formulario.firstChild);
-  
-      // Função para exibir a mensagem de cadastro
+
+      // Exibir mensagem
       botaoCadastrar.addEventListener("click", function(event) {
         event.preventDefault();
         containerMensagem.textContent = "Cliente cadastrado com sucesso!";
         containerMensagem.style.display = "block";
       });
-  
-      // Função para limpar o formulário ao clicar em "Novo"
+
+      // Resetar formulário
       botaoNovo.addEventListener("click", function(event) {
         event.preventDefault();
-        formulario.reset(); // Limpa todos os campos do formulário
-        containerMensagem.style.display = "none"; // Oculta a mensagem
+        formulario.reset();
+        containerMensagem.style.display = "none";
       });
-  
-      // Cria a barra de pesquisa lateral
+
+      // Barra lateral de pesquisa
       const barraPesquisa = document.createElement("div");
       barraPesquisa.style.position = "fixed";
       barraPesquisa.style.top = "0";
@@ -113,9 +118,8 @@
       barraPesquisa.style.backgroundColor = "#f4f4f4";
       barraPesquisa.style.padding = "20px";
       barraPesquisa.style.boxShadow = "-2px 0 5px rgba(0,0,0,0.2)";
-      barraPesquisa.style.display = "none"; // Inicialmente oculta
-  
-      // Campo de entrada para pesquisa
+      barraPesquisa.style.display = "none";
+
       const inputPesquisa = document.createElement("input");
       inputPesquisa.type = "text";
       inputPesquisa.placeholder = "Digite para pesquisar...";
@@ -124,8 +128,7 @@
       inputPesquisa.style.marginBottom = "10px";
       inputPesquisa.style.borderRadius = "4px";
       inputPesquisa.style.border = "1px solid #ccc";
-  
-      // Botão para fechar a barra de pesquisa
+
       const botaoFechar = document.createElement("button");
       botaoFechar.textContent = "Fechar";
       botaoFechar.style.marginTop = "10px";
@@ -135,26 +138,33 @@
       botaoFechar.style.border = "none";
       botaoFechar.style.borderRadius = "4px";
       botaoFechar.style.cursor = "pointer";
-  
-      // Adiciona os elementos à barra de pesquisa
+
       barraPesquisa.appendChild(inputPesquisa);
       barraPesquisa.appendChild(botaoFechar);
       document.body.appendChild(barraPesquisa);
-  
-      // Evento de clique no botão "Pesquisar"
+
       botaoPesquisar.addEventListener("click", function() {
-        barraPesquisa.style.display = "block"; // Mostra a barra de pesquisa
+        barraPesquisa.style.display = "block";
       });
-  
-      // Evento de clique no botão "Fechar"
+
       botaoFechar.addEventListener("click", function() {
-        barraPesquisa.style.display = "none"; // Oculta a barra de pesquisa
+        barraPesquisa.style.display = "none";
       });
     });
+  
+    document.addEventListener("DOMContentLoaded", () => {
+      const el = document.getElementById("menu-container");
+      if (el) {
+        el.innerHTML = "<nav>Menu carregado</nav>";
+        console.log("Menu carregado diretamente!");
+      } else {
+        console.error("menu-container não encontrado");
+      }
+    });
+  
   </script>
 
   <script src="js/carregar-menu.js"></script>
 
 </body>
-
 </html>

@@ -1,3 +1,6 @@
+console.log("carregarMenuLateral foi chamado");
+
+
 async function carregarMenuLateral() {
   try {
     const menuHtml = `
@@ -66,7 +69,7 @@ async function carregarMenuLateral() {
     const menuContainer = document.getElementById('menu-container');
     if (menuContainer) {
       menuContainer.innerHTML = menuHtml;
-      console.log("Menu carregado com sucesso!");
+      console.log("menu-container encontrado");
 
       // Depuração: Verificar se os elementos existem
       const orcamentoLink = document.getElementById('orcamento');
