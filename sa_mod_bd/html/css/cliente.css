@@ -4,19 +4,24 @@ body {
   padding: 0;
   font-family: sans-serif;
   background-color: #fff;
-  display: flex;            /* sidebar + conteúdo lado a lado */
+  display: flex;
+  overflow-x: hidden; /* Evita que a tela transborde horizontalmente */
+  box-sizing: border-box;
 }
 
 .container-geral {
-  width: 230px;             /* largura fixa da barra azul */
-  flex-shrink: 0;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
 }
 
-/* CONTEÚDO */
 .conteudo {
-  flex: 1;                  /* ocupa todo o espaço restante */
+  flex: 1;
   padding: 30px 40px;
   box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin-left: 230px; 
 }
 
 h1 {
@@ -32,6 +37,7 @@ h1 {
   flex-direction: column;
   gap: 15px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .linha {
