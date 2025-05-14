@@ -23,7 +23,7 @@ body {
     font-family: "Roboto", sans-serif;
     font-size: 36px;
     position: fixed;
-    top: 425px;
+    top: 545px;
     left: 300px;  
   }
   
@@ -51,7 +51,6 @@ body {
     border: none;
     padding: 5px 12px;
     border-radius: 6px;
-    cursor: not-allowed; /* só visual por enquanto */
   }
   
   .dias-semana, .dias {
@@ -83,7 +82,7 @@ body {
     gap: 15px;
     width: 75%;
     position: fixed;
-    top: 470px;
+    top: 590px;
     left: 300px;
   }
   
@@ -127,8 +126,8 @@ body {
     display: flex;
     gap: 200px;
     position: fixed;
-    top: 550px;
-    left: 600px;
+    top: 650px;
+    left: 760px;
   }
   
   button {

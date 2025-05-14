@@ -60,6 +60,12 @@ select {
   flex: 1;
 }
 
+textarea#observacoes {
+  height: 80px;
+  width: 1550px;
+  resize: vertical;
+}
+
 /* TAMANHOS FIXOS */
 .input-curto {
   width: 120px;
