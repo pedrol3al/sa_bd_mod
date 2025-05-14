@@ -3,7 +3,9 @@ function toggleSubMenu(buttonId, subMenuId) {
   const button = document.getElementById(buttonId);
   const subMenu = document.getElementById(subMenuId);
 
-  // Verifica se o submenu está no localStorage e o deixa aberto, se necessário
+  // Se o submenu não existir, não faz nada (evita problemas)
+  if (!button || !subMenu) return;
+
   if (localStorage.getItem(subMenuId) === "open") {
     subMenu.classList.add('active');
   }
@@ -12,7 +14,6 @@ function toggleSubMenu(buttonId, subMenuId) {
     event.preventDefault();
     subMenu.classList.toggle('active');
 
-    // Se o submenu estiver aberto, salva no localStorage
     if (subMenu.classList.contains('active')) {
       localStorage.setItem(subMenuId, "open");
     } else {
@@ -21,33 +22,48 @@ function toggleSubMenu(buttonId, subMenuId) {
   });
 }
 
-// Chamadas para os submenus
-toggleSubMenu('estoque', 'sub-estoque');
+// Chamada apenas para submenu existente
 toggleSubMenu('orcamento', 'sub-orcamento');
-
 
 document.addEventListener("DOMContentLoaded", function () {
   const menuItems = document.querySelectorAll(".item-menu a");
-  
+
   // Restaurar o estado salvo no localStorage
-  const ativoIndex = localStorage.getItem("ativoIndex");
-  if (ativoIndex !== null) {
-      menuItems[ativoIndex].classList.add("ativo");
+  const ativoHref = localStorage.getItem("ativoHref");
+  if (ativoHref) {
+    menuItems.forEach((item) => {
+      if (item.getAttribute("href") === ativoHref) {
+        item.classList.add("ativo");
+      } else {
+        item.classList.remove("ativo");
+      }
+    });
   }
 
-  // Adicionar evento de clique para salvar o item clicado
   menuItems.forEach((item, index) => {
-      item.addEventListener("click", function () {
-          // Remover a classe 'ativo' de todos os itens
-          menuItems.forEach((menuItem) => {
-              menuItem.classList.remove("ativo");
-          });
-          
-          // Adicionar a classe 'ativo' ao item clicado
-          item.classList.add("ativo");
-
-          // Salvar o índice do item no localStorage para persistência
-          localStorage.setItem("ativoIndex", index);
-      });
+  item.addEventListener("click", function () {
+    menuItems.forEach((menuItem) => {
+      menuItem.classList.remove("ativo");
+    });
+    item.classList.add("ativo");
+    localStorage.setItem("ativoIndex", index);
   });
+});
+});
+
+// Aguardar o carregamento completo do DOM
+document.addEventListener("DOMContentLoaded", function() {
+    // Seleciona todos os itens de menu
+    const menuItems = document.querySelectorAll('.item-menu');
+
+    // Iterar sobre os itens e adicionar o evento de clique
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Remover a classe 'ativo' de todos os itens
+            menuItems.forEach(i => i.classList.remove('ativo'));
+
+            // Adicionar a classe 'ativo' no item clicado
+            item.classList.add('ativo');
+        });
+    });
 });

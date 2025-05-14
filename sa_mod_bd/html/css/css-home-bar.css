@@ -1,5 +1,5 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -9,6 +9,8 @@
 
 html, body {
   height: 100%;
+  background-color: white;
+  overflow-x: hidden;
 }
 
 /* Menu lateral */
@@ -24,13 +26,17 @@ html, body {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  padding-bottom: 20px; /* Espaço no final */
 }
 
 .menu-lateral::-webkit-scrollbar {
   display: none;
 }
 
-/* Botão expandir */
+.top-menu {
+  flex-grow: 1;
+}
+
 .btn-expandir {
   width: 100%;
   padding: 10px;
@@ -49,7 +55,6 @@ ul {
   margin: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   flex-grow: 1;
 }
 
@@ -60,18 +65,19 @@ ul li {
 ul li a {
   color: #fff;
   text-decoration: none;
-  font-size: 22px;
-  padding: 20px 16px;
+  font-size: 20px;
+  padding: 15px 16px;
   display: flex;
   align-items: center;
-  transition: background 0.5s;
+  transition: background 0.3s;
   width: 100%;
   box-sizing: border-box;
+  border-radius: 8px;
 }
 
-ul li a:hover {
+ul li a:hover,
+ul li a.ativo {
   background-color: #0250c5;
-  border-radius: 8px;
 }
 
 ul li a .txt-link {
@@ -79,17 +85,20 @@ ul li a .txt-link {
 }
 
 ul li a .icon > i {
-  font-size: 30px;
+  font-size: 24px;
 }
 
-ul li a.ativo {
-  background-color: #0250c5;
-  border-radius: 8px;
-}
-
+/* Submenu */
 .sub-menu {
-  display: none;
-  padding-left: 20px;
+  max-height: 0;
+  overflow: hidden;
+  padding-left: 40px;
+  flex-direction: column;
+  transition: max-height 0.3s ease-out;
+}
+
+.sub-menu.active {
+  max-height: 500px;
 }
 
 .sub-menu a {
@@ -97,7 +106,7 @@ ul li a.ativo {
   padding: 10px 0;
   color: #fff;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .sub-menu a:hover {
@@ -105,47 +114,16 @@ ul li a.ativo {
   border-radius: 8px;
 }
 
-.sub-menu.active {
-  display: block;
-}
-
-/* Conteúdo principal (fora do menu) */
+/* Conteúdo principal */
 main.conteudo-principal {
   margin-left: 220px;
   padding: 20px;
   background-color: #f4f4f4;
-  height: 100%;
-}
-
-/* Menu lateral */
-.menu-lateral {
-  width: 220px;
-  height: 100vh;
-  background-color: #013d8d;
-  padding: 0;
-  box-shadow: 3px 0 0 #fff;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  padding-bottom: 20px; /* Adiciona um pequeno espaço no final */
-}
-
-.top-menu {
-  flex-grow: 1; /* Faz o menu crescer para ocupar o espaço restante */
+  width: 100%;
 }
 
 /* Rodapé */
 .footer-contato {
-  color: #fff;
-  font-size: 13px;
-  padding: 10px 0;
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   color: #fff;
   font-size: 13px;
   padding: 10px 16px;
@@ -171,7 +149,6 @@ main.conteudo-principal {
 
 .footer-contato .duvidas span {
   font-size: 10px;
-  font-weight: normal;
   display: block;
 }
 
@@ -185,110 +162,9 @@ main.conteudo-principal {
   margin-top: 8px;
 }
 
-html, body {
-  height: 100%;
-  background-color: white;
-}
-
+/* Conteúdo interno do formulário */
 .container-geral {
   display: flex;
-}
-
-
-.btn-expandir {
-  width: 100%;
-  padding: 10px;
-}
-
-ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 20px;
-  padding: 15px 16px;
-  display: flex;
-  align-items: center;
-  transition: background 0.3s;
-}
-
-ul li a:hover {
-  background-color: #0250c5;
-  border-radius: 8px;
-}
-
-ul li a .txt-link {
-  margin-left: 20px;
-}
-
-ul li a .icon > i {
-  font-size: 24px;
-}
-
-.sub-menu {
-  max-height: 0; /* Inicialmente escondido */
-  overflow: hidden; /* Impede que o conteúdo seja visível quando escondido */
-  padding-left: 40px;
-  flex-direction: column;
-  transition: max-height 0.3s ease-out; /* Transição suave */
-}
-
-.sub-menu a {
-  display: block;
-  padding: 10px 0;
-  color: #fff;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-.sub-menu.active {
-  max-height: 500px; /* Ou um valor maior que seja suficiente para o submenu */
-}
-
-
-.footer-contato {
-  color: #fff;
-  font-size: 13px;
-  padding: 10px 16px;
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.footer-contato .linha-info {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.footer-contato .duvidas span {
-  font-size: 10px;
-  display: block;
-}
-
-.footer-contato .empresa {
-  font-weight: bold;
-  font-size: 16px;
-  margin-top: 8px;
-}
-
-/* Conteúdo principal */
-main.conteudo-principal {
-  margin-left: 220px;
-  padding: 20px;
-  background-color: #f4f4f4;
-  width: 100%;
 }
 
 h2 {
@@ -335,6 +211,7 @@ textarea {
   height: 50px;
 }
 
+/* Botões */
 .botoes {
   display: flex;
   justify-content: center;
@@ -381,11 +258,7 @@ textarea {
   content: "+";
 }
 
+/* Esconder menu lateral em páginas específicas */
 body.cliente-pagina .menu-lateral {
-  display: none; /* Esconde o menu lateral */
+  display: none;
 }
-
-
-body {
-overflow-x: hidden; /* Desativa a rolagem horizontal */
-}  
