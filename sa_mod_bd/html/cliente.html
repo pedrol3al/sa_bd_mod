@@ -13,81 +13,128 @@
 
 </body>
   
-    <main class="conteudo-principal">
-      <h2>CLIENTE</h2>
-      <form>
+    <main class="conteudo">
+      <h1>CLIENTE</h1>
+      <form class = "formulario">
         <div class="linha">
-          <div class="campo"><label for="codigo">Código</label><input type="number" id="codigo" name="codigo"></div>
-          <div class="campo"><label for="nome">Nome</label><input type="text" id="nome" name="nome"></div>
+          <div class="linha">
+            <label for="codigo">Código:</label>
+            <input type="text" id="codigo" name="codigo">
+          </div>
+          <div class="linha">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome">
+          </div>
         </div>
         <div class="linha">
-          <div class="campo"><label for="cpf">CPF</label><input type="number" id="cpf" name="cpf" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="000.000.000.00"></div>
-          <div class="campo"><label for="cnpj">CNPJ</label><input type="number" id="cnpj" name="cnpj" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="00.000.000/0000-00"></div>
-          <div class="campo"><label for="rg">RG</label><input type="number" id="rg" name="rg" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="0000000000"></div>
-          
+          <div class="linha"><label for="cpf">CPF:</label><input type="number" id="cpf" name="cpf"  pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="000.000.000.00"></div>
+          <div class="linha"><label for="cnpj">CNPJ:</label><input type="number" id="cnpj" name="cnpj" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="00.000.000/0000-00"></div>
+          <div class="linha"><label for="rg">RG:</label><input type="number" id="rg" name="rg" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="0000000000"></div>
         </div>
         <div class="linha">
-          <div class="campo"><label for="data_nasc">Data nascimento</label><input type="number" id="data_nasc" name="data_nasc" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="00/00/0000"></div>
-          <div class="campo">
-            <label for="sexo">Sexo</label>
+          <div class="linha">
+            <label for="data_nasc">Data nascimento:</label>
+            <input type="number" id="data_nasc" name="data_nasc" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="00/00/0000">
+          </div>
+          <div class="linha">
+            <label for="sexo">Sexo:</label>
             <select id="sexo" name="sexo">
               <option value="">Selecione</option>
               <option value="M">Masculino</option>
               <option value="F">Feminino</option>
             </select>
           </div>
-          <div class="campo"><label for="cargo">Cargo</label><input type="text" id="cargo" name="cargo"></div>
+          <div class="linha">
+            <label for="cargo">Cargo:</label>
+            <input type="text" id="cargo" name="cargo">
+          </div>
         </div>
         <div class="linha">
-          <div class="campo" style="flex: 2;"><label for="endereco">Endereço</label><input type="text" id="endereco" name="endereco"></div>
-          <div class="campo" style="flex: 2;"><label for="tipo_cliente">Tipo de cliente</label><input type="text" id="tipo_cliente" name="tipo_cliente"></div>
+          <div class="linha" style="flex: 2;">
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="endereco" name="endereco">
+          </div>
+          <div class="linha" style="flex: 2;">
+            <label for="tipo_cliente">Tipo de cliente:</label>
+            <input type="text" id="tipo_cliente" name="tipo_cliente">
+          </div>
         </div>
         <div class="linha">
-          <div class="campo"><label for="complemento">Complemento</label><input type="text" id="complemento" name="complemento"></div>
-          <div class="campo"><label for="bairro">Bairro</label><input type="text" id="bairro" name="bairro"></div>
+          <div class="linha">
+            <label for="complemento">Complemento:</label>
+            <input type="text" id="complemento" name="complemento">
+          </div>
+          <div class="linha">
+            <label for="bairro">Bairro:</label>
+            <input type="text" id="bairro" name="bairro">
+          </div>
         </div>
         <div class="linha">
-          <div class="campo"><label for="uf">UF</label><select id="uf" name="uf">
+          <div class="linha">
+            <label for="uf">UF:</label>
+            <select id="uf" name="uf">
           <option value="">Selecione</option>
           <option value="RJ">RJ</option>
-          <option value="AC">AC</option>
-          <option value="AL">AL</option>
-          <option value="AP">AP</option>
-          <option value="AM">AM</option>
-          <option value="BA">BA</option>
-          <option value="CE">CE</option>
-          <option value="DF">DF</option>
-          <option value="ES">ES</option>
-          <option value="GO">GO</option>
-          <option value="MA">MA</option>
-          <option value="MT">MT</option>
-          <option value="MS">MS</option>
-          <option value="MG">MG</option>
-          <option value="PA">PA</option>
-          <option value="PB">PB</option>
-          <option value="PR">PR</option>
-          <option value="PE">PE</option>
-          <option value="PI">PI</option>
-          <option value="RN">RN</option>
-          <option value="RS">RS</option>
-          <option value="RO">RO</option>
-          <option value="RR">RR</option>
-          <option value="SC">SC</option>
-          <option value="SP">SP</option>
-          <option value="SE">SE</option>
-          <option value="TO">TO</option>
-          </option></select></div>
-          <div class="campo"><label for="cep">CEP</label><input type="number" id="cep" name="cep" pattern="\d{5}-\d{3}" placeholder="00000-000"></div>
-          <div class="campo"><label for="cidade">Cidade</label><input type="text" id="cidade" name="cidade"></div>
+          <option value="AC">Acre</option>
+          <option value="AL">Alagoas</option>
+          <option value="AP">Amapá</option>
+          <option value="AM">Amazonas</option>
+          <option value="BA">Bahia</option>
+          <option value="CE">Ceará</option>
+          <option value="DF">Distrito Federal</option>
+          <option value="ES">Espírito Santo</option>
+          <option value="GO">Goiás</option>
+          <option value="MA">Maranhão</option>
+          <option value="MT">Mato Grosso</option>
+          <option value="MS">Mato Grosso do Sul</option>
+          <option value="MG">Minas Gerais</option>
+          <option value="PA">Pará</option>
+          <option value="PB">Paraíba</option>
+          <option value="PR">Paraná</option>
+          <option value="PE">Pernambuco</option>
+          <option value="PI">Piauí</option>
+          <option value="RN">Rio Grande do Norte</option>
+          <option value="RS">Rio Grande do Sul</option>
+          <option value="RO">Rondônia</option>
+          <option value="RR">Roraima</option>
+          <option value="SC">Santa Catarina</option>
+          <option value="SP">São Paulo</option>
+          <option value="SE">Sergipe</option>
+          <option value="TO">Tocantins</option>
+            </select>
+          </div>
+          <div class="linha">
+            <label for="cep">CEP:</label>
+            <input type="number" id="cep" name="cep" pattern="\d{5}-\d{3}" placeholder="00000-000">
+          </div>
+          <div class="linha">
+            <label for="cidade">Cidade:</label>
+            <input type="text" id="cidade" name="cidade">
+          </div>
         </div>
         <div class="linha">
-          <div class="campo"><label for="telefone">Telefone</label><input type="number" id="telefone" name="telefone" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="(00) 0000-0000"></div>
-          <div class="campo"><label for="celular">Celular</label><input type="number" id="celular" name="celular" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="(00) 00000-0000"></div>
-          <div class="campo"><label for="email">Email</label><input type="email" id="email" name="email"></div>
-          <div class="campo"><label for="data_cadastro">Data de cadastro</label><input type="date" id="dataCadastro" class="input-curto"></div>
+          <div class="linha">
+            <label for="telefone">Telefone:</label>
+            <input type="number" id="telefone" name="telefone" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="(00) 0000-0000">
+          </div>
+          <div class="linha">
+            <label for="celular">Celular:</label>
+            <input type="number" id="celular" name="celular" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="(00) 00000-0000">
+          </div>
+          <div class="linha">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email">
+          </div>
+          <div class="linha">
+            <label for="data_cadastro">Data de cadastro:</label>
+            <input type="date" id="data_cadastro" name="data_cadastro">
+          </div>
         </div>
         <div class="linha">
-          <div class="campo" style="flex: 1 1 100%;"><label for="observacoes">Observações</label><textarea id="observacoes" name="observacoes"></textarea></div>
+          <div class="linha" style="flex: 1 1 100%;">
+            <label for="observacoes">Observações:</label>
+            <textarea id="observacoes" name="observacoes"></textarea>
+          </div>
         </div>
         <div class="botoes">
           <button type="submit" class="cadastrar">Cadastrar</button>
@@ -206,4 +253,7 @@
     
   </script>
 </body>
+
+<script src="js/carregar-menu.js"></script>
+
 </html>

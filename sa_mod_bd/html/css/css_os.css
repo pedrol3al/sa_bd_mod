@@ -12,6 +12,7 @@ body {
     flex-direction: column;
     width: calc(100% - 230px);
     box-sizing: border-box;
+    margin-top: -76px;
   }
   
   h1 {
