@@ -3,7 +3,6 @@ async function carregarMenuLateral() {
     const menuHtml = `
       <nav class="menu-lateral">
           <div class="btn-expandir"></div>
-
           <div class="top-menu">
               <ul>
                   <li class="item-menu">
@@ -63,23 +62,28 @@ async function carregarMenuLateral() {
       </nav>
     `;
 
-    document.getElementById('menu-container').innerHTML = menuHtml;
-    console.log("Menu carregado com sucesso!");
+    // Verificar se o container está disponível
+    const menuContainer = document.getElementById('menu-container');
+    if (menuContainer) {
+      menuContainer.innerHTML = menuHtml;
+      console.log("Menu carregado com sucesso!");
 
-    // Depuração: Verificar se os elementos existem
-    const orcamentoLink = document.getElementById('orcamento');
-    const subOrcamento = document.getElementById('sub-orcamento');
-    console.log(orcamentoLink); // Verifique se o elemento 'orcamento' foi encontrado
+      // Depuração: Verificar se os elementos existem
+      const orcamentoLink = document.getElementById('orcamento');
+      const subOrcamento = document.getElementById('sub-orcamento');
+      console.log(orcamentoLink); // Verifique se o elemento 'orcamento' foi encontrado
 
-    if (orcamentoLink && subOrcamento) {
-      orcamentoLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        subOrcamento.style.display = subOrcamento.style.display === "none" ? "block" : "none";
-      });
+      if (orcamentoLink && subOrcamento) {
+        orcamentoLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          subOrcamento.style.display = subOrcamento.style.display === "none" ? "block" : "none";
+        });
+      } else {
+        console.error("Elemento 'orcamento' ou 'sub-orcamento' não encontrado.");
+      }
     } else {
-      console.error("Elemento 'orcamento' ou 'sub-orcamento' não encontrado.");
+      console.error("Elemento 'menu-container' não encontrado.");
     }
-    
   } catch (erro) {
     console.error("Erro ao carregar o menu:", erro.message);
   }
