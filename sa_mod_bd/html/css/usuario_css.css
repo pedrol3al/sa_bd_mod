@@ -14,9 +14,12 @@ body {
 
 /* CONTEÚDO */
 .conteudo {
-  flex: 1;                  /* ocupa todo o espaço restante */
+  flex: 1;
   padding: 30px 40px;
   box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin-left: 230px; 
 }
 
 h1 {
