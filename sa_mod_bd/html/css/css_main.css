@@ -7,7 +7,7 @@
         }
 
         .quadrado1 {
-            width: 300px; 
+            width: 400px; 
             height: 200px; 
             background-color: #f4f1f1;
             position: fixed;
@@ -16,44 +16,42 @@
         }
 
         .quadrado2 {
-            width: 320px; 
+            width: 400px; 
             height: 200px; 
             background-color: #f4f1f1;
             position: fixed;
             top: 150;
-            left: 620;
+            left: 700;
         }
 
         .quadrado3 {
-            width: 320px; 
+            width: 400px; 
             height: 200px; 
             background-color: #f4f1f1;
             position: fixed;
             top: 150;
-            left: 990;
+            left: 1130;
         }
 
         .retangulo {
-            width: 1040px; 
+            width: 1260px; 
             height: 270px; 
-            background-color: #f4f1f1;
             position: fixed;
-            top: 360;
-            left: 270;
-        }
-
-        .retangulo {
+            top: 400px;
+            left: 270px;
+            background-color: #f4f1f1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background-color: #f0f0f0; /* exemplo */
+            box-sizing: border-box;
         }
         
         .retangulo canvas {
-            max-width: 100%;
-            height: auto;
+            width: 100% !important;
+            height: 100% !important;
+            margin-bottom: 15px;
         }
         
 
@@ -109,17 +107,17 @@
 
         #num_quadrado1 {
             position:fixed;
-            left:450px;
+            left:550px;
         }
 
         #num_quadrado2 {
             position:fixed;
-            left: 700px;
+            left: 820px;
         }
 
         #num_quadrado3 {
             position: fixed;
-            left: 1100px;
+            left: 1320px;
         }
 
         /*  FONTES   */
