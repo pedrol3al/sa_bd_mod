@@ -104,4 +104,14 @@ async function carregarMenuLateral() {
   }
 }
 
+window.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".fechar")?.addEventListener("click", () => {
+    window.location.href = "https://www.google.com"; // Redireciona para o Google
+  });
+
+  document.querySelector(".sair")?.addEventListener("click", () => {
+    window.location.href = "login-estilo.html"
+  });
+});
+
 window.addEventListener('DOMContentLoaded', carregarMenuLateral);
