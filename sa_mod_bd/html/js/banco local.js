@@ -38,7 +38,7 @@ if (!localStorage.getItem("usuarios")) {
     const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
     if (usuarios.find(x => x.email === email)) {
       localStorage.setItem("recoveryEmail", email);
-      window.location.href = "alterar-senha.html";
+      window.location.href = "at-senha-estilo.html";
     } else exibirMensagem("E-mail não encontrado no sistema.");
   }
   
@@ -47,6 +47,7 @@ if (!localStorage.getItem("usuarios")) {
     const nova = document.getElementById("novaSenha")?.value || "";
     const conf = document.getElementById("confirmarSenha")?.value || "";
     if (!nova || nova !== conf) {
+      window.location.href = "at-senha-estilo.html";
       exibirMensagem("As senhas não coincidem.");
       return;
     }
