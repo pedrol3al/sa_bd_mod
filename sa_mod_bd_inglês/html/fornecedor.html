@@ -9,7 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7/inputmask.min.js"></script>
   <script src="jQuery-Mask-Plugin-master/dist/jquery.mask.min.js"></script>
 </head>
-<body data-tipo-pagina="fornecedor">
+
 <div id="menu-container"></div>
 
   <div class="conteudo">
@@ -109,60 +109,7 @@
         $('#cep').mask('00000-000');
     });
   </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      // Botões e formulário
-      const botaoCadastrar = document.querySelector(".cadastrar");
-      const botaoPesquisar = document.querySelector(".pesquisar");
-      const botaoNovo = document.querySelector(".novo");
-      const formulario = document.querySelector("form");
-      // Container da mensagem de erro
-      const containerErro = document.createElement("div");
-      containerErro.style.backgroundColor = "#f8d7da";
-      containerErro.style.color = "#721c24";
-      containerErro.style.padding = "10px";
-      containerErro.style.marginBottom = "15px";
-      containerErro.style.border = "1px solid #f5c6cb";
-      containerErro.style.borderRadius = "5px";
-      containerErro.style.display = "none"; // Oculto inicialmente
-      formulario.insertBefore(containerErro, formulario.firstChild);
-
-      // Função para verificar campos vazios
-      function camposVazios() {
-        const campos = formulario.querySelectorAll("input, select, textarea");
-        return Array.from(campos).every(campo => campo.value.trim() === "");
-      }
-
-      // Função para exibir mensagem de erro se todos os campos estiverem vazios
-      botaoCadastrar.addEventListener("click", function(event) {
-        event.preventDefault();
-
-        if (camposVazios()) {
-          containerErro.textContent = "Preencha todos os campos!";
-          containerErro.style.display = "block";
-          containerMensagem.style.display = "none"; // Oculta a mensagem de sucesso
-          return;
-        }
-        // Caso os campos não estejam vazios, exibe a mensagem de sucesso
-        containerMensagem.textContent = "Cliente cadastrado com sucesso!";
-        containerMensagem.style.display = "block";
-        containerErro.style.display = "none"; // Oculta a mensagem de erro
-      });
-
-      // Container da mensagem de cadastro
-      containerMensagem = document.createElement("div");
-      containerMensagem.style.backgroundColor = "#d4edda";
-      containerMensagem.style.color = "#155724";
-      containerMensagem.style.padding = "10px";
-      containerMensagem.style.marginBottom = "15px";
-      containerMensagem.style.border = "1px solid #c3e6cb";
-      containerMensagem.style.borderRadius = "5px";
-      containerMensagem.style.display = "none"; // Oculto inicialmente
-    });
-
-    
-  </script>
 <script src="js/carregar-menu.js"></script>
-<script src="js/pesquisa.js"></script>
+<script src="js/js.fornecedor.js"></script>
 </body>
 </html>
