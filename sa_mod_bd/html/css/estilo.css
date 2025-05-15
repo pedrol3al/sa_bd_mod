@@ -136,6 +136,7 @@ button:hover {
 .footer {
   width: 100%; /* Ocupa 100% da largura do main */
   display: flex; /* Usa Flexbox */
+  margin-top: 30px;
   justify-content: space-between; /* Espaço entre os itens */
   font-size: 12px; /* Tamanho de 12px */
   color: black; /* Cor do texto preta */
@@ -173,6 +174,20 @@ select {
   cursor: pointer; /* Mostra cursor de clique */
 }
 
+.botao-embora {
+  position: absolute; /* Posiciona em relação ao body */
+  top: 1.5rem; /* 24px do topo da tela */
+  left: 1.5rem; /* 24px da esquerda da tela */
+  width: 2.5rem; /* 40px de largura */
+  height: 2.5rem; /* 40px de altura */
+  border: 1px solid black; /* Borda preta */
+  border-radius: 9999px; /* Deixa o botão completamente circular */
+  background: transparent; /* Fundo transparente */
+  display: flex; /* Usa Flexbox para centralizar o ícone */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  cursor: pointer; /* Mostra cursor de clique */
+}
 /* Estilo da setinha dentro do botão de voltar */
 .back-button svg {
   width: 1.5rem; /* 24px de largura */
@@ -182,19 +197,25 @@ select {
   fill: none; /* Sem preenchimento */
 }
 
-.mensagem-erro {
-  display: none;
-  margin-top: 15px;
-  padding: 12px;
-  border: 1px solid red;
+#mensagemErro {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: #ffdddd;
   color: #990000;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  padding: 16px 24px;
+  border: 1px solid red;
+  border-radius: 12px;
+  font-size: 16px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  display: none;
+  opacity: 0;
+  z-index: 9999;
+  transition: all 0.3s ease-in-out;
   text-align: center;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 80%;
+  word-wrap: break-word;
 }
 form {
   width: 80%;  

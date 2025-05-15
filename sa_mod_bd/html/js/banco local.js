@@ -10,16 +10,27 @@ if (!localStorage.getItem("usuarios")) {
     ];
     localStorage.setItem("usuarios", JSON.stringify(dadosIniciais));
   }
+  document.querySelector('.botao-embora').addEventListener('click', () => {
+    window.location.href = "https://www.google.com";
+  });
   
   // Exibe mensagem de erro/sucesso
   function exibirMensagem(texto, isError = true) {
     const msg = document.getElementById("mensagemErro");
     if (!msg) return;
+  
     msg.textContent = texto;
     msg.style.backgroundColor = isError ? "#ffdddd" : "#ddffdd";
     msg.style.color = isError ? "#990000" : "#006600";
     msg.style.display = "block";
-    setTimeout(() => msg.style.display = "none", 3000);
+    msg.style.opacity = "1";
+    msg.style.transform = "translate(-50%, -50%)";
+  
+    setTimeout(() => {
+      msg.style.opacity = "0";
+      msg.style.transform = "translate(-50%, -60%)"; // animação suave para cima
+      setTimeout(() => msg.style.display = "none", 300);
+    }, 3000);
   }
   
   // LOGIN
@@ -46,8 +57,9 @@ if (!localStorage.getItem("usuarios")) {
   function alterarSenha() {
     const nova = document.getElementById("novaSenha")?.value || "";
     const conf = document.getElementById("confirmarSenha")?.value || "";
+    const senha = document.getElementById("senhaantiga")?.value || "";
+  
     if (!nova || nova !== conf) {
-      window.location.href = "at-senha-estilo.html";
       exibirMensagem("As senhas não coincidem.");
       return;
     }
@@ -58,7 +70,19 @@ if (!localStorage.getItem("usuarios")) {
       return;
     }
   
-    let usuarios = JSON.parse(localStorage.getItem("usuarios"));
+    let usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
+    const usuario = usuarios.find(u => u.email === email);
+  
+    if (!usuario) {
+      exibirMensagem("Usuário não encontrado.");
+      return;
+    }
+  
+    if (nova === senha) {
+      exibirMensagem("A nova senha não pode ser igual à atual.");
+      return;
+    }
+  
     usuarios = usuarios.map(u => {
       if (u.email === email) u.senha = nova;
       return u;
@@ -66,6 +90,7 @@ if (!localStorage.getItem("usuarios")) {
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
     localStorage.removeItem("recoveryEmail");
     exibirMensagem("Senha alterada com sucesso!", false);
+  
     setTimeout(() => window.location.href = "login-estilo.html", 1500);
   }
   
