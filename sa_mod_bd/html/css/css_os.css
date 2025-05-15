@@ -19,7 +19,8 @@ body {
     color: rgb(0, 0, 58);
     font-family: "Roboto", sans-serif;
     font-size: 36px;
-    margin-bottom: 20px;
+    position: fixed;
+    top: 30px;
   }
   
   .formulario {
@@ -27,6 +28,8 @@ body {
     flex-direction: column;
     gap: 15px;
     width: 100%;
+    position: fixed;
+    top: 90px;
   }
   
   .linha {

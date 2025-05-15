@@ -3,38 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Conserta tech Login</title>
+  <title>Conserta Tech – Alterar Senha</title>
   <link rel="stylesheet" href="css/estilo.css" />
 </head>
 <body>
-  <button onclick="window.location.href= 'login-estilo.html'"  class="botao-sair" type="button">
-    <svg viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-    </svg>
+  <button class="botao-sair" onclick="location.href='login-estilo.html'">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
   </button>
 
   <main>
-    <h1>Conserta tech</h1>
+    <h1>Conserta Tech</h1>
     <p>ALTERAR SENHA</p>
 
-    <form action="#" method="post" autocomplete="off" >
-      <label for="usuario">Nova senha:</label>
-      <input id="usuario" name="usuario" type="text" autocomplete="username" />
+    <form onsubmit="event.preventDefault(); alterarSenha();" autocomplete="off">
+      <label for="novaSenha">Nova senha:</label>
+      <input id="novaSenha" name="novaSenha" type="password" autocomplete="new-password" required />
 
-      <label for="senha">Digite novamente:</label>
-      <input id="senha" name="senha" type="password" autocomplete="current-password" />
+      <label for="confirmarSenha">Digite novamente:</label>
+      <input id="confirmarSenha" name="confirmarSenha" type="password" autocomplete="new-password" required />
 
-
-      <button type="button" class="button" onclick="window.location.href='login-estilo.html'">Entrar</button>
+      <button type="submit" class="button">Salvar</button>
     </form>
 
+    <div id="mensagemErro" class="mensagem-erro"></div>
+
     <div class="footer">
-      <select id="idioma" name="idioma">
+      <select id="idioma">
         <option value="pt">Português (BR)</option>
         <option value="en">Inglês</option>
       </select>
-      <button-termos onclick="window.location.href='termos.html'" style="cursor: pointer;">Termos</button-termos>
+      <button-termos onclick="window.location.href='termos.html'" style="cursor: pointer;">Termos</button-termos>    
     </div>
   </main>
+
+  <script src="js/banco local.js"></script>
 </body>
 </html>

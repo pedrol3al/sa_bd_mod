@@ -3,30 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Conserta tech - Recuperar Senha</title>
+  <title>Conserta Tech - Recuperar Senha</title>
   <link rel="stylesheet" href="css/estilo.css" />
 </head>
 <body>
-  <button onclick="window.location.href= 'login-estilo.html'"  class="botao-sair" type="button">
+  <button onclick="window.location.href='login-estilo.html'" class="botao-sair" type="button">
     <svg viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
     </svg>
   </button>
 
   <main>
-    <h1>Conserta tech</h1>
+    <h1>Conserta Tech</h1>
     <p>RECUPERAR SENHA</p>
 
-    <form action="#" method="post" autocomplete="off">
+    <form onsubmit="event.preventDefault(); recuperarSenha();" autocomplete="off">
       <label for="email">E-mail cadastrado:</label>
       <input id="email" name="email" type="email" required autocomplete="email" />
 
-      <h5 style>
-        Informe o e-mail usado no cadastro.
-      </h5>
+      <h5>Informe aqui seu e-mail usado no cadastro.</h5>
 
-      <button type="button" class="button" onclick="window.location.href='at-senha-estilo.html'">Recuperar</button>
+      <button type="submit" class="button">Recuperar</button>
     </form>
+
+    <!-- Aviso de erro -->
+    <div id="mensagemErro" class="mensagem-erro" style="display: none;"></div>
 
     <div class="footer">
       <select id="idioma" name="idioma">
@@ -36,5 +37,7 @@
       <button-termos onclick="window.location.href='termos.html'" style="cursor: pointer;">Termos</button-termos>
     </div>
   </main>
+
+  <script src="js/banco local.js"></script>
 </body>
 </html>
