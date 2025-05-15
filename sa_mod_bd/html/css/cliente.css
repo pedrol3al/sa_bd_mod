@@ -124,7 +124,7 @@ button {
   position: fixed;
   top: 50px; /* pequena margem do topo */
   left: 230px; /* mesma largura da sidebar */
-  width: calc(100% - 230px); /* ocupa todo o resto da tela exceto o menu */
+  width: calc(99% - 230px); /* ocupa todo o resto da tela exceto o menu */
   height: 50vh; /* metade da altura da tela */
   background-color: #ffffff;
   padding: 20px;
@@ -262,3 +262,4 @@ textarea#observacoes {
   flex: 1;
   min-width: 150px;
 }
+
