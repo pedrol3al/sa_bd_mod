@@ -95,10 +95,12 @@ ul li a .icon > i {
   padding-left: 40px;
   flex-direction: column;
   transition: max-height 0.3s ease-out;
+  display: none;
 }
 
 .sub-menu.active {
   max-height: 500px;
+  display: block;
 }
 
 .sub-menu a {
