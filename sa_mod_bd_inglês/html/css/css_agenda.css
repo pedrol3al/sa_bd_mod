@@ -11,7 +11,7 @@ body {
     font-size: 36px;
     position: fixed;
     top: 30px;
-    left: 300px;  
+    left: 270px;  
   }
 
   * {
@@ -24,17 +24,17 @@ body {
     font-size: 36px;
     position: fixed;
     top: 545px;
-    left: 300px;  
+    left: 270px;  
   }
   
   .calendario {
     background: white;
     padding: 20px;
     box-shadow: 0 0 10px #ccc;
-    width: 75%;
+    width: 80%;
     position: fixed;
     top: 75px;
-    left: 300px;  
+    left: 270px;  
   }
   
   .cabecalho {
@@ -80,10 +80,10 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 75%;
+    width: 80%;
     position: fixed;
     top: 590px;
-    left: 300px;
+    left: 270px;
   }
   
   .linha {
