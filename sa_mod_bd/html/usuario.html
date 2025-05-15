@@ -30,11 +30,11 @@
           <div class="linha">
             <div class="linha">
               <label for="cpf">CPF:</label>
-              <input type="text" id="cpf" name="cpf">
+              <input type="text" id="cpf" name="cpf" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="000.000.000.00">
             </div>
             <div class="linha">
               <label for="rg">RG:</label>
-              <input type="text" id="rg" name="rg">
+              <input type="text" id="rg" name="rg" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="0000000000">
             </div>
             <div class="linha">
               <label for="estado_civil">Estado Civil:</label>
@@ -51,7 +51,7 @@
           <div class="linha">
             <div class="linha">
               <label for="data_nasc">Data nascimento:</label>
-              <input type="text" id="data_nasc" name="data_nasc">
+              <input type="date" id="data_nasc" name="data_nasc" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="00/00/0000">
             </div>
             <div class="linha">
               <label for="sexo">Sexo:</label>
@@ -94,41 +94,40 @@
               <label for="uf">UF:</label>
               <select id="uf" name="uf">
                   <option value="">Selecione</option>
-                  <option value="AC">Acre</option>
-                  <option value="AL">Alagoas</option>
-                  <option value="AP">Amapá</option>
-                  <option value="AM">Amazonas</option>
-                  <option value="BA">Bahia</option>
-                  <option value="CE">Ceará</option>
-                  <option value="DF">Distrito Federal</option>
-                  <option value="ES">Espírito Santo</option>
-                  <option value="GO">Goiás</option>
-                  <option value="MA">Maranhão</option>
-                  <option value="MT">Mato Grosso</option>
-                  <option value="MS">Mato Grosso do Sul</option>
-                  <option value="MG">Minas Gerais</option>
-                  <option value="PA">Pará</option>
-                  <option value="PB">Paraíba</option>
-                  <option value="PR">Paraná</option>
-                  <option value="PE">Pernambuco</option>
-                  <option value="PI">Piauí</option>
-                  <option value="RJ">Rio de Janeiro</option>
-                  <option value="RN">Rio Grande do Norte</option>
-                  <option value="RS">Rio Grande do Sul</option>
-                  <option value="RO">Rondônia</option>
-                  <option value="RR">Roraima</option>
-                  <option value="SC">Santa Catarina</option>
-                  <option value="SP">São Paulo</option>
-                  <option value="SE">Sergipe</option>
-                  <option value="TO">Tocantins</option>
+                  <option value="AC">AC</option>
+                  <option value="AL">AL</option>
+                  <option value="AP">AP</option>
+                  <option value="AM">AM</option>
+                  <option value="BA">BH</option>
+                  <option value="CE">CE</option>
+                  <option value="DF">DF</option>
+                  <option value="ES">ES</option>
+                  <option value="GO">GO</option>
+                  <option value="MA">MA</option>
+                  <option value="MT">MT</option>
+                  <option value="MS">MS</option>
+                  <option value="MG">MG</option>
+                  <option value="PA">PA</option>
+                  <option value="PB">PB</option>
+                  <option value="PR">PR</option>
+                  <option value="PE">PE</option>
+                  <option value="PI">PI</option>
+                  <option value="RJ">RJ</option>
+                  <option value="RN">RN</option>
+                  <option value="RS">RS</option>
+                  <option value="RO">RO</option>
+                  <option value="RR">RR</option>
+                  <option value="SC">SC</option>
+                  <option value="SP">SP</option>
+                  <option value="SE">SE</option>
+                  <option value="TO">TO</option>
                 </select>
                 
-                <!-- Outros estados -->
               </select>
             </div>
             <div class="linha">
               <label for="cep">CEP:</label>
-              <input type="text" id="cep" name="cep">
+              <input type="text" id="cep" name="cep" pattern="\d{5}-\d{3}" placeholder="00000-000">
             </div>
             <div class="linha">
               <label for="cidade">Cidade:</label>
@@ -136,14 +135,14 @@
             </div>
             <div class="linha">
               <label for="telefone">Telefone:</label>
-              <input type="text" id="telefone" name="telefone">
+              <input type="text" id="telefone" name="telefone" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="(00) 0000-0000">
             </div>
           </div>
 
           <div class="linha">
             <div class="linha">
               <label for="celular">Celular:</label>
-              <input type="text" id="celular" name="celular">
+              <input type="text" id="celular" name="celular" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="(00) 00000-0000">
             </div>
             <div class="linha">
               <label for="email">E-Mail:</label>
@@ -151,7 +150,7 @@
             </div>
             <div class="linha">
               <label for="data_cadastro">Data de cadastro:</label>
-              <input type="text" id="data_cadastro" name="data_cadastro">
+              <input type="date" id="data_cadastro" name="data_cadastro">
             </div>
           </div>
 
@@ -176,12 +175,44 @@
     </div>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
-        // Botões e formulário
-        const botaoCadastrar = document.querySelector(".cadastrar");
-        const botaoPesquisar = document.querySelector(".pesquisar");
-        const botaoNovo = document.querySelector(".novo");
-        const formulario = document.querySelector("form");
-    
+      // Botões e formulário
+      const botaoCadastrar = document.querySelector(".cadastrar");
+      const botaoPesquisar = document.querySelector(".pesquisar");
+      const botaoNovo = document.querySelector(".novo");
+      const formulario = document.querySelector("form");
+      // Container da mensagem de erro
+      const containerErro = document.createElement("div");
+      containerErro.style.backgroundColor = "#f8d7da";
+      containerErro.style.color = "#721c24";
+      containerErro.style.padding = "10px";
+      containerErro.style.marginBottom = "15px";
+      containerErro.style.border = "1px solid #f5c6cb";
+      containerErro.style.borderRadius = "5px";
+      containerErro.style.display = "none"; // Oculto inicialmente
+      formulario.insertBefore(containerErro, formulario.firstChild);
+
+      // Função para verificar campos vazios
+      function camposVazios() {
+        const campos = formulario.querySelectorAll("input, select, textarea");
+        return Array.from(campos).every(campo => campo.value.trim() === "");
+      }
+
+      // Função para exibir mensagem de erro se todos os campos estiverem vazios
+      botaoCadastrar.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        if (camposVazios()) {
+          containerErro.textContent = "Preencha todos os campos!";
+          containerErro.style.display = "block";
+          containerMensagem.style.display = "none"; // Oculta a mensagem de sucesso
+          return;
+        }
+        // Caso os campos não estejam vazios, exibe a mensagem de sucesso
+        containerMensagem.textContent = "Cliente cadastrado com sucesso!";
+        containerMensagem.style.display = "block";
+        containerErro.style.display = "none"; // Oculta a mensagem de erro
+      });
+
         // Container da mensagem de cadastro
         const containerMensagem = document.createElement("div");
         containerMensagem.style.backgroundColor = "#d4edda";
@@ -192,13 +223,6 @@
         containerMensagem.style.borderRadius = "5px";
         containerMensagem.style.display = "none"; // Oculta inicialmente
         formulario.insertBefore(containerMensagem, formulario.firstChild);
-    
-        // Função para exibir a mensagem de cadastro
-        botaoCadastrar.addEventListener("click", function(event) {
-          event.preventDefault();
-          containerMensagem.textContent = "Cadastrado com sucesso!";
-          containerMensagem.style.display = "block";
-        });
     
         // Função para limpar o formulário ao clicar em "Novo"
         botaoNovo.addEventListener("click", function(event) {
@@ -259,7 +283,6 @@
     
     <script src="js/carregar-menu.js"></script>
   </body>
-
 
 </html>
  
