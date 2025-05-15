@@ -126,7 +126,7 @@ button {
   position: fixed;
   top: 50px; /* pequena margem do topo */
   left: 230px; /* mesma largura da sidebar */
-  width: calc(100% - 230px); /* ocupa todo o resto da tela exceto o menu */
+  width: calc(99% - 230px); /* ocupa todo o resto da tela exceto o menu */
   height: 50vh; /* metade da altura da tela */
   background-color: #ffffff;
   padding: 20px;
@@ -209,7 +209,7 @@ button {
 .botao-detalhes {
   font-size: 14px;
   padding: 2px 6px;
-  margin-left: 10px;
+  margin-left: 1200px;
   cursor: pointer;
   background-color: #2196F3;
   border: none;
@@ -218,8 +218,12 @@ button {
 
 #botao_editar {
   background-color: #4CAF50;
+  margin-left: 400px;
 }
 
 #botao_excluir {
   background-color: #990000;
+  margin-left: 600px;
+  margin-bottom: 100px;
 }
+
