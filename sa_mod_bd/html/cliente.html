@@ -36,7 +36,7 @@
         <div class="linha">
           <div class="linha">
             <label for="data_nasc">Data nascimento:</label>
-            <input type="text" id="data_nasc" name="data_nasc" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="00/00/0000">
+            <input type="date" id="data_nasc" name="data_nasc" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="00/00/0000">
           </div>
           <div class="linha">
             <label for="sexo">Sexo:</label>
@@ -139,7 +139,7 @@
           </div>
         </div>
         <div class="botoes">
-          <button type="submit" class="cadastrar">Cadastrar</button>
+          <button type="button" class="cadastrar">Cadastrar</button>
           <button type="button" class="pesquisar">Pesquisar</button>
           <button type="reset" class="novo">Novo</button>
         </div>
@@ -187,7 +187,7 @@
       });
 
       // Container da mensagem de cadastro
-       containerMensagem = document.createElement("div");
+      containerMensagem = document.createElement("div");
       containerMensagem.style.backgroundColor = "#d4edda";
       containerMensagem.style.color = "#155724";
       containerMensagem.style.padding = "10px";
