@@ -226,4 +226,39 @@ button {
   margin-left: 600px;
   margin-bottom: 100px;
 }
+button.sair, button.fechar {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Estilo da imagem dentro do botão */
+button.sair img, button.fechar img {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Efeito ao passar o mouse */
+button.sair:hover img, button.fechar:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+/* Deixar o botão flutuante no canto superior direito */
+button.fechar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+/* Se quiser que o botão "sair" também fique flutuante */
+button.sair {
+  position: fixed;
+  top: 20px;
+  right: 70px; /* afastado do botão fechar */
+  z-index: 999;
+} 
 

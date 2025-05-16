@@ -146,25 +146,6 @@
             src: url('font/opensans_italic.ttf') format('truetype');
         }	
 
-        /*  IMAGENS  */
-
-        .img_sair {
-            float: right;
-            height: 20px;
-            width: 20px;
-            position: absolute;
-            top: 30;
-            right: 20;
-        }
-
-        .img_fechar {
-            float: right;
-            height: 20px;
-            width: 20px;
-            position: absolute;
-            top: 67;
-            right: 23;
-        }
 
         /*  GRÁFICOS  */
 
