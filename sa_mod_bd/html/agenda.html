@@ -68,10 +68,9 @@
         <p id="dataSelecionada"></p>
     
         <div class="botoes-modal">
-          <button class="salvar">Salvar</button>
-          <button class="fechar">Fechar</button>
+          <button class="salvar">Salvar</button>  
+          <button class="fechar-agenda">Fechar</button>
         </div>
-      </div>
     </div>
 
     <script>
@@ -79,7 +78,7 @@
         const dias = document.querySelectorAll('.dias div:not(.vazio)');
         const modal = document.getElementById('modal');
         const dataSpan = document.getElementById('dataSelecionada');
-        const fecharBtn = document.querySelector('.fechar');
+        const fecharBtn = document.querySelector('.fechar-agenda');
         const eventosPorData = {};
       
         dias.forEach(dia => {
