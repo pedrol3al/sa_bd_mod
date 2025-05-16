@@ -1,4 +1,31 @@
-const cadastros = [
+const cadastrosClientes = [
+  {
+    codigo: "1",
+    nome: "Maria Silva",
+    cnpj: "N/A",
+    cep: "89012-345",
+    num: "456",
+    endereco: "Avenida Central, 456",
+    uf: "SC",
+    complemento: "Apto 202",
+    bairro: "Bairro Alto",
+    cidade: "Blumenau",
+    email: "maria.silva@email.com",
+    celular: "(47) 98888-7777",
+    telefone: "(47) 3344-5566",
+    dataCadastro: "2025-05-12",
+    observacoes: "Cliente fiel, sempre realiza compras regulares.",
+    cpf: "987.654.321-00",
+    rg: "98.765.432-1",
+    data_nasc: "1985-11-30",
+    sexo: "F",
+    tipo_cliente: "Físico",
+    empresa: "",
+    fornece: ""
+  }
+];
+
+const cadastrosFornecedores = [
   {
     codigo: "1",
     empresa: "Fornecedor Exemplo Ltda.",
@@ -22,32 +49,11 @@ const cadastros = [
     sexo: "M",
     tipo_cliente: "",
     nome: ""
-  },
-  {
-    codigo : "1",
-    nome : "Maria Silva",
-    cnpj : "N/A",
-    cep : "89012-345",
-    num : "456",
-    endereco : "Avenida Central, 456",
-    uf : "SC",
-    complemento : "Apto 202",
-    bairro : "Bairro Alto",
-    cidade : "Blumenau",
-    email : "maria.silva@email.com",
-    celular : "(47) 98888-7777",
-    telefone : "(47) 3344-5566",
-    dataCadastro : "2025-05-12",
-    observacoes : "Cliente fiel, sempre realiza compras regulares.",
-    cpf : "987.654.321-00",
-    rg : "98.765.432-1",
-    data_nasc : "1985-11-30",
-    sexo : "F",
-    tipo_cliente : "Físico"
   }
 ];
 
 const tipoPagina = document.body.getAttribute("data-tipo-pagina") || "cliente";
+const cadastros = tipoPagina === "cliente" ? cadastrosClientes : cadastrosFornecedores;
 
 function getValor(id) {
   const el = document.getElementById(id);
@@ -82,40 +88,37 @@ document.getElementById("bt_cadastrar").addEventListener("click", () => {
 
   if (tipoPagina === "cliente") {
     if (!dados.codigo.trim() || !dados.nome.trim() || !dados.cpf.trim() || !dados.dataCadastro.trim() || !dados.email.trim() || !dados.celular.trim() || !dados.telefone.trim() || !dados.cidade.trim() || !dados.cep.trim() || !dados.uf.trim() || !dados.bairro.trim() || !dados.complemento.trim() || !dados.tipo_cliente.trim() || !dados.num.trim() || !dados.endereco.trim() || !dados.sexo.trim() || !dados.rg.trim() || !dados.data_nasc.trim()) {
+      alert("Preencha todos os campos obrigatórios.");
       return;
     }
   } else if (tipoPagina === "fornecedor") {
     if (!dados.codigo.trim() || !dados.empresa.trim() || !dados.cnpj.trim() || !dados.endereco.trim() || !dados.fornece.trim() || !dados.dataCadastro.trim() || !dados.telefone.trim() || !dados.celular.trim() || !dados.cidade.trim() || !dados.bairro.trim() || !dados.uf.trim() || !dados.complemento.trim() || !dados.cep.trim() || !dados.num.trim()) {
+      alert("Preencha todos os campos obrigatórios.");
       return;
     }
   }
 
-  const codigoExistente = cadastros.some(cadastro =>
-    cadastro.codigo === dados.codigo &&
-    ((tipoPagina === "cliente" && cadastro.nome) || (tipoPagina === "fornecedor" && cadastro.empresa))
-  );
-
-  const cnpjExistente = cadastros.some(cadastro =>
-    cadastro.cnpj === dados.cnpj &&
-    dados.cnpj !== "N/A" &&
-    ((tipoPagina === "cliente" && cadastro.nome) || (tipoPagina === "fornecedor" && cadastro.empresa))
-  );
-
-  if (codigoExistente) {
-    alert("Erro: Já existe um cadastro com o mesmo código.");
-    return;
-  }
-
-  if (cnpjExistente) {
-    alert("Erro: Já existe um cadastro com o mesmo CNPJ.");
-    return;
-  }
-
   const index = cadastros.findIndex(cadastro => cadastro.codigo === dados.codigo);
+
   if (index !== -1) {
     cadastros[index] = dados;
     alert("Cadastro atualizado com sucesso!");
   } else {
+    const codigoExistente = cadastros.some(cadastro => cadastro.codigo === dados.codigo);
+    const cnpjExistente = cadastros.some(cadastro =>
+      cadastro.cnpj === dados.cnpj && dados.cnpj !== "N/A"
+    );
+
+    if (codigoExistente) {
+      alert("Erro: Já existe um cadastro com o mesmo código.");
+      return;
+    }
+
+    if (cnpjExistente) {
+      alert("Erro: Já existe um cadastro com o mesmo CNPJ.");
+      return;
+    }
+
     cadastros.push(dados);
     alert("Cadastro salvo com sucesso!");
   }
@@ -148,14 +151,9 @@ document.getElementById("campoBusca").addEventListener("input", function () {
   const resultadoDiv = document.getElementById("resultadoPesquisa");
   resultadoDiv.innerHTML = "";
 
-  const resultados = cadastros.filter(dado => {
-    if (tipoPagina === "cliente" && (!dado.tipo_cliente || dado.tipo_cliente.trim() === "")) return false;
-    if (tipoPagina === "fornecedor" && dado.tipo_cliente && dado.tipo_cliente.trim() !== "") return false;
-
-    return Object.values(dado).some(valor =>
-      valor.toLowerCase().includes(termo)
-    );
-  });
+  const resultados = cadastros.filter(dado =>
+    Object.values(dado).some(valor => valor.toLowerCase().includes(termo))
+  );
 
   if (resultados.length === 0) {
     resultadoDiv.innerHTML = "<p>Nenhum resultado encontrado.</p>";
