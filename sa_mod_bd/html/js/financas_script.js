@@ -1,32 +1,31 @@
-function adicionarNovaLinha(dados = {}) {
+function adicionarNovaLinha() {
   const tabela = document.getElementById("corpo-tabela");
+
   const novaLinha = document.createElement("tr");
-
-  const cliente = dados.cliente || "";
-  const descricao = dados.descricao || "";
-  const vencimento = dados.vencimento || "";
-  const valor = dados.valor || "";
-  const status = dados.status || "Andamento";
-
-  const statusClasse = {
-    "Andamento": "status-andamento",
-    "Concluído": "status-concluido",
-    "Pendente": "status-pendente"
-  }[status] || "status-andamento";
-
   novaLinha.innerHTML = `
-    <td><input type="text" placeholder="Cliente" value="${cliente}" /></td>
-    <td><input type="text" placeholder="Descrição do serviço" value="${descricao}" /></td>
-    <td><input type="date" value="${vencimento}" /></td>
-    <td><input type="text" placeholder="R$ 0,00" class="valor-real" value="${valor}" /></td>
-    <td>
-      <button class="status-btn ${statusClasse}" onclick="alternarStatus(this)">${status}</button>
-    </td>
+    <td><input type="text" placeholder="Cliente" /></td>
+    <td><textarea placeholder="Descrição do serviço" rows="2" class="descricao-textarea"></textarea></td>
+    <td><input type="date" /></td>
+    <td><input type="text" placeholder="R$ 0,00" class="valor-real" /></td>
+    <td class="celula-status"></td>
     <td>
       <button class="editar" onclick="alternarEdicao(this)">✏️</button>
       <button class="deletar" onclick="deletarLinha(this)">🗑</button>
     </td>
   `;
+
+  // Adiciona o select com estilo dinâmico
+  const selectStatus = document.createElement("select");
+  selectStatus.innerHTML = `
+    <option value="andamento">Andamento</option>
+    <option value="concluido">Concluído</option>
+    <option value="pendente">Pendente</option>
+  `;
+  aplicarEstiloStatus(selectStatus);
+  selectStatus.addEventListener("change", () => aplicarEstiloStatus(selectStatus));
+
+  const tdStatus = novaLinha.querySelector(".celula-status");
+  tdStatus.appendChild(selectStatus);
 
   tabela.appendChild(novaLinha);
 
@@ -34,24 +33,11 @@ function adicionarNovaLinha(dados = {}) {
   inputValor.addEventListener('input', function () {
     formatarMoedaReal(this);
   });
-
-  salvarDadosTabela();
 }
 
 function deletarLinha(botao) {
   const linha = botao.closest("tr");
-  const dados = coletarDadosDaLinha(linha);
-
-  let edicao = JSON.parse(localStorage.getItem("linhasEmEdicao")) || [];
-  edicao = edicao.filter(l =>
-    l.cliente !== dados.cliente ||
-    l.descricao !== dados.descricao ||
-    l.vencimento !== dados.vencimento
-  );
-  localStorage.setItem("linhasEmEdicao", JSON.stringify(edicao));
-
   linha.remove();
-  salvarDadosTabela();
 }
 
 function alternarEdicao(botaoEditar) {
@@ -60,28 +46,10 @@ function alternarEdicao(botaoEditar) {
 
   for (let i = 0; i < celulas.length - 1; i++) {
     const celula = celulas[i];
-    const input = celula.querySelector("input");
+    const span = celula.querySelector("span");
 
-    if (input) {
-      const valor = input.value;
-      const span = document.createElement("span");
-      span.textContent = valor;
-      span.dataset.valorOriginal = valor;
-      celula.innerHTML = '';
-      celula.appendChild(span);
-    } else if (i === 4) {
-      // status: botão
-      const botaoStatus = celula.querySelector("button");
-      const status = botaoStatus.textContent.trim();
-      celula.innerHTML = `
-        <button class="status-btn ${
-          status === "Concluído" ? "status-concluido" :
-          status === "Pendente" ? "status-pendente" : "status-andamento"
-        }" onclick="alternarStatus(this)">${status}</button>
-      `;
-    } else {
-      const span = celula.querySelector("span");
-      const valorAntigo = span?.dataset.valorOriginal || "";
+    if (span) {
+      const valorAntigo = span.dataset.valorOriginal || "";
       let campo;
 
       if (i === 2) {
@@ -92,12 +60,22 @@ function alternarEdicao(botaoEditar) {
         campo.type = "text";
         campo.classList.add("valor-real");
         campo.value = valorAntigo;
-        campo.addEventListener('input', function () {
+        campo.addEventListener("input", function () {
           formatarMoedaReal(this);
         });
-        celula.innerHTML = '';
-        celula.appendChild(campo);
-        continue;
+      } else if (i === 4) {
+        campo = document.createElement("select");
+        campo.innerHTML = `
+          <option value="andamento">Andamento</option>
+          <option value="concluido">Concluído</option>
+          <option value="pendente">Pendente</option>
+        `;
+        campo.value = valorAntigo;
+        aplicarEstiloStatus(campo);
+        campo.addEventListener("change", () => aplicarEstiloStatus(campo));
+      } else if (i === 1) {
+        campo = document.createElement("textarea");
+        campo.rows = 2;
       } else {
         campo = document.createElement("input");
         campo.type = "text";
@@ -109,72 +87,39 @@ function alternarEdicao(botaoEditar) {
     }
   }
 
-  const dados = coletarDadosDaLinha(linha);
-  salvarLinhaEmEdicao(dados);
+  linha.classList.add("editando");
 }
 
-function alternarStatus(botao) {
-  const estados = [
-    { texto: "Andamento", classe: "status-andamento" },
-    { texto: "Concluído", classe: "status-concluido" },
-    { texto: "Pendente", classe: "status-pendente" }
-  ];
+function salvarAlteracoes() {
+  const linhas = document.querySelectorAll("#corpo-tabela tr.editando");
 
-  const estadoAtual = botao.textContent.trim();
-  const indexAtual = estados.findIndex(e => e.texto === estadoAtual);
-  const proximo = estados[(indexAtual + 1) % estados.length];
+  linhas.forEach(linha => {
+    const celulas = linha.querySelectorAll("td");
 
-  botao.textContent = proximo.texto;
-  botao.className = `status-btn ${proximo.classe}`;
+    for (let i = 0; i < celulas.length - 1; i++) {
+      const celula = celulas[i];
+      const campo = celula.querySelector("input, textarea, select");
 
-  salvarDadosTabela();
-}
+      if (campo) {
+        const span = document.createElement("span");
+        if (campo.tagName.toLowerCase() === "select") {
+          span.textContent = campo.options[campo.selectedIndex].text;
+          span.dataset.valorOriginal = campo.value;
+        } else {
+          span.textContent = campo.value;
+          span.dataset.valorOriginal = campo.value;
+        }
+        celula.innerHTML = '';
+        celula.appendChild(span);
+      }
+    }
 
-function coletarDadosDaLinha(linha) {
-  const cliente = linha.querySelector("td:nth-child(1) input")?.value || linha.querySelector("td:nth-child(1) span")?.dataset.valorOriginal;
-  const descricao = linha.querySelector("td:nth-child(2) input")?.value || linha.querySelector("td:nth-child(2) span")?.dataset.valorOriginal;
-  const vencimento = linha.querySelector("td:nth-child(3) input")?.value || linha.querySelector("td:nth-child(3) span")?.dataset.valorOriginal;
-  const valor = linha.querySelector("td:nth-child(4) input")?.value || linha.querySelector("td:nth-child(4) span")?.dataset.valorOriginal;
-  const status = linha.querySelector("td:nth-child(5) button")?.textContent.trim();
-
-  return { cliente, descricao, vencimento, valor, status };
-}
-
-function salvarLinhaEmEdicao(dados) {
-  let linhas = JSON.parse(localStorage.getItem("linhasEmEdicao")) || [];
-
-  const existe = linhas.some(l =>
-    l.cliente === dados.cliente &&
-    l.descricao === dados.descricao &&
-    l.vencimento === dados.vencimento
-  );
-
-  if (!existe) {
-    linhas.push(dados);
-    localStorage.setItem("linhasEmEdicao", JSON.stringify(linhas));
-  }
-}
-
-function salvarDadosTabela() {
-  const linhasDOM = document.querySelectorAll("#corpo-tabela tr");
-  const linhas = [];
-
-  linhasDOM.forEach(linha => {
-    const dados = coletarDadosDaLinha(linha);
-    linhas.push(dados);
+    linha.classList.remove("editando");
   });
-
-  localStorage.setItem("linhasEmEdicao", JSON.stringify(linhas));
-}
-
-function carregarLinhasSalvas() {
-  const linhas = JSON.parse(localStorage.getItem("linhasEmEdicao")) || [];
-  linhas.forEach(linha => adicionarNovaLinha(linha));
 }
 
 function formatarMoedaReal(input) {
   let valor = input.value;
-
   valor = valor.replace(/\D/g, '');
 
   if (!valor) {
@@ -189,4 +134,19 @@ function formatarMoedaReal(input) {
   input.value = 'R$ ' + valor;
 }
 
-window.onload = carregarLinhasSalvas;
+// Aplica a cor de fundo no select de status
+function aplicarEstiloStatus(select) {
+  select.classList.remove("status-andamento", "status-concluido", "status-pendente");
+
+  switch (select.value) {
+    case "andamento":
+      select.classList.add("status-andamento");
+      break;
+    case "concluido":
+      select.classList.add("status-concluido");
+      break;
+    case "pendente":
+      select.classList.add("status-pendente");
+      break;
+  }
+}

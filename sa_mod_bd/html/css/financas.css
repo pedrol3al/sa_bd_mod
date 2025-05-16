@@ -8,7 +8,7 @@
 
   /* Cabeçalho e botão de custos */
   .header-container {
-    display: flex;
+    display: flex; 
     align-items: center;
     justify-content: space-between;
     position: fixed;
@@ -379,14 +379,15 @@ button.deletar:hover {
   font-weight: bold;
 }
 
-.status-andamento {
-  background-color: #3498db;
+select.status-andamento {
+  background-color: #ffdc3d;
+  color: white;
 }
-
-.status-concluido {
+select.status-concluido {
   background-color: #2ecc71;
+  color: white;
 }
-
-.status-pendente {
-  background-color: #e67e22;
+select.status-pendente {
+  background-color: #ff0000;
+  color: white;
 }
