@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .titulo {
+    font-size: 36px;
+    color: #00003a;
+    margin: 20px;
+  }
+  
+  .topo {
+    background-color: #f5f5f5;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .resumos {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+  }
+  
+  .card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 200px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card.verde { background-color: #28a745; color: white; }
+  .card.azul { background-color: #007bff; color: white; }
+  .card.vermelho { background-color: #dc3545; color: white; }
+  
+  .tabela-financas table {
+    width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+  }
+  
+  .tabela-financas th, .tabela-financas td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .btn-acao {
+    background-color: #f39c12;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .editar {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .editar:hover, .btn-acao:hover {
+    opacity: 0.8;
+  }
+  
