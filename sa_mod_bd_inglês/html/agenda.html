@@ -9,14 +9,6 @@
     <link rel="stylesheet" href="css/css-home-bar.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <script src="JS/carregar-menu.js" defer></script>
-
-    <button class="sair" title="sair da conta">
-      <img src="img/logout.png" alt="Sair">
-    </button>
-    
-    <button class="fechar" title="fechar">
-      <img src="img/sair.png" alt="Fechar">
-    </button>
 </head>
 
 <body>
@@ -68,9 +60,10 @@
         <p id="dataSelecionada"></p>
     
         <div class="botoes-modal">
-          <button class="salvar">Salvar</button>  
-          <button class="fechar-agenda">Fechar</button>
+          <button class="salvar">Salvar</button>
+          <button class="fechar">Fechar</button>
         </div>
+      </div>
     </div>
 
     <script>
@@ -78,7 +71,7 @@
         const dias = document.querySelectorAll('.dias div:not(.vazio)');
         const modal = document.getElementById('modal');
         const dataSpan = document.getElementById('dataSelecionada');
-        const fecharBtn = document.querySelector('.fechar-agenda');
+        const fecharBtn = document.querySelector('.fechar');
         const eventosPorData = {};
       
         dias.forEach(dia => {

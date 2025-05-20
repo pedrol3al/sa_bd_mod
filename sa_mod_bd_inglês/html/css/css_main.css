@@ -75,41 +75,23 @@
             left: 270;
         }
 
-        button.sair, button.fechar {
-            background: transparent;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-          }
-          
-          /* Estilo da imagem dentro do botão */
-          button.sair img, button.fechar img {
-            width: 40px;
-            height: 40px;
-            transition: transform 0.2s ease, filter 0.2s ease;
-          }
-          
-          /* Efeito ao passar o mouse */
-          button.sair:hover img, button.fechar:hover img {
-            transform: scale(1.1);
-            filter: brightness(1.2);
-          }
-          
-          /* Deixar o botão flutuante no canto superior direito */
-          button.fechar {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 999;
-          }
-          
-          /* Se quiser que o botão "sair" também fique flutuante */
-          button.sair {
-            position: fixed;
-            top: 20px;
-            right: 70px; /* afastado do botão fechar */
-            z-index: 999;
-          } 
+        .fechar {
+            color:rgb(0, 0, 0);
+            font-family: 'Open Sans', sans-serif;
+            font-size:small;
+            position: absolute;
+            top: 20;
+            right: 49;
+        }
+
+        .sair {
+            color:rgb(0, 0, 0);
+            font-family: 'Open Sans', sans-serif;
+            font-size:small;
+            position: absolute;
+            top: 60;
+            right: 50;
+        }
 
         .titulo_quadrado {
             color: rgb(0, 0, 58);
@@ -146,6 +128,25 @@
             src: url('font/opensans_italic.ttf') format('truetype');
         }	
 
+        /*  IMAGENS  */
+
+        .img_sair {
+            float: right;
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 30;
+            right: 20;
+        }
+
+        .img_fechar {
+            float: right;
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 67;
+            right: 23;
+        }
 
         /*  GRÁFICOS  */
 

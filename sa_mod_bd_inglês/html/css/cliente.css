@@ -44,12 +44,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  align-items: flex-start; /* Alinhamento ajustado */
-}
-
-.linha > .linha {
-  flex: 1;
-  min-width: 150px;
+  align-items: center;
 }
 
 /* RÓTULOS */
@@ -59,7 +54,7 @@ label {
   color: #002B5C;
   min-width: 120px;
   margin-top: 7px;
-  margin-right: -20px;
+  margin-right: -20px
 }
 
 /* CAMPOS */
@@ -71,11 +66,6 @@ select {
   padding: 5px;
   font-size: 14px;
   flex: 1;
-}
-
-input::placeholder {
-  opacity: 0.4;
-  color: #000;
 }
 
 /* TAMANHOS FIXOS */
@@ -91,24 +81,9 @@ input::placeholder {
   width: 100%;
 }
 
-/* Ajuste individual de tamanhos para melhor visual */
-#codigo, #cpf, #cnpj, #rg, #data_nasc, #sexo, #cargo,
-#cep, #uf, #telefone, #celular, #data_cadastro {
-  width: 120px;
-}
-
-#nome, #bairro, #cidade, #tipo_cliente, #email {
-  width: 250px;
-}
-
-#endereco, #observacoes {
-  width: 100%;
-}
-
-/* Textarea */
-textarea#observacoes {
-  height: 80px;
-  resize: vertical;
+input::placeholder {
+  opacity: 0.4;
+  color: #000;
 }
 
 /* BOTÕES */
@@ -147,16 +122,16 @@ button {
 /* Modal principal */
 #modal_pesquisar {
   position: fixed;
-  top: 50px;
-  left: 230px;
-  width: calc(99% - 230px);
-  height: 50vh;
+  top: 50px; /* pequena margem do topo */
+  left: 230px; /* mesma largura da sidebar */
+  width: calc(100% - 230px); /* ocupa todo o resto da tela exceto o menu */
+  height: 50vh; /* metade da altura da tela */
   background-color: #ffffff;
   padding: 20px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   display: none;
   overflow-y: auto;
-  z-index: 1000;
+  z-index: 1000; /* menor que o modal-menor */
 }
 
 /* Fundo escuro da modal */
@@ -166,9 +141,9 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5); /* fundo escuro com transparência */
   display: none;
-  z-index: 999;
+  z-index: 999; /* menor que o modal principal */
 }
 
 /* Cabeçalho da modal */
@@ -205,7 +180,7 @@ button {
 .modal-menor {
   display: none;
   position: fixed;
-  z-index: 9999;
+  z-index: 9999; /* acima de tudo */
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -247,35 +222,43 @@ button {
   background-color: #990000;
 }
 
-/* Botões flutuantes com imagem */
-button.sair, button.fechar {
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
+/* FORMULÁRIO */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
 }
 
-button.sair img, button.fechar img {
-  width: 40px;
-  height: 40px;
-  transition: transform 0.2s ease, filter 0.2s ease;
+.linha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: flex-start;
 }
 
-button.sair:hover img, button.fechar:hover img {
-  transform: scale(1.1);
-  filter: brightness(1.2);
+/* Ajuste individual de tamanhos para melhor visual */
+#codigo, #cpf, #cnpj, #rg, #data_nasc, #sexo, #cargo,
+#cep, #uf, #telefone, #celular, #data_cadastro {
+  width: 120px;
 }
 
-button.fechar {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999;
+#nome, #bairro, #cidade, #tipo_cliente, #email {
+  width: 250px;
 }
 
-button.sair {
-  position: fixed;
-  top: 20px;
-  right: 70px;
-  z-index: 999;
+#endereco, #observacoes {
+  width: 100%;
+}
+
+/* Textarea */
+textarea#observacoes {
+  height: 80px;
+  resize: vertical;
+}
+
+/* Torna os elementos filhos com melhor proporção visual */
+.linha > .linha {
+  flex: 1;
+  min-width: 150px;
 }
