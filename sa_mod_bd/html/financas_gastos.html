@@ -45,10 +45,11 @@
       <table>
         <thead>
           <tr>
-            <th>Fornecedor</th>
-            <th>Produto</th>
-            <th>Data da compra</th>
-            <th>Valor</th>
+            <th>Fornecedor:</th>
+            <th>Produto:</th>
+            <th>Data da Compra:</th>
+            <th>Valor:</th>
+            <th>Status:</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -56,67 +57,49 @@
           <tr>
             <td>Mi</td>
             <td>WD BLACK SN850</td>
-            <td>04/04/25</td>
+            <td>04/04/2025</td>
             <td>436,00</td>
-            <td><button class="btn-acao">Para entregar</button> <button class="editar">Editar</button></td>
+            <td class="status">Para entregar</td>
+            <td>
+              <button class="btn-editar"><i class="bi bi-pencil-square"></i> Editar</button>
+            </td>
           </tr>
           <tr>
             <td>Apple</td>
-            <td>Tela Iphone 15</td>
+            <td>Tela iPhone 15</td>
             <td>07/04/2025</td>
             <td>574,00</td>
-            <td><button class="btn-acao">Para entregar</button> <button class="editar">Editar</button></td>
-          </tr>
-          <tr>
-            <td>Sony</td>
-            <td>Sony IMX766 50MP</td>
-            <td>11/03/2025</td>
-            <td>300,00</td>
-            <td><button class="btn-acao">Entregue</button> <button class="editar">Editar</button></td>
-          </tr>
-          <tr>
-            <td>Xiaomi</td>
-            <td>BM4J 5000mAh</td>
-            <td>16/02/2025</td>
-            <td>150,00</td>
-            <td><button class="btn-acao">Entregue</button> <button class="editar">Editar</button></td>
-          </tr>
-          <tr>
-            <td>Goodix</td>
-            <td>Goodix GF3626</td>
-            <td>24/01/2025</td>
-            <td>393,00</td>
-            <td><button class="btn-acao">Entregue</button> <button class="editar">Editar</button></td>
+            <td class="status">Entregue</td>
+            <td>
+              <button class="btn-editar"><i class="bi bi-pencil-square"></i> Editar</button>
+            </td>
           </tr>
         </tbody>
       </table>
-    </section>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-          // Selecionar todos os botões de editar
-          const botoesEditar = document.querySelectorAll(".editar");
-        
-          // Adicionar evento de clique para cada botão
-          botoesEditar.forEach((botao) => {
-            botao.addEventListener("click", function() {
-              const botaoStatus = this.previousElementSibling; // Botão de status anterior
-        
-              // Alternar o texto e a cor do botão
-              if (botaoStatus.textContent === "Para entregar") {
-                botaoStatus.textContent = "Concluído";
-                botaoStatus.style.backgroundColor = "#2ecc71"; // Verde para concluído
-              } else {
-                botaoStatus.textContent = "Para entregar";
-                botaoStatus.style.backgroundColor = "#f39c12"; // Laranja para entregar
-              }
-            });
+    
+      <div class="botoes">
+        <button class="btn-azul"><i class="bi bi-save"></i> Salvar Alteração</button>
+        <button class="btn-laranja"><i class="bi bi-search"></i> Pesquisar Gastos</button>
+        <button class="btn-verde"><i class="bi bi-plus-circle"></i> Novo Gasto</button>
+      </div>
+    
+      <script>
+        document.querySelectorAll('.btn-editar').forEach(function(botao) {
+          botao.addEventListener('click', function() {
+            const linha = botao.closest('tr'); // Pega a linha da tabela
+            const statusCelula = linha.querySelector('.status'); // Célula de status
+            const statusAtual = statusCelula.textContent.trim(); // Texto atual
+      
+            if (statusAtual === 'Para entregar') {
+              statusCelula.textContent = 'Entregue';
+              linha.classList.add('linha-entregue');
+            } else {
+              statusCelula.textContent = 'Para entregar';
+              linha.classList.remove('linha-entregue');
+            }
           });
         });
-        </script>
-        
-    <script src="js/carregar-menu.js" defer></script>
-
-  </main>
-  
-</body>
-</html>
+      </script>      
+    
+    </body>
+    </html>

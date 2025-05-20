@@ -75,7 +75,7 @@
         </div>
         <div class="linha" style="flex: 2;">
           <label>Nº:</label>
-          <input type="text" id="num" />
+          <input type="text" id="text" />
         </div>
         <div class="linha" style="flex: 2;">
           <label for="tipo_cliente">Tipo de cliente:</label>
@@ -157,7 +157,7 @@
       <div id="linha_modal" class="linha">
         <label>Pesquisar:</label>
         <input id="campoBusca" class="input-longo" type="text" placeholder="Digite para pesquisar..." />
-        <span id="fechar-modal" onclick="fecharModal()">×</span>
+        <span id="fechar-modal" onclick="fecharModalPesquisar()">×</span>
       </div>
       <div id="resultadoPesquisa" class="resultado-pesquisa"></div>
     </form>
@@ -165,7 +165,7 @@
 
   <div id="modalDetalhes" class="modal-menor">
     <div class="modal-conteudo-menor">
-      <span class="fechar-menor" onclick="fecharDetalhes()">×</span>
+      <span class="fechar-menor" onclick="fecharModalDetalhes()">×</span>
       <div id="conteudoDetalhes"></div>
     </div>
   </div>
