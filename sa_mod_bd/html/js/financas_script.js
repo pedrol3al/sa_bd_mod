@@ -30,19 +30,23 @@ function adicionarNovaLinha() {
       </select>
     </td>
     <td>
-      <button class="botao-remover-linha" title="Remover">
-        <i class="bi bi-x-circle"></i>
-      </button>
+      <button class="botao-salvar-linha" title="Editar" disabled><i class="bi bi-pencil"></i></button>
+      <button class="botao-remover-linha" title="Remover"><i class="bi bi-x-circle"></i></button>
     </td>
   `;
 
   tabela.appendChild(novaLinha);
   aplicarMascaraValor();
 
+  // Deixar inputs e selects habilitados para edição imediata
+  novaLinha.querySelectorAll("input, select").forEach(el => el.disabled = false);
+
   // Botão remover só apaga a linha e salva depois
   novaLinha.querySelector(".botao-remover-linha").addEventListener("click", () => {
-    novaLinha.remove();
-    salvarTodasAlteracoes();
+    if (confirm("Tem certeza que deseja excluir?")) {
+      novaLinha.remove();
+      salvarTodasAlteracoes();
+    }
   });
 }
 
@@ -85,6 +89,22 @@ function salvarTodasAlteracoes() {
 
   localStorage.setItem("servicos", JSON.stringify(dados));
   alert("Alterações salvas!");
+
+  // Após salvar, bloqueia edição de todas as linhas e habilita o botão lápis novamente
+  bloquearEdicaoTodasLinhas();
+}
+
+function bloquearEdicaoTodasLinhas() {
+  const linhas = document.querySelectorAll("#corpo-tabela tr");
+  linhas.forEach(linha => {
+    linha.querySelectorAll("input, select").forEach(input => input.disabled = true);
+    const botaoEditar = linha.querySelector(".botao-salvar-linha");
+    if (botaoEditar) {
+      botaoEditar.disabled = false;
+      botaoEditar.innerHTML = '<i class="bi bi-pencil"></i>';
+      botaoEditar.title = "Editar";
+    }
+  });
 }
 
 function carregarTabelaDoStorage() {
@@ -96,41 +116,55 @@ function carregarTabelaDoStorage() {
     const linha = document.createElement("tr");
 
     linha.innerHTML = `
-      <td><input type="number" class="input-os" value="${item.os}" onwheel="return false;" /></td>
-      <td><input type="text" class="input-cliente" value="${item.cliente}" /></td>
-      <td><input type="text" class="input-descricao" value="${item.descricao}" /></td>
-      <td><input type="date" class="input-vencimento" value="${item.vencimento}" /></td>
-      <td><input type="text" class="input-valor" value="${item.valor}" /></td>
+      <td><input type="number" class="input-os" value="${item.os}" onwheel="return false;" disabled /></td>
+      <td><input type="text" class="input-cliente" value="${item.cliente}" disabled /></td>
+      <td><input type="text" class="input-descricao" value="${item.descricao}" disabled /></td>
+      <td><input type="date" class="input-vencimento" value="${item.vencimento}" disabled /></td>
+      <td><input type="text" class="input-valor" value="${item.valor}" disabled /></td>
       <td>
-        <select class="input-status">
+        <select class="input-status" disabled>
           <option value="pendente" ${item.status === "pendente" ? "selected" : ""}>Pendente</option>
           <option value="pago" ${item.status === "pago" ? "selected" : ""}>Pago</option>
           <option value="atrasado" ${item.status === "atrasado" ? "selected" : ""}>Atrasado</option>
         </select>
       </td>
       <td>
-        <button class="botao-remover-linha" title="Remover">
-          <i class="bi bi-x-circle"></i>
-        </button>
+        <button class="botao-salvar-linha" title="Editar" onclick="ativarEdicao(this)"><i class="bi bi-pencil"></i></button>
+        <button class="botao-remover-linha" title="Remover"><i class="bi bi-x-circle"></i></button>
       </td>
     `;
 
     tabela.appendChild(linha);
 
-    // Remover linha e salvar
+    // Botão remover só apaga a linha e salva depois
     linha.querySelector(".botao-remover-linha").addEventListener("click", () => {
-      linha.remove();
-      salvarTodasAlteracoes();
+      if (confirm("Tem certeza que deseja excluir?")) {
+        linha.remove();
+        salvarTodasAlteracoes();
+      }
     });
   });
 
   aplicarMascaraValor();
 }
 
+function ativarEdicao(botao) {
+  const linha = botao.closest("tr");
+  const inputs = linha.querySelectorAll("input, select");
+
+  // Desbloqueia todos os inputs e selects da linha
+  inputs.forEach(input => input.disabled = false);
+
+  // Desabilita o próprio botão para evitar múltiplos cliques
+  botao.disabled = true;
+
+  botao.title = "Edição ativada - use o botão Salvar Alterações para salvar tudo";
+}
+
 window.addEventListener("load", () => {
   carregarTabelaDoStorage();
 
-  // Botão salvar
+  // Botão salvar geral
   document.querySelector(".botao.salvar").addEventListener("click", salvarTodasAlteracoes);
 
   // Botão novo
