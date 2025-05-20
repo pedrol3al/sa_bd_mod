@@ -19,21 +19,14 @@
   <!-- Botões e título visuais devem estar no <body> -->
   <h1 class="titulo"><span>FINANÇAS</span> SERVIÇOS</h1>
 
-  <button class="sair" title="Sair da conta">
-    <img src="img/logout.png" alt="Sair">
-  </button>
-  
-  <button class="fechar" title="Fechar">
-    <img src="img/sair.png" alt="Fechar">
-  </button>
 
   <div id="menu-container"></div>
 
   <header class="topo">
     <div class="header-container">
       <h1></h1>
-      <a href="custos.html" class="btn-troca-pagina">
-        Ver Custos <i class="bi bi-arrow-right-circle"></i>
+      <a href="financas_gastos.html" class="btn-troca-pagina">
+        Ver Gastos <i class="bi bi-arrow-right-circle"></i>
       </a>
     </div>
   </header>
@@ -75,8 +68,8 @@
       <table>
         <thead>
           <tr>
-            <th>OS:</th>
-            <th>Cliente:</th>
+            <th class ="campo-os">OS:</th>
+            <th class="campo-cliente">Cliente:</th>
             <th>Descrição:</th>
             <th>Vencimento:</th>
             <th>Valor:</th>
@@ -92,11 +85,21 @@
 
       <div class="botoes-acoes">
         <button class="botao salvar"><i class="bi bi-save"></i> Salvar Alteração</button>
-        <button class="botao pesquisar"><i class="bi bi-search"></i> Pesquisar Serviços</button>
+      
         <button class="botao novo"><i class="bi bi-plus-circle"></i> Novo Serviço</button>
 
       </div>
     </section>
   </main>
+  <div id="modal-confirmacao" class="modal-overlay hidden">
+  <div class="modal-content">
+    <p>Tem certeza que deseja excluir?</p>
+    <div class="botoes">
+      <button id="btn-sim">Sim</button>
+      <button id="btn-nao">Não</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

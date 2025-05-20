@@ -1,14 +1,119 @@
-// Aplica máscara simples de valor (exemplo básico)
 function aplicarMascaraValor() {
-  const inputs = document.querySelectorAll(".input-valor");
-  inputs.forEach(input => {
-    input.addEventListener("input", () => {
-      let v = input.value.replace(/\D/g, "");
-      v = (Number(v) / 100).toFixed(2) + "";
-      v = v.replace(".", ",");
-      v = "R$ " + v.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      input.value = v;
+  const campos = document.querySelectorAll('.input-valor');
+
+  campos.forEach(campo => {
+    campo.addEventListener('input', function (e) {
+      let valor = e.target.value;
+
+      // Remove tudo que não for número
+      valor = valor.replace(/\D/g, '');
+
+      // Valor mínimo: 0
+      if (valor === '') {
+        e.target.value = 'R$ 0,00';
+        return;
+      }
+
+      // Converte para número com duas casas decimais
+      valor = (parseInt(valor, 10) / 100).toFixed(2);
+
+      // Substitui ponto por vírgula
+      valor = valor.replace('.', ',');
+
+      // Adiciona separador de milhar se necessário
+      valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+      e.target.value = 'R$ ' + valor;
     });
+
+    // Preenche com R$ 0,00 ao carregar vazio
+    if (!campo.value) {
+      campo.value = 'R$ 0,00';
+    }
+  });
+}
+
+
+// Mostra mensagem temporária flutuante
+function mostrarMensagem(mensagem, cor = "#4CAF50") {
+  const div = document.createElement("div");
+  div.textContent = mensagem;
+  div.style.position = "fixed";
+  div.style.bottom = "20px";
+  div.style.left = "50%";
+  div.style.transform = "translateX(-50%)";
+  div.style.background = cor;
+  div.style.color = "#fff";
+  div.style.padding = "10px 20px";
+  div.style.borderRadius = "8px";
+  div.style.zIndex = "9999";
+  document.body.appendChild(div);
+  setTimeout(() => div.remove(), 3000);
+}
+
+// Ação padrão do Enter: ir para próximo input da mesma linha
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const atual = e.target;
+    if (["INPUT", "SELECT"].includes(atual.tagName)) {
+      e.preventDefault();
+      const linha = atual.closest("tr");
+      const campos = Array.from(linha.querySelectorAll("input, select")).filter(el => !el.disabled);
+      const index = campos.indexOf(atual);
+      if (index >= 0 && index < campos.length - 1) {
+        campos[index + 1].focus();
+      } else if (index === campos.length - 1) {
+        campos[0].focus();
+      }
+    }
+  }
+});
+
+function configurarBotaoRemover(botao, linha) {
+  botao.addEventListener("click", () => {
+    const modal = document.getElementById("modal-confirmacao");
+    const btnSim = document.getElementById("btn-sim");
+    const btnNao = document.getElementById("btn-nao");
+
+    modal.classList.remove("hidden");
+
+    const aoClicarSim = () => {
+      linha.remove();
+      salvarTodasAlteracoes(true);
+      mostrarMensagem("Exclusão salva com sucesso!", "#d9534f");
+      fecharModal();
+    };
+
+    const aoClicarNao = () => {
+      fecharModal();
+    };
+
+    function fecharModal() {
+      modal.classList.add("hidden");
+      btnSim.removeEventListener("click", aoClicarSim);
+      btnNao.removeEventListener("click", aoClicarNao);
+    }
+
+    btnSim.addEventListener("click", aoClicarSim);
+    btnNao.addEventListener("click", aoClicarNao);
+  });
+}
+
+// Validação para input OS (só números)
+function validarInputOS(input) {
+  input.addEventListener('keypress', function(event) {
+    if (!/[0-9]/.test(event.key)) {
+      event.preventDefault();
+    }
+  });
+}
+
+// Validação para input Cliente (letras e espaço)
+function validarInputCliente(input) {
+  input.addEventListener('keypress', function(event) {
+    if (!/[a-zA-ZÀ-ÿ\s]/.test(event.key)) {
+      event.preventDefault();
+    }
   });
 }
 
@@ -24,13 +129,13 @@ function adicionarNovaLinha() {
     <td><input type="text" class="input-valor" placeholder="R$ 0,00" /></td>
     <td>
       <select class="input-status">
-        <option value="pendente">Pendente</option>
-        <option value="pago">Pago</option>
-        <option value="atrasado">Atrasado</option>
+        <option value="Andamento">Andamento</option>
+        <option value="Concluído">Concluído</option>
+        <option value="Atrasado">Atrasado</option>
       </select>
     </td>
     <td>
-      <button class="botao-salvar-linha" title="Editar" disabled><i class="bi bi-pencil"></i></button>
+      <button class="botao-salvar-linha" title="Editar" onclick="ativarEdicao(this)"><i class="bi bi-pencil"></i></button>
       <button class="botao-remover-linha" title="Remover"><i class="bi bi-x-circle"></i></button>
     </td>
   `;
@@ -38,25 +143,26 @@ function adicionarNovaLinha() {
   tabela.appendChild(novaLinha);
   aplicarMascaraValor();
 
-  // Deixar inputs e selects habilitados para edição imediata
   novaLinha.querySelectorAll("input, select").forEach(el => el.disabled = false);
 
-  // Botão remover só apaga a linha e salva depois
-  novaLinha.querySelector(".botao-remover-linha").addEventListener("click", () => {
-    if (confirm("Tem certeza que deseja excluir?")) {
-      novaLinha.remove();
-      salvarTodasAlteracoes();
-    }
-  });
+  validarInputOS(novaLinha.querySelector('.input-os'));
+  validarInputCliente(novaLinha.querySelector('.input-cliente'));
+
+  configurarBotaoRemover(novaLinha.querySelector(".botao-remover-linha"), novaLinha);
+
+  aplicarEstiloStatus(); // ✅ AQUI aplica as cores corretamente ao novo select
 }
 
-function salvarTodasAlteracoes() {
+
+function salvarTodasAlteracoes(isExclusao = false) {
   const linhas = document.querySelectorAll("#corpo-tabela tr");
   const dados = [];
   let valido = true;
+  const osMap = new Map(); // Para verificar duplicidade
+  let osDuplicadas = false;
 
   linhas.forEach(linha => {
-    // Remove classe de erro se existir
+    // Limpa todas as classes de erro no início
     linha.querySelectorAll("input, select").forEach(campo => campo.classList.remove("campo-invalido"));
 
     const os = linha.querySelector(".input-os").value.trim();
@@ -66,33 +172,68 @@ function salvarTodasAlteracoes() {
     const valor = linha.querySelector(".input-valor").value.trim();
     const status = linha.querySelector(".input-status").value;
 
-    // Ignorar linhas completamente vazias
+    // Ignora linhas totalmente vazias
     if (!os && !cliente && !descricao && !vencimento && !valor) return;
 
-    // Validação simples
-    if (!os || !cliente || !descricao || !vencimento || !valor) {
+    // Validação de campos obrigatórios — só marca se não houver duplicidade na OS nessa linha
+    let camposInvalidos = false;
+
+    if (!os) {
+      linha.querySelector(".input-os").classList.add("campo-invalido");
+      camposInvalidos = true;
+    }
+    if (!cliente) {
+      linha.querySelector(".input-cliente").classList.add("campo-invalido");
+      camposInvalidos = true;
+    }
+    if (!descricao) {
+      linha.querySelector(".input-descricao").classList.add("campo-invalido");
+      camposInvalidos = true;
+    }
+    if (!vencimento) {
+      linha.querySelector(".input-vencimento").classList.add("campo-invalido");
+      camposInvalidos = true;
+    }
+    if (!valor) {
+      linha.querySelector(".input-valor").classList.add("campo-invalido");
+      camposInvalidos = true;
+    }
+
+    // Verificar duplicidade de OS
+    if (osMap.has(os)) {
       valido = false;
-      if (!os) linha.querySelector(".input-os").classList.add("campo-invalido");
-      if (!cliente) linha.querySelector(".input-cliente").classList.add("campo-invalido");
-      if (!descricao) linha.querySelector(".input-descricao").classList.add("campo-invalido");
-      if (!vencimento) linha.querySelector(".input-vencimento").classList.add("campo-invalido");
-      if (!valor) linha.querySelector(".input-valor").classList.add("campo-invalido");
+      osDuplicadas = true;
+      linha.querySelector(".input-os").classList.add("campo-invalido");
+      osMap.get(os).classList.add("campo-invalido"); // Marca a OS anterior também
+    } else {
+      osMap.set(os, linha.querySelector(".input-os"));
+    }
+
+    if (camposInvalidos) {
+      valido = false;
     }
 
     dados.push({ os, cliente, descricao, vencimento, valor, status });
   });
 
   if (!valido) {
-    alert("Preencha todos os campos obrigatórios antes de salvar.");
+    if (osDuplicadas) {
+      mostrarMensagem("Não é permitido repetir o número da Ordem de Serviço!", "#d9534f");
+    } else {
+      mostrarMensagem("Preencha todos os campos obrigatórios.", "#d9534f");
+    }
     return;
   }
 
   localStorage.setItem("servicos", JSON.stringify(dados));
-  alert("Alterações salvas!");
 
-  // Após salvar, bloqueia edição de todas as linhas e habilita o botão lápis novamente
+  if (!isExclusao) {
+    mostrarMensagem("Alterações salvas com sucesso!");
+  }
+
   bloquearEdicaoTodasLinhas();
 }
+
 
 function bloquearEdicaoTodasLinhas() {
   const linhas = document.querySelectorAll("#corpo-tabela tr");
@@ -106,9 +247,114 @@ function bloquearEdicaoTodasLinhas() {
     }
   });
 }
+function validarData(dataStr) {
+  if (!dataStr) return false;
+
+  const partes = dataStr.split("-");
+  if (partes.length !== 3) return false;
+
+  const ano = parseInt(partes[0], 10);
+  const mes = parseInt(partes[1], 10);
+  const dia = parseInt(partes[2], 10);
+
+  if (isNaN(ano) || isNaN(mes) || isNaN(dia)) return false;
+
+  if (ano < 1900 || ano > 2100) return false;
+
+  const data = new Date(ano, mes - 1, dia);
+
+  return (data.getFullYear() === ano && data.getMonth() === mes - 1 && data.getDate() === dia);
+}
+
+function salvarTodasAlteracoes(isExclusao = false) {
+  const linhas = document.querySelectorAll("#corpo-tabela tr");
+  const dados = [];
+  let valido = true;
+  const osMap = new Map(); // Para verificar duplicidade
+  let osDuplicadas = false;
+
+  linhas.forEach(linha => {
+    linha.querySelectorAll("input, select").forEach(campo => campo.classList.remove("campo-invalido"));
+
+    const os = linha.querySelector(".input-os").value.trim();
+    const cliente = linha.querySelector(".input-cliente").value.trim();
+    const descricao = linha.querySelector(".input-descricao").value.trim();
+    const vencimento = linha.querySelector(".input-vencimento").value;
+    const valor = linha.querySelector(".input-valor").value.trim();
+    const status = linha.querySelector(".input-status").value;
+
+    if (!os && !cliente && !descricao && !vencimento && !valor) return;
+
+    // Validação de campos obrigatórios
+    if (!os || !cliente || !descricao || !vencimento || !valor) {
+      valido = false;
+      if (!os) linha.querySelector(".input-os").classList.add("campo-invalido");
+      if (!cliente) linha.querySelector(".input-cliente").classList.add("campo-invalido");
+      if (!descricao) linha.querySelector(".input-descricao").classList.add("campo-invalido");
+      if (!vencimento) linha.querySelector(".input-vencimento").classList.add("campo-invalido");
+      if (!valor) linha.querySelector(".input-valor").classList.add("campo-invalido");
+    }
+
+    // Validação da data
+    if (vencimento && !validarData(vencimento)) {
+      valido = false;
+      linha.querySelector(".input-vencimento").classList.add("campo-invalido");
+    }
+
+    // Verificar duplicidade de OS
+    if (osMap.has(os)) {
+      valido = false;
+      osDuplicadas = true;
+      linha.querySelector(".input-os").classList.add("campo-invalido");
+      osMap.get(os).classList.add("campo-invalido");
+    } else {
+      osMap.set(os, linha.querySelector(".input-os"));
+    }
+
+    dados.push({ os, cliente, descricao, vencimento, valor, status });
+  });
+
+  if (!valido) {
+    if (osDuplicadas) {
+      mostrarMensagem("Não é permitido repetir o número da Ordem de Serviço!", "#d9534f");
+    } else {
+      mostrarMensagem("Preencha todos os campos obrigatórios ou corrija os dados inválidos.", "#d9534f");
+    }
+    return;
+  }
+
+  localStorage.setItem("servicos", JSON.stringify(dados));
+
+  if (!isExclusao) {
+    mostrarMensagem("Alterações salvas com sucesso!");
+  }
+
+  bloquearEdicaoTodasLinhas();
+}
+  
 
 function carregarTabelaDoStorage() {
-  const dados = JSON.parse(localStorage.getItem("servicos")) || [];
+  let dados = JSON.parse(localStorage.getItem("servicos")) || [];
+
+  // Ordenar os dados conforme: Atrasado > Andamento > Concluído
+  dados.sort((a, b) => {
+    const statusOrder = {
+      "Atrasado": 0,
+      "Andamento": 1,
+      "Concluído": 2
+    };
+
+    const dataA = new Date(a.vencimento);
+    const dataB = new Date(b.vencimento);
+
+    if (statusOrder[a.status] !== statusOrder[b.status]) {
+      return statusOrder[a.status] - statusOrder[b.status];
+    } else {
+      // Se o status for igual, ordena por data de vencimento (mais antigos primeiro)
+      return dataA - dataB;
+    }
+  });
+
   const tabela = document.getElementById("corpo-tabela");
   tabela.innerHTML = "";
 
@@ -123,9 +369,9 @@ function carregarTabelaDoStorage() {
       <td><input type="text" class="input-valor" value="${item.valor}" disabled /></td>
       <td>
         <select class="input-status" disabled>
-          <option value="pendente" ${item.status === "pendente" ? "selected" : ""}>Pendente</option>
-          <option value="pago" ${item.status === "pago" ? "selected" : ""}>Pago</option>
-          <option value="atrasado" ${item.status === "atrasado" ? "selected" : ""}>Atrasado</option>
+          <option value="Andamento" ${item.status === "Andamento" ? "selected" : ""}>Andamento</option>
+          <option value="Concluído" ${item.status === "Concluído" ? "selected" : ""}>Concluído</option>
+          <option value="Atrasado" ${item.status === "Atrasado" ? "selected" : ""}>Atrasado</option>
         </select>
       </td>
       <td>
@@ -136,37 +382,71 @@ function carregarTabelaDoStorage() {
 
     tabela.appendChild(linha);
 
-    // Botão remover só apaga a linha e salva depois
-    linha.querySelector(".botao-remover-linha").addEventListener("click", () => {
-      if (confirm("Tem certeza que deseja excluir?")) {
-        linha.remove();
-        salvarTodasAlteracoes();
-      }
-    });
+    validarInputOS(linha.querySelector('.input-os'));
+    validarInputCliente(linha.querySelector('.input-cliente'));
+    configurarBotaoRemover(linha.querySelector(".botao-remover-linha"), linha);
   });
 
   aplicarMascaraValor();
+  aplicarEstiloStatus();
 }
+
 
 function ativarEdicao(botao) {
   const linha = botao.closest("tr");
   const inputs = linha.querySelectorAll("input, select");
 
-  // Desbloqueia todos os inputs e selects da linha
   inputs.forEach(input => input.disabled = false);
-
-  // Desabilita o próprio botão para evitar múltiplos cliques
   botao.disabled = true;
-
   botao.title = "Edição ativada - use o botão Salvar Alterações para salvar tudo";
 }
 
 window.addEventListener("load", () => {
   carregarTabelaDoStorage();
 
-  // Botão salvar geral
-  document.querySelector(".botao.salvar").addEventListener("click", salvarTodasAlteracoes);
-
-  // Botão novo
+  document.querySelector(".botao.salvar").addEventListener("click", () => salvarTodasAlteracoes());
   document.querySelector(".botao.novo").addEventListener("click", adicionarNovaLinha);
+});
+function aplicarEstiloStatus() {
+  const selects = document.querySelectorAll('.input-status');
+
+  selects.forEach(select => {
+    const aplicarCor = () => {
+      select.classList.remove('status-concluido', 'status-pendente', 'status-atrasado');
+
+      switch (select.value) {
+        case 'Concluído':
+          select.classList.add('status-concluido');
+          break;
+        case 'Andamento':
+          select.classList.add('status-pendente');
+          break;
+        case 'Atrasado':
+          select.classList.add('status-atrasado');
+          break;
+      }
+    };
+
+    aplicarCor(); // Aplica ao carregar
+    select.addEventListener('change', aplicarCor); // Aplica ao trocar
+
+
+    aplicarCor(); // Aplica ao carregar
+    select.addEventListener('change', aplicarCor); // Aplica ao trocar
+  
+  });
+}
+
+// Adiciona estilos via JavaScript (ou mova isso para o seu CSS se preferir)
+const estilo = document.createElement('style');
+estilo.innerHTML = `
+  .status-concluido { background-color: #28a745; color: #ffffff; font-weight: bold; }
+  .status-pendente  { background-color: #ffc107; color: #212529; font-weight: bold; }
+  .status-atrasado  { background-color: #dc3545; color: #212529; font-weight: bold; }
+`;
+document.head.appendChild(estilo);
+
+// Chamada após carregar a tabela
+window.addEventListener("load", () => {
+  aplicarEstiloStatus();
 });
