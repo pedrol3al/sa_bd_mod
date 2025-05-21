@@ -129,7 +129,7 @@ function adicionarNovaLinha() {
     <td><input type="text" class="input-valor" placeholder="R$ 0,00" /></td>
     <td>
       <select class="input-status">
-        <option value="Andamento">Andamento</option>
+      
         <option value="Concluído">Concluído</option>
         <option value="Atrasado">Atrasado</option>
       </select>
@@ -336,12 +336,11 @@ function salvarTodasAlteracoes(isExclusao = false) {
 function carregarTabelaDoStorage() {
   let dados = JSON.parse(localStorage.getItem("servicos")) || [];
 
-  // Ordenar os dados conforme: Atrasado > Andamento > Concluído
+
   dados.sort((a, b) => {
     const statusOrder = {
       "Atrasado": 0,
-      "Andamento": 1,
-      "Concluído": 2
+      "Concluído": 1,
     };
 
     const dataA = new Date(a.vencimento);
@@ -369,7 +368,6 @@ function carregarTabelaDoStorage() {
       <td><input type="text" class="input-valor" value="${item.valor}" disabled /></td>
       <td>
         <select class="input-status" disabled>
-          <option value="Andamento" ${item.status === "Andamento" ? "selected" : ""}>Andamento</option>
           <option value="Concluído" ${item.status === "Concluído" ? "selected" : ""}>Concluído</option>
           <option value="Atrasado" ${item.status === "Atrasado" ? "selected" : ""}>Atrasado</option>
         </select>
@@ -418,9 +416,7 @@ function aplicarEstiloStatus() {
         case 'Concluído':
           select.classList.add('status-concluido');
           break;
-        case 'Andamento':
-          select.classList.add('status-pendente');
-          break;
+       
         case 'Atrasado':
           select.classList.add('status-atrasado');
           break;
@@ -449,4 +445,62 @@ document.head.appendChild(estilo);
 // Chamada após carregar a tabela
 window.addEventListener("load", () => {
   aplicarEstiloStatus();
+});
+function atualizarCards() {
+  const valorPagarHoje = document.querySelectorAll('.valor')[0];
+  const valorGastoSemanal = document.querySelectorAll('.valor')[1];
+  const valorAPagar = document.querySelectorAll('.valor')[2];
+
+  const dados = JSON.parse(localStorage.getItem("servicos")) || [];
+
+  const hoje = new Date().toISOString().split('T')[0];
+  const agora = new Date();
+  
+  function obterInicioSemana(data) {
+    const diaSemana = data.getDay(); // 0=Domingo, 1=Segunda...
+    const diferenca = diaSemana === 0 ? -6 : 1 - diaSemana;
+    const inicio = new Date(data);
+    inicio.setDate(data.getDate() + diferenca);
+    inicio.setHours(0, 0, 0, 0);
+    return inicio;
+  }
+
+  const inicioSemana = obterInicioSemana(agora);
+  const fimSemana = new Date(inicioSemana);
+  fimSemana.setDate(inicioSemana.getDate() + 6);
+
+  let totalPagarHoje = 0;
+  let totalGastoSemanal = 0;
+  let totalAPagar = 0;
+
+  dados.forEach(servico => {
+    const dataVenc = servico.vencimento;
+    const valor = parseFloat(servico.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+    const status = servico.status;
+
+    const dataObj = new Date(dataVenc);
+
+    if (dataObj >= inicioSemana && dataObj <= fimSemana) {
+      totalGastoSemanal += valor;
+    }
+
+    if (status === 'Atrasado') {
+      totalAPagar += valor;
+      if (dataVenc === hoje) {
+        totalPagarHoje += valor;
+      }
+    }
+  });
+
+  function formatarMoeda(valor) {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  valorPagarHoje.textContent = formatarMoeda(totalPagarHoje);
+  valorGastoSemanal.textContent = formatarMoeda(totalGastoSemanal);
+  valorAPagar.textContent = formatarMoeda(totalAPagar);
+}
+
+window.addEventListener("load", () => {
+  atualizarCards();
 });
