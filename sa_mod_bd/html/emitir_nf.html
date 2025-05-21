@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <title>Emitir NF</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="css/emitir_nf.css"/>
-
-  <button class="sair" title="sair da conta">
-    <img src="img/logout.png" alt="Sair">
-  </button>
-  
-  <button class="fechar" title="fechar">
-    <img src="img/sair.png" alt="Fechar">
-  </button>
-  
+  <link rel="stylesheet" href="css/emitir_nf.css" />
+  <link rel="stylesheet" href="css/css-home-bar.css" />
 </head>
 
 <body>
+  <!-- Botões flutuantes -->
+  <button class="sair" title="sair da conta">
+    <img src="img/logout.png" alt="Sair">
+  </button>
+
+  <button class="fechar" title="fechar">
+    <img src="img/sair.png" alt="Fechar">
+  </button>
 
   <!-- Menu será carregado aqui -->
   <div id="menu-container"></div>
@@ -30,7 +30,7 @@
         <p><strong>Nome:</strong> Conserta Tech</p>
         <p><strong>Endereço:</strong> Rua Imaginária, 142</p>
       </div>
-      <div class="prestador">
+      <div class="prestador-direita">
         <p><strong>Município:</strong> Joinville</p>
         <p><strong>I.E:</strong> 123.456.789</p>
         <p><strong>UF:</strong> Santa Catarina</p>
@@ -41,23 +41,46 @@
       <div class="secao">
         <h3>Tomador de serviço</h3>
         <div class="linha">
-          <div class="campo"><label for="nome_cliente">Nome:</label><input type="text" id="nome_cliente" name="nome_cliente"></div>
-          <div class="campo"><label for="codigo_cliente">Código cliente:</label><input type="text" id="codigo_cliente" name="codigo_cliente"></div>
-          <div class="campo"><label for="codigo_os">Código O.S:</label><input type="text" id="codigo_os" name="codigo_os"></div>
+          <div class="campo">
+            <label for="nome_cliente">Nome:</label>
+            <input type="text" id="nome_cliente" name="nome_cliente">
+          </div>
+          <div class="campo">
+            <label for="codigo_cliente">Código cliente:</label>
+            <input type="text" id="codigo_cliente" name="codigo_cliente">
+          </div>
+          <div class="campo">
+            <label for="codigo_os">Código O.S:</label>
+            <input type="text" id="codigo_os" name="codigo_os">
+          </div>
         </div>
       </div>
 
       <div class="secao discriminacao">
         <h3>Discriminação dos Serviços</h3>
         <div class="linha">
-          <div class="campo" style="flex: 3;"><label for="servicos">Serviços:</label><textarea id="servicos" name="servicos"></textarea></div>
-          <div class="campo"><label for="qtd">Qtd:</label><input type="text" id="qtd" name="qtd"></div>
-          <div class="campo"><label for="preco">Preço:</label><input type="text" id="preco" name="preco"></div>
-          <div class="campo"><label for="total">Total:</label><input type="text" id="total" name="total"></div>
+          <div class="campo grande">
+            <label for="servicos">Serviços:</label>
+            <textarea id="servicos" name="servicos"></textarea>
+          </div>
+        </div>
+        <div class="linha">
+          <div class="campo">
+            <label for="qtd">Qtd:</label>
+            <input type="text" id="qtd" name="qtd">
+          </div>
+          <div class="campo">
+            <label for="preco">Preço:</label>
+            <input type="text" id="preco" name="preco">
+          </div>
+          <div class="campo">
+            <label for="total">Total:</label>
+            <input type="text" id="total" name="total">
+          </div>
         </div>
 
         <div class="linha">
-          <div class="campo" style="flex: 2;">
+          <div class="campo">
             <label for="forma_pagamento">Forma de pagamento:</label>
             <select id="forma_pagamento" name="forma_pagamento">
               <option value="">Selecione...</option>
@@ -72,7 +95,10 @@
               <option value="link_pagamento">Link de Pagamento</option>
             </select>
           </div>
-          <div class="campo" style="flex: 1;"><label for="total_geral">TOTAL:</label><input type="text" id="total_geral" name="total_geral"></div>
+          <div class="campo">
+            <label for="total_geral">TOTAL:</label>
+            <input type="text" id="total_geral" name="total_geral">
+          </div>
         </div>
       </div>
 
@@ -83,116 +109,8 @@
       </div>
     </form>
   </main>
-</div>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-  // Botões e formulário
-  const botaoCadastrar = document.querySelector(".cadastrar");
-  const botaoPesquisar = document.querySelector(".pesquisar");
-  const botaoNovo = document.querySelector(".novo");
-  const formulario = document.querySelector("form");
-  // Container da mensagem de erro
-  const containerErro = document.createElement("div");
-  containerErro.style.backgroundColor = "#f8d7da";
-  containerErro.style.color = "#721c24";
-  containerErro.style.padding = "10px";
-  containerErro.style.marginBottom = "15px";
-  containerErro.style.border = "1px solid #f5c6cb";
-  containerErro.style.borderRadius = "5px";
-  containerErro.style.display = "none"; // Oculto inicialmente
-  formulario.insertBefore(containerErro, formulario.firstChild);
-
-  // Função para verificar campos vazios
-  function camposVazios() {
-    const campos = formulario.querySelectorAll("input, select, textarea");
-    return Array.from(campos).every(campo => campo.value.trim() === "");
-  }
-
-  // Função para exibir mensagem de erro se todos os campos estiverem vazios
-  botaoCadastrar.addEventListener("click", function(event) {
-    event.preventDefault();
-
-    if (camposVazios()) {
-      containerErro.textContent = "Preencha todos os campos!";
-      containerErro.style.display = "block";
-      containerMensagem.style.display = "none"; // Oculta a mensagem de sucesso
-      return;
-    }
-    // Caso os campos não estejam vazios, exibe a mensagem de sucesso
-    containerMensagem.textContent = "Cliente cadastrado com sucesso!";
-    containerMensagem.style.display = "block";
-    containerErro.style.display = "none"; // Oculta a mensagem de erro
-  });
-
-    // Container da mensagem de cadastro
-    const containerMensagem = document.createElement("div");
-    containerMensagem.style.backgroundColor = "#d4edda";
-    containerMensagem.style.color = "#155724";
-    containerMensagem.style.padding = "10px";
-    containerMensagem.style.marginBottom = "15px";
-    containerMensagem.style.border = "1px solid #c3e6cb";
-    containerMensagem.style.borderRadius = "5px";
-    containerMensagem.style.display = "none"; // Oculta inicialmente
-    formulario.insertBefore(containerMensagem, formulario.firstChild);
-
-    // Função para limpar o formulário ao clicar em "Novo"
-    botaoNovo.addEventListener("click", function(event) {
-      event.preventDefault();
-      formulario.reset(); // Limpa todos os campos do formulário
-      containerMensagem.style.display = "none"; // Oculta a mensagem
-    });
-
-    // Cria a barra de pesquisa lateral
-    const barraPesquisa = document.createElement("div");
-    barraPesquisa.style.position = "fixed";
-    barraPesquisa.style.top = "0";
-    barraPesquisa.style.right = "0";
-    barraPesquisa.style.width = "300px";
-    barraPesquisa.style.height = "100vh";
-    barraPesquisa.style.backgroundColor = "#f4f4f4";
-    barraPesquisa.style.padding = "20px";
-    barraPesquisa.style.boxShadow = "-2px 0 5px rgba(0,0,0,0.2)";
-    barraPesquisa.style.display = "none"; // Inicialmente oculta
-
-    // Campo de entrada para pesquisa
-    const inputPesquisa = document.createElement("input");
-    inputPesquisa.type = "text";
-    inputPesquisa.placeholder = "Digite para pesquisar...";
-    inputPesquisa.style.width = "100%";
-    inputPesquisa.style.padding = "10px";
-    inputPesquisa.style.marginBottom = "10px";
-    inputPesquisa.style.borderRadius = "4px";
-    inputPesquisa.style.border = "1px solid #ccc";
-
-    // Botão para fechar a barra de pesquisa
-    const botaoFechar = document.createElement("button");
-    botaoFechar.textContent = "Fechar";
-    botaoFechar.style.marginTop = "10px";
-    botaoFechar.style.padding = "8px";
-    botaoFechar.style.backgroundColor = "#2196F3";
-    botaoFechar.style.color = "white";
-    botaoFechar.style.border = "none";
-    botaoFechar.style.borderRadius = "4px";
-    botaoFechar.style.cursor = "pointer";
-
-    // Adiciona os elementos à barra de pesquisa
-    barraPesquisa.appendChild(inputPesquisa);
-    barraPesquisa.appendChild(botaoFechar);
-    document.body.appendChild(barraPesquisa);
-
-    // Evento de clique no botão "Pesquisar"
-    botaoPesquisar.addEventListener("click", function() {
-      barraPesquisa.style.display = "block"; // Mostra a barra de pesquisa
-    });
-
-    // Evento de clique no botão "Fechar"
-    botaoFechar.addEventListener("click", function() {
-      barraPesquisa.style.display = "none"; // Oculta a barra de pesquisa
-    });
-  });
-</script>
 
   <script src="js/carregar-menu.js"></script>
-
+  <script src="js/js_emitir_nf.js"></script>
 </body>
 </html>
