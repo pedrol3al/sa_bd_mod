@@ -20,34 +20,37 @@
 
         <section class = "conteudo">   
 		<header>
-			<h1 class = "titulo">CONSERTA TECH</h1>
-            <h2 class = "sair"><I>Sair</I><h2>
-            <h2 class = "fechar"><I>Fechar o app</I></h2>
-            <h2 class = "bem_vindo">Bem-Vindo(a)</h2>
-            
-            <img src = "img/logout.png" title = "sair" class = "img_sair">
-            <img src = "img/sair.png" title = "fechar" class = "img_fechar">
-		</header>
+			<h1 class="titulo">CONSERTA TECH</h1>
+<h2 class="bem_vindo">Welcome</h2>
 
-        <div class="quadrado1">
-            <h2 class="titulo_quadrado"> O.S. Abertas</h2>
-            <h1 class="num_quadrado" id="num_quadrado1"> 2</h1>
-        </div>
+<button class="sair" title="log out">
+  <img src="img/logout.png" alt="Log out">
+</button>
 
-        <div class="quadrado2">
-            <h2 class="titulo_quadrado"> Contas a receber hoje</h2>
-            <h1 class="num_quadrado" id="num_quadrado2"> 1.445,50</h1>
-        </div>
+<button class="fechar" title="close">
+  <img src="img/sair.png" alt="Close">
+</button>
+</header>
 
-        <div class="quadrado3">
-            <h2 class="titulo_quadrado"> Contas a pagar hoje</h2>
-            <h1 class="num_quadrado" id="num_quadrado3"> 487,00</h1>
-        </div>
+<div class="quadrado1">
+  <h2 class="titulo_quadrado">Open Work Orders</h2>
+  <h1 class="num_quadrado" id="num_quadrado1">2</h1>
+</div>
 
-        <div class = "retangulo">
-            <h2 class="titulo_quadrado"> Fluxo mensal de Caixa</h2>
-            <canvas id="graficoFluxo" width="400" height="200"></canvas>
-        </div>
+<div class="quadrado2">
+  <h2 class="titulo_quadrado">Receivables Today</h2>
+  <h1 class="num_quadrado" id="num_quadrado2">1,445.50</h1>
+</div>
+
+<div class="quadrado3">
+  <h2 class="titulo_quadrado">Payables Today</h2>
+  <h1 class="num_quadrado" id="num_quadrado3">487.00</h1>
+</div>
+
+<div class="retangulo">
+  <h2 class="titulo_quadrado">Monthly Cash Flow</h2>
+  <canvas id="graficoFluxo" width="400" height="200"></canvas>
+</div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         
@@ -79,7 +82,7 @@
                    
 </section>
 
-<script src="js/carregar-menu.js"></script> 
+<script src="js/carregar-menu-ig.js"></script> 
 </body>
           
 </html>
