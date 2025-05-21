@@ -1,4 +1,3 @@
-// Dados iniciais
 if (!localStorage.getItem("usuarios")) {
     const dadosIniciais = [
       { usuario: "joao123", email: "joao@example.com", senha: "senha123" },
@@ -39,8 +38,8 @@ if (!localStorage.getItem("usuarios")) {
     const s = document.getElementById("senha")?.value        || "";
     const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
     if (usuarios.find(x => x.usuario===u && x.senha===s)) {
-      window.location.href = "main.html";
-    } else exibirMensagem("Usuário ou senha incorretos.");
+      window.location.href = "main-ig.html";
+    } else exibirMensagem("Incorrect username or password.");
   }
   
   // RECUPERAR: grava e‑mail que veio da verificação
@@ -49,7 +48,7 @@ if (!localStorage.getItem("usuarios")) {
     const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
     if (usuarios.find(x => x.email === email)) {
       localStorage.setItem("recoveryEmail", email);
-      window.location.href = "at-senha-estilo.html";
+      window.location.href = "at-senha-ig.html";
     } else exibirMensagem("E-mail não encontrado no sistema.");
   }
   
@@ -60,13 +59,13 @@ if (!localStorage.getItem("usuarios")) {
     const senha = document.getElementById("senhaantiga")?.value || "";
   
     if (!nova || nova !== conf) {
-      exibirMensagem("As senhas não coincidem.");
+      exibirMensagem("Passwords do not match.");
       return;
     }
   
     const email = localStorage.getItem("recoveryEmail");
     if (!email) {
-      exibirMensagem("Erro interno. Tente recuperar de novo.");
+      exibirMensagem("Internal error. Please try to recover again.");
       return;
     }
   
@@ -74,12 +73,12 @@ if (!localStorage.getItem("usuarios")) {
     const usuario = usuarios.find(u => u.email === email);
   
     if (!usuario) {
-      exibirMensagem("Usuário não encontrado.");
+      exibirMensagem("User not found.");
       return;
     }
   
     if (nova === senha) {
-      exibirMensagem("A nova senha não pode ser igual à atual.");
+      exibirMensagem("The new password cannot be the same as the current one.");
       return;
     }
   
@@ -89,8 +88,8 @@ if (!localStorage.getItem("usuarios")) {
     });
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
     localStorage.removeItem("recoveryEmail");
-    exibirMensagem("Senha alterada com sucesso!", false);
+    exibirMensagem("Password changed successfully!", false);
   
-    setTimeout(() => window.location.href = "login-estilo.html", 1500);
+    setTimeout(() => window.location.href = "login-ig.html", 1500);
   }
   

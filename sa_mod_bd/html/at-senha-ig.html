@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Conserta Tech – Alterar Senha</title>
+  <title>Conserta Tech – Change Password</title>
   <link rel="stylesheet" href="css/estilo.css" />
 </head>
 <body>
@@ -13,29 +13,29 @@
 
   <main>
     <h1>Conserta Tech</h1>
-    <p>ALTERAR SENHA</p>
+    <p>CHANGE PASSWORD</p>
 
     <form onsubmit="event.preventDefault(); alterarSenha();" autocomplete="off">
-      <label for="novaSenha">Nova senha:</label>
+      <label for="novaSenha">New password:</label>
       <input id="novaSenha" name="novaSenha" type="password" autocomplete="new-password" required />
 
-      <label for="confirmarSenha">Digite novamente:</label>
+      <label for="confirmarSenha">Repeat password:</label>
       <input id="confirmarSenha" name="confirmarSenha" type="password" autocomplete="new-password" required />
 
-      <button type="submit" class="button">Salvar</button>
+      <button type="submit" class="button">Save</button>
     </form>
 
     <div id="mensagemErro" class="mensagem-erro"></div>
 
     <div class="footer">
       <select id="idioma">
-        <option value="pt">Português (BR)</option>
-        <option value="en">Inglês</option>
+        <option value="pt">Portuguese (BR)</option>
+        <option value="en" selected>English</option>
       </select>
-      <button-termos onclick="window.location.href='termos.html'" style="cursor: pointer;">Termos</button-termos>    
+      <button-termos onclick="window.location.href='termos.html'" style="cursor: pointer;">Terms</button-termos>
     </div>
   </main>
 
-  <script src="js/banco local.js"></script>
+  <script src="js/banco local-ig.js"></script>
 </body>
 </html>

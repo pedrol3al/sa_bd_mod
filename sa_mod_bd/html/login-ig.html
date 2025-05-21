@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,42 +7,43 @@
   <link rel="stylesheet" href="css/estilo.css" />
 </head>
 <body>
-  <button aria-label="Voltar" class="botao-embora" type="button">
-    <svg viewBox="0 0 24 24">
+  <button aria-label="Back" class="botao-embora" type="button">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
     </svg>
   </button>
 
   <main>
     <h1>Conserta Tech</h1>
-    <p>LOGAR</p>
+    <p>LOGIN</p>
 
     <form onsubmit="event.preventDefault(); fazerLogin();" autocomplete="off">
-      <label for="usuario">Usuário:</label>
+      <label for="usuario">Username:</label>
       <input id="usuario" name="usuario" type="text" autocomplete="username" required />
 
-      <label for="senha">Senha:</label>
+      <label for="senha">Password:</label>
       <input id="senha" name="senha" type="password" autocomplete="current-password" required />
 
-      <a href="esqueci minha senha-estilo.html" tabindex="0">Esqueci minha senha</a>
+      <a href="esqueci minha senha-ig.html">Forgot my password</a>
 
-      <button type="submit" class="button">Entrar</button>
+      <button type="submit" class="button">Sign In</button>
     </form>
 
-    <!-- Mensagem de erro (aparece se login falhar) -->
+    <!-- Error message (shows if login fails) -->
     <div id="mensagemErro" class="mensagem-erro" style="display: none;">
-      Usuário ou senha incorretos.
+      Incorrect username or password.
     </div>
 
     <div class="footer">
       <select id="idioma" name="idioma">
-        <option value="pt">Português (BR)</option>
-        <option value="en">Inglês</option>
+        <option value="en">English</option>
+        <option value="pt">Portuguese(BR)</option>
+        
       </select>
-      <button-termos onclick="window.location.href='termos.html'" style="cursor: pointer;">Termos</button>
+      <button type="button" onclick="window.location.href='termos-ig.html'" style="cursor: pointer;">Terms</button>
     </div>
   </main>
 
-  <script src="js/banco local.js"></script>
+  <script src="js/banco local-ig.js"></script>
 </body>
 </html>
