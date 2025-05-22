@@ -160,15 +160,9 @@ body {
   color: white;
 }
 
-.card.azul,
-.card-resumo.azul {
-  background-color: #007bff;
-  color: white;
-}
-
 .card.vermelho,
 .card-resumo.vermelho {
-  background-color: #dc3545;
+  background-color: #ff0707d5;
   color: white;
 }
 
