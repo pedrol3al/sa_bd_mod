@@ -129,9 +129,11 @@ function adicionarNovaLinha() {
     <td><input type="text" class="input-valor" placeholder="R$ 0,00" /></td>
     <td>
       <select class="input-status">
-      
+        
+        <option value="Pendente">Pendente</option>
         <option value="Concluído">Concluído</option>
         <option value="Atrasado">Atrasado</option>
+
       </select>
     </td>
     <td>
@@ -367,10 +369,12 @@ function carregarTabelaDoStorage() {
       <td><input type="date" class="input-vencimento" value="${item.vencimento}" disabled /></td>
       <td><input type="text" class="input-valor" value="${item.valor}" disabled /></td>
       <td>
-        <select class="input-status" disabled>
-          <option value="Concluído" ${item.status === "Concluído" ? "selected" : ""}>Concluído</option>
-          <option value="Atrasado" ${item.status === "Atrasado" ? "selected" : ""}>Atrasado</option>
-        </select>
+       <select class="input-status" disabled>
+  <option value="Pendente" ${item.status === "Pendente" ? "selected" : ""}>Pendente</option>
+  <option value="Concluído" ${item.status === "Concluído" ? "selected" : ""}>Concluído</option>
+  <option value="Atrasado" ${item.status === "Atrasado" ? "selected" : ""}>Atrasado</option>
+</select>
+
       </td>
       <td>
         <button class="botao-salvar-linha" title="Editar" onclick="ativarEdicao(this)"><i class="bi bi-pencil"></i></button>
@@ -412,15 +416,17 @@ function aplicarEstiloStatus() {
     const aplicarCor = () => {
       select.classList.remove('status-concluido', 'status-pendente', 'status-atrasado');
 
-      switch (select.value) {
-        case 'Concluído':
-          select.classList.add('status-concluido');
-          break;
-       
-        case 'Atrasado':
-          select.classList.add('status-atrasado');
-          break;
-      }
+     switch (select.value) {
+  case 'Concluído':
+    select.classList.add('status-concluido');
+    break;
+  case 'Atrasado':
+    select.classList.add('status-atrasado');
+    break;
+  case 'Pendente':
+    select.classList.add('status-pendente');
+    break;
+}
     };
 
     aplicarCor(); // Aplica ao carregar
@@ -447,48 +453,34 @@ window.addEventListener("load", () => {
   aplicarEstiloStatus();
 });
 function atualizarCards() {
-  const valorPagarHoje = document.querySelectorAll('.valor')[0];
-  const valorGastoSemanal = document.querySelectorAll('.valor')[1];
-  const valorAPagar = document.querySelectorAll('.valor')[2];
+  const valorReceberHoje = document.querySelectorAll('.valor')[0];
+  const valorTotalReceber = document.querySelectorAll('.valor')[1];
+  const valorTotalRecebido = document.querySelectorAll('.valor')[2];
 
   const dados = JSON.parse(localStorage.getItem("servicos")) || [];
 
-  const hoje = new Date().toISOString().split('T')[0];
-  const agora = new Date();
-  
-  function obterInicioSemana(data) {
-    const diaSemana = data.getDay(); // 0=Domingo, 1=Segunda...
-    const diferenca = diaSemana === 0 ? -6 : 1 - diaSemana;
-    const inicio = new Date(data);
-    inicio.setDate(data.getDate() + diferenca);
-    inicio.setHours(0, 0, 0, 0);
-    return inicio;
-  }
+  const hoje = new Date();
+  const hojeStr = hoje.toISOString().split('T')[0];  // "YYYY-MM-DD"
 
-  const inicioSemana = obterInicioSemana(agora);
-  const fimSemana = new Date(inicioSemana);
-  fimSemana.setDate(inicioSemana.getDate() + 6);
-
-  let totalPagarHoje = 0;
-  let totalGastoSemanal = 0;
-  let totalAPagar = 0;
+  let totalReceberHoje = 0;
+  let totalReceber = 0;
+  let totalRecebido = 0;
 
   dados.forEach(servico => {
-    const dataVenc = servico.vencimento;
+    const dataVenc = formatarDataParaComparacao(servico.vencimento);
     const valor = parseFloat(servico.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
     const status = servico.status;
 
-    const dataObj = new Date(dataVenc);
+    if (status === 'Pendente') {
+      totalReceber += valor;
 
-    if (dataObj >= inicioSemana && dataObj <= fimSemana) {
-      totalGastoSemanal += valor;
+      if (dataVenc === hojeStr) {
+        totalReceberHoje += valor;
+      }
     }
 
-    if (status === 'Atrasado') {
-      totalAPagar += valor;
-      if (dataVenc === hoje) {
-        totalPagarHoje += valor;
-      }
+    if (status === 'Concluído') {
+      totalRecebido += valor;
     }
   });
 
@@ -496,9 +488,18 @@ function atualizarCards() {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
-  valorPagarHoje.textContent = formatarMoeda(totalPagarHoje);
-  valorGastoSemanal.textContent = formatarMoeda(totalGastoSemanal);
-  valorAPagar.textContent = formatarMoeda(totalAPagar);
+  valorReceberHoje.textContent = formatarMoeda(totalReceberHoje);
+  valorTotalReceber.textContent = formatarMoeda(totalReceber);
+  valorTotalRecebido.textContent = formatarMoeda(totalRecebido);
+}
+
+function formatarDataParaComparacao(dataStr) {
+  // Suporta "DD/MM/AAAA" ou "YYYY-MM-DD"
+  if (dataStr.includes('/')) {
+    const [dia, mes, ano] = dataStr.split('/');
+    return `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+  }
+  return dataStr; // Já está no formato esperado
 }
 
 window.addEventListener("load", () => {
