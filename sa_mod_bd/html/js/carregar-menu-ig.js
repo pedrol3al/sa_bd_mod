@@ -8,37 +8,37 @@ async function carregarMenuLateral() {
   <div class="top-menu">
     <ul>
       <li class="item-menu">
-        <a href="main.html" class="menu-link">
+        <a href="main-ig.html" class="menu-link">
           <span class="icon"><i class="bi bi-house-door"></i></span>
           <span class="txt-link">Home</span>
         </a>
       </li>
       <li class="item-menu">
-        <a href="agenda.html" class="menu-link">
+        <a href="agenda-ig.html" class="menu-link">
           <span class="icon"><i class="bi bi-calendar"></i></span>
           <span class="txt-link">Schedule</span>
         </a>
       </li>
       <li class="item-menu">
-        <a href="cliente.html" class="menu-link">
+        <a href="cliente-ig.html" class="menu-link">
           <span class="icon"><i class="bi bi-person-fill"></i></span>
           <span class="txt-link">Register Client</span>
         </a>
       </li>
       <li class="item-menu">
-        <a href="usuario.html" class="menu-link">
+        <a href="usuario-ig.html" class="menu-link">
           <span class="icon"><i class="bi bi-person-circle"></i></span>
           <span class="txt-link">Register User</span>
         </a>
       </li>
       <li class="item-menu">
-        <a href="fornecedor.html" class="menu-link">
+        <a href="fornecedor-ig.html" class="menu-link">
           <span class="icon"><i class="bi bi-truck"></i></span>
           <span class="txt-link">Register Supplier</span>
         </a>
       </li>
       <li class="item-menu">
-        <a href="estoque_cad.html" class="menu-link">
+        <a href="estoque_cad-ig.html" class="menu-link">
           <span class="icon"><i class="bi bi-box-seam"></i></span>
           <span class="txt-link">Inventory</span>
         </a>
@@ -49,12 +49,12 @@ async function carregarMenuLateral() {
           <span class="txt-link">Budget <i class="bi bi-chevron-down"></i></span>
         </a>
         <div id="sub-orcamento" class="sub-menu" style="display: none;">
-          <a href="financas.html"><i class="bi bi-circle-fill"></i> Finances</a>
+          <a href="financas-ig.html"><i class="bi bi-circle-fill"></i> Finances</a>
           <a href="emitir_nf.html"><i class="bi bi-circle-fill"></i> Issue Invoice</a>
         </div>
       </li>
       <li class="item-menu">
-        <a href="os.html" class="menu-link">
+        <a href="os-og.html" class="menu-link">
           <span class="icon"><i class="bi bi-tools"></i></span>
           <span class="txt-link">Work Orders</span>
         </a>
