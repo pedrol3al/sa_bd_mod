@@ -78,7 +78,6 @@ body {
   top: 0;
   left: 300px;
   width: calc(100% - 300px);
-  background-color: #f5f5f5;
   z-index: 1000;
   padding: 20px 0;
 }
