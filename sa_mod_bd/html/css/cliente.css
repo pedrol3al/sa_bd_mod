@@ -279,3 +279,6 @@ button.sair {
   right: 70px;
   z-index: 999;
 }
+.campo-vazio {
+  border: 2px solid red;
+}
