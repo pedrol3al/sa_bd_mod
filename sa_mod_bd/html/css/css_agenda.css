@@ -1,314 +1,348 @@
+/* Define a aparência geral do corpo da página */
 body {
-    font-family: sans-serif;
-    background: #f5f5f5;
-    display: flex;
-    padding-top: 40px;
-  }
+  font-family: sans-serif; /* Fonte padrão sem serifa */
+  background: #f5f5f5; /* Cor de fundo clara */
+  display: flex; /* Usa Flexbox para layout */
+  padding-top: 40px; /* Espaçamento no topo */
+}
 
-  h1 {
-    color: rgb(0, 0, 58);
-    font-family: "Roboto", sans-serif;
-    font-size: 36px;
-    position: fixed;
-    top: 30px;
-    left: 270px;  
-  }
+/* Estilização do título principal */
+h1 {
+  color: rgb(0, 0, 58); /* Cor azul escura */
+  font-family: "Roboto", sans-serif; /* Fonte Roboto com fallback sans-serif */
+  font-size: 36px; /* Tamanho grande */
+  position: fixed; /* Fixa no topo da tela */
+  top: 30px;
+  left: 270px;  
+}
 
-  * {
-    box-sizing: border-box;
-  }
+/* Define que todas as caixas incluirão padding e borda no cálculo do tamanho */
+* {
+  box-sizing: border-box;
+}
 
-  .pesquisa {
-    color: rgb(0, 0, 58);
-    font-family: "Roboto", sans-serif;
-    font-size: 36px;
-    position: fixed;
-    top: 545px;
-    left: 270px;  
-  }
-  
-  .calendario {
-    background: white;
-    padding: 20px;
-    box-shadow: 0 0 10px #ccc;
-    width: 80%;
-    position: fixed;
-    top: 75px;
-    left: 270px;  
-  }
-  
-  .cabecalho {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .cabecalho button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 12px;
-    border-radius: 6px;
-  }
-  
-  .dias-semana, .dias {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-  }
-  
-  .dias-semana div {
-    font-weight: bold;
-    padding: 8px 0;
-  }
-  
-  .dias div {
-    padding: 10px 0;
-    margin: 2px;
-  }
-  
-  .vazio {
-    visibility: hidden;
-  }
-  
-  .formulario {
-    background: white;
-    padding: 20px;
-    box-shadow: 0 0 10px #ccc;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 80%;
-    position: fixed;
-    top: 590px;
-    left: 270px;
-  }
-  
-  .linha {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
-  }
-  
-  /* RÓTULOS */
-  label {
-    font-weight: bold;
-    font-size: 14px;
-    color: #002B5C;
-    min-width: 70px;
-    display: block;
-    margin-bottom: 5px;
-  }
+/* Estilo para o texto "Pesquisa" */
+.pesquisa {
+  color: rgb(0, 0, 58);
+  font-family: "Roboto", sans-serif;
+  font-size: 36px;
+  position: fixed;
+  top: 545px;
+  left: 270px;  
+}
 
-  .label_modal {
-    margin-left: -80px;
-    flex-direction: column;
-    margin-bottom: 20px;
-  }
-  
-  /* CAMPOS */
-  input[type="text"],
-  input[type="date"],
-  select {
-    border: 1px dotted #002B5C;
-    background-color: #F2F2F2;
-    padding: 5px;
-    font-size: 14px;
-    flex: 1;
-    width: 100%;
-  }
+/* Estilo da área principal do calendário */
+.calendario {
+  background: white;
+  padding: 20px;
+  box-shadow: 0 0 10px #ccc; /* Sombra suave */
+  width: 80%;
+  position: fixed;
+  top: 75px;
+  left: 270px;  
+}
 
-  .botoes {
-    margin-top: 25px;
-    display: flex;
-    gap: 200px;
-    position: fixed;
-    top: 650px;
-    left: 760px;
-  }
-  
-  button {
-    padding: 10px 25px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: bold;
-    border-radius: 4px;
-  }
+/* Cabeçalho com navegação entre meses */
+.cabecalho {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
 
-  
-  
-  .pesquisar {
-    background-color: #4caf50;
-  }
+/* Botões do cabeçalho */
+.cabecalho button {
+  background: #007bff; /* Azul */
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 6px;
+}
 
-  .salvar {
-    background-color: #4caf50;
-  }
-  
-  .novo {
-    background-color: #2196f3;
-  }
+/* Layout em grade para dias da semana e dias do mês */
+.dias-semana, .dias {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 colunas iguais */
+  text-align: center;
+}
 
-  #modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-  }
-  
-  .modal-conteudo {
-    background-color: #fff;
-    padding: 20px 24px;
-    border-radius: 8px;
-    width: 400px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .modal-conteudo label {
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .modal-conteudo input,
-  .modal-conteudo textarea {
-    width: 100%;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
-  }
-  
-  #dataSelecionada {
-    font-size: 14px;
-    color: #555;
-    margin-top: 8px;
-  }
-  
-  .botoes-modal {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 16px;
-  }
-  
-  .botoes-modal button {
-    padding: 8px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    margin-bottom: 20px;
+/* Cabeçalho dos dias da semana */
+.dias-semana div {
+  font-weight: bold;
+  padding: 8px 0;
+}
 
-  }
-  
-  .botoes-modal .salvar {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .botoes-modal .fechar-agenda {
-    background-color: #f44336;
-    color: white;
-    margin-bottom: 20px;
-  }
+/* Células dos dias do mês */
+.dias div {
+  padding: 10px 0;
+  margin: 2px;
+}
 
-  .form_data {
-    position:absolute;
-    top: 100px;
-    left: 20px;
-  }
+/* Oculta os dias "vazios" (sem número) */
+.vazio {
+  visibility: hidden;
+}
 
-  .fade {
-    animation: fadeIn 0.4s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* Estilo da área do formulário de eventos */
+.formulario {
+  background: white;
+  padding: 20px;
+  box-shadow: 0 0 10px #ccc;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 80%;
+  position: fixed;
+  top: 590px;
+  left: 270px;
+}
 
-  .dia.selecionado {
-    background-color: #353f6e46;
-    color: white;
-  }
+/* Organização de inputs em linha */
+.linha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
 
-  .descricao-evento {
-    font-size: 10px;
-    color: #333;
-    background-color: #f3f3f3;
-    padding: 2px 4px;
-    border-radius: 4px;
-    display: block;
-    margin-top: 4px;
-  }
+/* Estilo geral dos rótulos */
+label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #002B5C;
+  min-width: 70px;
+  display: block;
+  margin-bottom: 5px;
+}
 
-  input::placeholder {
-    color: #888; /* tom acinzentado, opaco */
-    opacity: 0.6;
-  }
+/* Ajustes específicos para labels em modal */
+.label_modal {
+  margin-left: -80px;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
 
-  .evento-barra {
-    width: 80%;
-    height: 5px;
-    background-color: #007bff;
-    margin: 4px auto 0;
-    border-radius: 3px;
-  }
+/* Campos de entrada de texto, data e select */
+input[type="text"],
+input[type="date"],
+select {
+  border: 1px dotted #002B5C;
+  background-color: #F2F2F2;
+  padding: 5px;
+  font-size: 14px;
+  flex: 1;
+  width: 100%;
+}
 
-  .dia.evento {
-    border: 2px solid #007bff;
-    border-radius: 6px;
-  }
-  button.sair, button.fechar {
-    background: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-  
-  /* Estilo da imagem dentro do botão */
-  button.sair img, button.fechar img {
-    width: 40px;
-    height: 40px;
-    transition: transform 0.2s ease, filter 0.2s ease;
-  }
-  
-  /* Efeito ao passar o mouse */
-  button.sair:hover img, button.fechar:hover img {
-    transform: scale(1.1);
-    filter: brightness(1.2);
-  }
-  
-  /* Deixar o botão flutuante no canto superior direito */
-  button.fechar {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 999;
-  }
-  
-  /* Se quiser que o botão "sair" também fique flutuante */
-  button.sair {
-    position: fixed;
-    top: 20px;
-    right: 70px; /* afastado do botão fechar */
-    z-index: 999;
-  } 
+/* Container dos botões de ação */
+.botoes {
+  margin-top: 25px;
+  display: flex;
+  gap: 200px;
+  position: fixed;
+  top: 650px;
+  left: 760px;
+}
+
+/* Estilo padrão dos botões */
+button {
+  padding: 10px 25px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+/* Botão de pesquisa */
+.pesquisar {
+  background-color: #4caf50; /* Verde */
+}
+
+/* Botão de salvar */
+.salvar {
+  background-color: #4caf50;
+}
+
+/* Botão de novo evento */
+.novo {
+  background-color: #2196f3; /* Azul */
+}
+
+/* Modal que cobre a tela toda */
+#modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fundo escurecido */
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Conteúdo central do modal */
+.modal-conteudo {
+  background-color: #fff;
+  padding: 20px 24px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Rótulos dentro do modal */
+.modal-conteudo label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Inputs e textarea no modal */
+.modal-conteudo input,
+.modal-conteudo textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical; /* Pode redimensionar na vertical */
+}
+
+/* Texto com data selecionada no modal */
+#dataSelecionada {
+  font-size: 14px;
+  color: #555;
+  margin-top: 8px;
+}
+
+/* Botões no rodapé do modal */
+.botoes-modal {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* Botões dentro do modal */
+.botoes-modal button {
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+/* Botão salvar no modal */
+.botoes-modal .salvar {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Botão fechar o modal */
+.botoes-modal .fechar-agenda {
+  background-color: #f44336;
+  color: white;
+  margin-bottom: 20px;
+}
+
+/* Data visível fora do calendário */
+.form_data {
+  position: absolute;
+  top: 100px;
+  left: 20px;
+}
+
+/* Animação de transição de aparecimento */
+.fade {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dia do calendário selecionado */
+.dia.selecionado {
+  background-color: #353f6e46;
+  color: white;
+}
+
+/* Texto com descrição do evento dentro do calendário */
+.descricao-evento {
+  font-size: 10px;
+  color: #333;
+  background-color: #f3f3f3;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: block;
+  margin-top: 4px;
+}
+
+/* Placeholder (texto dentro de input) com aparência suave */
+input::placeholder {
+  color: #888;
+  opacity: 0.6;
+}
+
+/* Barra azul que aparece em dias com evento */
+.evento-barra {
+  width: 80%;
+  height: 5px;
+  background-color: #007bff;
+  margin: 4px auto 0;
+  border-radius: 3px;
+}
+
+/* Destaque em dias com evento */
+.dia.evento {
+  border: 2px solid #007bff;
+  border-radius: 6px;
+}
+
+/* Botões de sair e fechar com imagem */
+button.sair, button.fechar {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Imagens dentro dos botões de sair/fechar */
+button.sair img, button.fechar img {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Efeito hover na imagem dos botões */
+button.sair:hover img, button.fechar:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+/* Posição do botão de fechar no canto superior direito */
+button.fechar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+/* Posição do botão sair ao lado do fechar */
+button.sair {
+  position: fixed;
+  top: 20px;
+  right: 70px;
+  z-index: 999;
+}
