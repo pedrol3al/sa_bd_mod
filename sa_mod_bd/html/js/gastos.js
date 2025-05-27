@@ -1,17 +1,22 @@
+// Função para aplicar máscara de moeda nos campos com a classe 'input-valor'
 function aplicarMascaraValor() {
   const campos = document.querySelectorAll('.input-valor');
 
   campos.forEach(campo => {
+    // Adiciona evento ao digitar no campo
     campo.addEventListener('input', function (e) {
       let valor = e.target.value;
 
+      // Remove tudo que não for número
       valor = valor.replace(/\D/g, '');
 
+      // Se estiver vazio, define valor padrão
       if (valor === '') {
         e.target.value = 'R$ 0,00';
         return;
       }
 
+      // Converte número para formato decimal e aplica formatação brasileira
       valor = (parseInt(valor, 10) / 100).toFixed(2);
       valor = valor.replace('.', ',');
       valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -19,12 +24,14 @@ function aplicarMascaraValor() {
       e.target.value = 'R$ ' + valor;
     });
 
+    // Define valor inicial caso campo esteja vazio
     if (!campo.value) {
       campo.value = 'R$ 0,00';
     }
   });
 }
 
+// Função para exibir mensagem temporária (tipo toast)
 function mostrarMensagem(mensagem, cor = "#4CAF50") {
   const div = document.createElement("div");
   div.textContent = mensagem;
@@ -41,6 +48,7 @@ function mostrarMensagem(mensagem, cor = "#4CAF50") {
   setTimeout(() => div.remove(), 3000);
 }
 
+// Evento que navega entre os campos da mesma linha com Enter
 document.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     const atual = e.target;
@@ -58,6 +66,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+// Configura o botão de remover linha com confirmação via modal
 function configurarBotaoRemover(botao, linha) {
   botao.addEventListener("click", () => {
     const modal = document.getElementById("modal-confirmacao");
@@ -66,6 +75,7 @@ function configurarBotaoRemover(botao, linha) {
 
     modal.classList.remove("hidden");
 
+    // Função chamada ao confirmar remoção
     const aoClicarSim = () => {
       linha.remove();
       salvarTodasAlteracoes(true);
@@ -73,10 +83,12 @@ function configurarBotaoRemover(botao, linha) {
       fecharModal();
     };
 
+    // Função chamada ao cancelar
     const aoClicarNao = () => {
       fecharModal();
     };
 
+    // Fecha o modal e remove os event listeners
     function fecharModal() {
       modal.classList.add("hidden");
       btnSim.removeEventListener("click", aoClicarSim);
@@ -88,6 +100,7 @@ function configurarBotaoRemover(botao, linha) {
   });
 }
 
+// Valida campo de OS permitindo apenas números
 function validarInputOS(input) {
   input.addEventListener('keypress', function(event) {
     if (!/[0-9]/.test(event.key)) {
@@ -96,6 +109,7 @@ function validarInputOS(input) {
   });
 }
 
+// Valida campo de cliente permitindo apenas letras e acentos
 function validarInputCliente(input) {
   input.addEventListener('keypress', function(event) {
     if (!/[a-zA-ZÀ-ÿ\s]/.test(event.key)) {
@@ -104,20 +118,22 @@ function validarInputCliente(input) {
   });
 }
 
+// Adiciona uma nova linha editável na tabela
 function adicionarNovaLinha() {
   const tabela = document.getElementById("corpo-tabela");
   const novaLinha = document.createElement("tr");
 
+  // HTML da nova linha com campos e botões
   novaLinha.innerHTML = `
-    <td><input type="number" class="input-os" placeholder="Nº OS" onwheel="return false;" /></td>
+    <td><input type="number" class="input-os" placeholder="Nº Fornecedor" onwheel="return false;" /></td>
     <td><input type="text" class="input-cliente" placeholder="Nome do Cliente" /></td>
-    <td><input type="text" class="input-descricao" placeholder="Descrição do Serviço" /></td>
+    <td><input type="text" class="input-descricao" placeholder="Descrição do produto" /></td>
     <td><input type="date" class="input-vencimento" /></td>
     <td><input type="text" class="input-valor" placeholder="R$ 0,00" /></td>
     <td>
       <select class="input-status">
-        <option value="Concluído">Concluído</option>
-        <option value="Atrasado">Atrasado</option>
+        <option value="pago">Pago</option>
+        <option value="apagar">Á Pagar</option>
       </select>
     </td>
     <td>
@@ -135,6 +151,7 @@ function adicionarNovaLinha() {
   aplicarEstiloStatus();
 }
 
+// Valida se uma string está em formato de data válida
 function validarData(dataStr) {
   if (!dataStr) return false;
   const partes = dataStr.split("-");
@@ -148,6 +165,7 @@ function validarData(dataStr) {
   return (data.getFullYear() === ano && data.getMonth() === mes - 1 && data.getDate() === dia);
 }
 
+// Salva todas as alterações das linhas da tabela
 function salvarTodasAlteracoes(isExclusao = false) {
   const linhas = document.querySelectorAll("#corpo-tabela tr");
   const dados = [];
@@ -169,6 +187,7 @@ function salvarTodasAlteracoes(isExclusao = false) {
 
     let camposInvalidos = false;
 
+    // Valida campos obrigatórios
     if (!os) {
       linha.querySelector(".input-os").classList.add("campo-invalido");
       camposInvalidos = true;
@@ -190,6 +209,7 @@ function salvarTodasAlteracoes(isExclusao = false) {
       camposInvalidos = true;
     }
 
+    // Verifica duplicidade de OS
     if (osMap.has(os)) {
       valido = false;
       osDuplicadas = true;
@@ -220,8 +240,10 @@ function salvarTodasAlteracoes(isExclusao = false) {
   }
 
   bloquearEdicaoTodasLinhas();
+  atualizarCards();
 }
 
+// Bloqueia a edição de todas as linhas
 function bloquearEdicaoTodasLinhas() {
   const linhas = document.querySelectorAll("#corpo-tabela tr");
   linhas.forEach(linha => {
@@ -235,11 +257,13 @@ function bloquearEdicaoTodasLinhas() {
   });
 }
 
+// Carrega os dados da tabela a partir do localStorage
 function carregarTabelaDoStorage() {
   let dados = JSON.parse(localStorage.getItem("servicos")) || [];
 
+  // Ordena primeiro por status e depois por data
   dados.sort((a, b) => {
-    const statusOrder = { "Atrasado": 0, "Concluído": 1 };
+    const statusOrder = { "apagar": 0, "pago": 1 };
     const dataA = new Date(a.vencimento);
     const dataB = new Date(b.vencimento);
     if (statusOrder[a.status] !== statusOrder[b.status]) {
@@ -252,6 +276,7 @@ function carregarTabelaDoStorage() {
   const tabela = document.getElementById("corpo-tabela");
   tabela.innerHTML = "";
 
+  // Cria as linhas da tabela com os dados salvos
   dados.forEach(item => {
     const linha = document.createElement("tr");
 
@@ -263,8 +288,8 @@ function carregarTabelaDoStorage() {
       <td><input type="text" class="input-valor" value="${item.valor}" disabled /></td>
       <td>
         <select class="input-status" disabled>
-          <option value="Concluído" ${item.status === "Concluído" ? "selected" : ""}>Concluído</option>
-          <option value="Atrasado" ${item.status === "Atrasado" ? "selected" : ""}>Atrasado</option>
+          <option value="pago" ${item.status === "pago" ? "selected" : ""}>Pago</option>
+          <option value="apagar" ${item.status === "apagar" ? "selected" : ""}>A pagar</option>
         </select>
       </td>
       <td>
@@ -283,6 +308,7 @@ function carregarTabelaDoStorage() {
   aplicarEstiloStatus();
 }
 
+// Ativa a edição da linha específica
 function ativarEdicao(botao) {
   const linha = botao.closest("tr");
   linha.querySelectorAll("input, select").forEach(input => input.disabled = false);
@@ -290,19 +316,19 @@ function ativarEdicao(botao) {
   botao.title = "Edição ativada - use o botão Salvar Alterações para salvar tudo";
 }
 
+// Aplica estilos visuais de acordo com o status
 function aplicarEstiloStatus() {
   const selects = document.querySelectorAll('.input-status');
 
   selects.forEach(select => {
     const aplicarCor = () => {
-      select.classList.remove('status-concluido', 'status-pendente', 'status-atrasado');
+      select.classList.remove('status-concluido', 'status-pendente', 'status-apagar');
       switch (select.value) {
-        case 'Concluído':
+        case 'pago':
           select.classList.add('status-concluido');
           break;
-       
-        case 'Atrasado':
-          select.classList.add('status-atrasado');
+        case 'apagar':
+          select.classList.add('status-apagar');
           break;
       }
     };
@@ -311,31 +337,36 @@ function aplicarEstiloStatus() {
   });
 }
 
+// Adiciona estilos CSS para os status visualmente
 const estilo = document.createElement('style');
 estilo.innerHTML = `
   .status-concluido { background-color: #28a745; color: #ffffff; font-weight: bold; }
   .status-pendente  { background-color: #ffc107; color: #212529; font-weight: bold; }
-  .status-atrasado  { background-color: #dc3545; color: #212529; font-weight: bold; }
+  .status-apagar  { background-color: #dc3545; color: #212529; font-weight: bold; }
 `;
 document.head.appendChild(estilo);
 
+// Evento onLoad da página: carrega dados e configura botões principais
 window.addEventListener("load", () => {
   carregarTabelaDoStorage();
   document.querySelector(".botao.salvar").addEventListener("click", () => salvarTodasAlteracoes());
   document.querySelector(".botao.novo").addEventListener("click", adicionarNovaLinha);
+  atualizarCards();
 });
+
+// Atualiza os valores dos cards com totais
 function atualizarCards() {
-  const valorPagarHoje = document.querySelectorAll('.valor')[0];
-  const valorGastoSemanal = document.querySelectorAll('.valor')[1];
-  const valorAPagar = document.querySelectorAll('.valor')[2];
+  const valorPagarHoje = document.getElementById('valor-pagar-hoje');
+  const valorGastoSemanal = document.getElementById('valor-total-pago');
+  const valorAPagar = document.getElementById('valor-a-pagar');
 
   const dados = JSON.parse(localStorage.getItem("servicos")) || [];
 
-  const hoje = new Date().toISOString().split('T')[0];
-  const agora = new Date();
-  
+  const hojeData = new Date();
+  hojeData.setHours(0, 0, 0, 0);
+
   function obterInicioSemana(data) {
-    const diaSemana = data.getDay(); // 0=Domingo, 1=Segunda...
+    const diaSemana = data.getDay();
     const diferenca = diaSemana === 0 ? -6 : 1 - diaSemana;
     const inicio = new Date(data);
     inicio.setDate(data.getDate() + diferenca);
@@ -343,7 +374,7 @@ function atualizarCards() {
     return inicio;
   }
 
-  const inicioSemana = obterInicioSemana(agora);
+  const inicioSemana = obterInicioSemana(hojeData);
   const fimSemana = new Date(inicioSemana);
   fimSemana.setDate(inicioSemana.getDate() + 6);
 
@@ -352,24 +383,26 @@ function atualizarCards() {
   let totalAPagar = 0;
 
   dados.forEach(servico => {
-    const dataVenc = servico.vencimento;
     const valor = parseFloat(servico.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
     const status = servico.status;
 
-    const dataObj = new Date(dataVenc);
+    const dataObj = new Date(servico.vencimento);
+    dataObj.setHours(0, 0, 0, 0);
 
-    if (dataObj >= inicioSemana && dataObj <= fimSemana) {
+    if (status === 'pago' && dataObj >= inicioSemana && dataObj <= fimSemana) {
       totalGastoSemanal += valor;
     }
 
-    if (status === 'Atrasado') {
-      totalAPagar += valor;
-      if (dataVenc === hoje) {
+    if (status === 'apagar') {
+      if (dataObj.getTime() === hojeData.getTime()) {
         totalPagarHoje += valor;
+      } else {
+        totalAPagar += valor;
       }
     }
   });
 
+  // Formata valor como moeda
   function formatarMoeda(valor) {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
@@ -379,6 +412,7 @@ function atualizarCards() {
   valorAPagar.textContent = formatarMoeda(totalAPagar);
 }
 
+// Atualiza os cards ao carregar a página
 window.addEventListener("load", () => {
   atualizarCards();
 });

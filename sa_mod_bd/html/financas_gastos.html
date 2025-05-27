@@ -38,24 +38,32 @@
   <main class="conteudo-principal">
     <!-- Resumo financeiro -->
     <section class="resumos">
-      <div class="card verde">
+      <div class="card azul">
         <div class="card-conteudo">
-          <i class="bi bi-calendar-plus"></i>
+          <i class="bi bi-hand-thumbs-up"></i>
           <div class="texto">
-            <span class="titulo-receber">Pagar hoje</span>
-            <span class="valor"></span>
+            <span class="titulo-receber">Total pago</span>
+            <span class="valor" id="valor-total-pago"></span>
           </div>
-        </div>
+        </div> 
       </div>
 
-     
-
-      <div class="card vermelho">
+      <div class="card verde">
         <div class="card-conteudo">
           <i class="bi bi-hand-thumbs-down"></i>
           <div class="texto">
             <span class="titulo-receber">A pagar</span>
-            <span class="valor"></span>
+            <span class="valor" id="valor-pagar-hoje"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card vermelho">
+        <div class="card-conteudo">
+          <i class="bi bi-calendar-plus"></i>
+          <div class="texto">
+            <span class="titulo-receber">A pagar hoje</span>
+            <span class="valor" id="valor-a-pagar"></span>
           </div>
         </div> 
       </div>

@@ -1,6 +1,3 @@
-// ========== [1. Variáveis Globais] ==========
-let clienteEmEdicao = null;
-const form = document.querySelector('form.formulario');
 
 // ========== [2. Máscaras para campos] ==========
 function setCursorPosition(pos, el) {
@@ -35,9 +32,12 @@ function mascaraGuia(input, mascara) {
           resultado += '0';
         }
       } else {
+        // Caso contrário, mantém o caractere da máscara (como pontos, traços, parênteses)
         resultado += mascara[i];
       }
     }
+
+    // Atualiza o valor do input com o texto formatado
     input.value = resultado;
 
     let firstZero = resultado.indexOf('0');
@@ -154,31 +154,7 @@ function preencherFormulario(cliente) {
   document.querySelector('#observacoes').value = cliente.observacoes || '';
 }
 
-function obterDadosFormulario() {
-  return {
-    codigo: document.getElementById('codigo').value,
-    codigoUsuario: document.getElementById('codigoUsuario').value,
-    nome: document.getElementById('nome').value,
-    cpf: document.getElementById('cpf').value,
-    rg: document.getElementById('rg').value,
-    data_nasc: document.getElementById('data_nasc').value,
-    sexo: document.getElementById('sexo').value,
-    endereco: document.getElementById('endereco').value,
-    num: document.getElementById('num').value,
-    tipo_cliente: document.getElementById('tipo_cliente').value,
-    complemento: document.getElementById('complemento').value,
-    bairro: document.getElementById('bairro').value,
-    uf: document.getElementById('uf').value,
-    cep: document.getElementById('cep').value,
-    cidade: document.getElementById('cidade').value,
-    telefone: document.getElementById('telefone').value,
-    celular: document.getElementById('celular').value,
-    email: document.getElementById('email').value,
-    data_cadastro: document.getElementById('data_cadastro').value,
-    observacoes: document.getElementById('observacoes').value,
-    ativo: true
-  };
-}
+
 
 function alternarModoEdicao(editando) {
   const botaoCadastrar = document.getElementById('bt_cadastrar');
