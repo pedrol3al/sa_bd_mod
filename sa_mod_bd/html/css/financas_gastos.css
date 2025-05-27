@@ -155,19 +155,19 @@ body {
 /* Cores dos cartões */
 .card.verde,
 .card-resumo.verde {
-  background-color: #28a745;
+  background-color: #990909;
   color: white;
 }
 
 .card.azul,
 .card-resumo.azul {
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
 }
 
 .card.vermelho,
 .card-resumo.vermelho {
-  background-color: #dc3545;
+  background-color: #2980b9;
   color: white;
 }
 
@@ -224,9 +224,13 @@ body {
   color: white;
 }
 
-.status.andamento { background-color: #f2a007; }
-.status.concluido { background-color: #0b8457; }
-.status.pendente {
+.status.andamento { 
+  background-color: #f2a007; 
+}
+.status.pago { 
+  background-color: #0b8457;
+}
+.status.apagar {
   background-color: #dc3545;
   border: 1px solid #b02a37;
 }

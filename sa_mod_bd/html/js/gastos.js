@@ -4,7 +4,6 @@ function aplicarMascaraValor() {
   campos.forEach(campo => {
     campo.addEventListener('input', function (e) {
       let valor = e.target.value;
-
       valor = valor.replace(/\D/g, '');
 
       if (valor === '') {
@@ -109,15 +108,15 @@ function adicionarNovaLinha() {
   const novaLinha = document.createElement("tr");
 
   novaLinha.innerHTML = `
-    <td><input type="number" class="input-os" placeholder="Nº OS" onwheel="return false;" /></td>
+    <td><input type="number" class="input-os" placeholder="Nº Fornecedor" onwheel="return false;" /></td>
     <td><input type="text" class="input-cliente" placeholder="Nome do Cliente" /></td>
-    <td><input type="text" class="input-descricao" placeholder="Descrição do Serviço" /></td>
+    <td><input type="text" class="input-descricao" placeholder="Descrição do produto" /></td>
     <td><input type="date" class="input-vencimento" /></td>
     <td><input type="text" class="input-valor" placeholder="R$ 0,00" /></td>
     <td>
       <select class="input-status">
-        <option value="Concluído">Concluído</option>
-        <option value="Atrasado">Atrasado</option>
+        <option value="pago">Pago</option>
+        <option value="apagar">Á Pagar</option>
       </select>
     </td>
     <td>
@@ -220,6 +219,7 @@ function salvarTodasAlteracoes(isExclusao = false) {
   }
 
   bloquearEdicaoTodasLinhas();
+  atualizarCards();
 }
 
 function bloquearEdicaoTodasLinhas() {
@@ -239,7 +239,7 @@ function carregarTabelaDoStorage() {
   let dados = JSON.parse(localStorage.getItem("servicos")) || [];
 
   dados.sort((a, b) => {
-    const statusOrder = { "Atrasado": 0, "Concluído": 1 };
+    const statusOrder = { "apagar": 0, "pago": 1 };
     const dataA = new Date(a.vencimento);
     const dataB = new Date(b.vencimento);
     if (statusOrder[a.status] !== statusOrder[b.status]) {
@@ -263,8 +263,8 @@ function carregarTabelaDoStorage() {
       <td><input type="text" class="input-valor" value="${item.valor}" disabled /></td>
       <td>
         <select class="input-status" disabled>
-          <option value="Concluído" ${item.status === "Concluído" ? "selected" : ""}>Concluído</option>
-          <option value="Atrasado" ${item.status === "Atrasado" ? "selected" : ""}>Atrasado</option>
+          <option value="pago" ${item.status === "pago" ? "selected" : ""}>Pago</option>
+          <option value="apagar" ${item.status === "apagar" ? "selected" : ""}>A pagar</option>
         </select>
       </td>
       <td>
@@ -295,14 +295,13 @@ function aplicarEstiloStatus() {
 
   selects.forEach(select => {
     const aplicarCor = () => {
-      select.classList.remove('status-concluido', 'status-pendente', 'status-atrasado');
+      select.classList.remove('status-concluido', 'status-pendente', 'status-apagar');
       switch (select.value) {
-        case 'Concluído':
+        case 'pago':
           select.classList.add('status-concluido');
           break;
-       
-        case 'Atrasado':
-          select.classList.add('status-atrasado');
+        case 'apagar':
+          select.classList.add('status-apagar');
           break;
       }
     };
@@ -315,7 +314,7 @@ const estilo = document.createElement('style');
 estilo.innerHTML = `
   .status-concluido { background-color: #28a745; color: #ffffff; font-weight: bold; }
   .status-pendente  { background-color: #ffc107; color: #212529; font-weight: bold; }
-  .status-atrasado  { background-color: #dc3545; color: #212529; font-weight: bold; }
+  .status-apagar  { background-color: #dc3545; color: #212529; font-weight: bold; }
 `;
 document.head.appendChild(estilo);
 
@@ -323,19 +322,21 @@ window.addEventListener("load", () => {
   carregarTabelaDoStorage();
   document.querySelector(".botao.salvar").addEventListener("click", () => salvarTodasAlteracoes());
   document.querySelector(".botao.novo").addEventListener("click", adicionarNovaLinha);
+  atualizarCards();
 });
+
 function atualizarCards() {
-  const valorPagarHoje = document.querySelectorAll('.valor')[0];
-  const valorGastoSemanal = document.querySelectorAll('.valor')[1];
-  const valorAPagar = document.querySelectorAll('.valor')[2];
+  const valorPagarHoje = document.getElementById('valor-pagar-hoje');
+  const valorGastoSemanal = document.getElementById('valor-total-pago');
+  const valorAPagar = document.getElementById('valor-a-pagar');
 
   const dados = JSON.parse(localStorage.getItem("servicos")) || [];
 
-  const hoje = new Date().toISOString().split('T')[0];
-  const agora = new Date();
-  
+  const hojeData = new Date();
+  hojeData.setHours(0, 0, 0, 0);
+
   function obterInicioSemana(data) {
-    const diaSemana = data.getDay(); // 0=Domingo, 1=Segunda...
+    const diaSemana = data.getDay();
     const diferenca = diaSemana === 0 ? -6 : 1 - diaSemana;
     const inicio = new Date(data);
     inicio.setDate(data.getDate() + diferenca);
@@ -343,7 +344,7 @@ function atualizarCards() {
     return inicio;
   }
 
-  const inicioSemana = obterInicioSemana(agora);
+  const inicioSemana = obterInicioSemana(hojeData);
   const fimSemana = new Date(inicioSemana);
   fimSemana.setDate(inicioSemana.getDate() + 6);
 
@@ -352,20 +353,21 @@ function atualizarCards() {
   let totalAPagar = 0;
 
   dados.forEach(servico => {
-    const dataVenc = servico.vencimento;
     const valor = parseFloat(servico.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
     const status = servico.status;
 
-    const dataObj = new Date(dataVenc);
+    const dataObj = new Date(servico.vencimento);
+    dataObj.setHours(0, 0, 0, 0);
 
-    if (dataObj >= inicioSemana && dataObj <= fimSemana) {
+    if (status === 'pago' && dataObj >= inicioSemana && dataObj <= fimSemana) {
       totalGastoSemanal += valor;
     }
 
-    if (status === 'Atrasado') {
-      totalAPagar += valor;
-      if (dataVenc === hoje) {
+    if (status === 'apagar') {
+      if (dataObj.getTime() === hojeData.getTime()) {
         totalPagarHoje += valor;
+      } else {
+        totalAPagar += valor;
       }
     }
   });
@@ -378,7 +380,3 @@ function atualizarCards() {
   valorGastoSemanal.textContent = formatarMoeda(totalGastoSemanal);
   valorAPagar.textContent = formatarMoeda(totalAPagar);
 }
-
-window.addEventListener("load", () => {
-  atualizarCards();
-});
