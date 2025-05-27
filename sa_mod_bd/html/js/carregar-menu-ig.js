@@ -1,7 +1,10 @@
+// Log no console para confirmar que a função foi chamada
 console.log("carregarMenuLateral foi chamado");
 
+// Função assíncrona que carrega o menu lateral na página
 async function carregarMenuLateral() {
   try {
+    // HTML do menu lateral como template string
     const menuHtml = ` <nav class="menu-lateral">
   <div class="btn-expandir"></div>
 
@@ -50,11 +53,11 @@ async function carregarMenuLateral() {
         </a>
         <div id="sub-orcamento" class="sub-menu" style="display: none;">
           <a href="financas-ig.html"><i class="bi bi-circle-fill"></i> Finances</a>
-          <a href="emitir_nf.html"><i class="bi bi-circle-fill"></i> Issue Invoice</a>
+          <a href="emitir_nf-ig.html"><i class="bi bi-circle-fill"></i> Issue Invoice</a>
         </div>
       </li>
       <li class="item-menu">
-        <a href="os-og.html" class="menu-link">
+        <a href="os-ig.html" class="menu-link">
           <span class="icon"><i class="bi bi-tools"></i></span>
           <span class="txt-link">Work Orders</span>
         </a>
@@ -73,46 +76,59 @@ async function carregarMenuLateral() {
 </nav>
 
     `;
-     
 
+    // Busca o elemento do container onde o menu será inserido
     const menuContainer = document.getElementById('menu-container');
     console.log('menuContainer:', menuContainer);
 
+    // Se o container existir no DOM
     if (menuContainer) {
       console.log('Inserindo menu no container...');
+
+      // Insere o HTML do menu no container
       menuContainer.innerHTML = menuHtml;
 
-      // Busca dentro do menuContainer
+      // Busca dentro do container o link "orcamento" e seu submenu
       const orcamentoLink = menuContainer.querySelector('#orcamento');
       const subOrcamento = menuContainer.querySelector('#sub-orcamento');
 
       console.log('orcamentoLink:', orcamentoLink);
       console.log('subOrcamento:', subOrcamento);
 
+      // Se os elementos existem, adiciona o evento para expandir/recolher submenu
       if (orcamentoLink && subOrcamento) {
         orcamentoLink.addEventListener('click', (e) => {
-          e.preventDefault();
+          e.preventDefault(); // previne o comportamento padrão do link
+
+          // Alterna entre mostrar ou esconder o submenu
           subOrcamento.style.display = subOrcamento.style.display === 'none' ? 'block' : 'none';
         });
       } else {
+        // Caso os elementos não existam, mostra erro no console
         console.error('Elemento orcamentoLink ou subOrcamento não encontrado!');
       }
     } else {
+      // Caso o container do menu não seja encontrado no DOM
       console.error('menuContainer não encontrado no DOM!');
     }
   } catch (error) {
+    // Captura e mostra qualquer erro que ocorrer na função
     console.error('Erro ao carregar menu lateral:', error);
   }
 }
 
+// Ao carregar o DOM, adiciona eventos nos botões fechar e sair (se existirem)
 window.addEventListener("DOMContentLoaded", () => {
+  // Botão fechar redireciona para o Google
   document.querySelector(".fechar")?.addEventListener("click", () => {
     window.location.href = "https://www.google.com"; // Redireciona para o Google
   });
 
+  // Botão sair redireciona para página de login
   document.querySelector(".sair")?.addEventListener("click", () => {
-    window.location.href = "login-estilo.html"
+    window.location.href = "login-estilo-ig.html";
   });
 });
 
+// Quando o DOM for carregado, chama a função para carregar o menu lateral
 window.addEventListener('DOMContentLoaded', carregarMenuLateral);
