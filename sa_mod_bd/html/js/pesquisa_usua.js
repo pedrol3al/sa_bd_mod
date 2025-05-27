@@ -1,4 +1,4 @@
-// Lista inicial de usuario para exemplo
+// =================== LISTA DE USUÁRIOS ===================
 let listaUsuario = [
   {
     codigo: "001",
@@ -19,7 +19,7 @@ let listaUsuario = [
     celular: "(11) 91234-5678",
     email: "joao.silva@email.com",
     data_cadastro: "2025-05-10",
-    observacoes: "usuario fiel, sem pendências"
+    observacoes: "Usuário fiel, sem pendências"
   },
   {
     codigo: "002",
@@ -61,83 +61,264 @@ let listaUsuario = [
     celular: "",
     email: "contato@xyz.com",
     data_cadastro: "2025-03-15",
-    observacoes: "usuario corporativo"
+    observacoes: "Usuário corporativo"
   }
 ];
 
-// Verifica se campos obrigatórios estão preenchidos
+// =================== VALIDAÇÃO CAMPOS ===================
 function camposObrigatoriosPreenchidos() {
-  const camposObrigatorios = [
+  const campos = [
     "codigo", "nome", "cpf", "rg", "data_nasc", "sexo",
-    "endereco", "num", "bairro", "uf",
-    "cep", "cidade", "telefone", "celular", "email", "data_cadastro"
+    "endereco", "num", "bairro", "uf", "cep", "cidade",
+    "telefone", "celular", "email", "data_cadastro"
   ];
-  for (const id of camposObrigatorios) {
+  return campos.every(id => {
     const campo = document.getElementById(id);
-    if (!campo || campo.value.trim() === "") {
-      return false;
+    return campo && campo.value.trim() !== '';
+  });
+}
+
+// =================== MÁSCARAS ===================
+function setCursorPosition(pos, el) {
+  el.focus();
+  if (el.setSelectionRange) {
+    el.setSelectionRange(pos, pos);
+  } else if (el.createTextRange) {
+    const range = el.createTextRange();
+    range.collapse(true);
+    range.moveEnd('character', pos);
+    range.moveStart('character', pos);
+    range.select();
+  }
+}
+
+function mascaraGuia(input, mascara) {
+  if (!input.value) input.value = mascara;
+
+  input.addEventListener('input', () => {
+    const valor = input.value.replace(/\D/g, '');
+    let resultado = '';
+    let pos = 0;
+
+    for (let i = 0; i < mascara.length; i++) {
+      if (mascara[i] === '0') {
+        resultado += pos < valor.length ? valor[pos++] : '0';
+      } else {
+        resultado += mascara[i];
+      }
+    }
+
+    input.value = resultado;
+    const firstZero = resultado.indexOf('0');
+    setCursorPosition(firstZero !== -1 ? firstZero : resultado.length, input);
+  });
+
+  input.addEventListener('focus', () => {
+    const firstZero = input.value.indexOf('0');
+    if (firstZero !== -1) setCursorPosition(firstZero, input);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  mascaraGuia(document.getElementById('cpf'), '000.000.000-00');
+  mascaraGuia(document.getElementById('rg'), '00.000.000-0');
+  mascaraGuia(document.getElementById('telefone'), '(00) 0000-0000');
+  mascaraGuia(document.getElementById('celular'), '(00) 00000-0000');
+  mascaraGuia(document.getElementById('cep'), '00000-000');
+});
+
+// =================== BLOQUEIO DE TECLAS ===================
+// Apenas números
+document.addEventListener('DOMContentLoaded', () => {
+  const camposNumericos = ['num', 'codigo', 'codigoUsuario'].map(id => document.getElementById(id));
+
+  camposNumericos.forEach(campo => {
+    if (!campo) return;
+    campo.addEventListener('keydown', event => {
+      const permitido = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
+      if (!permitido.includes(event.key) && !/^[0-9]$/.test(event.key)) {
+        event.preventDefault();
+      }
+    });
+  });
+});
+
+// Apenas texto
+document.addEventListener('DOMContentLoaded', () => {
+  const camposTexto = ['nome', 'bairro', 'cidade'].map(id => document.getElementById(id));
+
+  camposTexto.forEach(campo => {
+    if (!campo) return;
+    campo.addEventListener('keydown', event => {
+      const permitido = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', ' '];
+      if (!permitido.includes(event.key) && /^[0-9]$/.test(event.key)) {
+        event.preventDefault();
+      }
+    });
+  });
+});
+
+// =================== VALIDAÇÃO EMAIL ===================
+document.addEventListener('DOMContentLoaded', () => {
+  const email = document.getElementById('email');
+  let alerta = false;
+
+  email.addEventListener('blur', () => {
+    const valor = email.value.trim();
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (valor !== '' && !regex.test(valor)) {
+      if (!alerta) {
+        alert('Por favor, insira um email válido.');
+        alerta = true;
+        email.focus();
+      }
+    } else {
+      alerta = false;
+    }
+  });
+});
+
+// =================== BLOQUEIO CPF/RG vs CNPJ ===================
+document.addEventListener('DOMContentLoaded', () => {
+  const cpf = document.getElementById('cpf');
+  const rg = document.getElementById('rg');
+  const cnpj = document.getElementById('cnpj');
+
+  function verificarDocumento() {
+    const cpfPreenchido = cpf.value.trim() !== '';
+    const rgPreenchido = rg.value.trim() !== '';
+    const cnpjPreenchido = cnpj.value.trim() !== '';
+
+    if (cnpjPreenchido) {
+      cpf.disabled = true;
+      rg.disabled = true;
+    } else if (cpfPreenchido || rgPreenchido) {
+      cnpj.disabled = true;
+    } else {
+      // Se todos estão vazios, ativa tudo
+      cpf.disabled = false;
+      rg.disabled = false;
+      cnpj.disabled = false;
     }
   }
-  return true;
+
+  // Quando o usuário digita ou sai do campo, verifica a regra
+  cpf.addEventListener('input', verificarDocumento);
+  rg.addEventListener('input', verificarDocumento);
+  cnpj.addEventListener('input', verificarDocumento);
+});
+
+// =================== ENTER PARA PRÓXIMO ===================
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('form.formulario');
+  const campos = Array.from(form.querySelectorAll('input, select, textarea'));
+
+  campos.forEach((campo, i) => {
+    campo.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (i + 1 < campos.length) {
+          campos[i + 1].focus();
+        }
+      }
+    });
+  });
+});
+
+// =================== MANIPULAÇÃO DE DADOS ===================
+function validarCamposObrigatorios() {
+  const campos = document.querySelectorAll('.formulario input, .formulario select, .formulario textarea');
+  let validos = true;
+
+  campos.forEach(campo => {
+    if (campo.value.trim() === '') {
+      campo.classList.add('campo-invalido');
+      validos = false;
+    } else {
+      campo.classList.remove('campo-invalido');
+    }
+  });
+
+  if (!validos) {
+    alert('Por favor, preencha todos os campos obrigatórios.');
+  }
+
+  return validos;
 }
 
-// Pega os dados do formulário e retorna como objeto
 function pegarDadosFormulario() {
-  return {
-    codigo: document.getElementById("codigo").value.trim(),
-    nome: document.getElementById("nome").value.trim(),
-    cpf: document.getElementById("cpf").value.trim(),
-    cnpj: document.getElementById("cnpj").value.trim(),
-    rg: document.getElementById("rg").value.trim(),
-    data_nasc: document.getElementById("data_nasc").value.trim(),
-    sexo: document.getElementById("sexo").value.trim(),
-    endereco: document.getElementById("endereco").value.trim(),
-    num: document.getElementById("num").value.trim(),
-    complemento: document.getElementById("complemento").value.trim(),
-    bairro: document.getElementById("bairro").value.trim(),
-    uf: document.getElementById("uf").value.trim(),
-    cep: document.getElementById("cep").value.trim(),
-    cidade: document.getElementById("cidade").value.trim(),
-    telefone: document.getElementById("telefone").value.trim(),
-    celular: document.getElementById("celular").value.trim(),
-    email: document.getElementById("email").value.trim(),
-    data_cadastro: document.getElementById("data_cadastro").value.trim(),
-    observacoes: document.getElementById("observacoes").value.trim()
-  };
+  const campos = [
+    "codigo", "nome", "cpf", "cnpj", "rg", "data_nasc", "sexo",
+    "endereco", "num", "complemento", "bairro", "uf", "cep",
+    "cidade", "telefone", "celular", "email", "data_cadastro", "observacoes"
+  ];
+
+  const dados = {};
+  campos.forEach(id => {
+    dados[id] = document.getElementById(id).value.trim();
+  });
+  return dados;
 }
 
-// Preenche o formulário com dados do usuario
 function preencherFormulario(usuario) {
   for (const campo in usuario) {
     const elemento = document.getElementById(campo);
-    if (elemento) {
-      elemento.value = usuario[campo];
-    }
+    if (elemento) elemento.value = usuario[campo];
   }
   fecharModalPesquisar();
 }
 
-// Atualiza exibição do overlay de fundo escuro
-function atualizarOverlay() {
-  const modalPesquisarAberta = document.getElementById('modal_pesquisar').style.display === 'block';
-  const modalDetalhesAberta = document.getElementById('modalDetalhes').style.display === 'block';
-  const overlay = document.getElementById('overlay');
-
-  if (modalPesquisarAberta || modalDetalhesAberta) {
-    overlay.style.display = 'block';
-  } else {
-    overlay.style.display = 'none';
-  }
+// =================== OVERLAY E MODAIS ===================
+// Função para limpar o formulário (botão Novo)
+function limparFormulario() {
+  document.querySelector('form.formulario').reset();
 }
 
-// Abre modal de pesquisa
+// Função para simular o cadastro (botão Cadastrar)
+function cadastrarUsuario() {
+  // Pega os valores dos inputs
+  const nome = document.getElementById('nome').value.trim();
+  if (!nome) {
+    alert('Por favor, preencha todos os campo!');
+    
+  }  // Aqui você pode colocar o código para enviar os dados para um servidor, por exemplo.
+}
+
+// Função para abrir modal de pesquisa (botão Pesquisar)
+function abrirModalPesquisar() {
+  document.getElementById('overlay').style.display = 'block';
+  document.getElementById('modal_pesquisar').style.display = 'block';
+  document.getElementById('campoBusca').focus();
+}
+
+// Função para fechar modal de pesquisa
+function fecharModalPesquisar() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('modal_pesquisar').style.display = 'none';
+}
+
+// Associar eventos aos botões após o carregamento da página
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('bt_novo').addEventListener('click', limparFormulario);
+  document.getElementById('bt_cadastrar').addEventListener('click', cadastrarUsuario);
+  document.getElementById('bt_pesquisar').addEventListener('click', abrirModalPesquisar);
+});
+
+function atualizarOverlay() {
+  const modalPesquisar = document.getElementById('modal_pesquisar').style.display === 'block';
+  const modalDetalhes = document.getElementById('modalDetalhes').style.display === 'block';
+  const overlay = document.getElementById('overlay');
+
+  overlay.style.display = modalPesquisar || modalDetalhes ? 'block' : 'none';
+}
+
 function abrirModalPesquisar() {
   document.getElementById('modal_pesquisar').style.display = 'block';
   document.getElementById('campoBusca').focus();
   atualizarOverlay();
 }
 
-// Fecha modal de pesquisa e limpa dados
 function fecharModalPesquisar() {
   document.getElementById('modal_pesquisar').style.display = 'none';
   document.getElementById('campoBusca').value = '';
@@ -145,13 +326,225 @@ function fecharModalPesquisar() {
   atualizarOverlay();
 }
 
-// Fecha modal de detalhes
 function fecharModalDetalhes() {
   document.getElementById('modalDetalhes').style.display = 'none';
   atualizarOverlay();
 }
 
-// Exibe detalhes do usuario na modal detalhes
+// Chave para armazenar usuários no localStorage
+const STORAGE_KEY = 'usuarios_cadastrados';
+
+// Pega os usuários do localStorage (array)
+function pegarUsuarios() {
+  const usuariosJSON = localStorage.getItem(STORAGE_KEY);
+  return usuariosJSON ? JSON.parse(usuariosJSON) : [];
+}
+
+// Salva lista de usuários no localStorage
+function salvarUsuarios(usuarios) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(usuarios));
+}
+
+// Cadastrar usuário (salva no localStorage)
+function cadastrarUsuario() {
+  const nome = document.getElementById('nome').value.trim();
+  if (!nome) {
+    alert('Por favor, preencha todos os campos!');
+    return;
+  }
+
+  const usuario = {
+    codigo: document.getElementById('codigo').value.trim(),
+    nome: nome,
+    cpf: document.getElementById('cpf').value.trim(),
+    email: document.getElementById('email').value.trim()
+    // Pode adicionar outros campos aqui
+  };
+
+  const usuarios = pegarUsuarios();
+
+  // Verifica se já existe código repetido
+  if (usuarios.some(u => u.codigo === usuario.codigo && usuario.codigo !== '')) {
+    alert('Código já existe. Use um código diferente.');
+    return;
+  }
+
+  usuarios.push(usuario);
+  salvarUsuarios(usuarios);
+
+  alert(`Usuário "${nome}" cadastrado com sucesso!`);
+  limparFormulario();
+}
+
+// Limpa formulário
+function limparFormulario() {
+  document.querySelector('form.formulario').reset();
+}
+
+// Abre modal de pesquisa
+function abrirModalPesquisar() {
+  document.getElementById('overlay').style.display = 'block';
+  document.getElementById('modal_pesquisar').style.display = 'block';
+  document.getElementById('campoBusca').value = '';
+  document.getElementById('campoBusca').focus();
+  mostrarResultados('');
+}
+
+// Fecha modal de pesquisa
+function fecharModalPesquisar() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('modal_pesquisar').style.display = 'none';
+}
+
+// Seleção dos elementos
+const formulario = document.getElementById('form-fornecedor');
+const tabela = document.getElementById('tabela-fornecedores').getElementsByTagName('tbody')[0];
+const btnCadastrar = document.getElementById('btn-cadastrar');
+const btnNovo = document.getElementById('btn-novo');
+const mensagem = document.getElementById('mensagem');
+const buscaInput = document.getElementById('busca');
+
+// Função para exibir mensagens
+function exibirMensagem(texto, tipo) {
+    mensagem.textContent = texto;
+    mensagem.className = tipo;
+    mensagem.style.display = 'block';
+    setTimeout(() => {
+        mensagem.style.display = 'none';
+    }, 3000);
+}
+
+// Função para adicionar fornecedor na tabela
+function adicionarFornecedor() {
+    const nome = formulario.nome.value.trim();
+    const cnpj = formulario.cnpj.value.trim();
+    const email = formulario.email.value.trim();
+    const telefone = formulario.telefone.value.trim();
+
+    if (nome === '' || cnpj === '' || email === '' || telefone === '') {
+        exibirMensagem('Preencha todos os campos!', 'erro');
+        return;
+    }
+
+    const novaLinha = tabela.insertRow();
+
+    novaLinha.insertCell(0).textContent = nome;
+    novaLinha.insertCell(1).textContent = cnpj;
+    novaLinha.insertCell(2).textContent = email;
+    novaLinha.insertCell(3).textContent = telefone;
+
+    const acaoCell = novaLinha.insertCell(4);
+    const btnExcluir = document.createElement('button');
+    btnExcluir.textContent = 'Excluir';
+    btnExcluir.className = 'btn-excluir';
+    btnExcluir.onclick = function () {
+        tabela.deleteRow(novaLinha.rowIndex - 1);
+        exibirMensagem('Fornecedor excluído com sucesso!', 'sucesso');
+    };
+    acaoCell.appendChild(btnExcluir);
+
+    exibirMensagem('Fornecedor cadastrado com sucesso!', 'sucesso');
+}
+
+// Função para limpar o formulário
+function limparFormulario() {
+    formulario.reset();
+}
+
+// Função de busca na tabela
+function buscarFornecedor() {
+    const termo = buscaInput.value.toLowerCase();
+    const linhas = tabela.getElementsByTagName('tr');
+
+    for (let i = 0; i < linhas.length; i++) {
+        const colunas = linhas[i].getElementsByTagName('td');
+        let encontrado = false;
+
+        for (let j = 0; j < colunas.length - 1; j++) {
+            if (colunas[j].textContent.toLowerCase().includes(termo)) {
+                encontrado = true;
+                break;
+            }
+        }
+
+        linhas[i].style.display = encontrado ? '' : 'none';
+    }
+}
+
+// Eventos
+btnCadastrar.addEventListener('click', (e) => {
+    e.preventDefault();
+    adicionarFornecedor();
+    // ❌ Não limpa mais o formulário aqui
+});
+
+btnNovo.addEventListener('click', (e) => {
+    e.preventDefault();
+    limparFormulario();
+});
+
+buscaInput.addEventListener('input', buscarFornecedor);
+
+// Mostra resultados filtrados pela pesquisa
+function mostrarResultados(texto) {
+  const resultadoDiv = document.getElementById('resultadoPesquisa');
+  const usuarios = pegarUsuarios();
+
+  const filtro = texto.toLowerCase();
+  const filtrados = usuarios.filter(u => u.nome.toLowerCase().includes(filtro));
+
+  if (filtrados.length === 0) {
+    resultadoDiv.innerHTML = '<p>Nenhum usuário encontrado.</p>';
+    return;
+  }
+
+  const listaHTML = filtrados.map(u => `
+    <div class="item-resultado" onclick="mostrarDetalhes('${u.codigo}')">
+      <strong>${u.nome}</strong> - CPF: ${u.cpf} - Email: ${u.email}
+    </div>
+  `).join('');
+  resultadoDiv.innerHTML = listaHTML;
+}
+
+// Mostra detalhes do usuário no modal
+function mostrarDetalhes(codigo) {
+  const usuarios = pegarUsuarios();
+  const usuario = usuarios.find(u => u.codigo === codigo);
+  if (!usuario) return alert('Usuário não encontrado.');
+
+  const conteudo = `
+    <h2>${usuario.nome}</h2>
+    <p><strong>Código:</strong> ${usuario.codigo}</p>
+    <p><strong>CPF:</strong> ${usuario.cpf}</p>
+    <p><strong>Email:</strong> ${usuario.email}</p>
+  `;
+  document.getElementById('conteudoDetalhes').innerHTML = conteudo;
+  document.getElementById('modalDetalhes').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
+}
+
+// Fecha modal detalhes
+function fecharModalDetalhes() {
+  document.getElementById('modalDetalhes').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+}
+
+// Eventos ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('bt_novo').addEventListener('click', limparFormulario);
+  document.getElementById('bt_cadastrar').addEventListener('click', cadastrarUsuario);
+  document.getElementById('bt_pesquisar').addEventListener('click', abrirModalPesquisar);
+
+  document.getElementById('campoBusca').addEventListener('input', e => {
+    mostrarResultados(e.target.value);
+  });
+
+  // Tornar as funções globais para fechar modais (por onclick)
+  window.fecharModalPesquisar = fecharModalPesquisar;
+  window.fecharModalDetalhes = fecharModalDetalhes;
+  window.mostrarDetalhes = mostrarDetalhes;
+});
+
 function mostrarDetalhes(usuario) {
   const conteudo = `
     <p><strong>Nome:</strong> ${usuario.nome}</p>
@@ -175,177 +568,5 @@ function mostrarDetalhes(usuario) {
   document.getElementById('conteudoDetalhes').innerHTML = conteudo;
   document.getElementById('modalDetalhes').style.display = 'block';
   atualizarOverlay();
+
 }
-
-// Exibe resultados da pesquisa na modal
-function mostrarResultados(resultados) {
-  const container = document.getElementById('resultadoPesquisa');
-  container.innerHTML = '';
-
-  if (resultados.length === 0) {
-    container.innerHTML = '<p>Nenhum usuario encontrado.</p>';
-    return;
-  }
-
-  const ul = document.createElement('ul');
-  ul.style.listStyle = 'none';
-  ul.style.padding = '0';
-
-  resultados.forEach(usuario => {
-    const li = document.createElement('li');
-    li.style.display = 'flex';
-    li.style.justifyContent = 'space-between';
-    li.style.alignItems = 'center';
-    li.style.padding = '8px 0';
-    li.style.borderBottom = '1px solid #ccc';
-
-    const textoInfo = document.createElement('span');
-    textoInfo.textContent = `${usuario.nome} - CPF: ${usuario.cpf || '-'}`;
-
-    const botoesDiv = document.createElement('div');
-
-    // Botão Preencher
-    const btnPreencher = document.createElement('button');
-    btnPreencher.type = 'button';
-    btnPreencher.textContent = '🔄 Preencher';
-    btnPreencher.style.marginRight = '5px';
-    btnPreencher.onclick = () => preencherFormulario(usuario);
-
-    // Botão Excluir
-    const btnExcluir = document.createElement('button');
-    btnExcluir.type = 'button';
-    btnExcluir.textContent = '❌ Excluir';
-    btnExcluir.style.marginRight = '5px';
-    btnExcluir.onclick = () => {
-      if (confirm(`Confirma a exclusão do usuario "${usuario.nome}"?`)) {
-        const idx = listaUsuario.findIndex(u => u.cpf === usuario.cpf);
-        if (idx !== -1) {
-          listaUsuario.splice(idx, 1);
-          pesquisarUsuario(); // Atualiza lista na modal
-        }
-      }
-    };
-
-    // Botão Detalhes
-    const btnDetalhes = document.createElement('button');
-    btnDetalhes.type = 'button';
-    btnDetalhes.textContent = '🔍 Detalhes';
-    btnDetalhes.onclick = () => mostrarDetalhes(usuario);
-
-    botoesDiv.appendChild(btnPreencher);
-    botoesDiv.appendChild(btnExcluir);
-    botoesDiv.appendChild(btnDetalhes);
-
-    li.appendChild(textoInfo);
-    li.appendChild(botoesDiv);
-
-    ul.appendChild(li);
-  });
-
-  container.appendChild(ul);
-}
-
-// Função para filtrar usuario conforme o campo de busca
-function pesquisarUsuario() {
-  const termo = document.getElementById('campoBusca').value.toLowerCase();
-  const resultados = listaUsuario.filter(usuario =>
-    (usuario.nome.toLowerCase().includes(termo)) || (usuario.cpf && usuario.cpf.includes(termo))
-  );
-  mostrarResultados(resultados);
-}
-
-// Função para cadastrar ou atualizar usuario
-function cadastrarUsuario(event) {
-  event.preventDefault();
-
-  const containerErro = document.getElementById('mensagemErro');
-  const containerSucesso = document.getElementById('mensagemSucesso');
-
-  if (!camposObrigatoriosPreenchidos()) {
-    containerErro.textContent = "Por favor, preencha todos os campos obrigatórios!";
-    containerErro.style.display = "block";
-    containerSucesso.style.display = "none";
-    return;
-  }
-
-  const usuario = pegarDadosFormulario();
-
-  // Verifica se já existe usuario com o CPF informado
-  const idxExistente = listaUsuario.findIndex(u => u.cpf === usuario.cpf);
-
-  if (idxExistente !== -1) {
-    // Atualiza
-    listaUsuario [idxExistente] = usuario;
-    containerSucesso.textContent = "Usuario atualizado com sucesso!";
-  } else {
-    // Adiciona novo
-    listaUsuario.push(usuario);
-    containerSucesso.textContent = "Usuario cadastrado com sucesso!";
-  }
-
-  containerSucesso.style.display = "block";
-  containerErro.style.display = "none";
-
-  // Resetar formulário após cadastro
-  document.querySelector("form.formulario").reset();
-}
-
-// Configurações dos eventos após carregar o DOM
-document.addEventListener("DOMContentLoaded", () => {
-  // Referências
-  const botaoCadastrar = document.getElementById("bt_cadastrar");
-  const botaoPesquisar = document.getElementById("bt_pesquisar");
-  const inputBusca = document.getElementById("campoBusca");
-  const btnFecharPesquisar = document.getElementById("botaoFechar");
-  const btnFecharDetalhes = document.getElementById("fecharDetalhes");
-  const overlay = document.getElementById("overlay");
-
-  // Containers de mensagens
-  let containerErro = document.createElement("div");
-  containerErro.id = 'mensagemErro';
-  containerErro.style.color = "#721c24";
-  containerErro.style.backgroundColor = "#f8d7da";
-  containerErro.style.padding = "10px";
-  containerErro.style.marginBottom = "10px";
-  containerErro.style.border = "1px solid #f5c6cb";
-  containerErro.style.borderRadius = "5px";
-  containerErro.style.display = "none";
-
-  let containerSucesso = document.createElement("div");
-  containerSucesso.id = 'mensagemSucesso';
-  containerSucesso.style.color = "#155724";
-  containerSucesso.style.backgroundColor = "#d4edda";
-  containerSucesso.style.padding = "10px";
-  containerSucesso.style.marginBottom = "10px";
-  containerSucesso.style.border = "1px solid #c3e6cb";
-  containerSucesso.style.borderRadius = "5px";
-  containerSucesso.style.display = "none";
-
-  const formulario = document.querySelector("form.formulario");
-  formulario.insertBefore(containerErro, formulario.firstChild);
-  formulario.insertBefore(containerSucesso, formulario.firstChild);
-
-  // Eventos
-  botaoCadastrar.addEventListener("click", cadastrarUsuario);
-
-  botaoPesquisar.addEventListener("click", (e) => {
-    e.preventDefault();
-    abrirModalPesquisar();
-  });
-
-  inputBusca.addEventListener("input", pesquisarUsuario);
-
-  btnFecharPesquisar.addEventListener("click", fecharModalPesquisar);
-
-  btnFecharDetalhes.addEventListener("click", fecharModalDetalhes);
-
-  overlay.addEventListener("click", () => {
-    // Fecha modais se estiverem abertos
-    if (document.getElementById('modal_pesquisar').style.display === 'block') {
-      fecharModalPesquisar();
-    }
-    if (document.getElementById('modalDetalhes').style.display === 'block') {
-      fecharModalDetalhes();
-    }
-  });
-});
