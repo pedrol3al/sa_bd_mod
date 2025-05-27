@@ -1,7 +1,10 @@
+// Mensagem no console para indicar que a função carregarMenuLateral foi chamada
 console.log("carregarMenuLateral foi chamado");
 
+// Função assíncrona para carregar o menu lateral na página
 async function carregarMenuLateral() {
   try {
+    // Definição do HTML do menu lateral usando template string
     const menuHtml = `
       <nav class="menu-lateral">
         <div class="btn-expandir"></div>
@@ -74,44 +77,58 @@ async function carregarMenuLateral() {
       </nav>
     `;
 
+    // Busca o elemento no DOM onde o menu será inserido, pelo ID 'menu-container'
     const menuContainer = document.getElementById('menu-container');
     console.log('menuContainer:', menuContainer);
 
+    // Verifica se o container existe na página
     if (menuContainer) {
       console.log('Inserindo menu no container...');
+
+      // Insere o HTML do menu dentro do container
       menuContainer.innerHTML = menuHtml;
 
-      // Busca dentro do menuContainer
+      // Busca dentro do container o link do orçamento e seu submenu
       const orcamentoLink = menuContainer.querySelector('#orcamento');
       const subOrcamento = menuContainer.querySelector('#sub-orcamento');
 
       console.log('orcamentoLink:', orcamentoLink);
       console.log('subOrcamento:', subOrcamento);
 
+      // Verifica se os elementos foram encontrados
       if (orcamentoLink && subOrcamento) {
+        // Adiciona evento de clique para alternar a exibição do submenu de orçamento
         orcamentoLink.addEventListener('click', (e) => {
-          e.preventDefault();
+          e.preventDefault(); // Impede o comportamento padrão do link (navegar)
+          // Se o submenu estiver oculto, mostra; se estiver visível, oculta
           subOrcamento.style.display = subOrcamento.style.display === 'none' ? 'block' : 'none';
         });
       } else {
+        // Caso não encontre algum dos elementos, exibe erro no console
         console.error('Elemento orcamentoLink ou subOrcamento não encontrado!');
       }
     } else {
+      // Caso o container do menu não exista, exibe erro no console
       console.error('menuContainer não encontrado no DOM!');
     }
   } catch (error) {
+    // Caso algum erro aconteça dentro do try, ele será capturado e exibido aqui
     console.error('Erro ao carregar menu lateral:', error);
   }
 }
 
+// Quando o DOM estiver completamente carregado
 window.addEventListener("DOMContentLoaded", () => {
+  // Se existir um botão com classe 'fechar', adiciona evento para redirecionar ao Google
   document.querySelector(".fechar")?.addEventListener("click", () => {
     window.location.href = "https://www.google.com"; // Redireciona para o Google
   });
 
+  // Se existir um botão com classe 'sair', adiciona evento para redirecionar para login
   document.querySelector(".sair")?.addEventListener("click", () => {
-    window.location.href = "login-estilo.html"
+    window.location.href = "login-estilo.html";
   });
 });
 
+// Quando o DOM estiver carregado, chama a função para inserir o menu lateral
 window.addEventListener('DOMContentLoaded', carregarMenuLateral);
