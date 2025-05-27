@@ -282,3 +282,34 @@ button.sair {
 .campo-vazio {
   border: 2px solid red;
 }
+.card-cliente {
+  background-color: #f9f9f9;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.card-cliente h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+
+.card-cliente p {
+  margin: 6px 0;
+  line-height: 1.4;
+}
+
+.card-cliente p strong {
+  color: #555;
+  display: inline-block;
+  width: 180px;
+}
