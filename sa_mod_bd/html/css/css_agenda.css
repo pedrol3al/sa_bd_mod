@@ -297,11 +297,15 @@ input::placeholder {
 
 /* Barra azul que aparece em dias com evento */
 .evento-barra {
-  width: 80%;
-  height: 5px;
-  background-color: #007bff;
-  margin: 4px auto 0;
-  border-radius: 3px;
+  background-color: #007bff; /* azul */
+  color: white;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Destaque em dias com evento */
@@ -345,4 +349,13 @@ button.sair {
   top: 20px;
   right: 70px;
   z-index: 999;
+}
+
+#diasCalendario {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 colunas para os dias da semana */
+  gap: 4px;
+  max-height: 280px; /* altura máxima */
+  overflow-y: auto;  /* ativa a rolagem vertical */
+  padding-right: 5px; /* espaço pro scroll */
 }
