@@ -78,6 +78,9 @@ function camposObrigatoriosPreenchidos() {
   });
 }
 
+// Chave para armazenar usuários no localStorage
+const STORAGE_KEY = 'usuarios_cadastrados';
+
 // =================== MÁSCARAS ===================
 function setCursorPosition(pos, el) {
   el.focus();
@@ -227,24 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // =================== MANIPULAÇÃO DE DADOS ===================
-function validarCamposObrigatorios() {
-  const campos = document.querySelectorAll('.formulario input, .formulario select, .formulario textarea');
-  let validos = true;
-
-  campos.forEach(campo => {
-    if (campo.value.trim() === '') {
-      campo.classList.add('campo-invalido');
-      validos = false;
-    } else {
-      campo.classList.remove('campo-invalido');
-    }
-  });
-
-  if (!validos) {
-    alert('Por favor, preencha todos os campos obrigatórios.');
-  }
-
-  return validos;
+function limparFormulario() {
+  document.querySelector('form.formulario').reset();
 }
 
 function pegarDadosFormulario() {
@@ -256,7 +243,8 @@ function pegarDadosFormulario() {
 
   const dados = {};
   campos.forEach(id => {
-    dados[id] = document.getElementById(id).value.trim();
+    const campo = document.getElementById(id);
+    dados[id] = campo ? campo.value.trim() : '';
   });
   return dados;
 }
@@ -330,9 +318,6 @@ function fecharModalDetalhes() {
   document.getElementById('modalDetalhes').style.display = 'none';
   atualizarOverlay();
 }
-
-// Chave para armazenar usuários no localStorage
-const STORAGE_KEY = 'usuarios_cadastrados';
 
 // Pega os usuários do localStorage (array)
 function pegarUsuarios() {

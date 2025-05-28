@@ -27,7 +27,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 100%;
+    width: 83%;
     position: fixed;
     top: 90px;
   }
@@ -88,11 +88,11 @@ body {
   .botoes {
     margin-top: 25px;
     display: flex;
-    gap: 458px;
+    gap: 600px;
   }
   
   button {
-    padding: 10px 25px;
+    padding: 2px 12px;
     font-size: 16px;
     border: none;
     cursor: pointer;
