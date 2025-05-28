@@ -1,5 +1,3 @@
-
-// ========== [2. Máscaras para campos] ==========
 function setCursorPosition(pos, el) {
   el.focus();
   if (el.setSelectionRange) {
@@ -13,47 +11,62 @@ function setCursorPosition(pos, el) {
   }
 }
 
-function mascaraGuia(input, mascara) {
-  if (!input.value) {
-    input.value = mascara;
-  }
+function aplicarMascara(valor, mascara) {
+  let numeros = valor.replace(/\D/g, '');
+  let resultado = '';
+  let pos = 0;
 
-  input.addEventListener('input', function () {
-    let valor = input.value.replace(/\D/g, '');
-    let resultado = '';
-    let pos = 0;
-
-    for (let i = 0; i < mascara.length; i++) {
-      if (mascara[i] === '0') {
-        if (pos < valor.length) {
-          resultado += valor[pos];
-          pos++;
-        } else {
-          resultado += '0';
-        }
+  for (let i = 0; i < mascara.length; i++) {
+    if (mascara[i] === '0') {
+      if (pos < numeros.length) {
+        resultado += numeros[pos];
+        pos++;
       } else {
-        // Caso contrário, mantém o caractere da máscara (como pontos, traços, parênteses)
+        break; // Para de montar a máscara se não há mais números
+      }
+    } else {
+      if (pos < numeros.length) {
         resultado += mascara[i];
+      } else {
+        break; // Evita adicionar traços/pontos se não há números ainda
       }
     }
+  }
 
-    // Atualiza o valor do input com o texto formatado
-    input.value = resultado;
+  return resultado;
+}
 
-    let firstZero = resultado.indexOf('0');
-    if (firstZero !== -1) {
-      setCursorPosition(firstZero, input);
-    } else {
-      setCursorPosition(resultado.length, input);
-    }
+function mascaraGuia(input, mascara) {
+  function atualizar() {
+    const valorAntes = input.value;
+    const valorFormatado = aplicarMascara(valorAntes, mascara);
+    input.value = valorFormatado;
+
+    // Validação visual (borda vermelha se incompleto)
+    input.style.borderColor = valorFormatado.length === mascara.length ? '' : 'red';
+  }
+
+  input.addEventListener('input', () => {
+    const pos = input.selectionStart;
+    atualizar();
+    setCursorPosition(pos, input);
   });
 
-  input.addEventListener('focus', function () {
-    let firstZero = input.value.indexOf('0');
-    if (firstZero !== -1) {
-      setCursorPosition(firstZero, input);
-    }
+  input.addEventListener('blur', atualizar);
+
+  input.addEventListener('focus', atualizar);
+
+  input.addEventListener('paste', function (e) {
+    e.preventDefault();
+    const texto = (e.clipboardData || window.clipboardData).getData('text');
+    input.value = aplicarMascara(texto, mascara);
+    atualizar();
   });
+
+  // Aplica ao carregar se já tiver valor
+  if (input.value) {
+    input.value = aplicarMascara(input.value, mascara);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -62,7 +75,9 @@ document.addEventListener('DOMContentLoaded', function () {
   mascaraGuia(document.getElementById('telefone'), '(00) 0000-0000');
   mascaraGuia(document.getElementById('celular'), '(00) 00000-0000');
   mascaraGuia(document.getElementById('cep'), '00000-000');
+  mascaraGuia(document.getElementById('cnpj'), '00.000.000/0000-00');
 });
+
 
 // ========== [3. Verificação dos campos] ==========
 document.addEventListener('DOMContentLoaded', () => {
