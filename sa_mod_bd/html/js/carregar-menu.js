@@ -70,7 +70,7 @@ async function carregarMenuLateral() {
         <div class="footer-contato">
           <div class="linha-info">
             <p class="duvidas">Dúvidas?<br><span>Consulte-nos</span></p>
-            <p class="telefone">3025-5458</p>
+            <p class="telefone">47 93025-5458</p>
           </div>
           <p class="empresa">Conserta tech</p>
         </div> 
