@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Emitir NF</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="css/emitir_nf.css" />
+  <link rel="stylesheet" href="css/css_estoque.css" />
   <link rel="stylesheet" href="css/css-home-bar.css" />
 </head>
 
@@ -22,9 +22,9 @@
   <div id="menu-container"></div>
 
   <!-- Conteúdo Principal -->
-  <main class="conteudo-principal">
-    <h1>EMITIR NF</h1>
-    <div class="cabecalho">
+  <div class="conteudo">
+        <h1>EMITIR NF</h1>
+        <div class="cabecalho">
       <div class="prestador-esquerda">
         <p><strong>CNPJ:</strong> 00.623.904/0001-73</p>
         <p><strong>Nome:</strong> Conserta Tech</p>
@@ -37,80 +37,54 @@
       </div>
     </div>
 
-    <form id="formulario">
-      <div class="secao">
-        <h3>Tomador de serviço</h3>
-        <div class="linha">
-          <div class="campo">
-            <label for="nome_cliente">Nome:</label>
-            <input type="text" id="nome_cliente" name="nome_cliente">
-          </div>
-          <div class="campo">
-            <label for="codigo_cliente">Código cliente:</label>
-            <input type="text" id="codigo_cliente" name="codigo_cliente">
-          </div>
-          <div class="campo">
-            <label for="codigo_os">Código O.S:</label>
-            <input type="text" id="codigo_os" name="codigo_os">
-          </div>
-        </div>
-      </div>
+        <form class="formulario">
+            <div class="linha">
+                <label for="id_pecas">ID Peças:</label>
+                <input type="text" id="id_pecas" class="input-curto">
 
-      <div class="secao discriminacao">
-        <h3>Discriminação dos Serviços</h3>
-        <div class="linha">
-          <div class="campo grande">
-            <label for="servicos">Serviços:</label>
-            <textarea id="servicos" name="servicos"></textarea>
-          </div>
-        </div>
-        <div class="linha">
-          <div class="campo">
-            <label for="qtd">Qtd:</label>
-            <input type="text" id="qtd" name="qtd">
-          </div>
-          <div class="campo">
-            <label for="preco">Preço:</label>
-            <input type="text" id="preco" name="preco">
-          </div>
-          <div class="campo">
-            <label for="total">Total:</label>
-            <input type="text" id="total" name="total">
-          </div>
-        </div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" class="input-longo">
+            </div>
 
-        <div class="linha">
-          <div class="campo">
-            <label for="forma_pagamento">Forma de pagamento:</label>
-            <select id="forma_pagamento" name="forma_pagamento">
-              <option value="">Selecione...</option>
-              <option value="dinheiro">Dinheiro</option>
-              <option value="credito">Cartão de Crédito</option>
-              <option value="debito">Cartão de Débito</option>
-              <option value="pix">Pix</option>
-              <option value="boleto">Boleto Bancário</option>
-              <option value="transferencia">Transferência Bancária</option>
-              <option value="deposito">Depósito em Conta</option>
-              <option value="parcelado">Parcelado no Cartão</option>
-              <option value="link_pagamento">Link de Pagamento</option>
-            </select>
-          </div>
-          <div class="campo">
-            <label for="total_geral">TOTAL:</label>
-            <input type="text" id="total_geral" name="total_geral">
-          </div>
-        </div>
-      </div>
+            <div class="linha">
+                <label for="aparelho_utilizado">Aparelho Utilizado:</label>
+                <input type="text" id="aparelho_utilizado" class="input-medio">
 
-      <div class="botoes">
-        <button type="submit" class="cadastrar">Cadastrar</button>
-        <button type="button" class="pesquisar">Pesquisar</button>
-        <button type="reset" class="novo">Novo</button>
+                <label for="quantidade">Quantidade:</label>
+                <input type="text" id="quantidade" class="input-curto">
+
+                <label for="preco">Preço:</label>
+                <input type="text" id="preco" class="input-curto">
+            </div>
+
+            <div class="linha">
+                <label for="data_registro">Data de Registro:</label>
+                <input type="date" id="data_registro" class="input-medio">
+                </select>
+            </div>
+
+            <div class="linha">
+                <label for="numero_serie">Número de Série:</label>
+                <input type="text" id="numero_serie" class="input-medio">
+            </div>
+
+            <div class="linha">
+                <label for="descricao">Descrição:</label>
+                <textarea id="descricao" class="input-longo"></textarea>
+            </div>
+
+            <div class="botoes">
+                <button type="button" id="bnt-cadastrar" class="cadastrar"><i class="bi bi-save"></i> Cadastrar</button>
+                <button type="button" id="bntPesquisar" class="pesquisar"><i class="bi bi-search"></i> Pesquisar</button>
+                <button type="reset" id="bnt-novo" class="novo"><i class="bi bi-plus-circle"></i> Novo</button>
+                <button type="button" id="btn-cancelar-edicao" style="display: none;">Cancelar</button>
+
       </div>
     </form>
-  </main>
+  </div>
 
   <script src="js/carregar-menu.js"></script>
-  <script src="js/js_emitir_nf.js"></script>
+    <script src="js/js_emitir_nf.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
