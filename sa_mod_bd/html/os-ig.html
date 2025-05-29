@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Conserta Tech - OS</title>
+    <title>Conserta Tech - Service Order</title>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -15,86 +15,85 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
 
-    <button class="sair" title="sair da conta">
-        <img src="img/logout.png" alt="Sair" />
+    <button class="sair" title="log out">
+        <img src="img/logout.png" alt="Log out" />
     </button>
 
-    <button class="fechar" title="fechar">
-        <img src="img/sair.png" alt="Fechar" />
+    <button class="fechar" title="close">
+        <img src="img/sair.png" alt="Close" />
     </button>
 </head>
 <body>
     <div id="menu-container"></div>
 
-    <!-- Conteúdo principal da página -->
+    <!-- Main content -->
     <div class="conteudo">
-        <h1>ORDEM DE SERVIÇO</h1>
+        <h1>SERVICE ORDER</h1>
 
         <form class="formulario">
             <div class="linha">
-                <label>Nome:</label>
+                <label>Name:</label>
                 <input class="input-longo" type="text" />
 
-                <label>Código do Cliente:</label>
+                <label>Customer Code:</label>
                 <input type="text" name="codigoCliente" />
 
-                <label>Data de entrada:</label>
+                <label>Entry Date:</label>
                 <input type="text" />
             </div>
 
             <div class="linha">
-                <label>Modelo aparelho:</label>
+                <label>Device Model:</label>
                 <input type="text" />
 
-                <label>Fabricante:</label>
+                <label>Manufacturer:</label>
                 <input type="text" />
 
-                <label>Nº série:</label>
+                <label>Serial Number:</label>
                 <input type="text" name="numeroSerie" />
             </div>
 
             <div class="linha">
-                <label>Aparelho:</label>
+                <label>Device:</label>
                 <input class="input-curto" type="text" />
 
-                <label>Acessórios:</label>
+                <label>Accessories:</label>
                 <input class="input-medio" type="text" />
 
-                <label>Previsão de término:</label>
+                <label>Expected Completion:</label>
                 <input type="text" />
             </div>
 
             <div class="linha">
-                <label>Nº Ordem Serviço:</label>
+                <label>Service Order No.:</label>
                 <input type="text" name="numeroOS" />
 
-                <label>Condição do aparelho:</label>
+                <label>Device Condition:</label>
                 <input class="input-longo" type="text" />
             </div>
 
             <div class="grupo-textareas">
                 <div class="coluna-textarea">
-                    <label for="defeito">Defeito relatado:</label>
+                    <label for="defeito">Reported Issue:</label>
                     <textarea id="defeito" name="defeito"></textarea>
                 </div>
 
                 <div class="coluna-textarea">
-                    <label for="observacoes">Observações:</label>
+                    <label for="observacoes">Notes:</label>
                     <textarea id="observacoes" name="observacoes"></textarea>
                 </div>
             </div>
 
             <div class="botoes">
-                <button type="button" id="bnt-cadastrar" class="salvar"><i class="bi bi-save"></i> Cadastrar</button>
-                <button type="button" id="bntPesquisar" class="pesquisar"><i class="bi bi-search"></i> Pesquisar</button>
-                <button type="reset" id="bnt-novo" class="novo"><i class="bi bi-plus-circle"></i> Novo</button>
-                <button type="button" id="btn-cancelar-edicao" style="display: none;">Cancelar</button>
-
+                <button type="button" id="bnt-cadastrar" class="salvar"><i class="bi bi-save"></i> Register</button>
+                <button type="button" id="bntPesquisar" class="pesquisar"><i class="bi bi-search"></i> Search</button>
+                <button type="reset" id="bnt-novo" class="novo"><i class="bi bi-plus-circle"></i> New</button>
+                <button type="button" id="btn-cancelar-edicao" style="display: none;">Cancel</button>
             </div>
         </form>
     </div>
 
-    <script src="js/carregar-menu.js"></script>
+    <script src="JS/carregar-menu-ig.js" defer></script>
     <script src="js/os.js"></script>
 </body>
 </html>

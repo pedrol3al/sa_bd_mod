@@ -13,6 +13,18 @@ if (!localStorage.getItem("usuarios")) {
   localStorage.setItem("usuarios", JSON.stringify(dadosIniciais));
 }
 
+//muda do portugues para o ingles 
+  document.getElementById("idioma").addEventListener("change", function () {
+  const idiomaSelecionado = this.value;
+  localStorage.setItem("idiomaSelecionado", idiomaSelecionado);
+
+  if (idiomaSelecionado === "pt" && !window.location.pathname.includes("login-estilo.html")) {
+    window.location.href = "login-estilo.html";
+  } else if (idiomaSelecionado === "en" && !window.location.pathname.includes("login-ig.html")) {
+    window.location.href = "login-ig.html";
+  }
+});
+
 // Adiciona um evento de clique no botão com a classe 'botao-embora'
 // Quando clicado, redireciona o usuário para o site do Google
 document.querySelector('.botao-embora').addEventListener('click', () => {

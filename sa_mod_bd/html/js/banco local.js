@@ -14,6 +14,29 @@ if (!localStorage.getItem("usuarios")) {
   localStorage.setItem("usuarios", JSON.stringify(dadosIniciais));
 }
 
+//muda do portugues para o ingles 
+  document.getElementById("idioma").addEventListener("change", function () {
+  const idiomaSelecionado = this.value;
+  localStorage.setItem("idiomaSelecionado", idiomaSelecionado);
+
+  if (idiomaSelecionado === "en" && !window.location.pathname.includes("login-ig.html")) {
+    window.location.href = "login-ig.html";
+  } else if (idiomaSelecionado === "pt" && !window.location.pathname.includes("login-estilo.html")) {
+    window.location.href = "login-estilo.html";
+  }
+});
+
+window.addEventListener("DOMContentLoaded", function () {
+  const idiomaSalvo = localStorage.getItem("idiomaSelecionado");
+  const selectIdioma = document.getElementById("idioma");
+
+  if (idiomaSalvo) {
+    selectIdioma.value = idiomaSalvo;
+  }
+});
+
+  
+
 // Adiciona um evento ao botão com classe .botao-embora
 // Quando clicado, redireciona o usuário para o Google
 document.querySelector('.botao-embora').addEventListener('click', () => {
