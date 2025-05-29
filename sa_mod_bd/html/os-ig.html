@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conserta Tech - Service Order</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="css/css_os.css" />
+    <link rel="stylesheet" href="css/css-home-bar.css" />
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+
+    <button class="sair" title="log out">
+        <img src="img/logout.png" alt="Log out" />
+    </button>
+
+    <button class="fechar" title="close">
+        <img src="img/sair.png" alt="Close" />
+    </button>
+</head>
+<body>
+    <div id="menu-container"></div>
+
+    <!-- Main content -->
+    <div class="conteudo">
+        <h1>SERVICE ORDER</h1>
+
+        <form class="formulario">
+            <div class="linha">
+                <label>Name:</label>
+                <input class="input-longo" type="text" />
+
+                <label>Customer Code:</label>
+                <input type="text" name="codigoCliente" />
+
+                <label>Entry Date:</label>
+                <input type="text" />
+            </div>
+
+            <div class="linha">
+                <label>Device Model:</label>
+                <input type="text" />
+
+                <label>Manufacturer:</label>
+                <input type="text" />
+
+                <label>Serial Number:</label>
+                <input type="text" name="numeroSerie" />
+            </div>
+
+            <div class="linha">
+                <label>Device:</label>
+                <input class="input-curto" type="text" />
+
+                <label>Accessories:</label>
+                <input class="input-medio" type="text" />
+
+                <label>Expected Completion:</label>
+                <input type="text" />
+            </div>
+
+            <div class="linha">
+                <label>Service Order No.:</label>
+                <input type="text" name="numeroOS" />
+
+                <label>Device Condition:</label>
+                <input class="input-longo" type="text" />
+            </div>
+
+            <div class="grupo-textareas">
+                <div class="coluna-textarea">
+                    <label for="defeito">Reported Issue:</label>
+                    <textarea id="defeito" name="defeito"></textarea>
+                </div>
+
+                <div class="coluna-textarea">
+                    <label for="observacoes">Notes:</label>
+                    <textarea id="observacoes" name="observacoes"></textarea>
+                </div>
+            </div>
+
+            <div class="botoes">
+                <button type="button" id="bnt-cadastrar" class="salvar"><i class="bi bi-save"></i> Register</button>
+                <button type="button" id="bntPesquisar" class="pesquisar"><i class="bi bi-search"></i> Search</button>
+                <button type="reset" id="bnt-novo" class="novo"><i class="bi bi-plus-circle"></i> New</button>
+                <button type="button" id="btn-cancelar-edicao" style="display: none;">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="JS/carregar-menu-ig.js" defer></script>
+    <script src="js/os.js"></script>
+</body>
+</html>

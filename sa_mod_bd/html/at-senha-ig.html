@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conserta Tech – Change Password</title>
+  <link rel="stylesheet" href="css/estilo.css" />
+</head>
+<body>
+  <button class="botao-sair" onclick="location.href='login-ig.html'">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+  </button>
+
+  <main>
+    <h1>Conserta Tech</h1>
+    <p>CHANGE PASSWORD</p>
+
+    <form onsubmit="event.preventDefault(); alterarSenha();" autocomplete="off">
+      <label for="novaSenha">New password:</label>
+      <input id="novaSenha" name="novaSenha" type="password" autocomplete="new-password" required />
+
+      <label for="confirmarSenha">Repeat password:</label>
+      <input id="confirmarSenha" name="confirmarSenha" type="password" autocomplete="new-password" required />
+
+      <button type="submit" class="button">Save</button>
+    </form>
+
+    <div id="mensagemErro" class="mensagem-erro"></div>
+
+    <div class="footer">
+      <select id="idioma">
+        <option value="en">English</option>
+        <option value="pt" selected>Portuguese (BR)</option>
+      </select>
+      <button-termos onclick="window.location.href='termos.html'" style="cursor: pointer;">Terms</button-termos>
+    </div>
+  </main>
+
+  <script src="js/banco local-ig.js"></script>
+</body>
+</html>
