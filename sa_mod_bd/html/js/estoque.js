@@ -1,25 +1,43 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const modalFactory = new ModalFactory();
   const cadastrarBtn = document.querySelector(".cadastrar");
   const novoBtn = document.querySelector(".novo");
+  const pesquisarBtn = document.querySelector(".pesquisar");
   let editandoItem = null;
 
+  // Função para alternar entre modo de edição e cadastro
   function toggleModoEdicao(editando, item = null) {
     editandoItem = item;
 
     if (editando) {
       cadastrarBtn.textContent = "Salvar alterações";
       if (novoBtn) novoBtn.textContent = "Cancelar edição";
+      
+      // Bloquear o campo ID durante a edição
+      const idPecaInput = document.getElementById("id_pecas");
+      if (idPecaInput) {
+        idPecaInput.readOnly = true;
+        idPecaInput.style.backgroundColor = "#f5f5f5";
+        idPecaInput.style.cursor = "not-allowed";
+      }
     } else {
       cadastrarBtn.textContent = "Salvar";
       if (novoBtn) novoBtn.textContent = "Novo";
       document.querySelector(".formulario").reset();
       editandoItem = null;
+      
+      // Liberar o campo ID
+      const idPecaInput = document.getElementById("id_pecas");
+      if (idPecaInput) {
+        idPecaInput.readOnly = false;
+        idPecaInput.style.backgroundColor = "";
+        idPecaInput.style.cursor = "";
+      }
     }
   }
 
-  cadastrarBtn.addEventListener("click", function (e) {
-    e.preventDefault();
-
+  // Função para validar campos obrigatórios
+  function validarCampos() {
     const campos = [
       "id_pecas",
       "id_fornecedor",
@@ -36,16 +54,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     for (let id of campos) {
       const campo = document.getElementById(id);
-      if (campo.value.trim() === "") {
+      if (campo && campo.value.trim() === "") {
         Swal.fire({
           icon: 'warning',
           title: 'Campo obrigatório',
-          text: `Preencha o campo: ${campo.previousElementSibling.innerText}`
+          text: `Preencha o campo: ${campo.previousElementSibling?.innerText || id.replace(/_/g, ' ')}`
         });
         campo.focus();
-        return;
+        return false;
       }
     }
+    return true;
+  }
+
+  // Função para salvar ou atualizar item
+  function salvarItem() {
+    if (!validarCampos()) return;
 
     const idPeca = document.getElementById("id_pecas").value.trim();
     let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
@@ -124,6 +148,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       document.querySelector(".formulario").reset();
     }
+  }
+
+  // Event listeners para os botões principais
+  cadastrarBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    salvarItem();
   });
 
   if (novoBtn) {
@@ -151,351 +181,389 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Função chamada por outro script para editar um item
-  window.editarItem = function (item) {
-    document.getElementById("id_pecas").value = item.id_pecas;
-    document.getElementById("id_fornecedor").value = item.id_fornecedor;
-    document.getElementById("nome").value = item.nome;
-    document.getElementById("aparelho_utilizado").value = item.aparelho_utilizado;
-    document.getElementById("quantidade").value = item.quantidade;
-    document.getElementById("preco").value = item.preco;
-    document.getElementById("data_registro").value = item.data_registro;
-    document.getElementById("status").value = item.status;
-    document.getElementById("tipo").value = item.tipo;
-    document.getElementById("numero_serie").value = item.numero_serie;
-    document.getElementById("descricao").value = item.descricao;
+  // Função para preencher formulário com dados de um item
+  window.preencherFormulario = function (item) {
+    const campos = [
+      "id_pecas", "id_fornecedor", "nome", "aparelho_utilizado",
+      "quantidade", "preco", "data_registro", "status",
+      "tipo", "numero_serie", "descricao"
+    ];
+    
+    campos.forEach(campo => {
+      const input = document.getElementById(campo);
+      if (input) input.value = item[campo] || '';
+    });
+  };
 
+  // Função para editar um item
+  window.editarItem = function (item) {
+    preencherFormulario(item);
     toggleModoEdicao(true, item);
   };
-});
 
-
-
-//============================= Pesquisar peças=================================================//
-document.addEventListener("DOMContentLoaded", function () {
-    // Instância da fábrica de modais
-    const modalFactory = new ModalFactory();
-
-    // Criação do modal de pesquisa de peças
+  // Configuração do modal de pesquisa
+  if (pesquisarBtn) {
     const pesquisaModal = modalFactory.createModal({
-        id: 'modal-pesquisa-pecas',
-        title: 'Pesquisar Peça',
-        width: '80%',
-        maxWidth: '1000px',
-        height: '600px',
-        content: `
-            <div style="margin-bottom: 15px;">
-                <input type="text" id="input-pesquisa" class="form-control" 
-                       placeholder="Digite o nome ou ID da peça..." style="width: 100%; padding: 8px;">
-            </div>
-            <div id="resultado-pesquisa" style="margin-top: 15px; max-height: 400px; 
-                 overflow-y: auto; border-top: 1px solid #ddd; padding-top: 10px;"></div>
-        `
+      id: 'modal-pesquisa-pecas',
+      title: 'Pesquisar Peça',
+      width: '80%',
+      maxWidth: '1000px',
+      height: '600px',
+      content: `
+        <div style="margin-bottom: 15px;">
+          <input type="text" id="input-pesquisa" class="form-control" 
+              placeholder="Digite o nome ou ID da peça..." style="width: 100%; padding: 8px;">
+        </div>
+        <div id="resultado-pesquisa" style="margin-top: 15px; max-height: 400px; 
+            overflow-y: auto; border-top: 1px solid #ddd; padding-top: 10px;"></div>
+      `
     });
 
-    // Elementos do modal
     const inputPesquisa = document.getElementById('input-pesquisa');
     const resultado = document.getElementById('resultado-pesquisa');
 
-    // Funções para aplicar/remover blur (podem ser adaptadas para a fábrica se necessário)
-    function aplicarBlur() {
-        const menu = document.getElementById("menu-container");
-        const conteudo = document.querySelector(".conteudo");
-        if (menu) menu.style.filter = "blur(5px)";
-        if (conteudo) {
-            conteudo.style.filter = "blur(5px)";
-            conteudo.style.pointerEvents = "none";
-            conteudo.style.userSelect = "none";
-        }
-    }
-
-    function removerBlur() {
-        const menu = document.getElementById("menu-container");
-        const conteudo = document.querySelector(".conteudo");
-        if (menu) menu.style.filter = "";
-        if (conteudo) {
-            conteudo.style.filter = "";
-            conteudo.style.pointerEvents = "";
-            conteudo.style.userSelect = "";
-        }
-    }
-
-    // Evento do botão pesquisar
-    const btnPesquisar = document.querySelector(".pesquisar");
-    btnPesquisar.addEventListener("click", function (e) {
-        e.preventDefault();
-        pesquisaModal.show();
-        aplicarBlur();
-        inputPesquisa.value = "";
-        resultado.innerHTML = "<p>Digite um termo para buscar.</p>";
-        inputPesquisa.focus();
+    pesquisarBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      pesquisaModal.show();
+      inputPesquisa.value = "";
+      resultado.innerHTML = "<p>Digite um termo para buscar.</p>";
+      inputPesquisa.focus();
     });
 
-    // Evento de input para pesquisa
     inputPesquisa.addEventListener("input", function () {
-        const termo = inputPesquisa.value.trim().toLowerCase();
-        let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
+      const termo = inputPesquisa.value.trim().toLowerCase();
+      const estoque = JSON.parse(localStorage.getItem("estoque")) || [];
 
-        if (termo === "") {
-            resultado.innerHTML = "<p>Digite um termo para buscar.</p>";
-            return;
-        }
-
-        const resultados = estoque.filter(item =>
-            item.nome.toLowerCase().includes(termo) ||
-            item.id_pecas.toLowerCase().includes(termo)
-        );
-
-        if (resultados.length === 0) {
-            resultado.innerHTML = "<p>Nenhum resultado encontrado.</p>";
-            return;
-        }
-
-        resultado.innerHTML = "";
-
-       // Substitua a parte onde os resultados são exibidos (dentro do forEach) por este código:
-resultados.forEach(item => {
-    const div = document.createElement("div");
-    div.style.cssText = `
-        padding: 8px; border-bottom: 1px solid #ccc; cursor: pointer;
-        transition: background-color 0.2s; margin-bottom: 10px;
-    `;
-
-    div.innerHTML = `
-        <strong>ID:</strong> ${item.id_pecas} <br>
-        <strong>Nome:</strong> ${item.nome} <br>
-        <strong>Quantidade:</strong> ${item.quantidade}
-        <div class="btn-group" style="margin-top: 8px; display: flex; gap: 5px;">
-            <button class="btn-visualizar" style="padding: 4px 8px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;">Visualizar</button>
-            <button class="btn-editar" style="padding: 4px 8px; background: #FFC107; color: black; border: none; border-radius: 4px; cursor: pointer;">Editar</button>
-            <button class="btn-excluir" style="padding: 4px 8px; background: #F44336; color: white; border: none; border-radius: 4px; cursor: pointer;">Excluir</button>
-        </div>
-    `;
-
-    div.addEventListener("mouseenter", () => {
-        div.style.backgroundColor = "#f5f5f5";
+      resultado.innerHTML = termo === ""
+        ? "<p>Digite um termo para buscar.</p>"
+        : gerarResultadosPesquisa(estoque, termo);
     });
 
-    div.addEventListener("mouseleave", () => {
-        div.style.backgroundColor = "";
-    });
+    // Função para gerar resultados da pesquisa
+    function gerarResultadosPesquisa(estoque, termo) {
+      const encontrados = estoque.filter(item =>
+        item.nome.toLowerCase().includes(termo) ||
+        item.id_pecas.toLowerCase().includes(termo)
+      );
 
-    // Adiciona os eventos para os botões
-    const btnVisualizar = div.querySelector(".btn-visualizar");
-    const btnEditar = div.querySelector(".btn-editar");
-    const btnExcluir = div.querySelector(".btn-excluir");
+      if (encontrados.length === 0) {
+        return "<p>Nenhum resultado encontrado.</p>";
+      }
 
-    // Impede a propagação do clique para a div pai
-    [btnVisualizar, btnEditar, btnExcluir].forEach(btn => {
-        btn.addEventListener("click", (e) => e.stopPropagation());
-    });
+      let html = '';
+      encontrados.forEach(item => {
+        html += `
+          <div style="padding: 8px; border-bottom: 1px solid #ccc; cursor: pointer;
+              transition: background-color 0.2s; margin-bottom: 10px;"
+              onmouseenter="this.style.backgroundColor='#f5f5f5'"
+              onmouseleave="this.style.backgroundColor=''"
+              onclick="preencherFormularioEfechar(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+              
+              <strong>ID:</strong> ${item.id_pecas}<br>
+              <strong>Nome:</strong> ${item.nome}<br>
+              <strong>Quantidade:</strong> ${item.quantidade}
+              
+              <div class="btn-group" style="margin-top: 8px; display: flex; gap: 5px;">
+                <button class="btn-visualizar" 
+                    style="padding: 4px 8px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;"
+                    onclick="event.stopPropagation(); visualizarDetalhes(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                    Visualizar
+                </button>
+                <button class="btn-editar" 
+                    style="padding: 4px 8px; background: #FFC107; color: black; border: none; border-radius: 4px; cursor: pointer;"
+                    onclick="event.stopPropagation(); editarItem(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                    Editar
+                </button>
+                <button class="btn-excluir" 
+                    style="padding: 4px 8px; background: #F44336; color: white; border: none; border-radius: 4px; cursor: pointer;"
+                    onclick="event.stopPropagation(); excluirItem(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                    Excluir
+                </button>
+              </div>
+          </div>
+        `;
+      });
+      return html;
+    }
 
-    btnVisualizar.addEventListener("click", () => {
-        visualizarDetalhes(item);
-    });
-
-    btnEditar.addEventListener("click", () => {
-        editarItem(item);
-    });
-
-    btnExcluir.addEventListener("click", () => {
-        excluirItem(item);
-    });
-
-    // Mantém o clique na div para preencher o formulário
-    div.addEventListener("click", () => {
-        preencherFormulario(item);
-        pesquisaModal.close();
-        removerBlur();
-    });
-
-    resultado.appendChild(div);
-});
-
-// Adicione estas funções após a função preencherFormulario:
-function visualizarDetalhes(item) {
-    const detalhesContent = `
-        <h3>Detalhes da Peça</h3>
+    // Função para visualizar detalhes de um item
+    window.visualizarDetalhes = function(item) {
+      const detalhesContent = `
+        <h3 style="margin-top: 0; color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+          Detalhes da Peça: ${item.nome}
+        </h3>
         <div style="margin-top: 15px;">
-            <p><strong>ID:</strong> ${item.id_pecas}</p>
-            <p><strong>Nome:</strong> ${item.nome}</p>
-            <p><strong>Fornecedor:</strong> ${item.id_fornecedor}</p>
-            <p><strong>Aparelho utilizado:</strong> ${item.aparelho_utilizado}</p>
-            <p><strong>Quantidade:</strong> ${item.quantidade}</p>
-            <p><strong>Preço:</strong> ${item.preco}</p>
-            <p><strong>Data de registro:</strong> ${item.data_registro}</p>
-            <p><strong>Status:</strong> ${item.status}</p>
-            <p><strong>Tipo:</strong> ${item.tipo}</p>
-            <p><strong>Número de série:</strong> ${item.numero_serie}</p>
-            <p><strong>Descrição:</strong> ${item.descricao}</p>
+          ${Object.entries(item).map(([key, val]) => `
+            <p style="margin: 8px 0; padding: 5px; background-color: ${Math.random() > 0.5 ? '#f9f9f9' : 'white'};">
+              <strong style="text-transform: capitalize;">${key.replace(/_/g, ' ')}:</strong> ${val}
+            </p>
+          `).join('')}
         </div>
-    `;
+      `;
 
-    const detalhesModal = modalFactory.createModal({
+      const detalhesModal = modalFactory.createModal({
         id: 'modal-detalhes-peca',
         title: 'Detalhes da Peça',
         width: '60%',
         maxWidth: '800px',
         content: detalhesContent
-    });
+      });
 
-    detalhesModal.show();
-    aplicarBlur();
-}
+      detalhesModal.show();
+    };
 
-function editarItem(item) {
-    // Preenche o formulário e fecha o modal de pesquisa
-    preencherFormulario(item);
-    pesquisaModal.close();
-    removerBlur();
-    
-    // Aqui você pode adicionar lógica adicional para o modo de edição
-    console.log("Editando item:", item);
-    // Exemplo: habilitar campos, mudar texto do botão submit, etc.
-}
+    // Função para excluir um item
+    window.excluirItem = function(item) {
+      Swal.fire({
+        title: 'Tem certeza?',
+        text: `Você está prestes a excluir a peça "${item.nome}" (ID: ${item.id_pecas})`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, excluir!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
+          estoque = estoque.filter(peca => peca.id_pecas !== item.id_pecas);
+          localStorage.setItem("estoque", JSON.stringify(estoque));
+          inputPesquisa.dispatchEvent(new Event('input'));
+          Swal.fire(
+            'Excluído!',
+            'A peça foi removida do estoque.',
+            'success'
+          );
+        }
+      });
+    };
 
-function excluirItem(item) {
-    if (confirm(`Tem certeza que deseja excluir a peça "${item.nome}" (ID: ${item.id_pecas})?`)) {
-        let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
-        estoque = estoque.filter(peca => peca.id_pecas !== item.id_pecas);
-        localStorage.setItem("estoque", JSON.stringify(estoque));
-        
-        // Atualiza a lista de resultados
-        const termo = inputPesquisa.value.trim().toLowerCase();
-        inputPesquisa.dispatchEvent(new Event('input'));
-        
-        alert("Peça excluída com sucesso!");
-    }
-}
-    });
-
-    // Preenche o formulário com os dados da peça selecionada (mantido igual)
-    function preencherFormulario(item) {
-        document.getElementById("id_pecas").value = item.id_pecas;
-        document.getElementById("id_fornecedor").value = item.id_fornecedor;
-        document.getElementById("nome").value = item.nome;
-        document.getElementById("aparelho_utilizado").value = item.aparelho_utilizado;
-        document.getElementById("quantidade").value = item.quantidade;
-        document.getElementById("preco").value = item.preco;
-        document.getElementById("data_registro").value = item.data_registro;
-        document.getElementById("status").value = item.status;
-        document.getElementById("tipo").value = item.tipo;
-        document.getElementById("numero_serie").value = item.numero_serie;
-        document.getElementById("descricao").value = item.descricao;
-    }
+    // Função para preencher formulário e fechar modal
+    window.preencherFormularioEfechar = function(item) {
+      preencherFormulario(item);
+      pesquisaModal.close();
+    };
+  }
 });
 
-// Definição da classe ModalFactory (mantida igual)
+// Classe ModalFactory (mantida igual)
 class ModalFactory {
-    constructor() {
-        this.overlay = this.createOverlay();
-        document.body.appendChild(this.overlay);
-    }
+  constructor() {
+    this.overlay = this.createOverlay();
+    document.body.appendChild(this.overlay);
+  }
 
-    createOverlay() {
-        const overlay = document.createElement("div");
-        overlay.id = 'modal-overlay';
-        overlay.style.display = 'none';
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
-        overlay.style.zIndex = '999';
-        return overlay;
-    }
+  createOverlay() {
+    const overlay = document.createElement("div");
+    overlay.id = 'modal-overlay';
+    Object.assign(overlay.style, {
+      display: 'none', position: 'fixed', top: '0', left: '0',
+      width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: '999'
+    });
+    return overlay;
+  }
 
-    createModal(options = {}) {
-        const {
-            id = 'custom-modal',
-            title = '',
-            content = '',
-            width = 'auto',
-            height = 'auto',
-            maxWidth = 'none'
-        } = options;
+  createModal({ id = 'custom-modal', title = '', content = '', width = 'auto', height = 'auto', maxWidth = 'none' }) {
+    const existing = document.getElementById(id);
+    if (existing) existing.remove();
 
-        // Remove modal existente com o mesmo ID, se houver
-        const existingModal = document.getElementById(id);
-        if (existingModal) {
-            existingModal.remove();
-        }
+    const modal = document.createElement("div");
+    modal.id = id;
+    modal.className = 'custom-modal';
+    Object.assign(modal.style, {
+      display: 'none', position: 'fixed', top: '50%', left: '50%',
+      transform: 'translate(-50%, -50%)', backgroundColor: 'white',
+      padding: '20px', borderRadius: '8px', boxShadow: '0 0 10px rgba(0,0,0,0.3)',
+      zIndex: '1000', height, width, maxWidth, overflow: 'auto'
+    });
 
-        const modal = document.createElement("div");
-        modal.id = id;
-        modal.className = 'custom-modal';
-        modal.style.display = 'none';
-        modal.style.position = 'fixed';
-        modal.style.top = '50%';
-        modal.style.left = '50%';
-        modal.style.transform = 'translate(-50%, -50%)';
-        modal.style.backgroundColor = 'white';
-        modal.style.padding = '20px';
-        modal.style.borderRadius = '8px';
-        modal.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
-        modal.style.zIndex = '1000';
-        modal.style.height = height;
-        modal.style.width = width;
-        modal.style.maxWidth = maxWidth;
-        modal.style.overflow = 'auto';
+    const header = document.createElement("div");
+    Object.assign(header.style, {
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      marginBottom: '20px', borderBottom: '1px solid #eee', paddingBottom: '10px'
+    });
 
-        // Cabeçalho do modal
-        const header = document.createElement("div");
-        header.style.display = 'flex';
-        header.style.justifyContent = 'space-between';
-        header.style.alignItems = 'center';
-        header.style.marginBottom = '20px';
-        header.style.borderBottom = '1px solid #eee';
-        header.style.paddingBottom = '10px';
+    const titleElement = document.createElement("h2");
+    titleElement.textContent = title;
+    titleElement.style.margin = '0';
 
-        const titleElement = document.createElement("h2");
-        titleElement.textContent = title;
-        titleElement.style.margin = '0';
+    const closeButton = document.createElement("button");
+    closeButton.innerHTML = '&times;';
+    Object.assign(closeButton.style, {
+      background: 'none', border: 'none', fontSize: '24px',
+      cursor: 'pointer', color: 'black'
+    });
 
-        const closeButton = document.createElement("button");
-        closeButton.innerHTML = '&times;';
-        closeButton.style.background = 'none';
-        closeButton.style.border = 'none';
-        closeButton.style.fontSize = '24px';
-        closeButton.style.cursor = 'pointer';
-        closeButton.style.color = 'black';
+    header.appendChild(titleElement);
+    header.appendChild(closeButton);
 
-        
+    const body = document.createElement("div");
+    body.className = 'modal-body';
+    body.innerHTML = content;
 
-        header.appendChild(titleElement);
-        header.appendChild(closeButton);
-        modal.appendChild(header);
+    modal.appendChild(header);
+    modal.appendChild(body);
+    document.body.appendChild(modal);
 
-        // Corpo do modal
-        const body = document.createElement("div");
-        body.className = 'modal-body';
-        body.innerHTML = content;
-        modal.appendChild(body);
+    closeButton.addEventListener('click', () => this.closeModal(modal));
+    this.overlay.addEventListener('click', () => this.closeModal(modal));
 
-        document.body.appendChild(modal);
+    return {
+      element: modal,
+      show: () => this.showModal(modal),
+      close: () => this.closeModal(modal),
+      updateContent: (newContent) => { body.innerHTML = newContent; }
+    };
+  }
 
-        // Configura comportamentos
-        closeButton.addEventListener('click', () => this.closeModal(modal));
-        this.overlay.addEventListener('click', () => this.closeModal(modal));
+  showModal(modal) {
+    modal.style.display = 'block';
+    this.overlay.style.display = 'block';
+    this.aplicarBlur();
+  }
 
-        return {
-            element: modal,
-            show: () => this.showModal(modal),
-            close: () => this.closeModal(modal),
-            updateContent: (newContent) => {
-                body.innerHTML = newContent;
-            }
-        };
-    }
+  closeModal(modal) {
+    modal.style.display = 'none';
+    this.overlay.style.display = 'none';
+    this.removerBlur();
+  }
 
-    showModal(modal) {
-        modal.style.display = 'block';
-        this.overlay.style.display = 'block';
-    }
+  aplicarBlur() {
+    document.querySelectorAll("#menu-container, .conteudo").forEach(el => {
+      el.style.filter = "blur(5px)";
+      el.style.pointerEvents = "none";
+      el.style.userSelect = "none";
+    });
+  }
 
-    closeModal(modal) {
-        modal.style.display = 'none';
-        this.overlay.style.display = 'none';
-    }
+  removerBlur() {
+    document.querySelectorAll("#menu-container, .conteudo").forEach(el => {
+      el.style.filter = "";
+      el.style.pointerEvents = "";
+      el.style.userSelect = "";
+    });
+  }
 }
+// Aplicar mascaras
+
+document.addEventListener("DOMContentLoaded", function () {
+  // ========== APLICA MÁSCARA DE VALOR ==============
+  function aplicarMascaraValor() {
+    const campos = document.querySelectorAll('.input-valor, #preco'); // Adiciona tanto classes quanto IDs específicos
+
+    campos.forEach(campo => {
+      // Adiciona os event listeners
+      campo.addEventListener('input', formatarValor);
+      campo.addEventListener('blur', finalizarFormatacao);
+      campo.addEventListener('focus', prepararEdicao);
+
+      // Preenche com R$ 0,00 ao carregar vazio
+      if (!campo.value.trim() || campo.value === 'R$ NaN') {
+        campo.value = 'R$ 0,00';
+      }
+    });
+
+    function formatarValor(e) {
+      let valor = e.target.value.replace(/\D/g, '');
+      
+      if (valor === '') {
+        e.target.value = 'R$ 0,00';
+        return;
+      }
+
+      let numero = parseInt(valor, 10);
+      if (isNaN(numero)) {
+        e.target.value = 'R$ 0,00';
+        return;
+      }
+
+      // Formata com 2 casas decimais
+      valor = (numero / 100).toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+
+      e.target.value = 'R$ ' + valor;
+    }
+
+    function finalizarFormatacao(e) {
+      let valor = e.target.value.replace(/\D/g, '');
+      if (valor === '' || parseInt(valor) === 0) {
+        e.target.value = 'R$ 0,00';
+      }
+    }
+
+    function prepararEdicao(e) {
+      let valor = e.target.value.replace(/\D/g, '');
+      e.target.value = valor === '0' ? '' : valor;
+    }
+  }
+
+  // Chama a função para aplicar as máscaras
+  aplicarMascaraValor();
+
+  // ========== VALIDAÇÃO DE CAMPOS NUMÉRICOS ==============
+  const camposNumericos = ["id_pecas", "id_fornecedor"];
+  camposNumericos.forEach(id => {
+    const campo = document.getElementById(id);
+    if (campo) {
+      campo.addEventListener("keydown", function(e) {
+        const teclasPermitidas = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
+        if (teclasPermitidas.includes(e.key)) return;
+        if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+      });
+    }
+  });
+
+ document.addEventListener("DOMContentLoaded", function () {
+  // ========== VALIDAÇÃO DE CAMPOS NUMÉRICOS ==============
+  const camposNumericos = ["id_pecas", "id_fornecedor", "quantidade"]; 
+  
+  camposNumericos.forEach(id => {
+    const campo = document.getElementById(id);
+    if (campo) {
+      // Impede a digitação de caracteres não numéricos
+      campo.addEventListener("keydown", function(e) {
+        const teclasPermitidas = [
+          'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab',
+          'Home', 'End'
+        ];
+        
+        // Permite: teclas de controle, números e numpad
+        if (teclasPermitidas.includes(e.key) || 
+            /^[0-9]$/.test(e.key) || 
+            (e.key >= '0' && e.key <= '9' && e.key.length === 1)) {
+          return;
+        }
+        
+        // Permite Ctrl+C, Ctrl+V, Ctrl+X
+        if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'x')) {
+          return;
+        }
+        
+        // Bloqueia qualquer outra tecla
+        e.preventDefault();
+      });
+
+      // Validação adicional ao colar conteúdo
+      campo.addEventListener("paste", function(e) {
+        e.preventDefault();
+        const texto = (e.clipboardData || window.clipboardData).getData('text');
+        const numeros = texto.replace(/\D/g, '');
+        document.execCommand('insertText', false, numeros);
+      });
+
+      // Garante que o valor final seja numérico
+      campo.addEventListener("blur", function() {
+        if (campo.value && !/^\d+$/.test(campo.value)) {
+          campo.value = campo.value.replace(/\D/g, '');
+          if (!campo.value) campo.value = '0';
+        }
+      });
+    }
+  });
+
+ 
+});
+});
+

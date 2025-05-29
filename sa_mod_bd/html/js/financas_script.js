@@ -152,7 +152,7 @@ function adicionarNovaLinha() {
 
   configurarBotaoRemover(novaLinha.querySelector(".botao-remover-linha"), novaLinha);
 
-  aplicarEstiloStatus(); // ✅ AQUI aplica as cores corretamente ao novo select
+  aplicarEstiloStatus(); 
 }
 
 
