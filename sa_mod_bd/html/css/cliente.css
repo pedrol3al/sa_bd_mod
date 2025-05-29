@@ -5,7 +5,7 @@ body {
   font-family: sans-serif;
   background-color: #fff;
   display: flex;
-  overflow-x: hidden; /* Evita que a tela transborde horizontalmente */
+  overflow-x: hidden;
   box-sizing: border-box;
 }
 
@@ -21,7 +21,7 @@ body {
   box-sizing: border-box;
   max-width: 100%;
   overflow-x: hidden;
-  margin-left: 230px; 
+  margin-left: 230px;
 }
 
 h1 {
@@ -31,6 +31,7 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* FORMULÁRIO */
 /* FORMULÁRIO */
 .formulario {
   display: flex;
@@ -44,33 +45,35 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  align-items: flex-start; /* Alinhamento ajustado */
+  align-items: flex-end; /* alinha os campos pela base */
 }
 
-.linha > .linha {
-  flex: 1;
+/* Cada campo ocupa menos espaço e fica lado a lado */
+.campo {
+  display: flex;
+  flex-direction: column;
+  width: 30%; /* 3 colunas lado a lado, com espaço */
   min-width: 150px;
+  box-sizing: border-box;
 }
 
-/* RÓTULOS */
 label {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 13px;
   color: #002B5C;
-  min-width: 120px;
-  margin-top: 7px;
-  margin-right: -20px;
+  margin-bottom: 3px;
 }
 
-/* CAMPOS */
 input[type="text"],
 input[type="date"],
-select {
+select,
+textarea {
   border: 1px dotted #002B5C;
   background-color: #F2F2F2;
-  padding: 5px;
-  font-size: 14px;
-  flex: 1;
+  padding: 4px 6px;
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 input::placeholder {
@@ -78,38 +81,11 @@ input::placeholder {
   color: #000;
 }
 
-/* TAMANHOS FIXOS */
-.input-curto {
-  width: 120px;
-}
-
-.input-medio {
-  width: 250px;
-}
-
-.input-longo {
-  width: 100%;
-}
-
-/* Ajuste individual de tamanhos para melhor visual */
-#codigo, #cpf, #cnpj, #rg, #data_nasc, #sexo, #cargo,
-#cep, #uf, #telefone, #celular, #data_cadastro {
-  width: 120px;
-}
-
-#nome, #bairro, #cidade, #tipo_cliente, #email {
-  width: 250px;
-}
-
-#endereco, #observacoes {
-  width: 100%;
-}
-
-/* Textarea */
 textarea#observacoes {
-  height: 80px;
+  height: 60px;
   resize: vertical;
 }
+
 
 /* BOTÕES */
 .botoes {
@@ -279,6 +255,7 @@ button.sair {
   right: 70px;
   z-index: 999;
 }
+
 .campo-vazio {
   border: 2px solid red;
 }

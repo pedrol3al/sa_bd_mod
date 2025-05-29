@@ -522,7 +522,7 @@ document.addEventListener("DOMContentLoaded", function () {
   camposNumericos.forEach(id => {
     const campo = document.getElementById(id);
     if (campo) {
-      // Impede a digitação de caracteres não numéricos
+      // Impede a digitação de caracteres não numéricos 
       campo.addEventListener("keydown", function(e) {
         const teclasPermitidas = [
           'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab',
