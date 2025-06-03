@@ -1,4 +1,125 @@
-// Código principal com máscaras adicionadas
+class ModalFactory {
+  constructor() {
+    this.overlay = this.createOverlay();
+    document.body.appendChild(this.overlay);
+  }
+
+  createOverlay() {
+    const overlay = document.createElement("div");
+    overlay.id = 'modal-overlay';
+    Object.assign(overlay.style, {
+      display: 'none', 
+      position: 'fixed', 
+      top: '0', 
+      left: '0',
+      width: '100%', 
+      height: '100%', 
+      backgroundColor: 'rgba(0,0,0,0.5)', 
+      zIndex: '999'
+    });
+    return overlay;
+  }
+
+  createModal({ id = 'custom-modal', title = '', content = '', width = 'auto', height = 'auto', maxWidth = 'none' }) {
+    const existing = document.getElementById(id);
+    if (existing) existing.remove();
+
+    const modal = document.createElement("div");
+    modal.id = id;
+    modal.className = 'custom-modal';
+    Object.assign(modal.style, {
+      display: 'none', 
+      position: 'fixed', 
+      top: '50%', 
+      left: '50%',
+      transform: 'translate(-50%, -50%)', 
+      backgroundColor: 'white',
+      padding: '20px', 
+      borderRadius: '8px', 
+      boxShadow: '0 0 10px rgba(0,0,0,0.3)',
+      zIndex: '1000', 
+      height, 
+      width, 
+      maxWidth, 
+      overflow: 'auto'
+    });
+
+    const header = document.createElement("div");
+    Object.assign(header.style, {
+      display: 'flex', 
+      justifyContent: 'space-between', 
+      alignItems: 'center',
+      marginBottom: '20px', 
+      borderBottom: '1px solid #eee', 
+      paddingBottom: '10px'
+    });
+
+    const titleElement = document.createElement("h2");
+    titleElement.textContent = title;
+    titleElement.style.margin = '0';
+
+    const closeButton = document.createElement("button");
+    closeButton.innerHTML = '&times;';
+    Object.assign(closeButton.style, {
+      background: 'none', 
+      border: 'none', 
+      fontSize: '24px',
+      cursor: 'pointer', 
+      color: 'black'
+    });
+
+    header.appendChild(titleElement);
+    header.appendChild(closeButton);
+
+    const body = document.createElement("div");
+    body.className = 'modal-body';
+    body.innerHTML = content;
+
+    modal.appendChild(header);
+    modal.appendChild(body);
+    document.body.appendChild(modal);
+
+    closeButton.addEventListener('click', () => this.closeModal(modal));
+    this.overlay.addEventListener('click', () => this.closeModal(modal));
+
+    return {
+      element: modal,
+      show: () => this.showModal(modal),
+      close: () => this.closeModal(modal),
+      updateContent: (newContent) => { body.innerHTML = newContent; }
+    };
+  }
+
+  showModal(modal) {
+    modal.style.display = 'block';
+    this.overlay.style.display = 'block';
+    this.aplicarBlur();
+  }
+
+  closeModal(modal) {
+    modal.style.display = 'none';
+    this.overlay.style.display = 'none';
+    this.removerBlur();
+  }
+
+  aplicarBlur() {
+    document.querySelectorAll("#menu-container, .conteudo").forEach(el => {
+      el.style.filter = "blur(5px)";
+      el.style.pointerEvents = "none";
+      el.style.userSelect = "none";
+    });
+  }
+
+  removerBlur() {
+    document.querySelectorAll("#menu-container, .conteudo").forEach(el => {
+      el.style.filter = "";
+      el.style.pointerEvents = "";
+      el.style.userSelect = "";
+    });
+  }
+}
+
+// Código principal
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM totalmente carregado - Sistema de estoque iniciado");
 
@@ -25,104 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
   let editandoItem = null;
   let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
 
-  // Configurar máscaras para todos os campos
-  function configurarMascaras() {
-    console.log("Configurando máscaras para os campos");
-
-    // Máscara para ID da peça (somente números)
-    const idPecas = document.getElementById("id_pecas");
-    if (idPecas) {
-      idPecas.addEventListener("input", function(e) {
-        this.value = this.value.replace(/\D/g, '');
-      });
-    }
-
-    // Máscara para ID do fornecedor (somente números)
-    const idFornecedor = document.getElementById("id_fornecedor");
-    if (idFornecedor) {
-      idFornecedor.addEventListener("input", function(e) {
-        this.value = this.value.replace(/\D/g, '');
-      });
-    }
-
-    // Máscara para quantidade (somente números)
-    const quantidade = document.getElementById("quantidade");
-    if (quantidade) {
-      quantidade.addEventListener("input", function(e) {
-        this.value = this.value.replace(/\D/g, '');
-      });
-    }
-
-    // Máscara para preço (formato monetário)
-    const preco = document.getElementById("preco");
-    if (preco) {
-      preco.addEventListener("input", function(e) {
-        let valor = this.value.replace(/\D/g, '');
-        valor = (parseInt(valor) / 100).toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL'
-        });
-        this.value = valor === 'R$ 0,00' ? '' : valor;
-      });
-
-      preco.addEventListener("blur", function() {
-        if (!this.value) {
-          this.value = 'R$ 0,00';
-        }
-      });
-    }
-
-    // Máscara para data (formato dd/mm/aaaa)
-    const dataRegistro = document.getElementById("data_registro");
-    if (dataRegistro) {
-      dataRegistro.addEventListener("input", function(e) {
-        let value = this.value.replace(/\D/g, '');
-        if (value.length > 2 && value.length <= 4) {
-          value = value.replace(/^(\d{2})(\d)/, '$1/$2');
-        } else if (value.length > 4) {
-          value = value.replace(/^(\d{2})(\d{2})(\d)/, '$1/$2/$3');
-        }
-        this.value = value.substring(0, 10);
-      });
-    }
-
-    // Máscara para número de série (formato alfanumérico)
-    const numeroSerie = document.getElementById("numero_serie");
-    if (numeroSerie) {
-      numeroSerie.addEventListener("input", function(e) {
-        this.value = this.value.toUpperCase();
-      });
-    }
-
-    // Máscara para nome (somente letras e espaços)
-    const nome = document.getElementById("nome");
-    if (nome) {
-      nome.addEventListener("input", function(e) {
-        this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '');
-      });
-    }
-
-    // Máscara para aparelho utilizado (letras, números e alguns caracteres especiais)
-    const aparelhoUtilizado = document.getElementById("aparelho_utilizado");
-    if (aparelhoUtilizado) {
-      aparelhoUtilizado.addEventListener("input", function(e) {
-        this.value = this.value.replace(/[^a-zA-Z0-9À-ÿ\s\-_]/g, '');
-      });
-    }
-
-    // Máscara para descrição (permite mais caracteres, mas remove tags HTML)
-    const descricao = document.getElementById("descricao");
-    if (descricao) {
-      descricao.addEventListener("input", function(e) {
-        this.value = this.value.replace(/<[^>]*>/g, '');
-      });
-    }
-  }
-
-  // Chamar a função para configurar as máscaras
-  configurarMascaras();
-
-  // Restante do seu código permanece o mesmo...
   // Configuração do botão de pesquisa
   if (pesquisarBtn) {
     pesquisarBtn.addEventListener("click", function(e) {
@@ -503,6 +526,99 @@ document.addEventListener("DOMContentLoaded", function () {
     salvarItem();
   });
 
+  // Funções para máscaras e formatação
+  function aplicarMascaraValor() {
+    console.log("Aplicando máscaras de valor");
+    const campos = document.querySelectorAll('.input-valor, #preco');
+
+    campos.forEach(campo => {
+      campo.addEventListener('input', formatarValor);
+      campo.addEventListener('blur', finalizarFormatacao);
+      campo.addEventListener('focus', prepararEdicao);
+
+      if (!campo.value.trim() || campo.value === 'R$ NaN') {
+        campo.value = 'R$ 0,00';
+      }
+    });
+
+    function formatarValor(e) {
+      let valor = e.target.value.replace(/\D/g, '');
+      
+      if (valor === '') {
+        e.target.value = 'R$ 0,00';
+        return;
+      }
+
+      let numero = parseInt(valor, 10);
+      if (isNaN(numero)) {
+        e.target.value = 'R$ 0,00';
+        return;
+      }
+
+      valor = (numero / 100).toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+
+      e.target.value = 'R$ ' + valor;
+    }
+
+    function finalizarFormatacao(e) {
+      let valor = e.target.value.replace(/\D/g, '');
+      if (valor === '' || parseInt(valor) === 0) {
+        e.target.value = 'R$ 0,00';
+      }
+    }
+
+    function prepararEdicao(e) {
+      let valor = e.target.value.replace(/\D/g, '');
+      e.target.value = valor === '0' ? '' : valor;
+    }
+  }
+
+  function configurarCamposNumericos() {
+    console.log("Configurando campos numéricos");
+    const camposNumericos = ["id_pecas", "id_fornecedor", "quantidade"]; 
+    
+    camposNumericos.forEach(id => {
+      const campo = document.getElementById(id);
+      if (campo) {
+        campo.addEventListener("keydown", function(e) {
+          const teclasPermitidas = [
+            'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab',
+            'Home', 'End'
+          ];
+          
+          if (teclasPermitidas.includes(e.key) || 
+              /^[0-9]$/.test(e.key) || 
+              (e.key >= '0' && e.key <= '9' && e.key.length === 1)) {
+            return;
+          }
+          
+          if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'x')) {
+            return;
+          }
+          
+          e.preventDefault();
+        });
+
+        campo.addEventListener("paste", function(e) {
+          e.preventDefault();
+          const texto = (e.clipboardData || window.clipboardData).getData('text');
+          const numeros = texto.replace(/\D/g, '');
+          document.execCommand('insertText', false, numeros);
+        });
+
+        campo.addEventListener("blur", function() {
+          if (campo.value && !/^\d+$/.test(campo.value)) {
+            campo.value = campo.value.replace(/\D/g, '');
+            if (!campo.value) campo.value = '0';
+          }
+        });
+      }
+    });
+  }
+
   // Configuração do botão de impressão
   const btnImprimir = document.getElementById('btn-imprimir');
   if (btnImprimir) {
@@ -584,7 +700,7 @@ document.addEventListener("DOMContentLoaded", function () {
         title: 'Pré-visualização da Nota Fiscal',
         width: '90%',
         maxWidth: '700px',
-        height: 'auto',
+        height: 'auto', // Alterado para altura automática
         content: `
             <div id="nota-fiscal-preview" style="width: 100%; max-height: 75vh; overflow: hidden; background: white; padding: 15px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
                 <!-- O conteúdo será gerado dinamicamente -->
@@ -750,5 +866,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     previewModal.show();
-  }
-});
+}});
