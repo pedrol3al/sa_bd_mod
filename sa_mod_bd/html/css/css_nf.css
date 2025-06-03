@@ -1,0 +1,327 @@
+/* BODY & LAYOUT */
+  body {
+    margin: 0; 
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #fff;
+    display: flex;             /* sidebar + conteúdo lado a lado */
+  }
+  
+  .container-geral {
+    width: 230px;              /* largura da barra lateral */
+    flex-shrink: 0;
+    position: fixed;           /* fixa a barra na lateral */
+    height: 100vh;
+  }
+  
+  .conteudo {
+    margin-left: 230px;        /* espaço reservado para a barra lateral */
+    padding: 30px 40px;
+    box-sizing: border-box;
+    max-width: 1000px;         /* define uma largura máxima */
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  
+  h1 {
+    color: #00003A;
+    font-family: "Roboto", sans-serif;
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  /* FORMULÁRIO */
+  .formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  .linha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  /* RÓTULOS */
+  label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #002B5C;
+    min-width: 120px;
+  }
+  
+  /* CAMPOS */
+  input[type="text"],
+  input[type="date"],
+  select {
+    border: 1px dotted #002B5C;
+    background-color: #F2F2F2;
+    padding: 5px;
+    font-size: 14px;
+    flex: 1;
+  }
+  
+  /* TAMANHOS FIXOS */
+  .input-curto {
+    width: 120px;
+  }
+  .input-medio {
+    width: 250px;
+  }
+  .input-longo {
+    width: 100%;
+  }
+  
+  /* BOTÕES */
+  .botoes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    width: 100%;
+  }
+  
+  button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #ffffff;
+  }
+  
+  .cadastrar {
+    background-color: #4CAF50;
+  }
+  
+  .pesquisar {
+    background-color: #4CAF50;
+  }
+  
+  .novo {
+    background-color: #2196F3;
+  }
+  button.sair, button.fechar {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  /* Estilo da imagem dentro do botão */
+  button.sair img, button.fechar img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+  
+  /* Efeito ao passar o mouse */
+  button.sair:hover img, button.fechar:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+  
+  /* Deixar o botão flutuante no canto superior direito */
+  button.fechar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+  }
+  
+  /* Se quiser que o botão "sair" também fique flutuante */
+  button.sair {
+    position: fixed;
+    top: 20px;
+    right: 70px; /* afastado do botão fechar */
+    z-index: 999;
+  } 
+.painel-pesquisa {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  max-height: 60%;
+  overflow-y: auto;
+  background: #fff;
+  border: 2px solid #0066cc;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  z-index: 1000;
+  display: none;
+  animation: descer 0.3s ease-out;
+}
+
+@keyframes descer {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -30%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.painel-pesquisa h2 {
+  margin-top: 0;
+  color: #004080;
+  text-align: center;
+}
+
+.painel-pesquisa .conteudo-painel button {
+  float: right;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+}
+
+.painel-pesquisa .conteudo-painel button:hover {
+  color: #f00;
+}
+
+#lista-resultados {
+  margin-top: 20px;
+}
+
+.resultado-item {
+  background: #f0f8ff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-left: 5px solid #007bff;
+  border-radius: 8px;
+}
+     #nota-fiscal-print, #nota-fiscal-print * {
+        visibility: visible;
+      }
+      #nota-fiscal-print {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .no-print {
+        display: none !important;
+      }
+    
+    
+    /* Estilo para o container da nota fiscal */
+    .nota-fiscal-container {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .nota-fiscal-header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #333;
+      padding-bottom: 10px;
+    }
+    
+    .nota-fiscal-body {
+      margin-bottom: 20px;
+    }
+    
+    .nota-fiscal-footer {
+      text-align: center;
+      border-top: 2px solid #333;
+      padding-top: 10px;
+      font-style: italic;
+    }
+    
+    .nota-fiscal-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .nota-fiscal-table th, .nota-fiscal-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    
+    .nota-fiscal-table th {
+      background-color: #f2f2f2;
+    }
+    
+    .nota-fiscal-cliente {
+      margin-bottom: 20px;
+    }
+    
+    /* Estilo para o modal de seleção de NF */
+    .nf-list-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    
+    .nf-list-item:hover {
+      background-color: #f5f5f5;
+    }
+    
+    .nf-list-header {
+      font-weight: bold;
+      background-color: #f2f2f2;
+    }
+     /* Adicionando estilo para o container das informações */
+    .info-container {
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .prestador-esquerda, .prestador-direita {
+      width: 48%;
+    }
+    
+    .info-container p {
+      margin: 8px 0;
+      padding: 5px;
+      background-color: white;
+      border-radius: 3px;
+      border-left: 3px solid #007bff;
+    }
+    
+    /* Estilo para o botão de imprimir */
+    .imprimir {
+      background-color: #17a2b8;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .imprimir:hover {
+      background-color: #138496;
+    }
+    
+    .imprimir i {
+      margin-right: 5px;
+    }
