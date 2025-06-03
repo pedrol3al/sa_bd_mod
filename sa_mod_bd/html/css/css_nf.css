@@ -5,7 +5,7 @@
     font-family: sans-serif;
     background-color: #fff;
     display: flex;             /* sidebar + conteúdo lado a lado */
-  }
+  } 
   
   .container-geral {
     width: 230px;              /* largura da barra lateral */
