@@ -1,0 +1,116 @@
+/* BODY & LAYOUT */
+body {
+   
+    font-family: sans-serif;
+    background-color: #fff;
+               
+  }
+  
+  .container-geral {
+    width: 230px;             /* largura fixa da barra azul */
+    flex-shrink: 0;
+  }
+  
+  /* CONTEÚDO */
+  .cadastro_funcionario {
+    
+  background-color: rgb(173, 216, 230);
+    
+  }
+  
+  h1 {
+    color: #00003A;
+    font-family: "Roboto", sans-serif;
+    font-size: 36px;
+    text-align: center;
+  }
+  
+
+  
+  .linha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+  }
+  
+ 
+  
+  /* CAMPOS */
+  input[type="text"],
+  input[type="date"],
+  select {
+    border: 1px dotted #002B5C;
+    background-color: #F2F2F2;
+    padding: 5px;
+    font-size: 14px;
+    flex: 1;
+  }
+
+  
+  input::placeholder {
+    opacity: 0.5;
+    color: #000000;
+  }
+  
+  /* BOTÕES */
+  .button_submit,.button_reset {
+    justify-content: space-between;
+    margin-top: 2px;
+    width: 10%;
+  }
+  
+  .button_reset,.button_submit {
+    align-items: center;
+    padding: 10px 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #000;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button_submit {
+    background-color: #4CAF50;
+  }
+  
+  .button_reset {
+    background-color: #eb1919;
+  }
+
+  
+  .button_reset:hover{
+
+     background-color: lightblue;
+
+  }
+
+  .button_submit:hover{
+
+    background-color: lightblue;
+
+ }
+  
+  .tabela {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse; /* só para melhorar o visual das bordas */
+  }
+  
+
+  .icone_pessoa{
+
+   width: 100px;
+   height: 100px;
+   text-align: center;
+     
+  }
+  
+  .endereco{
+
+      text-align: center;
+
+  }
+
