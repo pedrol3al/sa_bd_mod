@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<body>
+<ul>
+           
+    <li><a href="#"> Inicio </a></li>
+    <li><a href="#"> Novidade </a></li>
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn"> Informações </a> 
+    <div class="dropdown-content">
+        <a href="Uni.html"> INFORMAÇÕES DAS PEÇAS</a>
+        <a href="ATIV_formulario_tabela.html">FORMULARIO DO CLIENTE</a>
+        <a href="ativ_form_tab.html"> INFORMAÇÕES DO FORNECEDOR </a>
+        <a href="Atividade formularios-tabela.html"> INFORMAÇÕES DO FORNECEDOR </a>
+
+        </div>
+    </li>     
+</ul>
+
+<h1><center>Tabela de Peças</center></h1>
+
+<table align="center" border="1" bgcolor="lightyellow" cellpadding="8" cellspacing="0">
+    <tr>
+        <td rowspan="1" colspan="1"><img src="img/peça.jpg" alt="Peça" width="70"></td>
+        <th colspan="1"><center>Peças</center></th>
+    </tr>
+    
+    <tr>
+        <th>Tipo</th>
+        <td><input type="text" size="30"></td>
+    </tr>
+    <tr>
+        <th>Nome</th>
+        <td><input type="text" size="30"></td>
+    </tr>
+    <tr>
+        <th>Aparelho</th>
+        <td><input type="text" size="30"></td>
+    </tr>
+    <tr>
+        <tr>
+            <th>ID Peça</th>
+            <td><input type="number" size="30"></td>
+        </tr>
+        <th>Número de Série</th>
+        <td><input type="number" size="30"></td>
+    </tr>
+    <tr>
+        <th>Quantidade</th>
+        <td><input type="number" size="45"></td>
+    </tr>
+    <tr>
+        <th>ID Fornecedor</th>
+        <td><input type="number" size="45"></td>
+    </tr>
+    <tr>
+        <th>Preço (R$)</th>
+        <td><input type="number" size="45"></td>
+    </tr>
+    <tr>
+        <th>Data de Registro</th>
+        <td><input type="date"></td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>
+            <select>
+                <option>Ativo</option>
+                <option>Inativo</option>
+                <option>Manutenção</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th>Descrição</th>
+        <td><textarea cols="30" rows="3"></textarea></td>
+    </tr>
+    <tr>
+    <td align="center"colspan="2"><input type="submit" value="Enviar"><input type="reset" value="Limpar"></td>
+    <address>Helena Lopes</address>
+    </tr>
+
+    <style type="text/css">
+
+        ul{
+    
+            list-style-type: none ; /* tira as bolinhas padrão */
+            margin: 2px ; /* remove espaçamentos */
+            padding: 0px; /* remove espaçamentos */
+            overflow: hidden ; /* evita que o conteudo ultrapasse o tamanho da caixa */
+            background-color: lightyellow ; /* Define a cor do fundo */
+        }
+    
+        li{
+    
+            float: left; /* Os itens vão ficar um do lado do outro, tipo menu horizontal */ 
+        }
+    
+        li a, .dropbtn {
+    
+            display: inline-block; /*  */
+            color:rgb(0, 0, 0) ;
+            text-align:center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+    
+        li a:hover, .dropdown:hover .dropbtn {
+    
+            background-color: red;
+        }
+    
+        li .dropdown{
+    
+            display: inline-block;
+    
+        }
+    
+        .dropdown-content{
+    
+            display: none;
+            position:absolute;
+            background-color: rgb(230, 167, 211);
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px(0,0,0,0.2);
+            z-index: 1;
+        }
+    
+        .dropdown-content a{
+    
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+    
+        .dropdown-content a:hover{
+    
+            background-color: pink;
+        }
+    
+        .dropdown:hover .dropdown-content{
+    
+            display: block;
+        }
+    </style>
+    </body>
+    
+</table>

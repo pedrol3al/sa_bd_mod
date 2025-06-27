@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atividade Formulários</title>
+  <link rel="stylesheet" type="text/css" href="css_atividade_formulario.css">
+</head>
+<body>
+
+  <br><br>
+
+  <style type="text/css">
+
+    ul{
+
+        list-style-type: none ; /* tira as bolinhas padrão */
+        margin: 0px ; /* remove espaçamentos */
+        padding: 0px; /* remove espaçamentos */
+        overflow: hidden ; /* evita que o conteudo ultrapasse o tamanho da caixa */
+        background-color: blue ; /* Define a cor do fundo */
+        
+    }
+
+    li{
+
+        float: left; /* Os itens vão ficar um do lado do outro, tipo menu horizontal */ 
+    }
+
+    li a, .dropbtn {
+
+        display: inline-block; /*  */
+        color:white ;
+        text-align:center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    li a:hover, .dropdown:hover .dropbtn {
+
+        background-color: black;
+    }
+
+    li .dropdown{
+
+        display: inline-block;
+
+    }
+
+    .dropdown-content{
+
+        display: none;
+        position:absolute;
+        background-color: lightblue;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a{
+
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
+
+    .dropdown-content a:hover{
+
+        background-color: brown;
+    }
+
+    .dropdown:hover .dropdown-content{
+
+        display: block;
+    }
+</style>
+
+
+
+<ul>
+       
+  <li><a href="inicio_atividade.html"> Inicio </a></li>
+  <li><a href="#"> Novidade </a></li>
+  <li class="dropdown">
+      <a href="javascript:void(0)" class="dropbtn"> Formularios de cadastros </a> 
+  <div class="dropdown-content">
+      <a href="tabelaEduardo.html"> Formulario de cliente </a>
+      <a href="ativ_form_tab.html"> Formulario de fornecedores </a>
+      <a href="Atividade formularios-tabela.html"> Formulario de funcionarios </a>
+      <a href="cadastro_pecas.html"> Formulario de Peças </a>
+      </div>
+  </li>
+</ul>     
+
+
+
+
+
+
+  <!-- Início do formulário -->
+  <form>
+
+    <table  class="tabela" border="1" align="center" cellpadding="10" cellspacing="0">
+      <tr>
+        <td><img class="icone_pessoa" src="img/icone pessoa.png" ></td>
+        <td class="cadastro_funcionario" colspan="10">
+          <h1><strong>Cadastro de funcionarios</strong></font></h1>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="2"><strong>Nome:</strong></td>
+        <td><strong>Data de nascimento</strong></td>
+        <td width="70"><strong>ID Usuário</strong></td>
+        <td><strong>Endereço completo </strong></td>
+        <td><strong>CPF</strong></td>
+        <td><strong>Telefone</strong></td>
+        <td><strong>Email</strong></td>
+        <td><strong>RG</strong></td>
+        <td><strong>Senha</strong></td>
+        <td><strong>Data de cadastro</strong></td>
+      </tr>
+
+      <tr>
+        <td colspan="2"><input type="text" placeholder="Nome" size="15"></td>
+        <td><input type="text" placeholder="Data de nascimento" size="16" required></td>
+        <td><input type="text" placeholder="Nome do Usuário" size="10" maxlength="10" required></td>
+        <td><input type="text" placeholder="Endereço" size="25" required></td>
+        <td><input type="text" placeholder="CPF" size="18" required></td>
+        <td><input type="tel" placeholder="Telefone" size="12" required></td>
+        <td><input type="email" placeholder="Email" size="15" required></td>
+        <td><input type="text" placeholder="RG" size="10" required></td>
+        <td><input type="password" placeholder="Senha" maxlength="12" size="10" required></td>
+        <td><input type="date" size="15" required></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="text" placeholder="Nome" size="15"></td>
+        <td><input type="text" placeholder="Data de nascimento" size="16" required></td>
+        <td><input type="text" placeholder="Nome do Usuário" size="10" maxlength="10" required></td>
+        <td><input type="text" placeholder="Endereço" size="25" required></td>
+        <td><input type="text" placeholder="CPF" size="18" required></td>
+        <td><input type="tel" placeholder="Telefone" size="12" required></td>
+        <td><input type="email" placeholder="Email" size="15" required></td>
+        <td><input type="text" placeholder="RG" size="10" required></td>
+        <td><input type="password" placeholder="Senha" maxlength="12" size="10" required></td>
+        <td><input type="date" size="15" required></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="text" placeholder="Nome" size="15"></td>
+        <td><input type="text" placeholder="Data de nascimento" size="16" required></td>
+        <td><input type="text" placeholder="Nome do Usuário" size="10" maxlength="10" required></td>
+        <td><input type="text" placeholder="Endereço" size="25" required></td>
+        <td><input type="text" placeholder="CPF" size="18" required></td>
+        <td><input type="tel" placeholder="Telefone" size="12" required></td>
+        <td><input type="email" placeholder="Email" size="15" required></td>
+        <td><input type="text" placeholder="RG" size="10" required></td>
+        <td><input type="password" placeholder="Senha" maxlength="12" size="10" required></td>
+        <td><input type="date" size="15" required></td>
+      </tr>
+
+      <!-- Botões de ação -->
+      <tr>
+        <td colspan="11" align="center">
+          <br>
+          <input class="button_submit" type="submit"value="Enviar">  <input class="button_reset" type="reset" value="Limpar">
+          <br><br>
+        
+        </td>
+      </tr>
+
+    </table>
+
+  </form>
+
+  <br>
+  <br>
+  <br>
+
+
+  <address align="center" >
+
+     Trabalho desenvolvido pelo aluno Pedro Gabriel | Aluno Tecnico | Desinvolvimento de sistemas
+
+  </address>
+  
+
+</body>
+</html>
