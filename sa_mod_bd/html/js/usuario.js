@@ -1,69 +1,3 @@
-// =================== LISTA DE USUÁRIOS ===================
-let listaUsuario = [
-  {
-    codigo: "001",
-    nome: "João Silva",
-    cpf: "123.456.789-00",
-    cnpj: "",
-    rg: "12.345.678-9",
-    data_nasc: "1980-05-10",
-    sexo: "M",
-    endereco: "Rua A, 123",
-    num: "123",
-    complemento: "Apto 101",
-    bairro: "Centro",
-    uf: "SP",
-    cep: "01000-000",
-    cidade: "São Paulo",
-    telefone: "(11) 1234-5678",
-    celular: "(11) 91234-5678",
-    email: "joao.silva@email.com",
-    data_cadastro: "2025-05-10",
-    observacoes: "Usuário fiel, sem pendências"
-  },
-  {
-    codigo: "002",
-    nome: "Maria Oliveira",
-    cpf: "987.654.321-00",
-    cnpj: "",
-    rg: "98.765.432-1",
-    data_nasc: "1990-12-22",
-    sexo: "F",
-    endereco: "Av. B, 456",
-    num: "456",
-    complemento: "",
-    bairro: "Jardim",
-    uf: "RJ",
-    cep: "20000-000",
-    cidade: "Rio de Janeiro",
-    telefone: "(21) 2345-6789",
-    celular: "(21) 92345-6789",
-    email: "maria.oliveira@email.com",
-    data_cadastro: "2025-04-22",
-    observacoes: ""
-  },
-  {
-    codigo: "003",
-    nome: "Empresa XYZ Ltda",
-    cpf: "",
-    cnpj: "12.345.678/0001-99",
-    rg: "",
-    data_nasc: "",
-    sexo: "N/A",
-    endereco: "Rua C, 789",
-    num: "789",
-    complemento: "Sala 5",
-    bairro: "Industrial",
-    uf: "SC",
-    cep: "89000-000",
-    cidade: "Joinville",
-    telefone: "(47) 3456-7890",
-    celular: "",
-    email: "contato@xyz.com",
-    data_cadastro: "2025-03-15",
-    observacoes: "Usuário corporativo"
-  }
-];
 
 // =================== VALIDAÇÃO CAMPOS ===================
 function camposObrigatoriosPreenchidos() {
@@ -78,8 +12,7 @@ function camposObrigatoriosPreenchidos() {
   });
 }
 
-// Chave para armazenar usuários no localStorage
-const STORAGE_KEY = 'usuarios_cadastrados';
+
 
 // =================== MÁSCARAS ===================
 function setCursorPosition(pos, el) {
