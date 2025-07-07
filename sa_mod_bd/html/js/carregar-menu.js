@@ -12,6 +12,12 @@ async function carregarMenuLateral() {
         <div class="top-menu">
           <ul>
             <li class="item-menu">
+                <a href="#" class="menu-link" id="fixar_menu">
+                    <span class="icon"><i class="bi bi-list"></i></span>
+                    <span class="txt-link">Fixar Menu</span>
+                </a>
+            </li>
+            <li class="item-menu">
               <a href="main.html" class="menu-link">
                 <span class="icon"><i class="bi bi-house-door"></i></span>
                 <span class="txt-link">Menu</span>
@@ -88,47 +94,65 @@ async function carregarMenuLateral() {
       // Insere o HTML do menu dentro do container
       menuContainer.innerHTML = menuHtml;
 
-      // Busca dentro do container o link do orçamento e seu submenu
+      // Pega o menu e o botão fixar
+      const menu = menuContainer.querySelector('.menu-lateral');
+      const botaoFixar = menuContainer.querySelector('#fixar_menu');
+
+
+botaoFixar.addEventListener('click', (e) => {
+  e.preventDefault();
+  menu.classList.toggle('fixo');
+
+  // Salva no localStorage se o menu está fixo ou não
+  if (menu.classList.contains('fixo')) {
+    localStorage.setItem('menuFixo', 'true');
+  } else {
+    localStorage.setItem('menuFixo', 'false');
+  }
+});
+
+// Na hora de carregar o menu (ou depois de inserir o menu no DOM):
+
+const menuFixoSalvo = localStorage.getItem('menuFixo');
+
+if (menuFixoSalvo === 'true') {
+  menu.classList.add('fixo');
+} else {
+  menu.classList.remove('fixo');
+}
+
+
+      // Busca o link do orçamento e seu submenu
       const orcamentoLink = menuContainer.querySelector('#orcamento');
       const subOrcamento = menuContainer.querySelector('#sub-orcamento');
 
-      console.log('orcamentoLink:', orcamentoLink);
-      console.log('subOrcamento:', subOrcamento);
-
-      // Verifica se os elementos foram encontrados
       if (orcamentoLink && subOrcamento) {
-        // Adiciona evento de clique para alternar a exibição do submenu de orçamento
         orcamentoLink.addEventListener('click', (e) => {
-          e.preventDefault(); // Impede o comportamento padrão do link (navegar)
-          // Se o submenu estiver oculto, mostra; se estiver visível, oculta
+          e.preventDefault();
           subOrcamento.style.display = subOrcamento.style.display === 'none' ? 'block' : 'none';
         });
       } else {
-        // Caso não encontre algum dos elementos, exibe erro no console
         console.error('Elemento orcamentoLink ou subOrcamento não encontrado!');
       }
     } else {
-      // Caso o container do menu não exista, exibe erro no console
       console.error('menuContainer não encontrado no DOM!');
     }
   } catch (error) {
-    // Caso algum erro aconteça dentro do try, ele será capturado e exibido aqui
     console.error('Erro ao carregar menu lateral:', error);
   }
 }
 
 // Quando o DOM estiver completamente carregado
 window.addEventListener("DOMContentLoaded", () => {
-  // Se existir um botão com classe 'fechar', adiciona evento para redirecionar ao Google
+  // Redirecionamentos para botão sair/fechar
   document.querySelector(".fechar")?.addEventListener("click", () => {
-    window.location.href = "https://www.google.com"; // Redireciona para o Google
+    window.location.href = "https://www.google.com";
   });
 
-  // Se existir um botão com classe 'sair', adiciona evento para redirecionar para login
   document.querySelector(".sair")?.addEventListener("click", () => {
     window.location.href = "login-estilo.html";
   });
-});
 
-// Quando o DOM estiver carregado, chama a função para inserir o menu lateral
-window.addEventListener('DOMContentLoaded', carregarMenuLateral);
+  // Carrega o menu lateral
+  carregarMenuLateral();
+});

@@ -15,7 +15,7 @@ html, body {
 
 /* Menu lateral */
 .menu-lateral {
-  width: 220px;
+  width: 60px;
   height: 100vh;
   background-color: #013d8d;
   padding: 0;
@@ -26,11 +26,16 @@ html, body {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding-bottom: 20px; /* Espaço no final */
+  padding-bottom: 20px; 
+  transition: width 0.3s ease-in;
+  overflow: hidden;
 }
 
-.menu-lateral::-webkit-scrollbar {
-  display: none;
+
+
+.menu-lateral:hover,
+.menu-lateral.fixo {
+  width: 200px;
 }
 
 .top-menu {
@@ -60,6 +65,11 @@ ul {
 
 ul li {
   margin-bottom: 10px;
+}
+
+/* Esconde o footer quando o menu estiver pequeno */
+.menu-lateral:not(.fixo):not(:hover) .footer-contato {
+  display: none;
 }
 
 ul li a {
