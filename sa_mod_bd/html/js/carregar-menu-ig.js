@@ -1,15 +1,18 @@
-// Log no console para confirmar que a função foi chamada
-console.log("carregarMenuLateral foi chamado");
 
-// Função assíncrona que carrega o menu lateral na página
 async function carregarMenuLateral() {
   try {
-    // HTML do menu lateral como template string
+    // HTML do menu lateral como template string 
     const menuHtml = ` <nav class="menu-lateral">
   <div class="btn-expandir"></div>
 
   <div class="top-menu">
     <ul>
+         <li class="item-menu">
+                <a href="#" class="menu-link" id="fixar_menu">
+                    <span class="icon"><i class="bi bi-list"></i></span>
+                    <span class="txt-link"> Pin Menu </span>
+                </a>
+            </li>
       <li class="item-menu">
         <a href="main-ig.html" class="menu-link">
           <span class="icon"><i class="bi bi-house-door"></i></span>
@@ -88,6 +91,34 @@ async function carregarMenuLateral() {
       // Insere o HTML do menu no container
       menuContainer.innerHTML = menuHtml;
 
+       // Pega o menu e o botão fixar
+      const menu = menuContainer.querySelector('.menu-lateral');
+      const botaoFixar = menuContainer.querySelector('#fixar_menu');
+
+
+botaoFixar.addEventListener('click', (e) => {
+  e.preventDefault();
+  menu.classList.toggle('fixo');
+
+  // Salva no localStorage se o menu está fixo ou não
+  if (menu.classList.contains('fixo')) {
+    localStorage.setItem('menuFixo', 'true');
+  } else {
+    localStorage.setItem('menuFixo', 'false');
+  }
+});
+
+// Na hora de carregar o menu (ou depois de inserir o menu no DOM):
+
+const menuFixoSalvo = localStorage.getItem('menuFixo');
+
+if (menuFixoSalvo === 'true') {
+  menu.classList.add('fixo');
+} else {
+  menu.classList.remove('fixo');
+}
+
+
       // Busca dentro do container o link "orcamento" e seu submenu
       const orcamentoLink = menuContainer.querySelector('#orcamento');
       const subOrcamento = menuContainer.querySelector('#sub-orcamento');
@@ -129,6 +160,8 @@ window.addEventListener("DOMContentLoaded", () => {
     window.location.href = "login-estilo-ig.html";
   });
 });
+
+
 
 // Quando o DOM for carregado, chama a função para carregar o menu lateral
 window.addEventListener('DOMContentLoaded', carregarMenuLateral);

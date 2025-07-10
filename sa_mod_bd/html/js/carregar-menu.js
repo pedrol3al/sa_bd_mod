@@ -1,5 +1,3 @@
-// Mensagem no console para indicar que a função carregarMenuLateral foi chamada
-console.log("carregarMenuLateral foi chamado");
 
 // Função assíncrona para carregar o menu lateral na página
 async function carregarMenuLateral() {
@@ -91,7 +89,7 @@ async function carregarMenuLateral() {
     if (menuContainer) {
       console.log('Inserindo menu no container...');
 
-      // Insere o HTML do menu dentro do container
+      // Insere o HTML do menu dentro do container 
       menuContainer.innerHTML = menuHtml;
 
       // Pega o menu e o botão fixar
