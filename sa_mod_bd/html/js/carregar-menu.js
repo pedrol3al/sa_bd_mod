@@ -1,6 +1,5 @@
 
-// Função assíncrona para carregar o menu lateral na página
-async function carregarMenuLateral() {
+ function carregarMenuLateral() {
   try {
     // Definição do HTML do menu lateral usando template string
     const menuHtml = `

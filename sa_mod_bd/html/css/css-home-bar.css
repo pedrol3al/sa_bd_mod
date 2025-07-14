@@ -63,6 +63,7 @@ ul {
   flex-grow: 1;
 }
 
+
 ul li {
   margin-bottom: 10px;
 }
@@ -79,7 +80,7 @@ ul li a {
   padding: 15px 16px;
   display: flex;
   align-items: center;
-  transition: background 0.3s;
+ 
   width: 100%;
   box-sizing: border-box;
   border-radius: 8px;
@@ -168,12 +169,6 @@ main.conteudo-principal {
   margin-top: 8px;
 }
 
-
-
-/* Esconder menu lateral em páginas específicas */
-body.cliente-pagina .menu-lateral {
-  display: none;
-}
 button.sair, button.fechar {
   background: transparent;
   border: none;
