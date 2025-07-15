@@ -143,7 +143,7 @@ if (menuFixoSalvo === 'true') {
 window.addEventListener("DOMContentLoaded", () => {
   // Redirecionamentos para botão sair/fechar
   document.querySelector(".fechar")?.addEventListener("click", () => {
-    window.location.href = "https://www.google.com";
+    window.close()
   });
 
   document.querySelector(".sair")?.addEventListener("click", () => {

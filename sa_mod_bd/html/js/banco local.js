@@ -35,13 +35,6 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-  
-
-// Adiciona um evento ao botão com classe .botao-embora
-// Quando clicado, redireciona o usuário para o Google
-document.querySelector('.botao-embora').addEventListener('click', () => {
-  window.location.href = "https://www.google.com";
-});
 
 
 // Função que exibe uma mensagem de erro ou sucesso na tela
@@ -159,3 +152,11 @@ function alterarSenha() {
   // Redireciona para a tela de login após 1,5 segundos
   setTimeout(() => window.location.href = "login-estilo.html", 1500);
 }
+
+
+window.addEventListener("DOMContentLoaded", () => {
+  // Redirecionamentos para botão sair/fechar
+  document.querySelector(".fechar")?.addEventListener("click", () => {
+    window.close();
+  });
+});

@@ -17,6 +17,8 @@ body {
   position: relative; /* Permite o posicionamento absoluto de elementos filhos (como o botão de voltar) */
 }
 
+
+
 /* Estilo para o título principal (h1) */
 h1 {
   font-family: 'Montserrat', sans-serif; /* Aplica a fonte Montserrat apenas ao h1 */
@@ -158,30 +160,15 @@ select {
   font-family: inherit; /* Usa fonte herdada */
 }
 
-/* Estilo do botão circular com seta de voltar */
-.botao-sair {
-  position: absolute; /* Posiciona em relação ao body */
-  top: 1.5rem; /* 24px do topo da tela */
-  left: 1.5rem; /* 24px da esquerda da tela */
-  width: 2.5rem; /* 40px de largura */
-  height: 2.5rem; /* 40px de altura */
-  border: 1px solid black; /* Borda preta */
-  border-radius: 9999px; /* Deixa o botão completamente circular */
-  background: transparent; /* Fundo transparente */
-  display: flex; /* Usa Flexbox para centralizar o ícone */
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: center; /* Centraliza verticalmente */
-  cursor: pointer; /* Mostra cursor de clique */
-}
 
-.botao-embora {
+
+.sair {
   position: absolute; /* Posiciona em relação ao body */
   top: 1.5rem; /* 24px do topo da tela */
   left: 1.5rem; /* 24px da esquerda da tela */
   width: 2.5rem; /* 40px de largura */
   height: 2.5rem; /* 40px de altura */
-  border: 1px solid black; /* Borda preta */
-  border-radius: 9999px; /* Deixa o botão completamente circular */
+  border: none; /* Sem borda */
   background: transparent; /* Fundo transparente */
   display: flex; /* Usa Flexbox para centralizar o ícone */
   justify-content: center; /* Centraliza horizontalmente */
