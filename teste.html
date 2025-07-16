@@ -48,6 +48,19 @@
       from { opacity: 0; transform: translateY(-10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    .caixa-contraste {
+  background-color: #ffffff; /* cor de fundo branca */
+  color: #333; /* cor do texto */
+  border: 1px solid #ccc; /* borda fina e cinza */
+  border-radius: 8px; /* cantos arredondados */
+  padding: 20px; /* espaço interno */
+  margin: 20px auto; /* espaço externo e centralização */
+  max-width: 600px; /* largura máxima */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* sombra para destaque */
+  font-family: Arial, sans-serif; /* fonte legível */
+}
+
   </style>
 </head>
 <body>
@@ -74,9 +87,18 @@
     // Auto remover após 5 segundos (opcional)
     setTimeout(() => {
       alerta.remove();
-    }, 2000);
+    }, 5000);
   }
+
+
 </script>
+
+
+<div class="caixa-contraste">
+  <h2>Título da Mensagem</h2>
+  <p>Este é o conteúdo dentro de uma caixa com contraste.</p>
+</div>
+
 
 </body>
 </html>

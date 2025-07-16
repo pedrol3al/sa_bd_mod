@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conserta Tech - Recuperar Senha</title>
+  <link rel="stylesheet" href="css/estilo_troca.css" />
+</head>
+<body>
+
+
+
+  <main>
+    <h1>Conserta Tech</h1>
+    <strong><p>RECUPERAR SENHA</p></strong>
+
+    <form onsubmit="event.preventDefault(); recuperarSenha();" >
+      <label for="email">E-mail cadastrado:</label>
+      <input id="email" name="email" type="email"                                                                                                            />
+
+      <button type="submit" class="button">Confirmar</button>
+    </form>
+
+    <!-- Aviso de erro -->
+    <div id="mensagemErro" class="mensagem-erro" style="display: none;"></div>
+
+    <div class="footer">
+      <button class="button-termos" onclick="window.location.href='termos.html'" style="cursor: pointer;">Termos</button>
+    </div>
+
+  </main>
+
+  <script src="js/banco local.js"></script>
+</body>
+</html>

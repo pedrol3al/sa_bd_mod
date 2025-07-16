@@ -85,7 +85,7 @@
     console.log('menuContainer:', menuContainer);
 
     // Verifica se o container existe na página
-    if (menuContainer) {
+    if (menuContainer) { 
       console.log('Inserindo menu no container...');
 
       // Insere o HTML do menu dentro do container 
