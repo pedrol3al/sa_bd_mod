@@ -11,32 +11,7 @@
       height: 100%;
       background-color: #fff;
   }
-  
-  /* Menu lateral */
-  .menu-lateral {
-      width: 220px;
-      height: 100vh;
-      background-color: #013d8d;
-      padding: 0;
-      box-shadow: 3px 0 0 #fff;
-      position: fixed;
-      top: 0;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-  }
-  
-  .menu-lateral::-webkit-scrollbar {
-      display: none;
-  }
-  
-  /* Botão expandir */
-  .btn-expandir {
-      width: 100%;
-      padding: 10px;
-  }
-  
+
   .btn-expandir > i {
       color: #fff;
       font-size: 24px;
@@ -89,10 +64,7 @@
   }
   
   /* Submenu oculto com transição suave */
-  .sub-menu {
-      display: none;
-      padding-left: 40px;
-  }
+ 
   
   .sub-menu a {
       display: block;
