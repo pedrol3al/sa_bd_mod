@@ -53,11 +53,11 @@ body{
 }
 .btn-outline-success{
   background-color:   rgb(31, 221, 31);
-  color: white;
+  color: white ;
 }
 .btn-outline-success:hover{
-  background-color: white;
-  color: rgb(31, 221, 31);
+  background-color: #39ad4c;
+  color: white;
 }
 .topoPag h1{
   font-family: "Roboto", sans-serif;

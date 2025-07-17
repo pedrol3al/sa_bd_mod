@@ -1,104 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Alerta SVG</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-
-    .alert {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      background-color: #f8d7da;
-      color: #721c24;
-      padding: 15px 20px;
-      border-left: 5px solid #f44336;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      min-width: 300px;
-      z-index: 9999;
-      animation: fadeIn 0.5s ease;
-    }
-
-    .alert svg {
-      width: 24px;
-      height: 24px;
-      margin-right: 10px;
-      fill: #f44336;
-    }
-
-    .alert .message {
-      flex: 1;
-    }
-
-    .alert .close-btn {
-      background: none;
-      border: none;
-      font-size: 18px;
-      cursor: pointer;
-      color: #721c24;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .caixa-contraste {
-  background-color: #ffffff; /* cor de fundo branca */
-  color: #333; /* cor do texto */
-  border: 1px solid #ccc; /* borda fina e cinza */
-  border-radius: 8px; /* cantos arredondados */
-  padding: 20px; /* espaço interno */
-  margin: 20px auto; /* espaço externo e centralização */
-  max-width: 600px; /* largura máxima */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* sombra para destaque */
-  font-family: Arial, sans-serif; /* fonte legível */
-}
-
-  </style>
+  <meta charset="UTF-8" />
+  <title>Exemplo Toastify</title>
+  <!-- Toastify CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
 
-<button onclick="mostrarAlerta()">Mostrar Alerta</button>
+  <button onclick="mostrarAlerta()">Mostrar Alerta</button>
 
-<script>
-  function mostrarAlerta() {
-    const alerta = document.createElement("div");
-    alerta.classList.add("alert");
-    alerta.innerHTML = `
-      <svg viewBox="0 0 24 24">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 
-        10 10 10 10-4.48 10-10S17.52 2 
-        12 2zm0 15c-.55 0-1 .45-1 
-        1s.45 1 1 1 1-.45 1-1-.45-1-1-1zm1-4h-2V7h2v6z"/>
-      </svg>
-      <div class="message">Algo deu errado! Verifique os dados informados.</div>
-      <button class="close-btn" onclick="this.parentElement.remove()">×</button>
-    `;
+  <!-- Toastify JS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-    document.body.appendChild(alerta);
-
-    // Auto remover após 5 segundos (opcional)
-    setTimeout(() => {
-      alerta.remove();
-    }, 5000);
-  }
-
-
-</script>
-
-
-<div class="caixa-contraste">
-  <h2>Título da Mensagem</h2>
-  <p>Este é o conteúdo dentro de uma caixa com contraste.</p>
-</div>
-
+  <script>
+    function mostrarAlerta() {
+      Toastify({
+        text: "Alerta simples exibido com sucesso!",
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#5cb85c",
+        stopOnFocus: true,
+      }).showToast();
+    }
+  </script>
 
 </body>
 </html>
