@@ -18,7 +18,7 @@ function conferirCampos() {
         return false;
     }else{
         document.getElementById("logar")?.addEventListener("click", () => {
-            window.location.href = "agenda.html";
+            window.location.href = "../Agenda/agenda.html";
           });
 
           return true; //Caso os campos sejam preenchidos, continua

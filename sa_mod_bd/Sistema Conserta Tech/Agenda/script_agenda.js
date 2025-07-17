@@ -1,79 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Conserta Tech - Agenda</title>
-    <link rel="stylesheet" href="css/css_agenda.css" />
-    <link rel="stylesheet" href="css/css-home-bar.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <script src="JS/carregar-menu.js" defer></script>
-
-    <button class="sair" title="sair da conta">
-      <img src="img/logout.png" alt="Sair">
-    </button>
-    
-    <button class="fechar" title="fechar">
-      <img src="img/sair.png" alt="Fechar">
-    </button>
-</head>
-
-<body>
-<div id="menu-container"></div>
-   <div class="conteudo">
-        <h1>AGENDA</h1>
-
-        <div class="calendario">
-            <div class="cabecalho">
-                <button id="mesAnterior">&lt;</button>
-                <span id="mesAno">Maio 2025</span>
-                <button id="mesProximo">&gt;</button>
-            </div>
-            <div class="dias-semana">
-                <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
-            </div>
-            <div class="dias" id="diasCalendario">
-                <!-- Os dias serão preenchidos via JavaScript -->
-            </div>
-        </div>
-
-        <div class="botoes">
-            <button class="pesquisar">Pesquisar</button>
-            <button class="novo">Novo</button>
-        </div>
-
-        <form class="formulario">
-            <div class="linha">
-                <label>Data:</label>
-                <input class="input-longo" type="text" id="campoData" placeholder="DD/MM/AAAA">
-                <label>Código OS:</label>
-                <input type="text">
-            </div>
-        </form>
-
-        <h1 class="pesquisa">PESQUISA</h1>
-    </div>
-
-    <div id="modal">
-        <div class="modal-conteudo">
-            <h2 class="modal-titulo">Adicionar Evento</h2>
-        
-            <label for="inputTitulo">Título:</label>
-            <input type="text" id="inputTitulo" />
-        
-            <label for="inputDescricao">Descrição:</label>
-            <textarea id="inputDescricao" rows="4"></textarea>
-        
-            <p id="dataSelecionada"></p>
-        
-            <div class="botoes-modal">
-                <button class="salvar">Salvar</button>  
-                <button class="fechar-agenda">Fechar</button>
-            </div>
-        </div>
-    </div>
-
-<script>
 const meses = [
     "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
@@ -184,9 +108,8 @@ document.querySelector('.novo').addEventListener('click', () => {
 });
 
 renderizarCalendario();
-</script>
 
-<script>
+
 const campoData = document.getElementById('campoData');
 
 campoData.addEventListener('input', (e) => {
@@ -239,6 +162,3 @@ campoData.addEventListener('blur', () => {
         }
     }
 });
-</script>
-</body>
-</html>

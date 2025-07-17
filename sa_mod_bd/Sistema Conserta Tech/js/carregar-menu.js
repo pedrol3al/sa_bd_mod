@@ -147,7 +147,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   document.querySelector(".sair")?.addEventListener("click", () => {
-    window.location.href = "login.html";
+    window.location.href = "Login/login.html";
   });
 
   // Carrega o menu lateral

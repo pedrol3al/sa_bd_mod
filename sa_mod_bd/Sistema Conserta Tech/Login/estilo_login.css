@@ -1,20 +1,18 @@
-@keyframes aparecer{
-  from{
-    width:0;
-    height: 0;
-    opacity: 0  ;
+@keyframes aparecer {
+  from {
+    transform: translate(-50%, -50%) scale(0.8); /* O elemento começa centralizado e com 80% (0.8) do tamanho original  */
+    opacity: 0; /* Começa invisível */
   }
-  to{
-    width: 550px;
-    height: 550px;
-    opacity: 1;
+  to {
+    transform: translate(-50%, -50%) scale(1); /* Continua centralizado e volta ao tamanho normal (100%) */
+    opacity: 1; /* Torna-se totalmente visível */
   }
 }
-body{
-  animation: aparecer 2s;
-}
+
+
+
 .container{
-  animation: aparecer 2s;
+  animation: aparecer 2s; /* configuração de animação sendo invocada dentro da classe container */
   width: 550px;
   height: 550px;
   position: absolute;
@@ -70,4 +68,12 @@ body{
 
   border: 0.1px rgba(0, 0, 0, 0.363) solid ;
 
+}
+
+.imagemLogo{
+
+  align-items: center;
+  display: flex;
+  height: 250px;
+  margin: auto;
 }
