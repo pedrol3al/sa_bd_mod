@@ -23,37 +23,37 @@
                 </a>
               </li>
               <li class="item-menu">
-                <a href="main.html" class="menu-link">
+                <a href="../Principal/main.html" class="menu-link">
                   <span class="icon"><i class="bi bi-house-door"></i></span>
                   <span class="txt-link">Menu</span>
                 </a>
               </li>
               <li class="item-menu">
-                <a href="agenda.html" class="menu-link">
+                <a href="../Agenda/agenda.html" class="menu-link">
                   <span class="icon"><i class="bi bi-calendar"></i></span>
                   <span class="txt-link">Agenda</span>
                 </a>
               </li>
               <li class="item-menu">
-                <a href="cliente.html" class="menu-link">
+                <a href="../Cliente/cliente.html" class="menu-link">
                   <span class="icon"><i class="bi bi-person-fill"></i></span>
                   <span class="txt-link">Cadastrar Cliente</span>
                 </a>
               </li>
               <li class="item-menu">
-                <a href="usuario.html" class="menu-link">
+                <a href="../Usuario/usuario.html" class="menu-link">
                   <span class="icon"><i class="bi bi-person-circle"></i></span>
                   <span class="txt-link">Cadastro Usuário</span>
                 </a>
               </li>
               <li class="item-menu">
-                <a href="fornecedor.html" class="menu-link">
+                <a href="../Fornecedor/fornecedor.html" class="menu-link">
                   <span class="icon"><i class="bi bi-truck"></i></span>
                   <span class="txt-link">Cadastro Fornecedor</span>
                 </a>
               </li>
               <li class="item-menu">
-                <a href="estoque_cad.html" class="menu-link">
+                <a href="../Estoque/estoque_cad.html" class="menu-link">
                   <span class="icon"><i class="bi bi-box-seam"></i></span>
                   <span class="txt-link">Estoque</span>
                 </a>
@@ -64,12 +64,12 @@
                   <span class="txt-link">Orçamento <i class="bi bi-chevron-down"></i></span>
                 </a>
                 <div id="sub-orcamento" class="sub-menu" style="display: none;">
-                  <a href="financas.html"><i class="bi bi-circle-fill"></i> Finanças</a>
-                  <a href="emitir_nf.html"><i class="bi bi-circle-fill"></i> Emitir NF</a>
+                  <a href="../Financas/financas.html"><i class="bi bi-circle-fill"></i> Finanças</a>
+                  <a href="../Financas/emitir_nf.html"><i class="bi bi-circle-fill"></i> Emitir NF</a>
                 </div>
               </li>
               <li class="item-menu">
-                <a href="os.html" class="menu-link">
+                <a href="../Ordem_servico/os.html" class="menu-link">
                   <span class="icon"><i class="bi bi-tools"></i></span>
                   <span class="txt-link">O.S</span>
                 </a>

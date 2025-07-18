@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  background-color: white;
+  overflow-x: hidden;
+}
+
+/* Menu lateral */
+.menu-lateral {
+  width: 60px;
+  height: 100vh; 
+  background-color: #013d8d;
+  padding: 0;
+  box-shadow: 3px 0 0 #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-bottom: 20px; 
+  transition: width 0.5s ease-in;
+  overflow: hidden;
+}
+
+
+
+.menu-lateral:hover,
+.menu-lateral.fixo {
+  width: 200px;
+}
+
+.top-menu {
+  flex-grow: 1;
+}
+
+.btn-expandir {
+  width: 100%;
+  padding: 10px;
+}
+
+.btn-expandir > i {
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Lista de menu */
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+
+ul li {
+  margin-bottom: 10px;
+}
+
+/* Esconde o footer quando o menu estiver pequeno */
+.menu-lateral:not(.fixo):not(:hover) .footer-contato {
+  display: none;
+}
+
+ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 15px 16px;
+  display: flex;
+  align-items: center;
+ 
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+ul li a:hover,
+ul li a.ativo {
+  background-color: #0250c5;
+}
+
+ul li a .txt-link {
+  margin-left: 20px;
+}
+
+ul li a .icon > i {
+  font-size: 24px;
+}
+
+/* Submenu */
+.sub-menu {
+  display: none;
+}
+
+.sub-menu.active {
+  display: block;
+}
+
+.sub-menu a {
+  display: block;
+  padding: 10px 0;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.sub-menu a:hover {
+  background-color: #0250c5;
+  border-radius: 8px;
+}
+
+/* Conteúdo principal */
+main.conteudo-principal {
+  margin-left: 220px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  width: 100%;
+}
+
+/* Rodapé */
+.footer-contato {
+  color: #fff;
+  font-size: 13px;
+  padding: 10px 16px;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-contato .linha-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.footer-contato .duvidas {
+  text-align: left;
+  font-weight: normal;
+}
+
+.footer-contato .duvidas span {
+  font-size: 10px;
+  display: block;
+}
+
+.footer-contato .telefone {
+  text-align: right;
+}
+
+.footer-contato .empresa {
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+button.sair, button.fechar {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Estilo da imagem dentro do botão */
+button.sair img, button.fechar img {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Efeito ao passar o mouse */
+button.sair:hover img, button.fechar:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+/* Deixar o botão flutuante no canto superior direito */
+button.fechar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+/* Se quiser que o botão "sair" também fique flutuante */
+button.sair {
+  position: fixed;
+  top: 20px;
+  right: 70px; /* afastado do botão fechar */
+  z-index: 999;
+} 

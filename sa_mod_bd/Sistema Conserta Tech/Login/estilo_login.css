@@ -9,8 +9,6 @@
   }
 }
 
-
-
 .container{
   animation: aparecer 2s; /* configuração de animação sendo invocada dentro da classe container */
   width: 550px;

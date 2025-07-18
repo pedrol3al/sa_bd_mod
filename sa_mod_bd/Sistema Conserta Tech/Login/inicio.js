@@ -6,7 +6,7 @@ function conferirCampos() {
     const notyf = new Notyf({ //Criação de uma varivael global para a mensagem, podendo reutilizar em outros trechos
         position: { x: 'center', y: 'top' }
       });
-      
+       
 
     if (!nome || nome.value.trim() === "")  { //Se a variavel nome não existir (! garante isso), OU, seo valor digitado, sem contar os espaços for vazio
         notyf.error('Campo de nome deve ser preenchido!');   //Exibe a mensagem de erro pois o campo está vazio
