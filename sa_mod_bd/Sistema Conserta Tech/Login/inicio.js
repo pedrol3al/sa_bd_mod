@@ -9,7 +9,7 @@ function conferirCampos() {
       
 
     if (!nome || nome.value.trim() === "")  { //Se a variavel nome não existir (! garante isso), OU, seo valor digitado, sem contar os espaços for vazio
-        notyf.error('Campo de nome é deve ser preenchido!');   //Exibe a mensagem de erro pois o campo está vazio
+        notyf.error('Campo de nome deve ser preenchido!');   //Exibe a mensagem de erro pois o campo está vazio
         return false; //Impede que os dados do formulario sejam enviados, caso não estivesse aqui, apareceria a mensagem, mas os dados seriam enviados
     }
 

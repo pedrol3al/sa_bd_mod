@@ -17,6 +17,7 @@ function conferirCampos() {
         notyf.error('Campo senha deve ser preenchido')
         return false;
     }else{
+        
         document.getElementById("logar")?.addEventListener("click", () => {
             window.location.href = "agenda.html";
           });
