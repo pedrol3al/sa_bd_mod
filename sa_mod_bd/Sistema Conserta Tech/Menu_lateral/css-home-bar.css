@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
+/* Reset geral e fonte padrão */
 * {
   margin: 0;
   padding: 0;
@@ -13,7 +14,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Menu lateral */
+/* Estilização do menu lateral */
 .menu-lateral {
   width: 60px;
   height: 100vh; 
@@ -27,21 +28,22 @@ html, body {
   flex-direction: column;
   overflow-y: auto;
   padding-bottom: 20px; 
-  transition: width 0.5s ease-in;
+  transition: width 0.5s ease-in; /* Animação suave da largura */
   overflow: hidden;
 }
 
-
-
+/* Menu lateral expandido (hover ou fixo) */
 .menu-lateral:hover,
 .menu-lateral.fixo {
   width: 200px;
 }
 
+/* Topo do menu que cresce para preencher espaço */
 .top-menu {
   flex-grow: 1;
 }
 
+/* Botão para expandir menu */
 .btn-expandir {
   width: 100%;
   padding: 10px;
@@ -53,7 +55,7 @@ html, body {
   cursor: pointer;
 }
 
-/* Lista de menu */
+/* Lista do menu */
 ul {
   list-style: none;
   padding-left: 0;
@@ -63,16 +65,16 @@ ul {
   flex-grow: 1;
 }
 
-
 ul li {
   margin-bottom: 10px;
 }
 
-/* Esconde o footer quando o menu estiver pequeno */
+/* Esconde o footer quando o menu está pequeno (sem hover e sem fixo) */
 .menu-lateral:not(.fixo):not(:hover) .footer-contato {
   display: none;
 }
 
+/* Links do menu */
 ul li a {
   color: #fff;
   text-decoration: none;
@@ -80,26 +82,28 @@ ul li a {
   padding: 15px 16px;
   display: flex;
   align-items: center;
- 
   width: 100%;
   box-sizing: border-box;
   border-radius: 8px;
 }
 
+/* Efeito hover e ativo dos links */
 ul li a:hover,
 ul li a.ativo {
   background-color: #0250c5;
 }
 
+/* Espaço entre ícone e texto do link */
 ul li a .txt-link {
   margin-left: 20px;
 }
 
+/* Ícones dentro dos links */
 ul li a .icon > i {
   font-size: 24px;
 }
 
-/* Submenu */
+/* Estilização do submenu */
 .sub-menu {
   display: none;
 }
@@ -116,12 +120,13 @@ ul li a .icon > i {
   font-size: 16px;
 }
 
+/* Hover do submenu */
 .sub-menu a:hover {
   background-color: #0250c5;
   border-radius: 8px;
 }
 
-/* Conteúdo principal */
+/* Estilização do conteúdo principal */
 main.conteudo-principal {
   margin-left: 220px;
   padding: 20px;
@@ -129,7 +134,7 @@ main.conteudo-principal {
   width: 100%;
 }
 
-/* Rodapé */
+/* Estilização do rodapé */
 .footer-contato {
   color: #fff;
   font-size: 13px;
@@ -141,6 +146,7 @@ main.conteudo-principal {
   text-align: center;
 }
 
+/* Linha de informações dentro do rodapé */
 .footer-contato .linha-info {
   display: flex;
   justify-content: space-between;
@@ -149,26 +155,31 @@ main.conteudo-principal {
   font-size: 14px;
 }
 
+/* Texto de dúvidas no rodapé */
 .footer-contato .duvidas {
   text-align: left;
   font-weight: normal;
 }
 
+/* Fonte menor para as dúvidas */
 .footer-contato .duvidas span {
   font-size: 10px;
   display: block;
 }
 
+/* Telefone alinhado à direita no rodapé */
 .footer-contato .telefone {
   text-align: right;
 }
 
+/* Nome da empresa em destaque */
 .footer-contato .empresa {
   font-weight: bold;
   font-size: 16px;
   margin-top: 8px;
 }
 
+/* Estilização dos botões sair e fechar */
 button.sair, button.fechar {
   background: transparent;
   border: none;
@@ -176,20 +187,20 @@ button.sair, button.fechar {
   cursor: pointer;
 }
 
-/* Estilo da imagem dentro do botão */
+/* Estilo da imagem dentro dos botões */
 button.sair img, button.fechar img {
   width: 40px;
   height: 40px;
-  transition: transform 0.2s ease, filter 0.2s ease;
+  transition: transform 0.2s ease, filter 0.2s ease; /* Animação de hover */
 }
 
-/* Efeito ao passar o mouse */
+/* Efeito ao passar o mouse nos botões */
 button.sair:hover img, button.fechar:hover img {
   transform: scale(1.1);
   filter: brightness(1.2);
 }
 
-/* Deixar o botão flutuante no canto superior direito */
+/* Botão fechar fixo no canto superior direito */
 button.fechar {
   position: fixed;
   top: 20px;
@@ -197,10 +208,41 @@ button.fechar {
   z-index: 999;
 }
 
-/* Se quiser que o botão "sair" também fique flutuante */
+/* Botão sair fixo ao lado do botão fechar */
 button.sair {
   position: fixed;
   top: 20px;
   right: 70px; /* afastado do botão fechar */
   z-index: 999;
 } 
+
+/* Botão fixar menu */
+button.fixar-menu {
+  margin: 0;
+  background-color:  #013d8d;
+  transition: width 0.5s ease-in, filter 0.2s ease; /* Animação combinada */
+  border: none;
+}
+
+/* Imagem dentro do botão fixar menu */
+button.fixar-menu img {
+  width: 150px;
+  height: auto;
+  margin: 10px auto;
+}
+
+/* Efeito hover na imagem do botão fixar */
+button.fixar-menu:hover img {
+  transform: scale(1.1);
+}
+
+/* Transição da opacidade do fixar menu */
+.fixar-menu {
+  transition: opacity 0.3s ease;
+}
+
+/* Esconde o botão fixar quando menu está pequeno (sem fixo e sem hover) */
+.menu-lateral:not(.fixo):not(:hover) .fixar-menu {
+  opacity: 0;
+  pointer-events: none;
+}

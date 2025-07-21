@@ -3,9 +3,9 @@
     
       // Definição do HTML do menu lateral usando template string
       const menuHtml = `
+
         <nav class="menu-lateral">
           <div class="btn-expandir"></div>
-
           <button class="sair" title="sair da conta">
             <img src="../img/logout.png" alt="Sair">
           </button>
@@ -16,12 +16,9 @@
 
           <div class="top-menu">
             <ul>
-              <li class="item-menu">
-                <a href="#" class="menu-link" id="fixar_menu">
-                  <span class="icon"><i class="bi bi-list"></i></span>
-                  <span class="txt-link">Fixar Menu</span>
-                </a>
-              </li>
+            <button class="fixar-menu" id="fixar_menu" >
+               <img src="../img/logo.png" alt="" >
+            </button>   
               <li class="item-menu">
                 <a href="../Principal/main.html" class="menu-link">
                   <span class="icon"><i class="bi bi-house-door"></i></span>
@@ -65,7 +62,7 @@
                 </a>
                 <div id="sub-orcamento" class="sub-menu" style="display: none;">
                   <a href="../Financas/financas.html"><i class="bi bi-circle-fill"></i> Finanças</a>
-                  <a href="../Financas/emitir_nf.html"><i class="bi bi-circle-fill"></i> Emitir NF</a>
+                  <a href="../Nota_Fiscal/emitir_nf.html"><i class="bi bi-circle-fill"></i> Emitir NF</a>
                 </div>
               </li>
               <li class="item-menu">
@@ -81,7 +78,7 @@
           <div class="footer-contato">
             <div class="linha-info">
               <p class="duvidas">Dúvidas?<br><span>Consulte-nos</span></p>
-              <p class="telefone">47 93025-5458</p>
+              <p class="telefone">(47) 98472-8108</p>
             </div>
             <p class="empresa">Conserta tech</p>
           </div> 
