@@ -19,22 +19,24 @@
 
 </head>
 
-<body align="center" >
+<body>
  
   <!-- <div id="menu-container"></div> -->
 
-  <main class="conteudo">
-    <div class="topoTitulo">
+  <main>
+    <br><br>
+
+    <div class="conteudo">
+    <form method="post" class="formulario d-flex flex-column align-items-center">
+
+      <div class="topoTitulo">
     <h1>CADASTRO DE CLIENTE</h1>
     </div>
 
-    <form method="post" class="formulario d-flex flex-column align-items-center">
-
       <!-- Seleção do tipo de pessoa -->
       <div class="linha">
-        <label for="tipo_pessoa"  class="form-control">Tipo de Pessoa:</label>
+        <label for="#">Selecione o tipo de cliente:</label>
         <select id="tipo_pessoa" name="tipo_pessoa"class="form-control" >
-          <option value="" >Selecione</option>
           <option value="fisica">Pessoa Física</option>
           <option value="juridica">Pessoa Jurídica</option>
         </select>
@@ -84,6 +86,7 @@
       </div>
 
     </form>
+    </div>
   </main>
 
   <!-- Links javascript -->
