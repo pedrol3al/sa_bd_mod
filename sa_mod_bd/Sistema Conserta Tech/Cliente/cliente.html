@@ -12,22 +12,24 @@
   <link rel="stylesheet" href="cliente.css"/>
   <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css"/>
   <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <!-- Link das máscaras dos campos -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
+  
 </head>
 
-<body>
+<body class="corpo">
  
-  <!-- <div id="menu-container"></div> -->
+  <div id="menu-container"></div>
 
   <main>
     <br><br>
 
     <div class="conteudo">
-    <form method="post" class="formulario d-flex flex-column align-items-center">
+    <form method="post">
 
       <div class="topoTitulo">
     <h1>CADASTRO DE CLIENTE</h1>
@@ -35,63 +37,116 @@
 
       <!-- Seleção do tipo de pessoa -->
       <div class="linha">
-        <label for="#">Selecione o tipo de cliente:</label>
-        <select id="tipo_pessoa" name="tipo_pessoa"class="form-control" >
-          <option value="fisica">Pessoa Física</option>
-          <option value="juridica">Pessoa Jurídica</option>
-        </select>
-      </div>
+        <!-- Tipo de cliente -->
+<div class="linha">
+  <label for="tipo_pessoa">Selecione o tipo de cliente:</label>
+  <select id="tipo_pessoa" name="tipo_pessoa" class="form-control tipo_pessoa">
+    <option value="">Selecione</option>
+    <option value="fisica">Pessoa Física</option>
+    <option value="juridica">Pessoa Jurídica</option>
+  </select>
+</div>
 
-      <!-- ID do Cliente -->
-      <div class="linha">
-        <label for="id_cliente">Id Cliente:</label>
-        <input type="text" id="id_cliente" name="id_cliente" class="form-control">
-      </div>
+<!-- Campos Pessoa Física -->
 
-      <!-- ID do Usuário -->
-      <div class="linha">
-        <label for="id_usuario">Id Usuário:</label>
-        <input type="text" id="id_usuario" name="id_usuario" class="form-control">
-      </div>
 
-      <!-- CPF -->
-      <div class="linha">
-        <label for="cpf">CPF:</label>
-        <input type="text" id="cpf" name="cpf" class="form-control">
-      </div>
 
-      <!-- Data de Nascimento -->
-      <div class="linha">
-        <label for="data_nasc">Data Nascimento:</label>
-        <input type="date" id="data_nasc" name="data_nasc" class="form-control">
-      </div>
+<div id="campos-fisica">
+  <div class="campos_fisica">
+  <div class="linha">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome_cliente" name="nome_cliente" class="form-control">
+  </div>
 
-      <!-- Sexo -->
-      <div class="linha">
-        <label for="sexo">Sexo:</label>
-        <select id="sexo" name="sexo" class="form-control">
-          <option value="">Selecione</option>
-          <option value="M">Masculino</option>
-          <option value="F">Feminino</option>
-          <option value="O">Outro</option>
-        </select>
-      </div>
+  <div class="linha">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" class="form-control">
+  </div>
 
+  <div class="linha">
+    <label for="cpf">CPF:</label>
+    <input type="number" id="cpf" name="cpf" class="form-control" maxlength="15">
+  </div>
+
+  <div class="linha">
+    <label for="dataNascimento">Data Nascimento:</label>
+    <input type="text" id="dataNascimento" class="form-control">
+  </div>
+
+  <div class="linha">
+    <label for="sexo">Sexo:</label>
+    <select id="sexo" name="sexo" class="form-control">
+      <option value="">Selecione</option>
+      <option value="M">Masculino</option>
+      <option value="F">Feminino</option>
+      <option value="O">Outro</option>
+    </select>
+  </div>
+
+  <div class="linha">
+    <label for="observacoes">Observações:</label>
+    <input type="text" id="observacoes" name="observacoes" class="form-control">
+  </div>
+
+  <div class="linha">
+    <label for="cep">CEP:</label>
+    <input type="number" id="cep" name="cep" class="form-control" maxlength="10">
+  </div>
+
+  <div class="linha">
+    <label for="logradouro">Logradouro:</label>
+    <input type="text" id="logradouro" name="logradouro" class="form-control">
+  </div>
+
+  <div class="linha">
+    <label for="tipo_casa">Tipo de casa:</label>
+    <select id="tipo_casa" name="tipo_casa" class="form-control">
+      <option value="">Selecione</option>
+      <option value="R">Residencial</option>
+      <option value="C">Comercial</option>
+    </select>
+     </div>
+
+     <div class="linha">
+      <label for="complemento">Complemento:</label>
+      <input type="text" id="complemento" name="complemento" class="form-control" maxlength="15">
+    </div>     
+
+  </div>
+</div>
+
+<!-- Campos Pessoa Jurídica -->
+<div id="campos-juridica">
+  <div class="linha">
+    <label for="cnpj">CNPJ:</label>
+    <input type="text" id="cnpj" name="cnpj" class="form-control">
+  </div>
+
+  <div class="linha">
+    <label for="razao_social">Razão Social:</label>
+    <input type="text" id="razao_social" name="razao_social" class="form-control">
+  </div>
+</div>
+
+
+      <div class="container-botoes">
       <div class="enviar">
-        <button type="submit" class="form-control"> Enviar </button>
+        <button type="submit" class="form-control btn-enviar"> Enviar </button>
       </div>
 
         <div class="limpar">
-        <button type="reset" class="form-control"> Limpar </button>
+        <button type="reset" class="form-control btn-limpar"> Limpar </button>
       </div>
-
+    </div>
     </form>
     </div>
   </main>
 
+
   <!-- Links javascript -->
   <script src="../Menu_lateral/carregar-menu.js" defer></script>
-  <script src="cliente.js"></script>
+  <script src="cliente.js"></script>  
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   
 </body>
 </html>

@@ -1,49 +1,125 @@
-.mesclar{
- 
-  position: absolute;
-  text-align: center;
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../img/denim.webp);
 }
+
 
 .conteudo{
 
   box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
-  width: 600px;
-  height: 700px;
+  width: 800px;
+  height: 800px;
   align-items: center;
   border: 1px solid black;
   justify-content: center;
-  flex-direction:column ;
   display: flex;
   border-radius: 16px;
-  
-
+  background-color: #FAFAFA;
+  padding: 40px;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+  gap: 4%;
 }
 
 .form-control{
 
   width: 350px;
   display: flex;
- 
-  
-
+  border: 1px solid black;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
-.label{
-
-font-weight:bold;   
-
+label {
+  position: relative;
+  top: 8px; 
+  font-weight: bold;
+  margin-bottom: 5px; 
 }
 
 h1{
-
 text-align: center;
 font-weight: bold;
 color:  rgb(0, 0, 58);
+top: 80px;
+}
+
+.container-botoes {
+  width: 350px;           
+  margin: 20px auto 0;    
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+
+.btn-enviar{
+  width: 100px;
+  background-color: rgb(31, 221, 31);
+  font-weight: bold;
+  color: black;
+  top: 25px;
+  margin-top: 20px;
+  text-align: center;
+  border: none;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-limpar{
+  width: 100px;
+  background-color: rgb(224, 24, 9);
+  font-weight: bold;
+  color: black;
+  margin-top: 20px;
+  text-align: center;
+  border: none;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-enviar:hover{
+
+  background-color: rgb(43, 240, 43);
 
 }
 
-.selecionarPessoa{
+.btn-limpar:hover{
 
-width: 100px;
+  background-color:rgb(240, 50, 37) ;
+}
+
+#campos-fisica,
+#campos-juridica{
+
+  display: none;
+}
+.campos_fisica {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  justify-content: space-between;
+}
+
+.campos_fisica .linha {
+  width:48%; /* duas colunas com espaço entre */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px; 
+}
+
+.tipo_pessoa{
+
+width: 733px;
+
 
 }

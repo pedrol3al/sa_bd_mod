@@ -30,6 +30,7 @@ html, body {
   padding-bottom: 20px; 
   transition: width 0.5s ease-in; /* Animação suave da largura */
   overflow: hidden;
+ 
 }
 
 /* Menu lateral expandido (hover ou fixo) */
@@ -229,6 +230,8 @@ button.fixar-menu img {
   width: 150px;
   height: auto;
   margin: 10px auto;
+  cursor: pointer;
+  border: none;
 }
 
 /* Efeito hover na imagem do botão fixar */
