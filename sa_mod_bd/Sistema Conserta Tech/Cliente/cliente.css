@@ -1,4 +1,13 @@
-
+@keyframes aparecer {
+  from {
+    transform: translate(-50%, -50%) scale(0.8); /* O elemento começa centralizado e com 80% (0.8) do tamanho original  */
+    opacity: 0; /* Começa invisível */
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1); /* Continua centralizado e volta ao tamanho normal (100%) */
+    opacity: 1; /* Torna-se totalmente visível */
+  }
+}
 body {
   margin: 0;
   padding: 0;
@@ -7,6 +16,7 @@ body {
   justify-content: center;
   align-items: center;
   background-image: url(../img/denim.webp);
+  scrollbar-width: none;
 }
 
 
