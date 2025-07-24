@@ -4,11 +4,11 @@ body {
   padding: 0;
   font-family: sans-serif;
   background-color: #fff;
-  display: flex;            /* sidebar + conteúdo lado a lado */
+  display: flex; /* sidebar + conteúdo lado a lado */
 }
 
 .container-geral {
-  width: 230px;             /* largura fixa da barra azul */
+  width: 230px; /* largura fixa da barra azul */
   flex-shrink: 0;
 }
 
@@ -19,7 +19,7 @@ body {
   box-sizing: border-box;
   max-width: 100%;
   overflow-x: hidden;
-  margin-left: 230px; 
+  margin-left: 230px;
 }
 
 h1 {
@@ -34,7 +34,6 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 100%;
   width: 100%;
 }
 
@@ -66,8 +65,10 @@ select {
 
 textarea#observacoes {
   height: 80px;
-  width: 1290px;
+  width: 100%;          /* largura responsiva */
+  max-width: 1290px;    /* limite máximo */
   resize: vertical;
+  box-sizing: border-box;
 }
 
 /* TAMANHOS FIXOS */
@@ -94,6 +95,8 @@ input::placeholder {
   justify-content: space-between;
   margin-top: 25px;
   width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 button {
@@ -107,6 +110,9 @@ button {
   border-radius: 4px;
   cursor: pointer;
   color: #ffffff;
+  white-space: nowrap;
+  flex: 1 1 auto; /* botões flexíveis */
+  min-width: 140px; /* largura mínima */
 }
 
 .cadastrar {
@@ -126,7 +132,7 @@ button {
   position: fixed;
   top: 50px; /* pequena margem do topo */
   left: 230px; /* mesma largura da sidebar */
-  width: calc(99% - 230px); /* ocupa todo o resto da tela exceto o menu */
+  width: calc(100% - 230px); /* ocupa todo o resto da tela exceto o menu */
   height: 50vh; /* metade da altura da tela */
   background-color: #ffffff;
   padding: 20px;
@@ -134,6 +140,7 @@ button {
   display: none;
   overflow-y: auto;
   z-index: 1000; /* menor que o modal-menor */
+  box-sizing: border-box;
 }
 
 /* Fundo escuro da modal */
@@ -189,9 +196,11 @@ button {
   background-color: white;
   border: 2px solid #888;
   border-radius: 8px;
-  width: 300px;
+  width: 90%;
+  max-width: 300px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-sizing: border-box;
 }
 
 .modal-conteudo-menor {
@@ -206,26 +215,17 @@ button {
   cursor: pointer;
 }
 
-.botao-detalhes {
-  font-size: 14px;
-  padding: 2px 6px;
-  margin-left: 1200px;
-  cursor: pointer;
-  background-color: #2196F3;
-  border: none;
-  border-radius: 4px;
-}
-
-#botao_editar {
-  background-color: #4CAF50;
-  margin-left: 400px;
-}
-
+/* Removendo margens fixas exageradas e alinhando os botões */
+.botao-detalhes,
+#botao_editar,
 #botao_excluir {
-  background-color: #990000;
-  margin-left: 600px;
-  margin-bottom: 100px;
+  margin-left: 0;
+  margin-bottom: 10px;
+  flex: 1 1 auto;
+  min-width: 120px;
 }
+
+/* Botões sair e fechar */
 button.sair, button.fechar {
   background: transparent;
   border: none;
@@ -260,5 +260,96 @@ button.sair {
   top: 20px;
   right: 70px; /* afastado do botão fechar */
   z-index: 999;
-} 
+}
 
+/* --- MEDIA QUERIES PARA RESPONSIVIDADE --- */
+
+/* Tablets e telas médias */
+@media (max-width: 1024px) {
+  .container-geral {
+    width: 70px;
+  }
+
+  .conteudo {
+    margin-left: 70px;
+    padding: 20px;
+  }
+
+  textarea#observacoes {
+    max-width: 100%;
+  }
+
+  .botoes {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button {
+    min-width: 100%;
+  }
+
+  label {
+    min-width: 100px;
+    font-size: 13px;
+  }
+}
+
+/* Smartphones e telas pequenas */
+@media (max-width: 600px) {
+  body {
+    flex-direction: column;
+  }
+
+  .container-geral {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .conteudo {
+    margin-left: 0;
+    padding: 15px 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  .linha {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  label {
+    min-width: auto;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  select,
+  textarea#observacoes {
+    width: 100%;
+  }
+
+  .botoes {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button {
+    width: 100%;
+    min-width: auto;
+  }
+
+  /* Modal principal responsivo */
+  #modal_pesquisar {
+    left: 0;
+    width: 100%;
+    top: 40px;
+    height: 60vh;
+    padding: 15px;
+  }
+}
