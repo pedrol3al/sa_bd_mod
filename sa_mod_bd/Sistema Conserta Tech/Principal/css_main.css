@@ -1,5 +1,16 @@
     @charset "UTF-8";
 
+    @keyframes aparecer {
+  from {
+    transform: translate(-50%, -50%) scale(0.8); /* O elemento começa centralizado e com 80% (0.8) do tamanho original  */
+    opacity: 0; /* Começa invisível */
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1); /* Continua centralizado e volta ao tamanho normal (100%) */
+    opacity: 1; /* Torna-se totalmente visível */
+  }
+}
+
         body {
             background-color: #ffffff;
             
@@ -13,6 +24,10 @@
             position: fixed;
             top: 150;
             left: 270;
+            box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            animation: aparecer 2s;
+            
         }
 
         .quadrado2 {
@@ -22,6 +37,10 @@
             position: fixed;
             top: 150;
             left: 700;
+            box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+             
+  animation: aparecer 2s;
         }
 
         .quadrado3 {
@@ -31,6 +50,9 @@
             position: fixed;
             top: 150;
             left: 1130;
+            box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+  animation: aparecer 2s;
         }
 
         .retangulo {
@@ -46,6 +68,10 @@
             justify-content: center;
             padding: 20px;
             box-sizing: border-box;
+            box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            
+  animation: aparecer 2s;
         }
         
         .retangulo canvas {

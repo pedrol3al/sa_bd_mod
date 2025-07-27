@@ -6,7 +6,7 @@
 
         <nav class="menu-lateral">
           <div class="btn-expandir"></div>
-          <button class="sair" title="sair da conta">
+          <button class="sair" title="sair da conta"> 
             <img src="../img/logout.png" alt="Sair">
           </button>
 

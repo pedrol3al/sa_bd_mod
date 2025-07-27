@@ -1,21 +1,36 @@
-body {
-  margin: 0;
-  padding: 40px 0; 
-  min-height: 100vh;
-  background-image: url(../img/denim.webp);
-  display: flex;
-  justify-content: center;
+@keyframes aparecer {
+  from {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../img/denim.webp);
+  background-size: cover;
+  background-position: center;
+  scrollbar-width: none;
+}
 
-.conteudo{
-
-  box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
-  width: 800px;
-  height: 800px;
+/* Container principal */
+.conteudo {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 800px;
+  height: auto;
   align-items: center;
   border: 1px solid black;
-  justify-content:flex-start;
+  justify-content: center;
   display: flex;
   border-radius: 16px;
   background-color: #FAFAFA;
@@ -26,9 +41,10 @@ body {
   gap: 4%;
 }
 
-.form-control{
-
-  width: 350px;
+/* Campo de entrada */
+.form-control {
+  width: 100%;
+  max-width: 350px;
   display: flex;
   border: 1px solid black;
   border-radius: 5px;
@@ -42,83 +58,97 @@ label {
   margin-bottom: 5px; 
 }
 
-h1{
-text-align: center;
-font-weight: bold;
-color:  rgb(0, 0, 58);
-margin-top: -30px;
+h1 {
+  text-align: center;
+  font-weight: bold;
+  color: rgb(0, 0, 58);
+  margin-bottom: 20px;
 }
 
-
 .container-botoes {
-  width: 350px;           
-  margin: 20px auto 0;    
+  width: 100%;
+  max-width: 350px;
+  margin: 20px auto 0;
   display: flex;
   justify-content: center;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
-
-.btn-enviar{
+.btn-enviar,
+.btn-limpar {
   width: 100px;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  border: none;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.btn-enviar {
   background-color: rgb(31, 221, 31);
-  font-weight: bold;
-  color: black;
-  top: 25px;
-  margin-top: 20px;
-  text-align: center;
-  border: none;
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
 }
 
-.btn-limpar{
-  width: 100px;
+.btn-limpar {
   background-color: rgb(224, 24, 9);
-  font-weight: bold;
-  color: black;
-  margin-top: 20px;
-  text-align: center;
-  border: none;
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
 }
 
-.btn-enviar:hover{
-
+.btn-enviar:hover {
   background-color: rgb(43, 240, 43);
-
 }
 
-.btn-limpar:hover{
-
-  background-color:rgb(240, 50, 37) ;
+.btn-limpar:hover {
+  background-color: rgb(240, 50, 37);
 }
 
+/* Campos escondidos por padrão */
 #campos-fisica,
-#campos-juridica{
-
+#campos-juridica {
   display: none;
 }
+
 .campos_fisica {
   display: flex;
   flex-wrap: wrap;
   gap: 22px;
   justify-content: space-between;
+  width: 100%;
 }
 
 .campos_fisica .linha {
-  width:48%; /* duas colunas com espaço entre */
+  width: 48%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px; 
+  margin-bottom: 15px;
 }
 
-.tipo_pessoa{
+.tipo_pessoa {
+  width: 100%;
+  max-width: 733px;
+}
 
-width: 733px;
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+  .campos_fisica .linha {
+    width: 100%; /* stack em uma coluna */
+  }
 
+  .form-control,
+  .container-botoes,
+  .tipo_pessoa {
+    max-width: 100%;
+  }
 
+  .conteudo {
+    padding: 20px;
+  }
+
+  .btn-enviar,
+  .btn-limpar {
+    width: 100%;
+    justify-content: center;
+  }
 }

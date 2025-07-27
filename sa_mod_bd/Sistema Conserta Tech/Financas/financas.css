@@ -499,3 +499,97 @@ button.fechar:hover img {
 .texto .valor {
   font-size: 1.2rem;
 }
+
+/* Até 1440px de largura */
+@media (max-width: 1440px) {
+  .topo {
+    left: 220px; /* diminui margem lateral do topo */
+    width: calc(100% - 220px);
+  }
+  .btn-troca-pagina {
+    left: auto;
+    right: 20px; /* fixa no canto direito para não sair da tela */
+    position: fixed;
+  }
+  .titulo {
+    left: 220px;
+  }
+  .resumos {
+    left: 220px;
+  }
+  .tabela-financas {
+    left: 220px;
+  }
+  .conteudo {
+    margin-left: 220px;
+  }
+  .conteudo-principal {
+    margin-left: 220px !important;
+  }
+}
+
+/* Até 1200px de largura */
+@media (max-width: 1200px) {
+  .topo {
+    left: 180px;
+    width: calc(100% - 180px);
+  }
+  .btn-troca-pagina {
+    top: 15px;
+    right: 15px;
+  }
+  .titulo {
+    left: 180px;
+    font-size: 30px;
+  }
+  .resumos {
+    left: 180px;
+    top: 70px;
+  }
+  .tabela-financas {
+    left: 180px;
+    top: 130px;
+    max-width: calc(100% - 200px);
+  }
+  .conteudo {
+    margin-left: 180px;
+  }
+  .conteudo-principal {
+    margin-left: 180px !important;
+    margin-top: 90px;
+    padding: 10px;
+  }
+}
+
+/* Até 1024px de largura */
+@media (max-width: 1024px) {
+  .topo {
+    left: 140px;
+    width: calc(100% - 140px);
+    padding: 15px 20px;
+  }
+  .btn-troca-pagina {
+    top: 10px;
+    right: 10px;
+  }
+  .titulo {
+    left: 140px;
+    font-size: 28px;
+  }
+  .resumos {
+    left: 140px;
+    top: 60px;
+  }
+  .tabela-financas {
+    left: 140px;
+    top: 120px;
+    max-width: calc(100% - 160px);
+  }
+  .conteudo {
+    margin-left: 140px;
+  }
+  .conteudo-principal {
+    margin-left: 140px !important;
+    margin-top: 80px;
+  }
+}

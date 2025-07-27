@@ -447,3 +447,69 @@ button.fechar:hover img {
 .hidden {
   display: none;
 }
+
+/* Responsividade para desktops menores e laptops */
+
+/* Até 1440px */
+@media (max-width: 1440px) {
+  .header-container,
+  .topo,
+  .titulo {
+    left: 200px;
+    width: calc(100% - 200px);
+  }
+
+  .conteudo {
+    margin-left: 200px;
+  }
+
+  .conteudo-principal {
+    margin-left: 200px !important;
+  }
+}
+
+/* Até 1200px */
+@media (max-width: 1200px) {
+  .header-container,
+  .topo,
+  .titulo {
+    left: 160px;
+    width: calc(100% - 160px);
+  }
+
+  .conteudo {
+    margin-left: 160px;
+  }
+
+  .conteudo-principal {
+    margin-left: 160px !important;
+  }
+}
+
+/* Até 1024px */
+@media (max-width: 1024px) {
+  .header-container,
+  .topo,
+  .titulo {
+    left: 120px;
+    width: calc(100% - 120px);
+  }
+
+  .conteudo {
+    margin-left: 120px;
+  }
+
+  .conteudo-principal {
+    margin-left: 120px !important;
+  }
+}
+
+/* Ajuste para botões fixos se houver */
+@media (max-width: 1200px) {
+  .btn-troca-pagina {
+    position: fixed;
+    right: 20px;
+    left: auto;
+    top: 20px;
+  }
+}

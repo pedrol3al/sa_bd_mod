@@ -1,153 +1,214 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    background-color: white;
-  }
-  
-  .conteudo {
-    margin-left: 230px; /* espaço para a barra lateral azul */
-    padding: 30px 40px;
-    display: flex;
-    flex-direction: column;
-    width: calc(100% - 230px);
-    box-sizing: border-box;
-    margin-top: -76px;
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: white;
+}
+
+.conteudo {
+  margin-left: 230px; /* espaço para a barra lateral azul */
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 230px);
+  box-sizing: border-box;
+  margin-top: -76px;
+}
+
+h1 {
+  color: rgb(0, 0, 58);
+  font-family: "Roboto", sans-serif;
+  font-size: 36px;
+  position: fixed;
+  top: 30px;
+  left: 240px; /* para não ficar sobre a sidebar */
+  z-index: 1000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 250px);
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 83%;
+  position: fixed;
+  top: 90px;
+  left: 230px;
+  max-width: calc(100% - 230px);
+  box-sizing: border-box;
+}
+
+.linha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #002b5c;
+  min-width: 120px;
+}
+
+input[type="text"],
+textarea {
+  border: 1px dotted #002b5c;
+  background-color: #f2f2f2;
+  padding: 5px;
+  font-size: 14px;
+  resize: none;
+  flex: 1;
+  min-width: 0; /* para flex funcionar corretamente */
+}
+
+.input-curto {
+  width: 120px;
+}
+
+.input-medio {
+  width: 250px;
+}
+
+.input-longo {
+  width: 100%;
+}
+
+textarea {
+  height: 80px;
+}
+
+.coluna-textarea {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
+}
+
+.grupo-textareas {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.botoes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #ffffff;
+  flex: 1;
+  min-width: 120px;
+}
+
+.salvar, .pesquisar {
+  background-color: #4caf50;
+}
+
+.novo {
+  background-color: #2196f3;
+}
+
+button.sair, button.fechar {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Estilo da imagem dentro do botão */
+button.sair img, button.fechar img {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Efeito ao passar o mouse */
+button.sair:hover img, button.fechar:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+/* Botões fixos no topo */
+button.fechar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+button.sair {
+  position: fixed;
+  top: 20px;
+  right: 70px; /* afastado do botão fechar */
+  z-index: 999;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 1024px) {
   h1 {
-    color: rgb(0, 0, 58);
-    font-family: "Roboto", sans-serif;
-    font-size: 36px;
-    position: fixed;
-    top: 30px;
+    left: 20px;
+    max-width: calc(100% - 40px);
   }
-  
+
+  .conteudo {
+    margin-left: 0;
+    padding: 20px;
+    width: 100%;
+    margin-top: 70px;
+  }
+
   .formulario {
-    display: flex;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .botoes {
     flex-direction: column;
-    gap: 15px;
-    width: 83%;
-    position: fixed;
-    top: 90px;
+    gap: 10px;
   }
-  
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 28px;
+  }
+
   .linha {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
+    flex-direction: column;
   }
-  
+
   label {
-    font-weight: bold;
-    font-size: 14px;
-    color: #002b5c;
-    min-width: 120px;
+    min-width: auto;
   }
-  
+
   input[type="text"],
   textarea {
-    border: 1px dotted #002b5c;
-    background-color: #f2f2f2;
-    padding: 5px;
-    font-size: 14px;
-    resize: none;
-    flex: 1;
+    width: 100% !important;
   }
-  
-  .input-curto {
-    width: 120px;
-  }
-  
-  .input-medio {
-    width: 250px;
-  }
-  
-  .input-longo {
-    width: 100%;
-  }
-  
-  textarea {
-    height: 80px;
-  }
-  
-  .coluna-textarea {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 4px;
-  }
-  
-  .grupo-textareas {
-    display: flex;
-    gap: 20px;
-    width: 100%;
-  }
-  
-  .botoes {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
-    width: 100%;
-  }
-  
+
   button {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 25px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: #ffffff;
+    width: 100%;
+    min-width: auto;
   }
-  
-  .salvar {
-    background-color: #4caf50;
-  }
-  
-  .pesquisar {
-    background-color: #4caf50;
-  }
-  
-  .novo {
-    background-color: #2196f3;
-  }
-  button.sair, button.fechar {
-    background: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-  
-  /* Estilo da imagem dentro do botão */
-  button.sair img, button.fechar img {
-    width: 40px;
-    height: 40px;
-    transition: transform 0.2s ease, filter 0.2s ease;
-  }
-  
-  /* Efeito ao passar o mouse */
-  button.sair:hover img, button.fechar:hover img {
-    transform: scale(1.1);
-    filter: brightness(1.2);
-  }
-  
-  /* Deixar o botão flutuante no canto superior direito */
-  button.fechar {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 999;
-  }
-  
-  /* Se quiser que o botão "sair" também fique flutuante */
-  button.sair {
-    position: fixed;
-    top: 20px;
-    right: 70px; /* afastado do botão fechar */
-    z-index: 999;
-  } 
+}
