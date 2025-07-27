@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Obtém os contêineres dos campos de pessoa física e jurídica
     const camposFisica = document.getElementById("campos-fisica");
     const camposJuridica = document.getElementById("campos-juridica");
+    const btnEnviar = document.getElementById("enviar")
+    const btnLimpar = document.getElementById("limpar");
   
     // Adiciona um ouvinte de evento ao select, que será executado sempre que o valor mudar
     tipoPessoa.addEventListener("change", function () {
@@ -24,11 +26,16 @@ document.addEventListener("DOMContentLoaded", function () {
       // Se o valor for "fisica", mostra os campos da pessoa física e esconde os da jurídica
       if (valor === "fisica") {
         camposFisica.style.display = "block";      // Mostra os campos da pessoa física
+        btnEnviar.style.display = "block";         //O botão enviar reaparece ao selecionar o cliente fisico 
+        btnLimpar.style.display = "block";         //O botão limpar reaparece ao selecionar o cliente fisico 
         camposJuridica.style.display = "none";     // Esconde os campos da jurídica
+
   
       // Se o valor for "juridica", mostra os campos da jurídica e esconde os da física
       } else if (valor === "juridica") {
         camposFisica.style.display = "none";       // Esconde os campos da pessoa física
+        btnEnviar.style.display = "block";         //O botão enviar reaparece ao selecionar o cliente juridico 
+        btnLimpar.style.display = "block";         //O botão limpar reaparece ao selecionar o cliente juridico 
         camposJuridica.style.display = "block";    // Mostra os campos da jurídica
   
       // Se nenhum for selecionado (valor vazio), esconde ambos

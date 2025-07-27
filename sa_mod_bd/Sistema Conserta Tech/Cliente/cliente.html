@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css"/>
   <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+
 
   <!-- Link das máscaras dos campos -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -50,9 +52,15 @@
 <!-- Campos Pessoa Física -->
 
 
-
 <div id="campos-fisica">
+  <div class="form-container">
   <div class="campos_fisica">
+
+     <div class="linha">
+      <label for="id_usuario">Id do usuário:</label>
+      <input type="number" id="numero" name="numero" class="form-control" >
+    </div>
+
   <div class="linha">
     <label for="nome">Nome:</label>
     <input type="text" id="nome_cliente" name="nome_cliente" class="form-control">
@@ -84,8 +92,8 @@
   </div>
 
   <div class="linha">
-    <label for="observacoes">Observações:</label>
-    <input type="text" id="observacoes" name="observacoes" class="form-control">
+    <label for="Telefone">Telefone:</label>
+    <input type="tel" id="telefone" name="telefone" class="form-control">
   </div>
 
   <div class="linha">
@@ -108,15 +116,81 @@
      </div>
 
      <div class="linha">
+  <label for="uf">Estado (UF):</label>
+  <select id="uf" name="uf" class="form-control">
+    <option value="">Selecione</option>
+    <option value="AC">Acre</option>
+    <option value="AL">Alagoas</option>
+    <option value="AP">Amapá</option>
+    <option value="AM">Amazonas</option>
+    <option value="BA">Bahia</option>
+    <option value="CE">Ceará</option>
+    <option value="DF">Distrito Federal</option>
+    <option value="ES">Espírito Santo</option>
+    <option value="GO">Goiás</option>
+    <option value="MA">Maranhão</option>
+    <option value="MT">Mato Grosso</option>
+    <option value="MS">Mato Grosso do Sul</option>
+    <option value="MG">Minas Gerais</option>
+    <option value="PA">Pará</option>
+    <option value="PB">Paraíba</option>
+    <option value="PR">Paraná</option>
+    <option value="PE">Pernambuco</option>
+    <option value="PI">Piauí</option>
+    <option value="RJ">Rio de Janeiro</option>
+    <option value="RN">Rio Grande do Norte</option>
+    <option value="RS">Rio Grande do Sul</option>
+    <option value="RO">Rondônia</option>
+    <option value="RR">Roraima</option>
+    <option value="SC">Santa Catarina</option>
+    <option value="SP">São Paulo</option>
+    <option value="SE">Sergipe</option>
+    <option value="TO">Tocantins</option>
+  </select>
+</div>
+
+
+     <div class="linha">
+      <label for="numero">Número:</label>
+      <input type="number" id="numero" name="numero" class="form-control" >
+    </div>
+
+        <div class="linha">
+    <label for="cidade">Cidade:</label>
+    <input type="text" id="cidade" name="cidade" class="form-control">
+  </div>
+         
+    <div class="linha">
+    <label for="bairro">Bairro:</label>
+    <input type="text" id="bairro" name="bairro" class="form-control">
+  </div>
+
+     <div class="linha">
       <label for="complemento">Complemento:</label>
       <input type="text" id="complemento" name="complemento" class="form-control" maxlength="15">
     </div>     
 
+    <div class="linha">
+    <label for="observacoes">Observações:</label>
+    <input type="text" id="observacoes" name="observacoes" class="form-control">
+  </div>
+
+    </div>
   </div>
 </div>
 
+
+
 <!-- Campos Pessoa Jurídica -->
 <div id="campos-juridica">
+
+  
+  <div class="linha">
+    <label for="id_usuario">Razão Social:</label>
+    <input type="number" id="razao_social" name="razao_social" class="form-control">
+  </div>
+</div>
+
   <div class="linha">
     <label for="cnpj">CNPJ:</label>
     <input type="text" id="cnpj" name="cnpj" class="form-control">
@@ -131,11 +205,11 @@
 
       <div class="container-botoes">
       <div class="enviar">
-        <button type="submit" class="form-control btn-enviar"> Enviar </button>
+        <button type="submit" id="enviar" class="form-control btn-enviar"> Enviar </button>
       </div>
 
-        <div class="limpar">
-        <button type="reset" class="form-control btn-limpar"> Limpar </button>
+        <div class="limpar" >
+        <button type="reset" id="limpar" class="form-control btn-limpar"> Limpar </button>
       </div>
     </div>
     </form>

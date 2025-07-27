@@ -17,9 +17,7 @@ body {
   justify-content: center;
   align-items: center;
   background-image: url(../img/denim.webp);
-  background-size: cover;
-  background-position: center;
-  scrollbar-width: none;
+
 }
 
 /* Container principal */
@@ -63,6 +61,7 @@ h1 {
   font-weight: bold;
   color: rgb(0, 0, 58);
   margin-bottom: 20px;
+  font-family:'Poppins' sans-serif
 }
 
 .container-botoes {
@@ -106,7 +105,9 @@ h1 {
 
 /* Campos escondidos por padrão */
 #campos-fisica,
-#campos-juridica {
+#campos-juridica,
+.btn-enviar,
+.btn-limpar {
   display: none;
 }
 
@@ -130,25 +131,11 @@ h1 {
   max-width: 733px;
 }
 
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
-  .campos_fisica .linha {
-    width: 100%; /* stack em uma coluna */
-  }
 
-  .form-control,
-  .container-botoes,
-  .tipo_pessoa {
-    max-width: 100%;
-  }
+.form-container {
+  max-height: 600px; /* ajuste como preferir */
+  overflow-y: auto;  /* ativa a rolagem vertical */
+  padding-right: 10px; /* para espaço da barra de rolagem */
+  scrollbar-width: none;
 
-  .conteudo {
-    padding: 20px;
-  }
-
-  .btn-enviar,
-  .btn-limpar {
-    width: 100%;
-    justify-content: center;
-  }
 }
