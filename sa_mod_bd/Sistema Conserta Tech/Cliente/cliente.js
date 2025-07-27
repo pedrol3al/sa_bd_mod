@@ -1,3 +1,10 @@
+document.addEventListener("DOMContentLoaded", function () {
+  flatpickr("#dataNascimento", {
+    dateFormat: "d/m/Y"
+  });
+});
+
+
 // Espera até que todo o conteúdo da página esteja carregado
 document.addEventListener("DOMContentLoaded", function () {
 
