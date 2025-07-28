@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+  const notyf = new Notyf({
+        position: { x: 'center', y: 'top' }
+    });
+
+    
 
 // Espera até que todo o conteúdo da página esteja carregado
 document.addEventListener("DOMContentLoaded", function () {
@@ -57,15 +62,12 @@ function conferirCampos() {
   const tipoPessoa = document.getElementById('tipo_pessoa').value;
 
   if (tipoPessoa === '') {
-    alert('Selecione o tipo de cliente.');
+   notyf.error (`Selecione o tipo de cliente!`);
     document.getElementById('tipo_pessoa').focus();
     return false;
   }
 
 
-  const notyf = new Notyf({
-        position: { x: 'center', y: 'top' }
-    });
 
   // Campos obrigatórios para Pessoa Física
   const camposFisica = [
@@ -88,17 +90,18 @@ function conferirCampos() {
   // Campos obrigatórios para Pessoa Jurídica
   const camposJuridica = [
     { id: 'razao_social', nome: 'Razão Social' },
-    { id: 'id_usuario', nome: 'Indentificação usuario'},
+    { id: 'id_usuario_jur', nome: 'Indentificação usuario'},
     { id: 'cnpj', nome: 'CNPJ' },
-    { id: 'dataNascimento', nome: 'Data de Fundação' },
-    { id: 'telefone', nome: 'Telefone' },
-    { id: 'cep', nome: 'CEP' },
-    { id: 'logradouro', nome: 'Logradouro' },
+    { id: 'dataFundacao', nome: 'Data de Fundação' },
+    { id: 'telefone_jur', nome: 'Telefone' },
+    { id: 'email_jur', nome: 'Email da corporação'},
+    { id: 'cep_jur', nome: 'CEP' },
+    { id: 'logradouro_jur', nome: 'Logradouro' },
     { id: 'tipo_estabelecimento', nome: 'Tipo de Estabelecimento' },
-    { id: 'uf', nome: 'Estado (UF)' },
-    { id: 'numero', nome: 'Número' },
-    { id: 'cidade', nome: 'Cidade' },
-    { id: 'bairro', nome: 'Bairro' }
+    { id: 'uf_jur', nome: 'Estado (UF)' },
+    { id: 'numero_jur', nome: 'Número' },
+    { id: 'cidade_jur', nome: 'Cidade' },
+    { id: 'bairro_jur', nome: 'Bairro' }
   ];
 
   const camposParaVerificar = tipoPessoa === 'fisica' ? camposFisica : camposJuridica;
@@ -113,7 +116,9 @@ function conferirCampos() {
   }
 
   // Todos os campos estão preenchidos corretamente
+  notyf.success (`Cliente cadastrado!`);
   return true;
+  
 }
 
 

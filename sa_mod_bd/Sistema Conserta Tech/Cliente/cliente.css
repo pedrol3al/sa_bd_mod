@@ -105,7 +105,7 @@ h1 {
   background-color: rgb(240, 50, 37);
 }
 
-/* Campos escondidos por padrão */
+/* Campos escondidos e botões por padrão */
 #campos-fisica,
 #campos-juridica,
 .btn-enviar,
@@ -113,7 +113,7 @@ h1 {
   display: none;
 }
 
-.campos_fisica {
+.campos_fisica { 
   display: flex;
   flex-wrap: wrap;
   gap: 22px;

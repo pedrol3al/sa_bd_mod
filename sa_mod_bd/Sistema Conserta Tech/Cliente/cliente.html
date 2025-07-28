@@ -30,7 +30,7 @@
 <body class="corpo">
  
   <div id="menu-container"></div>
-
+ 
   <main>
     <div class="conteudo">
     <form method="post">
@@ -185,6 +185,7 @@
 
 
 <!-- Campos Pessoa Jurídica -->
+ <div class="form-container">
 <div id="campos-juridica">
 <div class="campos_juridica">
  
@@ -214,6 +215,12 @@
   <div class="linha">
     <label for="Telefone">Telefone:</label>
     <input type="text" id="telefone_jur" name="telefone" class="form-control" placeholder="(00) 00000-0000">
+  </div>
+
+  
+  <div class="linha">
+    <label for="email">Email:</label>
+    <input type="email" id="email_jur" name="email_jur" class="form-control" placeholder="Exemplo@corporação_nome.com.br">
   </div>
 
   <div class="linha">
@@ -301,12 +308,13 @@
 
       <div class="container-botoes">
       <div class="enviar">
-        <button type="submit" id="enviar" class="form-control btn-enviar" onclick="return conferirCampos()"> Cadastrar </button>
+        <button type="button" id="enviar" class="form-control btn-enviar" onclick="return conferirCampos()"> Cadastrar </button>
       </div>
 
         <div class="limpar" >
         <button type="reset" id="limpar" class="form-control btn-limpar"> Limpar </button>
       </div>
+    </div>
     </div>
     </form>
     </div>
