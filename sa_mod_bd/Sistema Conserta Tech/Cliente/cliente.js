@@ -1,5 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
-  flatpickr("#dataNascimento", {
+  flatpickr("#dataNascimento",{
+    dateFormat: "d/m/Y"
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  flatpickr("#dataFundacao", {
     dateFormat: "d/m/Y"
   });
 });
@@ -44,6 +50,93 @@ document.addEventListener("DOMContentLoaded", function () {
         camposJuridica.style.display = "none";
       }
     });
-  
   });
- 
+
+
+function conferirCampos() {
+  const tipoPessoa = document.getElementById('tipo_pessoa').value;
+
+  if (tipoPessoa === '') {
+    alert('Selecione o tipo de cliente.');
+    document.getElementById('tipo_pessoa').focus();
+    return false;
+  }
+
+
+  const notyf = new Notyf({
+        position: { x: 'center', y: 'top' }
+    });
+
+  // Campos obrigatórios para Pessoa Física
+  const camposFisica = [
+    { id: 'nome_cliente', nome: 'Nome' },
+    { id: 'id_usuario', nome: 'Indentificação usuario'},
+    { id: 'email', nome: 'Email' },
+    { id: 'cpf', nome: 'CPF' },
+    { id: 'dataNascimento', nome: 'Data de Nascimento' },
+    { id: 'sexo', nome: 'Sexo' },
+    { id: 'telefone', nome: 'Telefone' },
+    { id: 'cep', nome: 'CEP' },
+    { id: 'logradouro', nome: 'Logradouro' },
+    { id: 'tipo_casa', nome: 'Tipo de moradia' },
+    { id: 'uf', nome: 'Estado (UF)' },
+    { id: 'numero', nome: 'Número' },
+    { id: 'cidade', nome: 'Cidade' },
+    { id: 'bairro', nome: 'Bairro' }
+  ];
+
+  // Campos obrigatórios para Pessoa Jurídica
+  const camposJuridica = [
+    { id: 'razao_social', nome: 'Razão Social' },
+    { id: 'id_usuario', nome: 'Indentificação usuario'},
+    { id: 'cnpj', nome: 'CNPJ' },
+    { id: 'dataNascimento', nome: 'Data de Fundação' },
+    { id: 'telefone', nome: 'Telefone' },
+    { id: 'cep', nome: 'CEP' },
+    { id: 'logradouro', nome: 'Logradouro' },
+    { id: 'tipo_estabelecimento', nome: 'Tipo de Estabelecimento' },
+    { id: 'uf', nome: 'Estado (UF)' },
+    { id: 'numero', nome: 'Número' },
+    { id: 'cidade', nome: 'Cidade' },
+    { id: 'bairro', nome: 'Bairro' }
+  ];
+
+  const camposParaVerificar = tipoPessoa === 'fisica' ? camposFisica : camposJuridica;
+
+  for (let campo of camposParaVerificar) {
+    const elemento = document.getElementById(campo.id);
+    if (elemento && elemento.value.trim() === '') {
+     notyf.error (`Preencha todos os campos!`);
+      elemento.focus();
+      return false;
+    }
+  }
+
+  // Todos os campos estão preenchidos corretamente
+  return true;
+}
+
+
+$(document).ready(function() {
+  $('#cpf').mask('000.000.000-00')
+})
+
+$(document).ready(function() {
+  $('#telefone').mask('(00) 00000-0000')
+})
+
+$(document).ready(function() {
+  $('#telefone_jur').mask('(00) 00000-0000')
+})
+
+$(document).ready(function() {
+  $('#cep').mask('00000-00')
+})
+
+$(document).ready(function() {
+  $('#cep_jur').mask('00000-00')
+})
+
+$(document).ready(function() {
+  $('#cnpj').mask('00.000.000/0000-00')
+})

@@ -49,6 +49,8 @@ body {
   box-sizing: border-box;
 }
 
+
+
 label {
   position: relative;
   top: 8px; 
@@ -125,6 +127,22 @@ h1 {
   flex-direction: column;
   margin-bottom: 15px;
 }
+
+.campos_juridica {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.campos_juridica .linha {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
 
 .tipo_pessoa {
   width: 100%;
