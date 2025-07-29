@@ -1,12 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-  flatpickr("#dataNascimento",{
-    dateFormat: "d/m/Y"
+  flatpickr("#dataNascimento", {
+    dateFormat: "d/m/Y",
+    maxDate: "today"
   });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
   flatpickr("#dataFundacao", {
-    dateFormat: "d/m/Y"
+    dateFormat: "d/m/Y",
+    maxDate: "today"
   });
 });
 
@@ -114,6 +116,8 @@ function conferirCampos() {
       return false;
     }
   }
+
+  if ("#dataNascimento" )
 
   // Todos os campos estão preenchidos corretamente
   notyf.success (`Cliente cadastrado!`);
