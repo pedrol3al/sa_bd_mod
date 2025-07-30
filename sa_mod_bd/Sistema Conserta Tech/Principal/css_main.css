@@ -1,5 +1,4 @@
-    @charset "UTF-8";
-
+@charset "UTF-8";
 
 @keyframes subirSuave {
   to {
@@ -8,244 +7,152 @@
   }
 }
 
-
-        body {
-            background-color: #ffffff;
-        
-        } 
-
-         .animarConteudo {
-        
-        opacity: 0;
-        transform: translateY(50px);
-        animation: subirSuave 1s ease-out forwards;
-        animation-delay: 0.2s;
+body {
+  background-color: #ffffff;
 }
 
+.animarConteudo {
+  opacity: 0;
+  transform: translateY(50px);
+  animation: subirSuave 1s ease-out forwards;
+  animation-delay: 0.2s;
+}
 
-        .quadrado1 {
-            width: 400px; 
-            height: 200px; 
-            background-color: #f4f1f1;
-            position: fixed;
-            top: 150;
-            left: 270;
-            box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            
-            
-        }
+.tituloTopo{
+  background-color: #f4f1f1;
+  box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 20px; 
+}
 
-        .quadrado2 {
-            width: 400px; 
-            height: 200px; 
-            background-color: #f4f1f1;
-            position: fixed;
-            top: 150;
-            left: 700;
-            box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-             
-  
-        }
+/* Informações */
+.quadrado1,
+.quadrado2,
+.quadrado3 {
+  width: 400px;
+  height: 200px;
+  background-color: #f4f1f1;
+  position: fixed;
+  top: 150px;
+  box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+}
 
-        .quadrado3 {
-            width: 400px; 
-            height: 200px; 
-            background-color: #f4f1f1;
-            position: fixed;
-            top: 150;
-            left: 1130;
-            box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-  
-        }
+.quadrado1 {
+  left: 270px;
+}
 
-        .retangulo {
-            width: 1260px; 
-            height: 270px; 
-            position: fixed;
-            top: 400px;
-            left: 270px;
-            background-color: #f4f1f1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-            box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            
-  
-        }
-        
-        .retangulo canvas {
-            width: 100% !important;
-            height: 100% !important;
-            margin-bottom: 15px;
-        }
-        
+.quadrado2 {
+  left: 700px;
+}
 
-        /*  TEXTOS  */
+.quadrado3 {
+  left: 1130px;
+}
 
-        h1 {
-            color:rgb(0, 0, 58);
-            font-family: "Roboto", sans-serif;
-            font-size: 50px;
-            position: fixed;
-            top: 15;
-            left: 267;
-            margin-top:15px;
-        }
+/* Fluxo de caixa */
+.retangulo {
+  width: 1260px;
+  height: 270px;
+  position: fixed;
+  top: 400px;
+  left: 270px;
+  background-color: #f4f1f1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+}
 
-        .bem_vindo {
-            color:rgb(0, 0, 58);
-            font-family: "Roboto", sans-serif;
-            position: fixed;
-            top: 90;
-            left: 270;
-        }
+.retangulo canvas {
+  width: 100% !important;
+  height: 100%;
+  margin-bottom: 15px;
+}
 
-        button.sair, button.fechar {
-            background: transparent;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-          }
-          
-          /* Estilo da imagem dentro do botão */
-          button.sair img, button.fechar img {
-            width: 40px;
-            height: 40px;
-            transition: transform 0.2s ease, filter 0.2s ease;
-          }
-          
-          /* Efeito ao passar o mouse */
-          button.sair:hover img, button.fechar:hover img {
-            transform: scale(1.1);
-            filter: brightness(1.2);
-          }
-          
-          /* Deixar o botão flutuante no canto superior direito */
-          button.fechar {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 999;
-          }
-          
-          /* Se quiser que o botão "sair" também fique flutuante */
-          button.sair {
-            position: fixed;
-            top: 20px;
-            right: 70px; /* afastado do botão fechar */
-            z-index: 999;
-          } 
+/* TEXTOS */
+h1 {
+  color: rgb(0, 0, 58);
+  font-family: "Roboto", sans-serif;
+  font-size: 50px;
+  position: fixed;
+  top: 15px;
+  left: 267px;
+  margin-top: 15px;
+}
 
-        .titulo_quadrado {
-            color: rgb(0, 0, 58);
-            font-family: "Roboto", sans-serif;
-            margin-left: 20px;
-            margin-top:15px;
-        }
+.bem_vindo {
+  color: rgb(0, 0, 58);
+  font-family: "Roboto", sans-serif;
+  position: fixed;
+  top: 90px;
+  left: 270px;
+}
 
-        .num_quadrado {
-            position:fixed;
-            top: 260px;
-        }
+.titulo_quadrado {
+  color: rgb(0, 0, 58);
+  font-family: "Roboto", sans-serif;
+  margin-left: 20px;
+  margin-top: 15px;
+}
 
-        #num_quadrado1 {
-            position:fixed;
-            left:550px;
-        }
+.num_quadrado {
+  position: fixed;
+  top: 260px;
+}
 
-        #num_quadrado2 {
-            position:fixed;
-            left: 820px;
-        }
+#num_quadrado1 {
+  left: 550px;
+}
 
-        #num_quadrado3 {
-            position: fixed;
-            left: 1320px;
-        }
+#num_quadrado2 {
+  left: 820px;
+}
 
-        /*  FONTES   */
+#num_quadrado3 {
+  left: 1320px;
+}
 
-        @font-face {
-            font-family: 'OpenSans';
-            
-            src: url('font/opensans_italic.ttf') format('truetype');
-        }	
+/* FONTES */
+@font-face {
+  font-family: 'OpenSans';
+  src: url('font/opensans_italic.ttf') format('truetype');
+}
 
+/* GRÁFICOS */
+.barra {
+  width: 60px;
+  background-color: #3498db;
+  text-align: center;
+  color: white;
+  margin-bottom: 8px;
+}
 
-        /*  GRÁFICOS  */
+.barra span {
+  display: block;
+  margin-top: 10px;
+}
 
-        .grafico {
-            display: flex;
-            align-items: flex-end;
-            height: 200px;
-            width: 1000px;
-            gap: 25px;
-            padding: 20px;
-            background: #f1f1f1;
-        }
-    
-        .barra {
-            width: 60px;
-            background-color: #3498db;
-            text-align: center;
-            color: white;
-            margin-bottom: 8px;
-        }
-    
-        .barra span {
-            display: block;
-            margin-top: 10px;
-        }
-    
-        .barra1 { 
-            height: 50px; 
-        }
-        .barra2 { 
-            height: 120px; 
-        }
-        .barra3 { 
-            height: 90px; 
-        }
-        .barra4 { 
-            height: 170px; 
-        }
-        .barra5 { 
-            height: 110px; 
-        }
-        
-            .barra6 { 
-            height: 40px; 
-        }
-            .barra7 { 
-            height: 160px; 
-        }
-            .barra8 { 
-            height: 100px; 
-        }
-            .barra9 { 
-            height: 190px; 
-        }
-            .barra10 { 
-            height: 40px; 
-        }
-            .barra11 { 
-            height: 80px; 
-        }
-            .barra12 { 
-            height: 30px; 
-        }
+.barra1 { height: 50px; }
+.barra2 { height: 120px; }
+.barra3 { height: 90px; }
+.barra4 { height: 170px; }
+.barra5 { height: 110px; }
+.barra6 { height: 40px; }
+.barra7 { height: 160px; }
+.barra8 { height: 100px; }
+.barra9 { height: 190px; }
+.barra10 { height: 40px; }
+.barra11 { height: 80px; }
+.barra12 { height: 30px; }
 
-        #graficoLinha {
-            background-color: #f9f9f9;
-            border: 2px solid #c6c6ff;
-            border-radius: 10px;
-            padding: 10px;
-            box-shadow: 0 0 5px #ccc;
-        }
+#graficoLinha {
+  background-color: #f9f9f9;
+  border: 2px solid #c6c6ff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 0 5px #ccc;
+}

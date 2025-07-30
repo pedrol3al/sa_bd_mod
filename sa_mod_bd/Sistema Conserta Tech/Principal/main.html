@@ -1,4 +1,4 @@
-<!DOCTYPE = HTML>
+<!DOCTYPE HTML>
 
 <html lang = "pt-br">
 
@@ -10,7 +10,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Link dos css -->
-        <link rel = "stylesheet" type = "text/css" href = "css_main.css">
+       <link rel="stylesheet" href="css_main.css">
+
         <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css">
 
         <!-- Link bootstrap e do favicon -->
@@ -20,72 +21,49 @@
     
 
     </head>
-    <div id="menu-container"></div>
 
     <body>
+
+        <div id="menu-container"></div>
  
         <!-- Conteúdo principal da página -->
         <div class="animarConteudo">
-        <section class = "conteudo">   
-		<header>
-			<h1 class = "titulo">CONSERTA TECH</h1>
-            <h2 class = "bem_vindo">Bem-Vindo(a)</h2>
+        <section class = "conteudo"> 
             
-          
-		</header>
+            <div class="tituloTopo">
+	
+			<h1 class = "titulo">CONSERTA TECH</h1>
+            <h2 class = "bem_vindo">Bem-Vindo(a): </h2>
+		
+            </div>
 
         <div class="quadrado1">
             <h2 class="titulo_quadrado"> O.S. Abertas</h2>
-            <h1 class="num_quadrado" id="num_quadrado1"> 2</h1>
+            <h1 class="num_quadrado" id="num_quadrado1"> </h1>
         </div>
 
         <div class="quadrado2">
             <h2 class="titulo_quadrado"> Contas a receber hoje</h2>
-            <h1 class="num_quadrado" id="num_quadrado2"> 1.445,50</h1>
+            <h1 class="num_quadrado" id="num_quadrado2"></h1>
         </div>
 
         <div class="quadrado3">
             <h2 class="titulo_quadrado"> Contas a pagar hoje</h2>
-            <h1 class="num_quadrado" id="num_quadrado3"> 487,00</h1>
+            <h1 class="num_quadrado" id="num_quadrado3"></h1>
         </div>
 
         <div class = "retangulo">
             <h2 class="titulo_quadrado"> Fluxo mensal de Caixa</h2>
-            <canvas id="graficoFluxo" width="400" height="200"></canvas>
+            <canvas id="graficoFluxo" ></canvas>
         </div>
        </section>
  </div>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         
-        <script>        
-       const ctx = document.getElementById('graficoFluxo').getContext('2d');
-       const graficoFluxo = new Chart(ctx, {
-       type: 'line',
-       data: {
-       labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
-       datasets: [{
-       label: 'R$',
-       data: [1200, 1900, 3000, 2500, 3200, 2800],
-      fill: false,
-      borderColor: 'rgba(75, 192, 192, 1)',
-      tension: 0.2
-      }]
-      },
-      options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-      y: {
-      beginAtZero: true
-      }
-      }
-      }
-      });
-      </script>
-                   
 
     <!-- Link javascript -->
         <script src="../Menu_lateral/carregar-menu.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="main.js"></script>
 </body>
           
 </html>
