@@ -8,13 +8,13 @@ class ModalFactory {
     const overlay = document.createElement("div");
     overlay.id = 'modal-overlay';
     Object.assign(overlay.style, {
-      display: 'none', 
-      position: 'fixed', 
-      top: '0', 
+      display: 'none',
+      position: 'fixed',
+      top: '0',
       left: '0',
-      width: '100%', 
-      height: '100%', 
-      backgroundColor: 'rgba(0,0,0,0.5)', 
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'rgba(0,0,0,0.5)',
       zIndex: '999'
     });
     return overlay;
@@ -28,29 +28,29 @@ class ModalFactory {
     modal.id = id;
     modal.className = 'custom-modal';
     Object.assign(modal.style, {
-      display: 'none', 
-      position: 'fixed', 
-      top: '50%', 
+      display: 'none',
+      position: 'fixed',
+      top: '50%',
       left: '50%',
-      transform: 'translate(-50%, -50%)', 
+      transform: 'translate(-50%, -50%)',
       backgroundColor: 'white',
-      padding: '20px', 
-      borderRadius: '8px', 
+      padding: '20px',
+      borderRadius: '8px',
       boxShadow: '0 0 10px rgba(0,0,0,0.3)',
-      zIndex: '1000', 
-      height, 
-      width, 
-      maxWidth, 
+      zIndex: '1000',
+      height,
+      width,
+      maxWidth,
       overflow: 'auto'
     });
 
     const header = document.createElement("div");
     Object.assign(header.style, {
-      display: 'flex', 
-      justifyContent: 'space-between', 
+      display: 'flex',
+      justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: '20px', 
-      borderBottom: '1px solid #eee', 
+      marginBottom: '20px',
+      borderBottom: '1px solid #eee',
       paddingBottom: '10px'
     });
 
@@ -61,10 +61,10 @@ class ModalFactory {
     const closeButton = document.createElement("button");
     closeButton.innerHTML = '&times;';
     Object.assign(closeButton.style, {
-      background: 'none', 
-      border: 'none', 
+      background: 'none',
+      border: 'none',
       fontSize: '24px',
-      cursor: 'pointer', 
+      cursor: 'pointer',
       color: 'black'
     });
 
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Verificação crítica de elementos
   if (!cadastrarBtn || !formulario) {
-    console.error("Elementos essenciais não encontrados:", { 
+    console.error("Elementos essenciais não encontrados:", {
       cadastrarBtn,
       formulario
     });
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Configuração do botão de pesquisa
   if (pesquisarBtn) {
-    pesquisarBtn.addEventListener("click", function(e) {
+    pesquisarBtn.addEventListener("click", function (e) {
       e.preventDefault();
       abrirModalPesquisa();
     });
@@ -186,14 +186,14 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       `
     });
-    
+
     const termoPesquisa = document.getElementById('termo-pesquisa');
     const resultadosPesquisa = document.getElementById('resultados-pesquisa');
-    
+
     function atualizarResultados() {
       const termo = termoPesquisa.value.toLowerCase();
       resultadosPesquisa.innerHTML = '';
-      
+
       if (estoque.length === 0) {
         resultadosPesquisa.innerHTML = `
           <tr>
@@ -204,14 +204,14 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         return;
       }
-      
-      const resultados = estoque.filter(item => 
+
+      const resultados = estoque.filter(item =>
         item.id_pecas.toLowerCase().includes(termo) ||
         item.nome.toLowerCase().includes(termo) ||
         (item.aparelho_utilizado && item.aparelho_utilizado.toLowerCase().includes(termo)) ||
         (item.descricao && item.descricao.toLowerCase().includes(termo))
       );
-      
+
       if (resultados.length === 0) {
         resultadosPesquisa.innerHTML = `
           <tr>
@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         return;
       }
-      
+
       resultados.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -241,17 +241,17 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         resultadosPesquisa.appendChild(row);
       });
-      
+
       // Adiciona eventos aos botões
       document.querySelectorAll('.btn-editar').forEach(btn => {
         btn.addEventListener('click', () => editarItem(btn.dataset.id));
       });
-      
+
       document.querySelectorAll('.btn-excluir').forEach(btn => {
         btn.addEventListener('click', () => confirmarExclusao(btn.dataset.id));
       });
     }
-    
+
     function editarItem(id) {
       const item = estoque.find(item => item.id_pecas === id);
       if (item) {
@@ -266,15 +266,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           }
         });
-        
+
         // Ativa o modo de edição
         toggleModoEdicao(true, item);
-        
+
         // Fecha o modal
         pesquisaModal.close();
       }
     }
-    
+
     function confirmarExclusao(id) {
       if (typeof Swal !== 'undefined') {
         Swal.fire({
@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
       estoque = estoque.filter(item => item.id_pecas !== id);
       localStorage.setItem("estoque", JSON.stringify(estoque));
       atualizarResultados();
-      
+
       if (typeof Swal !== 'undefined') {
         Swal.fire('Excluído!', 'Nota fiscal removida com sucesso.', 'success');
       } else {
@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (editando) {
       cadastrarBtn.textContent = "Salvar alterações";
       if (novoBtn) novoBtn.textContent = "Cancelar edição";
-      
+
       const idPecaInput = document.getElementById("id_pecas");
       if (idPecaInput) {
         idPecaInput.readOnly = true;
@@ -332,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (novoBtn) novoBtn.textContent = "Novo";
       formulario.reset();
       editandoItem = null;
-      
+
       const idPecaInput = document.getElementById("id_pecas");
       if (idPecaInput) {
         idPecaInput.readOnly = false;
@@ -344,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Configuração do botão novo/cancelar
   if (novoBtn) {
-    novoBtn.addEventListener("click", function(e) {
+    novoBtn.addEventListener("click", function (e) {
       e.preventDefault();
       toggleModoEdicao(false);
     });
@@ -369,13 +369,13 @@ document.addEventListener("DOMContentLoaded", function () {
       if (campo && campo.value.trim() === "") {
         const label = campo.previousElementSibling?.innerText || id.replace(/_/g, ' ');
         console.warn(`Campo obrigatório não preenchido: ${label}`);
-        
+
         if (typeof Swal === 'undefined') {
           alert(`Por favor, preencha o campo: ${label}`);
           campo.focus();
           return false;
         }
-        
+
         Swal.fire({
           icon: 'warning',
           title: 'Campo obrigatório',
@@ -392,7 +392,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Função para salvar ou atualizar item
   function salvarItem() {
     console.log("Iniciando processo de salvamento");
-    
+
     if (!validarCampos()) {
       console.log("Salvamento interrompido: validação falhou");
       return;
@@ -421,7 +421,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (index !== -1) {
         if (idPeca !== editandoItem.id_pecas && estoque.some(item => item.id_pecas === idPeca)) {
           console.warn("Tentativa de usar ID já existente", idPeca);
-          
+
           const message = 'Já existe uma peça com esse ID. Por favor, use outro.';
           if (typeof Swal === 'undefined') {
             alert(message);
@@ -471,7 +471,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Modo cadastro ativado");
       if (estoque.some(item => item.id_pecas === idPeca)) {
         console.warn("Tentativa de cadastrar ID duplicado", idPeca);
-        
+
         const message = 'Já existe uma peça com esse ID. Por favor, use outro.';
         if (typeof Swal === 'undefined') {
           alert(message);
@@ -520,7 +520,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Listener para o botão cadastrar
-  cadastrarBtn.addEventListener("click", function(e) {
+  cadastrarBtn.addEventListener("click", function (e) {
     console.log("Botão cadastrar clicado - Início do processamento");
     e.preventDefault();
     salvarItem();
@@ -543,7 +543,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function formatarValor(e) {
       let valor = e.target.value.replace(/\D/g, '');
-      
+
       if (valor === '') {
         e.target.value = 'R$ 0,00';
         return;
@@ -578,38 +578,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function configurarCamposNumericos() {
     console.log("Configurando campos numéricos");
-    const camposNumericos = ["id_pecas", "id_fornecedor", "quantidade"]; 
-    
+    const camposNumericos = ["id_pecas", "id_fornecedor", "quantidade"];
+
     camposNumericos.forEach(id => {
       const campo = document.getElementById(id);
       if (campo) {
-        campo.addEventListener("keydown", function(e) {
+        campo.addEventListener("keydown", function (e) {
           const teclasPermitidas = [
             'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab',
             'Home', 'End'
           ];
-          
-          if (teclasPermitidas.includes(e.key) || 
-              /^[0-9]$/.test(e.key) || 
-              (e.key >= '0' && e.key <= '9' && e.key.length === 1)) {
+
+          if (teclasPermitidas.includes(e.key) ||
+            /^[0-9]$/.test(e.key) ||
+            (e.key >= '0' && e.key <= '9' && e.key.length === 1)) {
             return;
           }
-          
+
           if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'x')) {
             return;
           }
-          
+
           e.preventDefault();
         });
 
-        campo.addEventListener("paste", function(e) {
+        campo.addEventListener("paste", function (e) {
           e.preventDefault();
           const texto = (e.clipboardData || window.clipboardData).getData('text');
           const numeros = texto.replace(/\D/g, '');
           document.execCommand('insertText', false, numeros);
         });
 
-        campo.addEventListener("blur", function() {
+        campo.addEventListener("blur", function () {
           if (campo.value && !/^\d+$/.test(campo.value)) {
             campo.value = campo.value.replace(/\D/g, '');
             if (!campo.value) campo.value = '0';
@@ -622,7 +622,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Configuração do botão de impressão
   const btnImprimir = document.getElementById('btn-imprimir');
   if (btnImprimir) {
-    btnImprimir.addEventListener('click', function() {
+    btnImprimir.addEventListener('click', function () {
       if (estoque.length === 0) {
         if (typeof Swal !== 'undefined') {
           Swal.fire({
@@ -635,7 +635,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         return;
       }
-      
+
       const selecionarNFModal = modalFactory.createModal({
         id: 'modal-selecionar-nf',
         title: 'Selecionar Nota Fiscal para Imprimir',
@@ -657,16 +657,16 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         `
       });
-      
+
       const filtroNF = document.getElementById('filtro-nf');
       const listaNF = document.getElementById('lista-nf');
-      
+
       function atualizarListaNF() {
         const termo = filtroNF.value.toLowerCase();
         listaNF.innerHTML = '';
-        
+
         estoque
-          .filter(item => 
+          .filter(item =>
             item.id_pecas.toLowerCase().includes(termo) ||
             item.nome.toLowerCase().includes(termo) ||
             item.data_registro.toLowerCase().includes(termo)
@@ -687,21 +687,21 @@ document.addEventListener("DOMContentLoaded", function () {
             listaNF.appendChild(div);
           });
       }
-      
+
       filtroNF.addEventListener('input', atualizarListaNF);
       selecionarNFModal.show();
       atualizarListaNF();
     });
   }
-  
+
   function imprimirNF(item) {
     const previewModal = modalFactory.createModal({
-        id: 'modal-preview-nf',
-        title: 'Pré-visualização da Nota Fiscal',
-        width: '90%',
-        maxWidth: '700px',
-        height: 'auto', // Alterado para altura automática
-        content: `
+      id: 'modal-preview-nf',
+      title: 'Pré-visualização da Nota Fiscal',
+      width: '90%',
+      maxWidth: '700px',
+      height: 'auto', // Alterado para altura automática
+      content: `
             <div id="nota-fiscal-preview" style="width: 100%; max-height: 75vh; overflow: hidden; background: white; padding: 15px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
                 <!-- O conteúdo será gerado dinamicamente -->
             </div>
@@ -719,7 +719,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Gerar o conteúdo da nota fiscal com escala ajustada
     const dataFormatada = new Date(item.data_registro).toLocaleDateString('pt-BR');
     const valorTotal = parseFloat(item.preco) * parseInt(item.quantidade);
-    
+
     const previewContent = `
         <div style="width: 100%; transform: scale(0.8); transform-origin: top center;">
             <style>
@@ -829,9 +829,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('nota-fiscal-preview').innerHTML = previewContent;
 
     // Configurar eventos dos botões
-    document.getElementById('btn-imprimir-nf').addEventListener('click', function() {
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(`
+    document.getElementById('btn-imprimir-nf').addEventListener('click', function () {
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
             <!DOCTYPE html>
             <html>
             <head>
@@ -858,12 +858,13 @@ document.addEventListener("DOMContentLoaded", function () {
             </body>
             </html>
         `);
-        printWindow.document.close();
+      printWindow.document.close();
     });
 
-    document.getElementById('btn-fechar-preview').addEventListener('click', function() {
-        previewModal.close();
+    document.getElementById('btn-fechar-preview').addEventListener('click', function () {
+      previewModal.close();
     });
 
     previewModal.show();
-}});
+  }
+});

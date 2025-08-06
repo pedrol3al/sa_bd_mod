@@ -5,15 +5,7 @@ body {
   background-color: white;
 }
 
-.conteudo {
-  margin-left: 230px; /* espaço para a barra lateral azul */
-  padding: 30px 40px;
-  display: flex;
-  flex-direction: column;
-  width: calc(100% - 230px);
-  box-sizing: border-box;
-  margin-top: -76px;
-}
+
 
 h1 {
   color: rgb(0, 0, 58);
@@ -21,7 +13,8 @@ h1 {
   font-size: 36px;
   position: fixed;
   top: 30px;
-  left: 240px; /* para não ficar sobre a sidebar */
+  left: 240px;
+  /* Para não ficar sobre a sidebar */
   z-index: 1000;
   white-space: nowrap;
   overflow: hidden;
@@ -63,7 +56,8 @@ textarea {
   font-size: 14px;
   resize: none;
   flex: 1;
-  min-width: 0; /* para flex funcionar corretamente */
+  min-width: 0;
+  /* para flex funcionar corretamente */
 }
 
 .input-curto {
@@ -119,7 +113,8 @@ button {
   min-width: 120px;
 }
 
-.salvar, .pesquisar {
+.salvar,
+.pesquisar {
   background-color: #4caf50;
 }
 
@@ -127,7 +122,8 @@ button {
   background-color: #2196f3;
 }
 
-button.sair, button.fechar {
+button.sair,
+button.fechar {
   background: transparent;
   border: none;
   padding: 0;
@@ -135,14 +131,16 @@ button.sair, button.fechar {
 }
 
 /* Estilo da imagem dentro do botão */
-button.sair img, button.fechar img {
+button.sair img,
+button.fechar img {
   width: 40px;
   height: 40px;
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 /* Efeito ao passar o mouse */
-button.sair:hover img, button.fechar:hover img {
+button.sair:hover img,
+button.fechar:hover img {
   transform: scale(1.1);
   filter: brightness(1.2);
 }
@@ -158,7 +156,8 @@ button.fechar {
 button.sair {
   position: fixed;
   top: 20px;
-  right: 70px; /* afastado do botão fechar */
+  right: 70px;
+  /* afastado do botão fechar */
   z-index: 999;
 }
 

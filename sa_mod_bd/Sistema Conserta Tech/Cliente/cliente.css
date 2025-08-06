@@ -1,8 +1,9 @@
 @keyframes aparecer {
   from {
-    transform: scale(0.8); 
+    transform: scale(0.8);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
@@ -54,9 +55,9 @@ body {
 
 label {
   position: relative;
-  top: 8px; 
+  top: 8px;
   font-weight: bold;
-  margin-bottom: 5px; 
+  margin-bottom: 5px;
 }
 
 h1 {
@@ -64,7 +65,7 @@ h1 {
   font-weight: bold;
   color: rgb(0, 0, 58);
   margin-bottom: 20px;
-  font-family:'Poppins' sans-serif
+  font-family: 'Poppins' sans-serif
 }
 
 .container-botoes {
@@ -98,7 +99,7 @@ h1 {
   background-color: rgb(224, 24, 9);
 }
 
-.btn-enviar:hover { 
+.btn-enviar:hover {
   background-color: rgb(111, 235, 107);
 }
 
@@ -114,7 +115,7 @@ h1 {
   display: none;
 }
 
-.campos_fisica { 
+.campos_fisica {
   display: flex;
   flex-wrap: wrap;
   gap: 22px;
@@ -152,9 +153,12 @@ h1 {
 
 
 .form-container {
-  max-height: 600px; /* ajuste como preferir */
-  overflow-y: auto;  /* ativa a rolagem vertical */
-  padding-right: 10px; /* para espaço da barra de rolagem */
+  max-height: 600px;
+  /* ajuste como preferir */
+  overflow-y: auto;
+  /* ativa a rolagem vertical */
+  padding-right: 10px;
+  /* para espaço da barra de rolagem */
   scrollbar-width: none;
 
 }

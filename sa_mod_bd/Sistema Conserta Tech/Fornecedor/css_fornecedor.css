@@ -4,11 +4,13 @@ body {
   padding: 0;
   font-family: sans-serif;
   background-color: #fff;
-  display: flex; /* sidebar + conteúdo lado a lado */
+  display: flex;
+  /* sidebar + conteúdo lado a lado */
 }
 
 .container-geral {
-  width: 230px; /* largura fixa da barra azul */
+  width: 230px;
+  /* largura fixa da barra azul */
   flex-shrink: 0;
 }
 
@@ -65,8 +67,10 @@ select {
 
 textarea#observacoes {
   height: 80px;
-  width: 100%;          /* largura responsiva */
-  max-width: 1290px;    /* limite máximo */
+  width: 100%;
+  /* largura responsiva */
+  max-width: 1290px;
+  /* limite máximo */
   resize: vertical;
   box-sizing: border-box;
 }
@@ -111,8 +115,10 @@ button {
   cursor: pointer;
   color: #ffffff;
   white-space: nowrap;
-  flex: 1 1 auto; /* botões flexíveis */
-  min-width: 140px; /* largura mínima */
+  flex: 1 1 auto;
+  /* botões flexíveis */
+  min-width: 140px;
+  /* largura mínima */
 }
 
 .cadastrar {
@@ -130,16 +136,21 @@ button {
 /* Modal principal */
 #modal_pesquisar {
   position: fixed;
-  top: 50px; /* pequena margem do topo */
-  left: 230px; /* mesma largura da sidebar */
-  width: calc(100% - 230px); /* ocupa todo o resto da tela exceto o menu */
-  height: 50vh; /* metade da altura da tela */
+  top: 50px;
+  /* pequena margem do topo */
+  left: 230px;
+  /* mesma largura da sidebar */
+  width: calc(100% - 230px);
+  /* ocupa todo o resto da tela exceto o menu */
+  height: 50vh;
+  /* metade da altura da tela */
   background-color: #ffffff;
   padding: 20px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   display: none;
   overflow-y: auto;
-  z-index: 1000; /* menor que o modal-menor */
+  z-index: 1000;
+  /* menor que o modal-menor */
   box-sizing: border-box;
 }
 
@@ -150,9 +161,11 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* fundo escuro com transparência */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* fundo escuro com transparência */
   display: none;
-  z-index: 999; /* menor que o modal principal */
+  z-index: 999;
+  /* menor que o modal principal */
 }
 
 /* Cabeçalho da modal */
@@ -189,7 +202,8 @@ button {
 .modal-menor {
   display: none;
   position: fixed;
-  z-index: 9999; /* acima de tudo */
+  z-index: 9999;
+  /* acima de tudo */
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -199,7 +213,7 @@ button {
   width: 90%;
   max-width: 300px;
   padding: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
 }
 
@@ -226,7 +240,8 @@ button {
 }
 
 /* Botões sair e fechar */
-button.sair, button.fechar {
+button.sair,
+button.fechar {
   background: transparent;
   border: none;
   padding: 0;
@@ -234,14 +249,16 @@ button.sair, button.fechar {
 }
 
 /* Estilo da imagem dentro do botão */
-button.sair img, button.fechar img {
+button.sair img,
+button.fechar img {
   width: 40px;
   height: 40px;
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 /* Efeito ao passar o mouse */
-button.sair:hover img, button.fechar:hover img {
+button.sair:hover img,
+button.fechar:hover img {
   transform: scale(1.1);
   filter: brightness(1.2);
 }
@@ -258,7 +275,8 @@ button.fechar {
 button.sair {
   position: fixed;
   top: 20px;
-  right: 70px; /* afastado do botão fechar */
+  right: 70px;
+  /* afastado do botão fechar */
   z-index: 999;
 }
 

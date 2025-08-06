@@ -8,7 +8,7 @@
 }
 
 body {
-  background-color: #ffffff;
+  background-color: rgb(187, 187, 187);
 }
 
 .animarConteudo {
@@ -19,15 +19,13 @@ body {
 }
 
 .tituloTopo {
-  background-color: #f4f1f1;
-  box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 20px;
   padding: 20px;
-  margin: 20px 270px;
+  margin: 0px 270px;
   text-align: left;
   width: fit-content;
   display: inline-block;
-  color: rgb(0, 0, 58);;
+  color: rgb(0, 0, 58);
+  
 
 }
 
@@ -37,11 +35,6 @@ body {
   position: static;
 }
 
-.tituloTopo h2 {
-  margin: 5px 0 0 0;
-  font-size: 24px;
-  position: static;
-}
 
 /* Cards */
 .quadrado1,
@@ -92,13 +85,7 @@ body {
   margin-bottom: 15px;
 }
 
-.bem_vindo {
-  color: rgb(0, 0, 58);
-  font-family: "Roboto", sans-serif;
-  position: fixed;
-  top: 90px;
-  left: 270px;
-}
+
 
 .titulo_quadrado {
   color: rgb(0, 0, 58);
@@ -144,18 +131,53 @@ body {
   margin-top: 10px;
 }
 
-.barra1 { height: 50px; }
-.barra2 { height: 120px; }
-.barra3 { height: 90px; }
-.barra4 { height: 170px; }
-.barra5 { height: 110px; }
-.barra6 { height: 40px; }
-.barra7 { height: 160px; }
-.barra8 { height: 100px; }
-.barra9 { height: 190px; }
-.barra10 { height: 40px; }
-.barra11 { height: 80px; }
-.barra12 { height: 30px; }
+.barra1 {
+  height: 50px;
+}
+
+.barra2 {
+  height: 120px;
+}
+
+.barra3 {
+  height: 90px;
+}
+
+.barra4 {
+  height: 170px;
+}
+
+.barra5 {
+  height: 110px;
+}
+
+.barra6 {
+  height: 40px;
+}
+
+.barra7 {
+  height: 160px;
+}
+
+.barra8 {
+  height: 100px;
+}
+
+.barra9 {
+  height: 190px;
+}
+
+.barra10 {
+  height: 40px;
+}
+
+.barra11 {
+  height: 80px;
+}
+
+.barra12 {
+  height: 30px;
+}
 
 #graficoLinha {
   background-color: #f9f9f9;

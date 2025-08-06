@@ -102,7 +102,7 @@ function configurarBotaoRemover(botao, linha) {
 
 // Valida campo de OS permitindo apenas números
 function validarInputOS(input) {
-  input.addEventListener('keypress', function(event) {
+  input.addEventListener('keypress', function (event) {
     if (!/[0-9]/.test(event.key)) {
       event.preventDefault();
     }
@@ -111,7 +111,7 @@ function validarInputOS(input) {
 
 // Valida campo de cliente permitindo apenas letras e acentos
 function validarInputCliente(input) {
-  input.addEventListener('keypress', function(event) {
+  input.addEventListener('keypress', function (event) {
     if (!/[a-zA-ZÀ-ÿ\s]/.test(event.key)) {
       event.preventDefault();
     }

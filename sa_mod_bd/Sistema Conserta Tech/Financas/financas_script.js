@@ -101,7 +101,7 @@ function configurarBotaoRemover(botao, linha) {
 
 // Validação para input OS (só números)
 function validarInputOS(input) {
-  input.addEventListener('keypress', function(event) {
+  input.addEventListener('keypress', function (event) {
     if (!/[0-9]/.test(event.key)) {
       event.preventDefault();
     }
@@ -110,7 +110,7 @@ function validarInputOS(input) {
 
 // Validação para input Cliente (letras e espaço)
 function validarInputCliente(input) {
-  input.addEventListener('keypress', function(event) {
+  input.addEventListener('keypress', function (event) {
     if (!/[a-zA-ZÀ-ÿ\s]/.test(event.key)) {
       event.preventDefault();
     }
@@ -152,7 +152,7 @@ function adicionarNovaLinha() {
 
   configurarBotaoRemover(novaLinha.querySelector(".botao-remover-linha"), novaLinha);
 
-  aplicarEstiloStatus(); 
+  aplicarEstiloStatus();
 }
 
 
@@ -333,7 +333,7 @@ function salvarTodasAlteracoes(isExclusao = false) {
 
   bloquearEdicaoTodasLinhas();
 }
-  
+
 
 function carregarTabelaDoStorage() {
   let dados = JSON.parse(localStorage.getItem("servicos")) || [];
@@ -416,17 +416,17 @@ function aplicarEstiloStatus() {
     const aplicarCor = () => {
       select.classList.remove('status-concluido', 'status-pendente', 'status-atrasado');
 
-     switch (select.value) {
-  case 'Concluído':
-    select.classList.add('status-concluido');
-    break;
-  case 'Atrasado':
-    select.classList.add('status-atrasado');
-    break;
-  case 'Pendente':
-    select.classList.add('status-pendente');
-    break;
-}
+      switch (select.value) {
+        case 'Concluído':
+          select.classList.add('status-concluido');
+          break;
+        case 'Atrasado':
+          select.classList.add('status-atrasado');
+          break;
+        case 'Pendente':
+          select.classList.add('status-pendente');
+          break;
+      }
     };
 
     aplicarCor(); // Aplica ao carregar
@@ -435,7 +435,7 @@ function aplicarEstiloStatus() {
 
     aplicarCor(); // Aplica ao carregar
     select.addEventListener('change', aplicarCor); // Aplica ao trocar
-  
+
   });
 }
 

@@ -1,50 +1,56 @@
-    <!DOCTYPE html>
-    <html lang="pt-br"> 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login Sistema</title>
+<!DOCTYPE html>
+<html lang="pt-br">
 
-        <!-- Links do css, bootstrap -->
-        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="estilo_login.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Sistema</title>
 
-        <!-- Link do Notyf e a logo no topo do navegador -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">   
-        <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
+    <!-- Links do css, bootstrap -->
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilo_login.css">
 
-        
- 
-    </head>
-    <body> 
+    <!-- Link do Notyf e a logo no topo do navegador -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
 
-        <main class="container"> <!-- Corpo da página -->
-            <div class="topoPag">
-                 
-                <img class="imagemLogo" src="../img/logo.png" alt="">
-            </div>
 
-            <div class="Formulario">
-                <form method="POST">
+
+</head>
+
+<body>
+
+    <main class="container"> <!-- Corpo da página -->
+        <div class="topoPag">
+
+            <img class="imagemLogo" src="../img/logo.png" alt="">
+        </div>
+
+        <div class="Formulario">
+            <form method="POST">
                 <div class="informacoes">
-                    <input id="nome" type="text" placeholder="Digite seu nome de usuário ou email corporativo" class="form-control">
-                    <input id="senha" type="password" placeholder="Digite sua senha" class="form-control" maxlength="12">
+                    <input id="nome" type="text" placeholder="Digite seu nome de usuário ou email corporativo"
+                        class="form-control">
+                    <input id="senha" type="password" placeholder="Digite sua senha" class="form-control"
+                        maxlength="12">
 
                 </div>
                 <div class="interacoes">
                     <a href="../Trocar_senha/trocar_senha.html">Esqueci minha senha</a>
                     <button id="logar" class="btn btn-outline-success" onclick="conferirCampos()">Logar</button>
                 </div>
-            <div class="rodape">
-                    <footer class="text-center mt-5"> <small>© 2025 Conserta Tech - Suporte: (47) 98472-8108</small></footer>
+                <div class="rodape">
+                    <footer class="text-center mt-5"> <small>© 2025 Conserta Tech - Suporte: (47) 98472-8108</small>
+                    </footer>
                 </div>
-                </form>
-            </div> 
+            </form>
+        </div>
 
-            <!-- Links do javascript -->
-        <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>        
+        <!-- Links do javascript -->
+        <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
         <script src="inicio.js"></script>
-        </main>
-        
-    </body>
-    </html>
+    </main>
+
+</body>
+
+</html>
