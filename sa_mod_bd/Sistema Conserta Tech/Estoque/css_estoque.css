@@ -1,31 +1,38 @@
 /* BODY & LAYOUT */
 body {
-  margin: 0; 
+  margin: 0;
   padding: 0;
   font-family: sans-serif;
   background-color: #fff;
-  display: flex;             /* sidebar + conteúdo lado a lado */
+  display: flex;
+  /* sidebar + conteúdo lado a lado */
   min-height: 100vh;
-  overflow-x: hidden;        /* evita scroll horizontal */
+  overflow-x: hidden;
+  /* evita scroll horizontal */
 }
 
 .container-geral {
-  width: 230px;              /* largura da barra lateral */
+  width: 230px;
+  /* largura da barra lateral */
   flex-shrink: 0;
-  position: fixed;           /* fixa a barra na lateral */
+  position: fixed;
+  /* fixa a barra na lateral */
   height: 100vh;
-  background-color: #f9f9f9; /* fundo claro para sidebar */
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  background-color: #f9f9f9;
+  /* fundo claro para sidebar */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   padding-top: 20px;
   box-sizing: border-box;
 }
 
 .conteudo {
-  margin-left: 230px;        /* espaço reservado para a barra lateral */
+  margin-left: 230px;
+  /* espaço reservado para a barra lateral */
   padding: 30px 40px;
   box-sizing: border-box;
-  max-width: 1000px;         /* define uma largura máxima */
+  max-width: 1000px;
+  /* define uma largura máxima */
   width: 100%;
   margin-right: auto;
   margin-left: auto;
@@ -74,16 +81,19 @@ select {
   padding: 5px;
   font-size: 14px;
   flex: 1;
-  min-width: 0; /* para flexbox funcionar corretamente */
+  min-width: 0;
+  /* para flexbox funcionar corretamente */
 }
 
 /* TAMANHOS FIXOS */
 .input-curto {
   width: 120px;
 }
+
 .input-medio {
   width: 250px;
 }
+
 .input-longo {
   width: 100%;
 }
@@ -109,11 +119,13 @@ button {
   border-radius: 4px;
   cursor: pointer;
   color: #ffffff;
-  flex: 1; /* para os botões ocuparem espaço igual */
+  flex: 1;
+  /* para os botões ocuparem espaço igual */
   min-width: 120px;
 }
 
-.cadastrar, .pesquisar {
+.cadastrar,
+.pesquisar {
   background-color: #4CAF50;
 }
 
@@ -122,7 +134,8 @@ button {
 }
 
 /* BOTÕES FECHAR E SAIR */
-button.sair, button.fechar {
+button.sair,
+button.fechar {
   background: transparent;
   border: none;
   padding: 0;
@@ -140,13 +153,15 @@ button.sair {
   right: 70px;
 }
 
-button.sair img, button.fechar img {
+button.sair img,
+button.fechar img {
   width: 40px;
   height: 40px;
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-button.sair:hover img, button.fechar:hover img {
+button.sair:hover img,
+button.fechar:hover img {
   transform: scale(1.1);
   filter: brightness(1.2);
 }
@@ -164,7 +179,7 @@ button.sair:hover img, button.fechar:hover img {
   border: 2px solid #0066cc;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   z-index: 1000;
   display: none;
   animation: descer 0.3s ease-out;
@@ -175,6 +190,7 @@ button.sair:hover img, button.fechar:hover img {
     opacity: 0;
     transform: translate(-50%, -30%);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, 0);
@@ -229,7 +245,8 @@ button.sair:hover img, button.fechar:hover img {
     max-width: 100%;
   }
 
-  button.sair, button.fechar {
+  button.sair,
+  button.fechar {
     position: absolute;
     top: 10px;
     right: 10px;

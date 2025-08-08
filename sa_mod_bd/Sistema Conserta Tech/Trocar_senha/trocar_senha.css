@@ -1,18 +1,24 @@
 @keyframes aparecer {
   from {
-    transform: translate(-50%, -50%) scale(0.8); /* O elemento começa centralizado e com 80% (0.8) do tamanho original  */
-    opacity: 0; /* Começa invisível */
+    transform: translate(-50%, -50%) scale(0.8);
+    /* O elemento começa centralizado e com 80% (0.8) do tamanho original  */
+    opacity: 0;
+    /* Começa invisível */
   }
+
   to {
-    transform: translate(-50%, -50%) scale(1); /* Continua centralizado e volta ao tamanho normal (100%) */
-    opacity: 1; /* Torna-se totalmente visível */
+    transform: translate(-50%, -50%) scale(1);
+    /* Continua centralizado e volta ao tamanho normal (100%) */
+    opacity: 1;
+    /* Torna-se totalmente visível */
   }
 }
 
 
 
-.container{
-  animation: aparecer 2s; /* configuração de animação sendo invocada dentro da classe container */
+.container {
+  animation: aparecer 2s;
+  /* configuração de animação sendo invocada dentro da classe container */
   width: 550px;
   height: 550px;
   position: absolute;
@@ -28,53 +34,58 @@
   text-align: center;
   color: rgb(0, 0, 58);
 }
-.informacoes input{
+
+.informacoes input {
   display: flex;
   margin: 20px;
   width: 90%;
-  
+
 }
 
-.interacoes{
+.interacoes {
   display: flex;
   flex-direction: column;
   align-items: center;
 
 }
-.interacoes button{
+
+.interacoes button {
   width: 90%;
   margin-top: 10px;
 }
-.interacoes a{
+
+.interacoes a {
   text-decoration: none;
   color: rgb(0, 0, 58);
 }
-.btn-outline-success{
-  background-color:   rgb(31, 221, 31);
-  color: white ;
+
+.btn-outline-success {
+  background-color: rgb(31, 221, 31);
+  color: white;
 }
-.btn-outline-success:hover{
+
+.btn-outline-success:hover {
   background-color: #39ad4c;
   color: white;
 }
-.topoPag h1{
+
+.topoPag h1 {
   font-family: "Roboto", sans-serif;
   font-size: 50px;
   height: 90px;
   font-weight: bold;
 }
 
-.form-control{
+.form-control {
 
-  border: 0.1px rgba(0, 0, 0, 0.363) solid ;
+  border: 0.1px rgba(0, 0, 0, 0.363) solid;
 
 }
 
-.imagemLogo{
+.imagemLogo {
 
   align-items: center;
   display: flex;
   height: 250px;
   margin: auto;
 }
-

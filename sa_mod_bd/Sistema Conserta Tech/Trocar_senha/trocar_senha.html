@@ -1,48 +1,53 @@
-    <!DOCTYPE html>
-    <html lang="pt-br"> 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login Sistema</title>
+<!DOCTYPE html>
+<html lang="pt-br">
 
-        <!-- Links do css, bootstrap -->
-        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="trocar_senha.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Sistema</title>
 
-        <!-- Link do Notyf e a logo no topo do navegador -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">   
-        <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
+    <!-- Links do css, bootstrap -->
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="trocar_senha.css">
 
-        
+    <!-- Link do Notyf e a logo no topo do navegador -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
 
-    </head>
-    <body>
 
-        <main class="container"> <!-- Corpo da página -->
-            <div class="topoPag">
-                 
-                <img class="imagemLogo" src="../img/logo.png" alt="">
+
+</head>
+
+<body>
+
+    <main class="container"> <!-- Corpo da página -->
+        <div class="topoPag">
+
+            <img class="imagemLogo" src="../img/logo.png" alt="">
+        </div>
+
+        <div class="Formulario">
+            <div class="informacoes">
+                <input id="email" type="text" placeholder="Insira seu email" class="form-control">
+                <input id="text" type="password" placeholder="Digite sua nova senha" class="form-control"
+                    maxlength="12">
+
             </div>
+            <div class="interacoes">
 
-            <div class="Formulario">
-                <div class="informacoes">
-                    <input id="email" type="text" placeholder="Insira seu email" class="form-control">
-                    <input id="text" type="password" placeholder="Digite sua nova senha" class="form-control" maxlength="12">
-
-                </div>
-                <div class="interacoes">
-                  
-                    <button id="logar" class="btn btn-outline-success" onclick="conferirCampos()">Confirmar</button>
-                </div>
-                <div class="rodape">
-                    <footer class="text-center mt-5"> <small>© 2025 Conserta Tech - Suporte: (47) 93025-5458</small></footer>
-                </div>
+                <button id="logar" class="btn btn-outline-success" onclick="conferirCampos()">Confirmar</button>
             </div>
+            <div class="rodape">
+                <footer class="text-center mt-5"> <small>© 2025 Conserta Tech - Suporte: (47) 93025-5458</small>
+                </footer>
+            </div>
+        </div>
 
-            <!-- Links do javascript -->
-        <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>        
+        <!-- Links do javascript -->
+        <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
         <script src="trocar_senha.js"></script>
-        </main>
-        
-    </body>
-    </html>
+    </main>
+
+</body>
+
+</html>

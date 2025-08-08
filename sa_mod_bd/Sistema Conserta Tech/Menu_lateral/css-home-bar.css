@@ -28,12 +28,13 @@ body {
   flex-direction: column;
   overflow-y: auto;
   padding-bottom: 20px;
-  transition: width 0.5s ease-in;
   /* Animação suave da largura */
-  scrollbar-width: none;
+  transition: width 0.5s ease-in;
+  overflow: hidden;
+  /* Garante que o menu-lateral sobreponha os outros elementos, garantindo sua funcionalidade */
+  z-index: 1000;
 
 }
-
 
 /* Menu lateral expandido (hover ou fixo) */
 .menu-lateral:hover,
@@ -131,11 +132,11 @@ ul li a .icon>i {
 
 /* Estilização do conteúdo principal */
 main.conteudo-principal {
-  margin-left: clamp(60px, 15%, 220px); /* largura do menu ajustável */
-  padding: 2%;
+  margin-left: 220px;
+  padding: 20px;
   background-color: #f4f4f4;
+  width: 100%;
 }
-
 
 /* Estilização do rodapé */
 .footer-contato {
@@ -237,7 +238,7 @@ button.fixar-menu {
 button.fixar-menu img {
   width: 150px;
   height: auto;
-  margin: 10px auto;
+  margin: 10px;
   cursor: pointer;
   border: none;
 }

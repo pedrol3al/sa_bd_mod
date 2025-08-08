@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,7 @@
   <title>Finanças - Gastos</title>
 
   <!-- links css -->
- 
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="financas_gastos.css">
   <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css">
@@ -23,7 +24,7 @@
 
   <header class="topo">
     <h1 class="titulo"><span>FINANÇAS</span> GASTOS </h1>
-  
+
   </header>
 
   <main class="conteudo-principal">
@@ -36,7 +37,7 @@
             <span class="titulo-receber">Total pago</span>
             <span class="valor" id="valor-total-pago"></span>
           </div>
-        </div> 
+        </div>
       </div>
 
       <div class="card verde">
@@ -56,24 +57,24 @@
             <span class="titulo-receber">A pagar hoje</span>
             <span class="valor" id="valor-a-pagar"></span>
           </div>
-        </div> 
+        </div>
       </div>
     </section>
 
     <!-- Tabela de despesas -->
     <section class="tabela-financas">
       <table>
-       <thead>
-  <tr>
-    <th>Id Fornecedor</th>
-    <th>Nome</th>
-    <th>Produto</th>
-    <th>Data Compra</th>
-    <th>Valor</th>
-    <th>Status</th>  
-    <th>Ações</th>
-  </tr>
-</thead>
+        <thead>
+          <tr>
+            <th>Id Fornecedor</th>
+            <th>Nome</th>
+            <th>Produto</th>
+            <th>Data Compra</th>
+            <th>Valor</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
 
         <tbody id="corpo-tabela">
           <!-- Linhas serão carregadas dinamicamente -->
@@ -98,10 +99,11 @@
     </div>
   </div>
 
-    <!-- Link dos javascripts -->
- 
+  <!-- Link dos javascripts -->
+
   <script src="../Menu_lateral/carregar-menu.js" defer></script>
   <script src="gastos.js" defer></script>
 
 </body>
+
 </html>
