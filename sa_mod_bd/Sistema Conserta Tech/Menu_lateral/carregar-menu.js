@@ -4,8 +4,7 @@ function carregarMenuLateral() {
   // Definição do HTML do menu lateral usando template string
   const menuHtml = `
 
-        <nav class="menu-lateral">
-          <div class="btn-expandir"></div>
+         <div class="btn-expandir"></div>
           <button class="sair" title="sair da conta"> 
             <img src="../img/logout.png" alt="Sair">
           </button>
@@ -13,6 +12,9 @@ function carregarMenuLateral() {
           <button class="fechar" title="fechar">
             <img src="../img/person-circle.svg" alt="Fechar">
           </button>
+
+        <nav class="menu-lateral">
+         
 
           <div class="top-menu">
             <ul>
