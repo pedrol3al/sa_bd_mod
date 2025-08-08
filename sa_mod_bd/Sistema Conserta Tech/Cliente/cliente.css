@@ -33,7 +33,7 @@ body {
   display: flex;
   border-radius: 16px;
   background-color: #FAFAFA;
-  padding: 40px;
+  padding: 30px;
   flex-direction: column;
   overflow-y: auto;
   scrollbar-width: none;

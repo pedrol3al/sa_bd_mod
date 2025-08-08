@@ -1,8 +1,8 @@
 
-  function carregarMenuLateral() {
-    
-      // Definição do HTML do menu lateral usando template string
-      const menuHtml = `
+function carregarMenuLateral() {
+
+  // Definição do HTML do menu lateral usando template string
+  const menuHtml = `
 
         <nav class="menu-lateral">
           <div class="btn-expandir"></div>
@@ -85,57 +85,57 @@
         </nav>
       `;
 
-      const menuContainer = document.getElementById('menu-container'); //Inserindo o menu dentro de uma constante
+  const menuContainer = document.getElementById('menu-container'); //Inserindo o menu dentro de uma constante
 
-      if (menuContainer) {
-        menuContainer.innerHTML = menuHtml;
+  if (menuContainer) {
+    menuContainer.innerHTML = menuHtml;
 
-        const menu = menuContainer.querySelector('.menu-lateral');
-        const botaoFixar = menuContainer.querySelector('#fixar_menu'); 
+    const menu = menuContainer.querySelector('.menu-lateral');
+    const botaoFixar = menuContainer.querySelector('#fixar_menu');
 
-        botaoFixar.addEventListener('click', (e) => {
-          e.preventDefault();
-          menu.classList.toggle('fixo');
-          localStorage.setItem('menuFixo', menu.classList.contains('fixo') ? 'true' : 'false');
-        });
+    botaoFixar.addEventListener('click', (e) => {
+      e.preventDefault();
+      menu.classList.toggle('fixo');
+      localStorage.setItem('menuFixo', menu.classList.contains('fixo') ? 'true' : 'false');
+    });
 
-        const menuFixoSalvo = localStorage.getItem('menuFixo');
-        if (menuFixoSalvo === 'true') {
-          menu.classList.add('fixo');
-        }
-
-        // Submenu Orçamento
-        const orcamentoLink = menuContainer.querySelector('#orcamento');
-        const subOrcamento = menuContainer.querySelector('#sub-orcamento');
-
-        if (orcamentoLink && subOrcamento) {
-          orcamentoLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            subOrcamento.style.display = subOrcamento.style.display === 'none' ? 'block' : 'none';
-          });
-        }
-
-   
-        const botaoFechar = menuContainer.querySelector(".fechar");
-        const botaoSair = menuContainer.querySelector(".sair");
-
-        if (botaoFechar) {
-          botaoFechar.addEventListener("click", () => {
-            window.close();
-          });
-        }
-
-        if (botaoSair) {
-          botaoSair.addEventListener("click", () => {
-            window.location.href = "../Login/login.html";
-          });
-        }
-      } 
+    const menuFixoSalvo = localStorage.getItem('menuFixo');
+    if (menuFixoSalvo === 'true') {
+      menu.classList.add('fixo');
     }
-  
 
-  // Espera o DOM estar carregado e então chama a função
-  window.addEventListener("DOMContentLoaded", () => {
-    carregarMenuLateral();
-  });
+    // Submenu Orçamento
+    const orcamentoLink = menuContainer.querySelector('#orcamento');
+    const subOrcamento = menuContainer.querySelector('#sub-orcamento');
+
+    if (orcamentoLink && subOrcamento) {
+      orcamentoLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        subOrcamento.style.display = subOrcamento.style.display === 'none' ? 'block' : 'none';
+      });
+    }
+
+
+    const botaoFechar = menuContainer.querySelector(".fechar");
+    const botaoSair = menuContainer.querySelector(".sair");
+
+    if (botaoFechar) {
+      botaoFechar.addEventListener("click", () => {
+        window.close();
+      });
+    }
+
+    if (botaoSair) {
+      botaoSair.addEventListener("click", () => {
+        window.location.href = "../Login/login.html";
+      });
+    }
+  }
+}
+
+
+// Espera o DOM estar carregado e então chama a função
+window.addEventListener("DOMContentLoaded", () => {
+  carregarMenuLateral();
+});
 

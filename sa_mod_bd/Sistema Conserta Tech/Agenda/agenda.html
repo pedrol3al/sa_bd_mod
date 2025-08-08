@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,12 +14,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
 
-    
+
 </head>
 
 <body>
-<div id="menu-container"></div>
-   <div class="conteudo">
+    <div id="menu-container"></div>
+    <div class="conteudo">
         <h1>AGENDA</h1>
 
         <div class="calendario">
@@ -28,7 +29,13 @@
                 <button id="mesProximo">&gt;</button>
             </div>
             <div class="dias-semana">
-                <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+                <div>Dom</div>
+                <div>Seg</div>
+                <div>Ter</div>
+                <div>Qua</div>
+                <div>Qui</div>
+                <div>Sex</div>
+                <div>Sáb</div>
             </div>
             <div class="dias" id="diasCalendario">
                 <!-- Os dias serão preenchidos via JavaScript -->
@@ -55,24 +62,25 @@
     <div id="modal">
         <div class="modal-conteudo">
             <h2 class="modal-titulo">Adicionar Evento</h2>
-        
+
             <label for="inputTitulo">Título:</label>
             <input type="text" id="inputTitulo" />
-        
+
             <label for="inputDescricao">Descrição:</label>
             <textarea id="inputDescricao" rows="4"></textarea>
-        
+
             <p id="dataSelecionada"></p>
-        
+
             <div class="botoes-modal">
-                <button class="salvar">Salvar</button>  
+                <button class="salvar">Salvar</button>
                 <button class="fechar-agenda">Fechar</button>
             </div>
         </div>
     </div>
 
-     <!-- Links para carregar o menu e carregar o javascript-->
-    <script src="script_agenda.js" defer></script> 
+    <!-- Links para carregar o menu e carregar o javascript-->
+    <script src="script_agenda.js" defer></script>
     <script src="../Menu_lateral/carregar-menu.js" defer></script>
 </body>
+
 </html>

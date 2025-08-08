@@ -8,15 +8,16 @@
   font-family: 'Roboto', sans-serif;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   overflow-x: hidden;
 }
- 
+
 /* Estilização do menu lateral */
 .menu-lateral {
   width: 60px;
-  height: 100vh; 
+  height: 100vh;
   background-color: #013d8d;
   padding: 0;
   box-shadow: 3px 0 0 #fff;
@@ -26,11 +27,13 @@ html, body {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding-bottom: 20px; 
-  transition: width 0.5s ease-in; /* Animação suave da largura */
-  overflow: hidden;
- 
+  padding-bottom: 20px;
+  transition: width 0.5s ease-in;
+  /* Animação suave da largura */
+  scrollbar-width: none;
+
 }
+
 
 /* Menu lateral expandido (hover ou fixo) */
 .menu-lateral:hover,
@@ -49,7 +52,7 @@ html, body {
   padding: 10px;
 }
 
-.btn-expandir > i {
+.btn-expandir>i {
   color: #fff;
   font-size: 24px;
   cursor: pointer;
@@ -99,7 +102,7 @@ ul li a .txt-link {
 }
 
 /* Ícones dentro dos links */
-ul li a .icon > i {
+ul li a .icon>i {
   font-size: 24px;
 }
 
@@ -128,11 +131,11 @@ ul li a .icon > i {
 
 /* Estilização do conteúdo principal */
 main.conteudo-principal {
-  margin-left: 220px;
-  padding: 20px;
+  margin-left: clamp(60px, 15%, 220px); /* largura do menu ajustável */
+  padding: 2%;
   background-color: #f4f4f4;
-  width: 100%;
 }
+
 
 /* Estilização do rodapé */
 .footer-contato {
@@ -180,7 +183,8 @@ main.conteudo-principal {
 }
 
 /* Estilização dos botões sair e fechar */
-button.sair, button.fechar {
+button.sair,
+button.fechar {
   background: transparent;
   border: none;
   padding: 0;
@@ -188,14 +192,17 @@ button.sair, button.fechar {
 }
 
 /* Estilo da imagem dentro dos botões */
-button.sair img, button.fechar img {
+button.sair img,
+button.fechar img {
   width: 40px;
   height: 40px;
-  transition: transform 0.2s ease, filter 0.2s ease; /* Animação de hover */
+  transition: transform 0.2s ease, filter 0.2s ease;
+  /* Animação de hover */
 }
 
 /* Efeito ao passar o mouse nos botões */
-button.sair:hover img, button.fechar:hover img {
+button.sair:hover img,
+button.fechar:hover img {
   transform: scale(1.1);
   filter: brightness(1.2);
 }
@@ -212,15 +219,17 @@ button.fechar {
 button.sair {
   position: fixed;
   top: 20px;
-  right: 70px; /* afastado do botão fechar */
+  right: 70px;
+  /* afastado do botão fechar */
   z-index: 999;
-} 
+}
 
 /* Botão fixar menu */
 button.fixar-menu {
   margin: 0;
-  background-color:  #013d8d;
-  transition: width 0.5s ease-in, filter 0.2s ease; /* Animação combinada */
+  background-color: #013d8d;
+  transition: width 0.5s ease-in, filter 0.2s ease;
+  /* Animação combinada */
   border: none;
 }
 

@@ -174,8 +174,13 @@
 
                   <div class="linha">
                     <label for="complemento">Complemento:</label>
-                    <input type="text" id="complemento_jur" name="complemento_jur" class="form-control"
+                    <input type="text" id="complemento_jur" name="complemento_jur" class="form-control" 
                       placeholder="Complemento">
+                  </div>
+
+                   <div class="linha">
+                    <label for="Telefone">Imagem:</label>
+                    <input type="file" id="foto_fis" name="foto_fis" class="form-control">
                   </div>
 
                   <div class="linha">
@@ -311,6 +316,11 @@
                   </div>
 
                   <div class="linha">
+                    <label for="Telefone">Imagem:</label>
+                    <input type="file" id="foto_jur" name="foto_jur" class="form-control">
+                  </div>
+
+                  <div class="linha">
                     <label for="observacoes">Observações:</label>
                     <input type="text" id="observacoes_jur" name="observacoes" class="form-control"
                       placeholder="Observações">
@@ -318,17 +328,15 @@
 
                 </div>
               </div>
+            </div>
+            <div class="container-botoes">
+              <div class="enviar">
+                <button type="button" id="enviar" class="form-control btn-enviar" onclick="return conferirCampos()">
+                  Cadastrar </button>
+              </div>
 
-
-              <div class="container-botoes">
-                <div class="enviar">
-                  <button type="button" id="enviar" class="form-control btn-enviar" onclick="return conferirCampos()">
-                    Cadastrar </button>
-                </div>
-
-                <div class="limpar">
-                  <button type="reset" id="limpar" class="form-control btn-limpar"> Limpar </button>
-                </div>
+              <div class="limpar">
+                <button type="reset" id="limpar" class="form-control btn-limpar"> Limpar </button>
               </div>
             </div>
       </form>
