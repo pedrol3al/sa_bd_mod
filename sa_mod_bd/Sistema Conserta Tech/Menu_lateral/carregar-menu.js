@@ -11,7 +11,7 @@ function carregarMenuLateral() {
           </button>
 
           <button class="fechar" title="fechar">
-            <img src="../img/sair.png" alt="Fechar">
+            <img src="../img/person-circle.svg" alt="Fechar">
           </button>
 
           <div class="top-menu">
@@ -119,11 +119,14 @@ function carregarMenuLateral() {
     const botaoFechar = menuContainer.querySelector(".fechar");
     const botaoSair = menuContainer.querySelector(".sair");
 
-    if (botaoFechar) {
-      botaoFechar.addEventListener("click", () => {
-        window.close();
-      });
-    }
+
+    // Condição destinada a para abrir os dados do usúario logado
+
+    // if (botaoFechar) {
+    //   botaoFechar.addEventListener("click", () => {
+    //     window.close();
+    //   });
+    // }
 
     if (botaoSair) {
       botaoSair.addEventListener("click", () => {

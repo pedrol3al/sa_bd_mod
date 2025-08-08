@@ -30,7 +30,7 @@ body {
   padding-bottom: 20px;
   /* Animação suave da largura */
   transition: width 0.5s ease-in;
-  overflow: hidden;
+  scrollbar-width: none  ;
   /* Garante que o menu-lateral sobreponha os outros elementos, garantindo sua funcionalidade */
   z-index: 1000;
 
@@ -118,10 +118,10 @@ ul li a .icon>i {
 
 .sub-menu a {
   display: block;
-  padding: 10px 0;
   color: #fff;
   text-decoration: none;
   font-size: 16px;
+  padding-right: 40px ;
 }
 
 /* Hover do submenu */
