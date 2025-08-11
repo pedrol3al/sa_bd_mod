@@ -86,7 +86,7 @@ function conferirCampos() {
     { id: 'uf', nome: 'Estado (UF)' },
     { id: 'numero', nome: 'Número' },
     { id: 'cidade', nome: 'Cidade' },
-    { id: 'foto_fis', nome: 'Foto do cliente'},
+    { id: 'foto_fis', nome: 'Foto do cliente' },
     { id: 'bairro', nome: 'Bairro' }
   ];
 
