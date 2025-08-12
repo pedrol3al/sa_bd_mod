@@ -1,326 +1,157 @@
-/* BODY & LAYOUT */
+@keyframes aparecer {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  background-color: #fff;
+  min-height: 100vh;
   display: flex;
-  /* sidebar + conteúdo lado a lado */
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(187, 187, 187);
+
 }
 
-.container-geral {
-  width: 230px;
-  /* largura fixa da barra azul */
-  flex-shrink: 0;
-}
-
-/* CONTEÚDO */
+/* Container principal */
 .conteudo {
-  flex: 1;
-  padding: 30px 40px;
+  animation: aparecer 1.2s ease forwards;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 800px;
+  height: auto;
+  align-items: center;
+  border: 1px solid black;
+  justify-content: center;
+  display: flex;
+  border-radius: 16px;
+  background-color: #FAFAFA;
+  padding: 30px;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+  gap: 4%;
+}
+
+/* Campo de entrada */
+.form-control {
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  border: 1px solid black;
+  border-radius: 5px;
   box-sizing: border-box;
-  max-width: 100%;
-  overflow-x: hidden;
-  margin-left: 230px;
+}
+
+
+
+label {
+  position: relative;
+  top: 8px;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 h1 {
-  color: #00003A;
-  font-family: "Roboto", sans-serif;
-  font-size: 36px;
+  text-align: center;
+  font-weight: bold;
+  color: rgb(0, 0, 58);
   margin-bottom: 20px;
+  font-family: 'Poppins' sans-serif
 }
 
-/* FORMULÁRIO */
-.formulario {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.container-botoes {
   width: 100%;
-}
-
-.linha {
+  max-width: 350px;
+  margin: 20px auto 0;
   display: flex;
+  justify-content: center;
+  gap: 15px;
   flex-wrap: wrap;
-  gap: 15px;
-  align-items: center;
 }
 
-/* RÓTULOS */
-label {
+.btn-enviar,
+.btn-limpar {
+  width: 100px;
   font-weight: bold;
-  font-size: 14px;
-  color: #002B5C;
-  min-width: 120px;
-  margin-top: 7px;
-  margin-right: -20px
-}
-
-/* CAMPOS */
-input[type="text"],
-input[type="date"],
-select {
-  border: 1px dotted #002B5C;
-  background-color: #F2F2F2;
-  padding: 5px;
-  font-size: 14px;
-  flex: 1;
-}
-
-/* TAMANHOS FIXOS */
-.input-curto {
-  width: 120px;
-}
-
-.input-medio {
-  width: 250px;
-}
-
-.input-longo {
-  width: 100%;
-}
-
-input::placeholder {
-  opacity: 0.4;
-  color: #000;
-}
-
-/* BOTÕES */
-.botoes {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 25px;
-  width: 100%;
-}
-
-button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 25px;
-  font-size: 16px;
-  font-weight: bold;
+  color: black;
+  text-align: center;
   border: none;
-  border-radius: 4px;
+  display: flex;
+  justify-content: center;
   cursor: pointer;
-  color: #ffffff;
-}
-
-.cadastrar {
-  background-color: #4CAF50;
-}
-
-.pesquisar {
-  background-color: #4CAF50;
-}
-
-.novo {
-  background-color: #2196F3;
-}
-
-/* Modal principal */
-#modal_pesquisar {
-  position: fixed;
-  top: 50px;
-  /* pequena margem do topo */
-  left: 230px;
-  /* mesma largura da sidebar */
-  width: calc(100% - 230px);
-  /* ocupa todo o resto da tela exceto o menu */
-  height: 50vh;
-  /* metade da altura da tela */
-  background-color: #ffffff;
-  padding: 20px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  display: none;
-  overflow-y: auto;
-  z-index: 1000;
-  /* menor que o modal-menor */
-}
-
-/* Fundo escuro da modal */
-#overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  /* fundo escuro com transparência */
-  display: none;
-  z-index: 999;
-  /* menor que o modal principal */
-}
-
-/* Cabeçalho da modal */
-#linha_modal {
-  margin-top: -25px;
-  position: sticky;
-  top: 0;
-  background-color: white;
   padding: 10px;
-  z-index: 10;
-  border-bottom: 1px solid #ccc;
 }
 
-#fechar-modal {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #000;
+.btn-enviar {
+  background-color: rgb(31, 221, 31);
 }
 
-.resultado-pesquisa {
-  width: 100%;
-  max-height: 300px;
-  overflow-y: auto;
-  margin-top: 10px;
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
+.btn-limpar {
+  background-color: rgb(224, 24, 9);
 }
 
-/* Modal menor (detalhes) */
-.modal-menor {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  /* acima de tudo */
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  border: 2px solid #888;
-  border-radius: 8px;
-  width: 300px;
-  padding: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+.btn-enviar:hover {
+  background-color: rgb(111, 235, 107);
 }
 
-.modal-conteudo-menor {
-  position: relative;
+.btn-limpar:hover {
+  background-color: rgb(240, 50, 37);
 }
 
-.fechar-menor {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  font-size: 20px;
-  cursor: pointer;
-}
 
-.botao-detalhes {
-  font-size: 14px;
-  padding: 2px 6px;
-  margin-left: 10px;
-  cursor: pointer;
-  background-color: #2196F3;
-  border: none;
-  border-radius: 4px;
-}
-
-#botao_editar {
-  background-color: #4CAF50;
-}
-
-#botao_excluir {
-  background-color: #990000;
-}
-
-/* FORMULÁRIO */
-.formulario {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
-}
-
-.linha {
+.campos_fisica {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  align-items: flex-start;
-}
-
-/* Ajuste individual de tamanhos para melhor visual */
-#codigo,
-#cpf,
-#cnpj,
-#rg,
-#data_nasc,
-#sexo,
-#cargo,
-#cep,
-#uf,
-#telefone,
-#celular,
-#data_cadastro {
-  width: 120px;
-}
-
-#nome,
-#bairro,
-#cidade,
-#tipo_cliente,
-#email {
-  width: 250px;
-}
-
-#endereco,
-#observacoes {
+  gap: 22px;
+  justify-content: space-between;
   width: 100%;
 }
 
-/* Textarea */
-textarea#observacoes {
-  height: 80px;
-  resize: vertical;
+.campos_fisica .linha {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
 }
 
-/* Torna os elementos filhos com melhor proporção visual */
-.linha>.linha {
-  flex: 1;
-  min-width: 150px;
+.campos_juridica {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  justify-content: space-between;
+  width: 100%;
 }
 
-button.sair,
-button.fechar {
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
+.campos_juridica .linha {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
 }
 
-/* Estilo da imagem dentro do botão */
-button.sair img,
-button.fechar img {
-  width: 40px;
-  height: 40px;
-  transition: transform 0.2s ease, filter 0.2s ease;
+
+.tipo_pessoa {
+  width: 100%;
+  max-width: 733px;
 }
 
-/* Efeito ao passar o mouse */
-button.sair:hover img,
-button.fechar:hover img {
-  transform: scale(1.1);
-  filter: brightness(1.2);
-}
 
-/* Deixar o botão flutuante no canto superior direito */
-button.fechar {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999;
-}
+.form-container {
+  max-height: 600px;
+  /* ajuste como preferir */
+  overflow-y: auto;
+  /* ativa a rolagem vertical */
+  padding-right: 10px;
+  /* para espaço da barra de rolagem */
+  scrollbar-width: none;
 
-/* Se quiser que o botão "sair" também fique flutuante */
-button.sair {
-  position: fixed;
-  top: 20px;
-  right: 70px;
-  /* afastado do botão fechar */
-  z-index: 999;
 }
