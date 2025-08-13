@@ -18,6 +18,7 @@ body {
   justify-content: center;
   align-items: center;
   background-color: rgb(187, 187, 187);
+  scrollbar-width: none;
 
 }
 
@@ -79,7 +80,8 @@ h1 {
 }
 
 .btn-enviar,
-.btn-limpar {
+.btn-limpar,
+.btn-pesquisar {
   width: 100px;
   font-weight: bold;
   color: black;
@@ -107,8 +109,15 @@ h1 {
   background-color: rgb(240, 50, 37);
 }
 
+.btn-pesquisar{
+  background-color: #e08013;
+}
 
-.campos_fisica {
+.btn-pesquisar:hover{
+  background-color: #f0a753;
+}
+
+.campo_usuario {
   display: flex;
   flex-wrap: wrap;
   gap: 22px;
@@ -116,42 +125,16 @@ h1 {
   width: 100%;
 }
 
-.campos_fisica .linha {
+.campo_usuario .linha {
   width: 48%;
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
 }
-
-.campos_juridica {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 22px;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.campos_juridica .linha {
-  width: 48%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-}
-
-
-.tipo_pessoa {
-  width: 100%;
-  max-width: 733px;
-}
-
 
 .form-container {
   max-height: 600px;
-  /* ajuste como preferir */
   overflow-y: auto;
-  /* ativa a rolagem vertical */
   padding-right: 10px;
-  /* para espaço da barra de rolagem */
   scrollbar-width: none;
-
 }

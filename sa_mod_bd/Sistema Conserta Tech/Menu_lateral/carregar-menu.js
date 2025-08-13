@@ -45,7 +45,7 @@ function carregarMenuLateral() {
                   <span class="txt-link">Cadastro Usuário</span>
                 </a>
               </li>
-              <li class="item-menu">
+              <li class="item-menu"> 
                 <a href="../Fornecedor/fornecedor.html" class="menu-link">
                   <span class="icon"><i class="bi bi-truck"></i></span>
                   <span class="txt-link">Cadastro Fornecedor</span>
