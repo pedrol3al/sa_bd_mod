@@ -52,3 +52,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // Expor função para botão
     window.conferirCampos = conferirCampos;
 });
+// Abrir modal ao clicar no botão "Pesquisar"
+document.getElementById('pesquisar').addEventListener('click', function() {
+    document.getElementById('modal-pesquisa').style.display = 'flex';
+  });
+  
+  // Fechar modal
+  document.getElementById('fechar-modal').addEventListener('click', function() {
+    document.getElementById('modal-pesquisa').style.display = 'none';
+  });
+  
+  // Fechar clicando fora do modal
+  window.addEventListener('click', function(event) {
+    const modal = document.getElementById('modal-pesquisa');
+    if(event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
