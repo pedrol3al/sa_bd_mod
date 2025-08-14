@@ -38,6 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
+        const selectUsuario = document.getElementById("cargo_usuario")
+        const usuarioSelecionado = selectUsuario.value
+
+        if(usuarioSelecionado === "administrador"){
+            const confirma = confirm("Tem certeza que deseja cadastrar um novo administrador? Esse cargo tem acesso a todo o sistema!")
+            if (!confirma) return false;
+        }
+
         notyf.success(`Cliente cadastrado!`);
         return true;
     }
