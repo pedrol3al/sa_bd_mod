@@ -32,7 +32,7 @@
 
   <main>
     <div class="conteudo">
-      <form method="post">
+      <form action="cadastrar_usuario.php" method="POST">
 
         <div class="topoTitulo">
           <h1>CADASTRO DE FUNCIONÁRIOS</h1>
@@ -196,7 +196,7 @@
 
           <div class="container-botoes">
             <div class="enviar">
-              <button type="button" id="enviar" class="form-control btn-enviar" onclick="return conferirCampos()">
+              <button  id="enviar" class="form-control btn-enviar" onclick="return conferirCampos()">
                 Cadastrar
               </button>
             </div>
@@ -217,8 +217,8 @@
         <div class="modal-conteudo">
           <h2>Pesquisar Funcionário</h2>
           <input type="text" id="input-pesquisa" placeholder="Digite o nome ou ID" class="form-control">
-          <div id="resultados-pesquisa" style="margin-top:10px;"></div>
-          <button class="btn btn-secondary" id="fechar-modal">Fechar</button>
+          <div id="resultados-pesquisa" ></div>
+          <button type="button" class="btn btn-fechar" id="fechar-modal">Fechar</button>
         </div>
       </div>
     </div>
