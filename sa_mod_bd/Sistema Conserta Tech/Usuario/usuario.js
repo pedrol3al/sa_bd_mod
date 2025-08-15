@@ -38,14 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        const selectUsuario = document.getElementById("cargo_usuario")
-        const usuarioSelecionado = selectUsuario.value
-
-        if(usuarioSelecionado === "administrador"){
-            const confirma = confirm("Tem certeza que deseja cadastrar um novo administrador? Esse cargo tem acesso a todo o sistema!")
-            if (!confirma) return false;
-        }
-
         notyf.success(`Cliente cadastrado!`);
         return true;
     }
@@ -60,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Expor função para botão
     window.conferirCampos = conferirCampos;
 });
+
 // Abrir modal ao clicar no botão "Pesquisar"
 document.getElementById('pesquisar').addEventListener('click', function() {
     document.getElementById('modal-pesquisa').style.display = 'flex';
