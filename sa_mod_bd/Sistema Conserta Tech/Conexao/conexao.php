@@ -4,7 +4,6 @@ $host = 'localhost';
 
 $dbname = 'conserta_tech';
 
-
 $user = 'root';
 
 $pass = '';
