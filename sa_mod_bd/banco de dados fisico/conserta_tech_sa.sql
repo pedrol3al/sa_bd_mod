@@ -6,7 +6,6 @@ CREATE TABLE `perfil` (
   PRIMARY KEY (`id_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
 DROP TABLE IF EXISTS `adm`;
 CREATE TABLE `adm` (
   `id_adm` INT NOT NULL AUTO_INCREMENT,
@@ -14,13 +13,13 @@ CREATE TABLE `adm` (
   `nome` VARCHAR(50) NOT NULL,
   `data_cad` DATE DEFAULT NULL,
   `email` VARCHAR(100) UNIQUE NOT NULL,
-  `senha` VARCHAR(255) NOT NULL, -- hash seguro
+  `senha` VARCHAR(255) NOT NULL,
   `username` VARCHAR(40) UNIQUE NOT NULL,
   `foto_adm` LONGBLOB DEFAULT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_adm`),
-  CONSTRAINT `fk_adm_perfil` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id_perfil`)
+  CONSTRAINT `fk_adm_perfil` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id_perfil`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `usuario`;
@@ -33,7 +32,7 @@ CREATE TABLE `usuario` (
   `username` VARCHAR(30) UNIQUE NOT NULL,
   `email` VARCHAR(100) UNIQUE NOT NULL,
   `rg` VARCHAR(12) UNIQUE,
-  `senha` VARCHAR(255) NOT NULL, -- hash seguro
+  `senha` VARCHAR(255) NOT NULL,
   `data_cad` DATE DEFAULT NULL,
   `data_nasc` DATE DEFAULT NULL,
   `foto_usuario` LONGBLOB DEFAULT NULL,
@@ -43,8 +42,8 @@ CREATE TABLE `usuario` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_usuario`),
   KEY `fk_adm` (`id_adm`),
-  CONSTRAINT `fk_adm` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`),
-  CONSTRAINT `fk_usuario_perfil` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id_perfil`)
+  CONSTRAINT `fk_adm` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`) ON DELETE CASCADE,
+  CONSTRAINT `fk_usuario_perfil` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id_perfil`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `cliente`;
@@ -61,7 +60,7 @@ CREATE TABLE `cliente` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_cliente`),
   KEY `fk_usuario` (`id_usuario`),
-  CONSTRAINT `fk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
+  CONSTRAINT `fk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `cliente_fisico`;
@@ -69,7 +68,7 @@ CREATE TABLE `cliente_fisico` (
   `id_cliente` INT NOT NULL,
   `cpf` VARCHAR(15) UNIQUE NOT NULL,
   PRIMARY KEY (`id_cliente`),
-  CONSTRAINT `fk_cliente_fisico` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`)
+  CONSTRAINT `fk_cliente_fisico` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `juridico`;
@@ -77,7 +76,7 @@ CREATE TABLE `juridico` (
   `id_cliente` INT NOT NULL,
   `cnpj` VARCHAR(18) UNIQUE NOT NULL,
   PRIMARY KEY (`id_cliente`),
-  CONSTRAINT `fk_cliente_juridico` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`)
+  CONSTRAINT `fk_cliente_juridico` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `fornecedor`;
@@ -94,7 +93,7 @@ CREATE TABLE `fornecedor` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_fornecedor`),
   KEY `fk_adm_fornecedor` (`id_adm`),
-  CONSTRAINT `fk_adm_fornecedor` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`)
+  CONSTRAINT `fk_adm_fornecedor` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `pecas`;
@@ -113,7 +112,7 @@ CREATE TABLE `pecas` (
   `numero_serie` VARCHAR(50) UNIQUE,
   PRIMARY KEY (`id_pecas`),
   KEY `fk_fornecedor_peca` (`id_fornecedor`),
-  CONSTRAINT `fk_fornecedor_peca` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`)
+  CONSTRAINT `fk_fornecedor_peca` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `os`;
@@ -136,8 +135,8 @@ CREATE TABLE `os` (
   PRIMARY KEY (`id_os`),
   KEY `os_ibfk_1` (`id_cliente`),
   KEY `os_ibfk_2` (`id_usuario`),
-  CONSTRAINT `os_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`),
-  CONSTRAINT `os_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
+  CONSTRAINT `os_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE,
+  CONSTRAINT `os_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `nf`;
@@ -157,11 +156,12 @@ CREATE TABLE `nf` (
   KEY `fk_os_nf` (`id_os`),
   KEY `fk_cliente_nf` (`id_cliente`),
   KEY `fk_usuario_nf` (`id_usuario`),
-  CONSTRAINT `fk_cliente_nf` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`),
-  CONSTRAINT `fk_os_nf` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`),
-  CONSTRAINT `fk_usuario_nf` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
+  CONSTRAINT `fk_cliente_nf` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE,
+  CONSTRAINT `fk_os_nf` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`) ON DELETE CASCADE,
+  CONSTRAINT `fk_usuario_nf` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Endereços
 CREATE TABLE `endereco_adm` (
   `id_adm` int NOT NULL,
   `cep` varchar(10) DEFAULT NULL,
@@ -172,7 +172,7 @@ CREATE TABLE `endereco_adm` (
   `cidade` varchar(30) DEFAULT NULL,
   `uf` varchar(2) DEFAULT NULL,
   `bairro` varchar(30) DEFAULT NULL,
-  CONSTRAINT `fk_adm_endereco` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`)
+  CONSTRAINT `fk_adm_endereco` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `endereco_cliente` (
@@ -185,7 +185,7 @@ CREATE TABLE `endereco_cliente` (
   `cidade` varchar(30) DEFAULT NULL,
   `uf` varchar(2) DEFAULT NULL,
   `bairro` varchar(20) DEFAULT NULL,
-  CONSTRAINT `fk_cliente_endereco` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`)
+  CONSTRAINT `fk_cliente_endereco` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `endereco_fornecedor` (
@@ -198,7 +198,7 @@ CREATE TABLE `endereco_fornecedor` (
   `cidade` varchar(30) DEFAULT NULL,
   `uf` varchar(2) DEFAULT NULL,
   `bairro` varchar(30) DEFAULT NULL,
-  CONSTRAINT `fk_fornecedor_endereco` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`)
+  CONSTRAINT `fk_fornecedor_endereco` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `endereco_usuario` (
@@ -211,40 +211,42 @@ CREATE TABLE `endereco_usuario` (
   `cidade` varchar(30) DEFAULT NULL,
   `uf` varchar(2) DEFAULT NULL,
   `bairro` varchar(30) DEFAULT NULL,
-  CONSTRAINT `fk_usuario_endereco` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
+  CONSTRAINT `fk_usuario_endereco` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Telefones
 CREATE TABLE `telefone_adm` (
   `id_adm` int NOT NULL,
   `telefone` varchar(18) DEFAULT NULL,
-  CONSTRAINT `fk_adm_telefone` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`)
+  CONSTRAINT `fk_adm_telefone` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `telefone_cliente` (
   `id_cliente` int NOT NULL,
   `telefone` varchar(18) DEFAULT NULL,
-  CONSTRAINT `fk_cliente_telefone` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`)
+  CONSTRAINT `fk_cliente_telefone` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `telefone_fornecedor` (
   `id_fornecedor` int NOT NULL,
   `telefone` varchar(18) DEFAULT NULL,
-  CONSTRAINT `fk_fornecedor_telefone` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`)
+  CONSTRAINT `fk_fornecedor_telefone` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `telefone_usuario` (
   `id_usuario` int NOT NULL,
   `telefone` varchar(18) DEFAULT NULL,
-  CONSTRAINT `fk_usuario_telefone` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
+  CONSTRAINT `fk_usuario_telefone` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Tabelas N para N
 CREATE TABLE `for_pc` (
   `id_pecas` int NOT NULL,
   `id_fornecedor` int NOT NULL,
   PRIMARY KEY (`id_pecas`,`id_fornecedor`),
   KEY `fk_fornecedor` (`id_fornecedor`),
-  CONSTRAINT `fk_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`),
-  CONSTRAINT `fk_pecas` FOREIGN KEY (`id_pecas`) REFERENCES `pecas` (`id_pecas`)
+  CONSTRAINT `fk_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE,
+  CONSTRAINT `fk_pecas` FOREIGN KEY (`id_pecas`) REFERENCES `pecas` (`id_pecas`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `us_os` (
@@ -252,8 +254,6 @@ CREATE TABLE `us_os` (
   `id_os` int NOT NULL,
   PRIMARY KEY (`id_usuario`,`id_os`),
   KEY `fk_os_usuario` (`id_os`),
-  CONSTRAINT `fk_os_usuario` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`),
-  CONSTRAINT `fk_usuario_os` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
+  CONSTRAINT `fk_os_usuario` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`) ON DELETE CASCADE,
+  CONSTRAINT `fk_usuario_os` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
