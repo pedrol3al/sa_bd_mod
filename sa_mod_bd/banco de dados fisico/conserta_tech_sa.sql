@@ -1,8 +1,16 @@
+-- Criar tabela de perfis
+DROP TABLE IF EXISTS `perfil`;
+CREATE TABLE `perfil` (
+  `id_perfil` INT NOT NULL AUTO_INCREMENT,
+  `perfil` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id_perfil`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 DROP TABLE IF EXISTS `adm`;
 CREATE TABLE `adm` (
   `id_adm` INT NOT NULL AUTO_INCREMENT,
+  `id_perfil` INT NOT NULL,
   `nome` VARCHAR(50) NOT NULL,
   `data_cad` DATE DEFAULT NULL,
   `email` VARCHAR(100) UNIQUE NOT NULL,
@@ -11,13 +19,15 @@ CREATE TABLE `adm` (
   `foto_adm` LONGBLOB DEFAULT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_adm`)
+  PRIMARY KEY (`id_adm`),
+  CONSTRAINT `fk_adm_perfil` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `id_usuario` INT NOT NULL AUTO_INCREMENT,
   `id_adm` INT NOT NULL,
+  `id_perfil` INT NOT NULL,
   `nome` VARCHAR(50) NOT NULL,
   `cpf` VARCHAR(15) UNIQUE,
   `username` VARCHAR(30) UNIQUE NOT NULL,
@@ -27,12 +37,14 @@ CREATE TABLE `usuario` (
   `data_cad` DATE DEFAULT NULL,
   `data_nasc` DATE DEFAULT NULL,
   `foto_usuario` LONGBLOB DEFAULT NULL,
-  `sexo` CHAR(1) CHECK (`sexo` IN ('M','F','O')), -- O = Outro
+  `sexo` CHAR(1) CHECK (`sexo` IN ('M','F','O')),
+  `senha_temporaria` TINYINT,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_usuario`),
   KEY `fk_adm` (`id_adm`),
-  CONSTRAINT `fk_adm` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`)
+  CONSTRAINT `fk_adm` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`),
+  CONSTRAINT `fk_usuario_perfil` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `cliente`;
@@ -201,6 +213,7 @@ CREATE TABLE `endereco_usuario` (
   `bairro` varchar(30) DEFAULT NULL,
   CONSTRAINT `fk_usuario_endereco` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 CREATE TABLE `telefone_adm` (
   `id_adm` int NOT NULL,
   `telefone` varchar(18) DEFAULT NULL,
@@ -224,6 +237,7 @@ CREATE TABLE `telefone_usuario` (
   `telefone` varchar(18) DEFAULT NULL,
   CONSTRAINT `fk_usuario_telefone` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 CREATE TABLE `for_pc` (
   `id_pecas` int NOT NULL,
   `id_fornecedor` int NOT NULL,
@@ -241,3 +255,5 @@ CREATE TABLE `us_os` (
   CONSTRAINT `fk_os_usuario` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`),
   CONSTRAINT `fk_usuario_os` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
