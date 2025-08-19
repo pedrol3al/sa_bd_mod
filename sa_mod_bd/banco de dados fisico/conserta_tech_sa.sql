@@ -6,26 +6,10 @@ CREATE TABLE `perfil` (
   PRIMARY KEY (`id_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-DROP TABLE IF EXISTS `adm`;
-CREATE TABLE `adm` (
-  `id_adm` INT NOT NULL AUTO_INCREMENT,
-  `id_perfil` INT NOT NULL,
-  `nome` VARCHAR(50) NOT NULL,
-  `data_cad` DATE DEFAULT NULL,
-  `email` VARCHAR(100) UNIQUE NOT NULL,
-  `senha` VARCHAR(255) NOT NULL,
-  `username` VARCHAR(40) UNIQUE NOT NULL,
-  `foto_adm` LONGBLOB DEFAULT NULL,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_adm`),
-  CONSTRAINT `fk_adm_perfil` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id_perfil`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `id_usuario` INT NOT NULL AUTO_INCREMENT,
-  `id_adm` INT NOT NULL,
   `id_perfil` INT NOT NULL,
   `nome` VARCHAR(50) NOT NULL,
   `cpf` VARCHAR(15) UNIQUE,
@@ -41,11 +25,10 @@ CREATE TABLE `usuario` (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_usuario`),
-  KEY `fk_adm` (`id_adm`),
-  CONSTRAINT `fk_adm` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`) ON DELETE CASCADE,
   CONSTRAINT `fk_usuario_perfil` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id_perfil`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Tabela cliente
 DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE `cliente` (
   `id_cliente` INT NOT NULL AUTO_INCREMENT,
@@ -79,10 +62,10 @@ CREATE TABLE `juridico` (
   CONSTRAINT `fk_cliente_juridico` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Tabela fornecedor sem referência a adm
 DROP TABLE IF EXISTS `fornecedor`;
 CREATE TABLE `fornecedor` (
   `id_fornecedor` INT NOT NULL AUTO_INCREMENT,
-  `id_adm` INT NOT NULL,
   `email` VARCHAR(100) UNIQUE,
   `nome` VARCHAR(50) NOT NULL,
   `cnpj` VARCHAR(20) UNIQUE,
@@ -91,11 +74,10 @@ CREATE TABLE `fornecedor` (
   `foto_fornecedor` LONGBLOB DEFAULT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_fornecedor`),
-  KEY `fk_adm_fornecedor` (`id_adm`),
-  CONSTRAINT `fk_adm_fornecedor` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`) ON DELETE CASCADE
+  PRIMARY KEY (`id_fornecedor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Tabela pecas
 DROP TABLE IF EXISTS `pecas`;
 CREATE TABLE `pecas` (
   `id_pecas` INT NOT NULL AUTO_INCREMENT,
@@ -115,6 +97,7 @@ CREATE TABLE `pecas` (
   CONSTRAINT `fk_fornecedor_peca` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Tabela os
 DROP TABLE IF EXISTS `os`;
 CREATE TABLE `os` (
   `id_os` INT NOT NULL AUTO_INCREMENT,
@@ -139,6 +122,7 @@ CREATE TABLE `os` (
   CONSTRAINT `os_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Tabela nf
 DROP TABLE IF EXISTS `nf`;
 CREATE TABLE `nf` (
   `id_nf` INT NOT NULL AUTO_INCREMENT,
@@ -162,19 +146,6 @@ CREATE TABLE `nf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Endereços
-CREATE TABLE `endereco_adm` (
-  `id_adm` int NOT NULL,
-  `cep` varchar(10) DEFAULT NULL,
-  `logradouro` varchar(100) DEFAULT NULL,
-  `tipo` varchar(20) DEFAULT NULL,
-  `complemento` varchar(30) DEFAULT NULL,
-  `numero` int DEFAULT NULL,
-  `cidade` varchar(30) DEFAULT NULL,
-  `uf` varchar(2) DEFAULT NULL,
-  `bairro` varchar(30) DEFAULT NULL,
-  CONSTRAINT `fk_adm_endereco` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 CREATE TABLE `endereco_cliente` (
   `id_cliente` int NOT NULL,
   `cep` varchar(10) DEFAULT NULL,
@@ -215,12 +186,6 @@ CREATE TABLE `endereco_usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Telefones
-CREATE TABLE `telefone_adm` (
-  `id_adm` int NOT NULL,
-  `telefone` varchar(18) DEFAULT NULL,
-  CONSTRAINT `fk_adm_telefone` FOREIGN KEY (`id_adm`) REFERENCES `adm` (`id_adm`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 CREATE TABLE `telefone_cliente` (
   `id_cliente` int NOT NULL,
   `telefone` varchar(18) DEFAULT NULL,
@@ -239,7 +204,7 @@ CREATE TABLE `telefone_usuario` (
   CONSTRAINT `fk_usuario_telefone` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Tabelas N para N
+
 CREATE TABLE `for_pc` (
   `id_pecas` int NOT NULL,
   `id_fornecedor` int NOT NULL,
