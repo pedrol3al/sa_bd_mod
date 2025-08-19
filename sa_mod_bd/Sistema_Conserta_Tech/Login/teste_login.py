@@ -6,9 +6,7 @@ driver = webdriver.Chrome()
 
 driver.get("http://localhost:8080/sa_bd_mod/sa_mod_bd/Sistema_Conserta_Tech/Login/login.html")
 
-
 time.sleep(1)
-
 
  # Preenche o campo de usuário
 usuario_input = driver.find_element(By.ID, "email")
@@ -19,8 +17,10 @@ time.sleep(1)
 senha_input = driver.find_element(By.ID, "senha")
 senha_input.send_keys("123456")
 
+time.sleep(1)
+
  # Clica no botão de login
-botao_login = driver.find_element(By.CSS_SELECTOR, "button [type='submit']")
+botao_login = driver.find_element(By.ID, "logar")
 botao_login.click()
 
 if "Cadastro de Cliente" in driver.page_source:
