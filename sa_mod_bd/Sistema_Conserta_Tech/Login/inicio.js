@@ -1,19 +1,19 @@
 // Função para conferir se os campos estão preenchidos
 function conferirCampos() {
-    var nome = document.getElementById('nome');
+    var email = document.getElementById('email');
     var senha = document.getElementById('senha');
 
     const notyf = new Notyf({
         position: { x: 'center', y: 'top' }
     });
 
-    if (!nome || nome.value.trim() === "") {
-        notyf.error('Campo de nome deve ser preenchido!');
+    if (!email || email.value.trim() === "") {
+        notyf.error('Campo "E-mail" deve ser preenchido!');
         return false;
     }
 
     if (!senha || senha.value.trim() === "") {
-        notyf.error('Campo senha deve ser preenchido');
+        notyf.error('Campo "senha" deve ser preenchido');
         return false;
     }
 
