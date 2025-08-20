@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../Conexao/conexao.php');
+require_once('conexao.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($usuario && password_verify($senha, $usuario['senha'])) {
         //LOGIN BEM SUCEDIDO DEFINE VARIAVEIS DE SESSÃO
-        $_SESSION['usuario'] = $usuario['nome']; 
+        $_SESSION['usuario'] = $usuario['nome'];
         $_SESSION['perfil'] = $usuario['id_perfil'];
         $_SESSION['id_usuario'] = $usuario['id_usuario'];
 
@@ -25,12 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         } else {
             //REDIRECIONA PARA A PAGINA PRINCIPAL
-            header("Location: ../Principal/main.html");
+            header("Location: principal.php");
             exit();
         }
     } else {
         //LOGIN INVALIDO
-        echo "<script>alert('E-Mail ou senha incorretos');window.location.href='login.html';</script>";
+        echo "<script>alert('E-Mail ou senha incorretos');window.location.href='index.php';</script>";
     }
 }
-?>

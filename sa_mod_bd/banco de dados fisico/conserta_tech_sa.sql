@@ -6,6 +6,11 @@ CREATE TABLE `perfil` (
   PRIMARY KEY (`id_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+insert into perfil values
+( 'Administrador'),
+( 'Atendente'),
+( 'Técnico'),
+( 'Financeiro');
 
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (

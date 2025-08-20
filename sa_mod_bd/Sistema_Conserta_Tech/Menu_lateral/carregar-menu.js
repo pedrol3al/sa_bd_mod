@@ -123,18 +123,7 @@ function carregarMenuLateral() {
       });
     }
 
-
-    const botaoFechar = menuContainer.querySelector(".fechar");
     const botaoSair = menuContainer.querySelector(".sair");
-
-
-    // Condição destinada a para abrir os dados do usúario logado
-
-    // if (botaoFechar) {
-    //   botaoFechar.addEventListener("click", () => {
-    //     window.close();
-    //   });
-    // }
 
     if (botaoSair) {
       botaoSair.addEventListener("click", () => {
@@ -143,7 +132,6 @@ function carregarMenuLateral() {
     }
   }
 }
-
 
 // Espera o DOM estar carregado e então chama a função
 window.addEventListener("DOMContentLoaded", () => {
