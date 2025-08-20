@@ -34,10 +34,16 @@ function carregarMenuLateral() {
                 </a>
               </li>
               <li class="item-menu">
-                <a href="../Cliente/cliente.html" class="menu-link">
+                <a href="#" id="orcamento" class="menu-link">
                   <span class="icon"><i class="bi bi-person-fill"></i></span>
-                  <span class="txt-link">Cadastrar Cliente</span>
+                  <span class="txt-link">Cliente <i class="bi bi-chevron-down"></i></span>
                 </a>
+                <div id="sub-orcamento" class="sub-menu" style="display: none;">
+                  <a href="../Cliente/cadastrar_cliente.html"><i class="bi bi-circle-fill"></i>Cadastrar Cliente</a>
+                  <a href="../Cliente/financas.html"><i class="bi bi-circle-fill"></i>Pesquisar Cliente</a>
+                  <a href="../Cliente/cadastrar_cliente.html"><i class="bi bi-circle-fill"></i> Alterar Cliente</a>
+                  <a href="../Cliente/cadastrar_cliente.html"><i class="bi bi-circle-fill"></i> Excluir Cliente</a>
+                </div>
               </li>
               <li class="item-menu">
                 <a href="../Usuario/usuario.html" class="menu-link">
