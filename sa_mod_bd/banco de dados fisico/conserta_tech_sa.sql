@@ -22,8 +22,6 @@ CREATE TABLE `usuario` (
   `foto_usuario` LONGBLOB DEFAULT NULL,
   `sexo` CHAR(1) CHECK (`sexo` IN ('M','F','O')),
   `senha_temporaria` TINYINT,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_usuario`),
   CONSTRAINT `fk_usuario_perfil` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id_perfil`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -39,8 +37,6 @@ CREATE TABLE `cliente` (
   `data_nasc` DATE DEFAULT NULL,
   `sexo` CHAR(1) CHECK (`sexo` IN ('M','F','O')),
   `foto_cliente` LONGBLOB DEFAULT NULL,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_cliente`),
   KEY `fk_usuario` (`id_usuario`),
   CONSTRAINT `fk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
@@ -69,11 +65,10 @@ CREATE TABLE `fornecedor` (
   `email` VARCHAR(100) UNIQUE,
   `nome` VARCHAR(50) NOT NULL,
   `cnpj` VARCHAR(20) UNIQUE,
-  `fornece` VARCHAR(50),
+  `data_fundacao` date,
+  `produto_fornecido` VARCHAR(100),
   `data_cad` DATE DEFAULT NULL,
   `foto_fornecedor` LONGBLOB DEFAULT NULL,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_fornecedor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -113,8 +108,6 @@ CREATE TABLE `os` (
   `condicao` VARCHAR(100),
   `observacoes` TEXT,
   `fabricante` VARCHAR(50),
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_os`),
   KEY `os_ibfk_1` (`id_cliente`),
   KEY `os_ibfk_2` (`id_usuario`),
@@ -160,10 +153,10 @@ CREATE TABLE `endereco_cliente` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `endereco_fornecedor` (
-  `id_fornecedor` int NOT NULL,
+  `id_fornecedor` int NOT NULL auto_increment,
   `cep` varchar(10) DEFAULT NULL,
   `logradouro` varchar(100) DEFAULT NULL,
-  `tipo` varchar(20) DEFAULT NULL,
+  `tipo_construcao` varchar(20) DEFAULT NULL,
   `complemento` varchar(30) DEFAULT NULL,
   `numero` int DEFAULT NULL,
   `cidade` varchar(30) DEFAULT NULL,
@@ -176,7 +169,7 @@ CREATE TABLE `endereco_usuario` (
   `id_usuario` int NOT NULL,
   `cep` varchar(10) DEFAULT NULL,
   `logradouro` varchar(100) DEFAULT NULL,
-  `tipo` varchar(20) DEFAULT NULL,
+  `tipo_rua` varchar(20) DEFAULT NULL,
   `complemento` varchar(30) DEFAULT NULL,
   `numero` int DEFAULT NULL,
   `cidade` varchar(30) DEFAULT NULL,
