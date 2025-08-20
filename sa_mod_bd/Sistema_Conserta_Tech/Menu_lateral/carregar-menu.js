@@ -19,7 +19,7 @@ function carregarMenuLateral() {
           <div class="top-menu">
             <ul>
             <button class="fixar-menu" id="fixar_menu" >
-               <img src="../img/logo.png" alt="" >
+               <img src="../img/techinho.png" alt="" >
             </button>   
               <li class="item-menu">
                 <a href="../Principal/main.html" class="menu-link">
