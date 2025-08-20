@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('conexao.php');
+require_once('../Conexao/conexao.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         } else {
             //REDIRECIONA PARA A PAGINA PRINCIPAL
-            header("Location: principal.php");
+            header("Location: ../Principal/main.html");
             exit();
         }
     } else {
@@ -33,3 +33,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<script>alert('E-Mail ou senha incorretos');window.location.href='index.php';</script>";
     }
 }
+?>

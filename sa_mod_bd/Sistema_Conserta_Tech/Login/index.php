@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -13,12 +17,12 @@
     <!-- Link do Notyf e a logo no topo do navegador -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
- 
+
 
 
 </head>
 
-<body> 
+<body>
 
     <main class="container"> <!-- Corpo da página -->
         <div class="topoPag">
@@ -27,17 +31,15 @@
         </div>
 
         <div class="Formulario">
-            <form method="POST"  onsubmit="return false;">
+            <form method="POST" action="login.php">
                 <div class="informacoes">
-                    <input id="email" type="email" placeholder="Digite seu email corporativo"
-                        class="form-control">
-                    <input id="senha" type="password" placeholder="Digite sua senha" class="form-control"
-                        maxlength="8">
+                    <input name="email" id="email" type="email" placeholder="Digite seu email corporativo"class="form-control">
+                    <input name="senha" id="senha" type="password" placeholder="Digite sua senha" class="form-control">
 
                 </div>
                 <div class="interacoes">
                     <a href="../Trocar_senha/trocar_senha.html">Esqueci minha senha</a>
-                    <button id="logar" class="btn btn-primary" onclick="conferirCampos()" type="submit">Logar</button>
+                    <button id="login" class="btn btn-primary" type="submit">Logar</button>
                 </div>
                 <div class="rodape">
                     <footer class="text-center mt-5"> <small>© 2025 Conserta Tech - Suporte: (47) 98472-8108</small>

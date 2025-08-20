@@ -127,7 +127,7 @@ function carregarMenuLateral() {
 
     if (botaoSair) {
       botaoSair.addEventListener("click", () => {
-        window.location.href = "../Login/login.html";
+        window.location.href = "../Login/index.php";
       });
     }
   }
