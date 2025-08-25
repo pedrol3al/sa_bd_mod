@@ -22,13 +22,13 @@ function carregarMenuLateral() {
                <img src="../img/techinho.png" alt="" >
             </button>   
               <li class="item-menu">
-                <a href="../Principal/main.html" class="menu-link">
+                <a href="../Principal/main.php" class="menu-link">
                   <span class="icon"><i class="bi bi-house-door"></i></span>
                   <span class="txt-link">Menu</span>
                 </a>
               </li>
               <li class="item-menu">
-                <a href="../Agenda/agenda.html" class="menu-link">
+                <a href="../Agenda/agenda.php" class="menu-link">
                   <span class="icon"><i class="bi bi-calendar"></i></span>
                   <span class="txt-link">Agenda</span>
                 </a>
@@ -39,26 +39,26 @@ function carregarMenuLateral() {
                   <span class="txt-link">Cliente <i class="bi bi-chevron-down"></i></span>
                 </a>
                 <div id="sub-orcamento" class="sub-menu" style="display: none;">
-                  <a href="../Cliente/cadastrar_cliente.html"><i class="bi bi-circle-fill"></i>Cadastrar Cliente</a>
-                  <a href="../Cliente/financas.html"><i class="bi bi-circle-fill"></i>Pesquisar Cliente</a>
-                  <a href="../Cliente/cadastrar_cliente.html"><i class="bi bi-circle-fill"></i> Alterar Cliente</a>
-                  <a href="../Cliente/cadastrar_cliente.html"><i class="bi bi-circle-fill"></i> Excluir Cliente</a>
+                  <a href="../Cliente/cadastrar_cliente.php"><i class="bi bi-circle-fill"></i>Cadastrar Cliente</a>
+                  <a href="../Cliente/financas.php"><i class="bi bi-circle-fill"></i>Pesquisar Cliente</a>
+                  <a href="../Cliente/cadastrar_cliente.php"><i class="bi bi-circle-fill"></i> Alterar Cliente</a>
+                  <a href="../Cliente/cadastrar_cliente.php"><i class="bi bi-circle-fill"></i> Excluir Cliente</a>
                 </div>
               </li>
               <li class="item-menu">
-                <a href="../Usuario/usuario.html" class="menu-link">
+                <a href="../Usuario/usuario.php" class="menu-link">
                   <span class="icon"><i class="bi bi-person-circle"></i></span>
                   <span class="txt-link">Cadastro Usuário</span>
                 </a>
               </li>
               <li class="item-menu"> 
-                <a href="../Fornecedor/fornecedor.html" class="menu-link">
+                <a href="../Fornecedor/fornecedor.php" class="menu-link">
                   <span class="icon"><i class="bi bi-truck"></i></span>
                   <span class="txt-link">Cadastro Fornecedor</span>
                 </a>
               </li>
               <li class="item-menu">
-                <a href="../Estoque/estoque_cad.html" class="menu-link">
+                <a href="../Estoque/estoque_cad.php" class="menu-link">
                   <span class="icon"><i class="bi bi-box-seam"></i></span>
                   <span class="txt-link">Estoque</span>
                 </a>
@@ -69,12 +69,12 @@ function carregarMenuLateral() {
                   <span class="txt-link">Orçamento <i class="bi bi-chevron-down"></i></span>
                 </a>
                 <div id="sub-orcamento" class="sub-menu" style="display: none;">
-                  <a href="../Financas/financas.html"><i class="bi bi-circle-fill"></i> Finanças</a>
-                  <a href="../Nota_Fiscal/emitir_nf.html"><i class="bi bi-circle-fill"></i> Emitir NF</a>
+                  <a href="../Financas/financas.php"><i class="bi bi-circle-fill"></i> Finanças</a>
+                  <a href="../Nota_Fiscal/emitir_nf.php"><i class="bi bi-circle-fill"></i> Emitir NF</a>
                 </div>
               </li>
               <li class="item-menu">
-                <a href="../Ordem_servico/os.html" class="menu-link">
+                <a href="../Ordem_servico/os.php" class="menu-link">
                   <span class="icon"><i class="bi bi-tools"></i></span>
                   <span class="txt-link">O.S</span>
                 </a>
