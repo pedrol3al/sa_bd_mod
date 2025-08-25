@@ -21,16 +21,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //VERIFICA SE A SENHA É TEMPORARIA 
         if ($usuario['senha_temporaria']) {
             //REDIRECIONA PARA A TROCA DE SENHA
-            header("Location: alterar_senha.php");
+            header("Location: ../Trocar_senha/alterar_senha.php");
             exit();
         } else {
             //REDIRECIONA PARA A PAGINA PRINCIPAL
             header("Location: ../Principal/main.html");
             exit();
         }
-    } else {
-        //LOGIN INVALIDO
-        echo "<script>alert('E-Mail ou senha incorretos');window.location.href='index.php';</script>";
-    }
+    } // LOGIN INVÁLIDO
+    echo "
+    <!DOCTYPE html>
+    <html lang='pt-br'>
+    <head>
+        <meta charset='UTF-8'>
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    </head>
+    <body>
+         <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'E-mail ou senha incorretos!'
+            }).then(() => {
+                window.location.href = 'index.php';
+            });
+        </script>;
+    </body>
+    </html>";
+    
 }
 ?>
