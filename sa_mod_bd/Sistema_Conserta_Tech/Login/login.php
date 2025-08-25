@@ -34,10 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <html lang='pt-br'>
     <head>
         <meta charset='UTF-8'>
-        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <link rel='stylesheet' href='../Assets/sweetalert2.min.css'>
+        <script src='../Assets/sweetalert2.all.min.js'></script>
     </head>
     <body>
-         <script>
+        <script>
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -45,9 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }).then(() => {
                 window.location.href = 'index.php';
             });
-        </script>;
+        </script>
     </body>
-    </html>";
-    
-}
+    </html>
+    ";
+}    
 ?>

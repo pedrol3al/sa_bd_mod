@@ -28,3 +28,4 @@ document.getElementById("logar")?.addEventListener("click", function (event) {
         window.location.href = "../Principal/main.html"; // Redireciona somente se a validação for OK
     }
 });
+    
