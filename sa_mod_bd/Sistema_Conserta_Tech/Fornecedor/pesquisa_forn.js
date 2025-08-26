@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Calendário para data de nascimento
+  // Calendário para data de fundação e cadastro
   flatpickr("#dataFundacao_fornecedor", {
+      dateFormat: "d/m/Y",
+      maxDate: "today"
+  });
+
+  flatpickr("#dataCadastro_fornecedor", {
       dateFormat: "d/m/Y",
       maxDate: "today"
   });

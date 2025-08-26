@@ -9,7 +9,7 @@ session_start();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cadastro de Funcionários</title>
+  <title>Cadastro de Fornecedores</title>
 
   <!-- Links bootstrapt e css -->
   <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
@@ -19,7 +19,7 @@ session_start();
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
-  <!-- Imagem no navegador --> 
+  <!-- Imagem no navegador -->
   <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
 
   <!-- Link notfy -->
@@ -36,7 +36,7 @@ session_start();
 
   <main>
     <div class="conteudo">
-      <form  method="POST">
+      <form method="POST" action="cadastro_fornecedor.php" enctype="multipart/form-data">
 
         <div class="topoTitulo">
           <h1>CADASTRO DE FORNECEDOR</h1>
@@ -46,61 +46,69 @@ session_start();
         <div class="linha">
           <div class="form-container">
             <div id="campos-usuario">
-              <div class="campo_usuario">
+              <div class="campo_fornecedor">
 
                 <div class="linha">
-                  <label for="id_fornecedor">Id Fornecedor:</label>
-                  <input type="number" id="id_fornecedor" name="id_fornecedor" class="form-control" placeholder="Digite seu id">
-                </div>
-
-                <div class="linha">
-                  <label for="nome_fornecedor">Nome:</label>
-                  <input type="text" id="nome_fornecedor" name="nome_fornecedor" class="form-control" placeholder="Nome">
+                  <label for="razao_social">Razão social:</label>
+                  <input type="text" id="razao_social" name="razao_social" class="form-control"
+                    placeholder="Nome">
                 </div>
 
                 <div class="linha">
                   <label for="email_fornecedor">Email:</label>
-                  <input type="email" id="email_fornecedor" name="email_fornecedor" class="form-control" placeholder="Exemplo123@gmail.com">
+                  <input type="email" id="email_fornecedor" name="email_fornecedor" class="form-control"
+                    placeholder="Exemplo123@gmail.com">
                 </div>
 
                 <div class="linha">
-                  <label for="cnpj_fornecedor">CPF:</label>
-                  <input type="text" id="cnpj_fornecedor" name="cnpj_fornecedor" class="form-control" placeholder="000.000.000-00">
+                  <label for="cnpj_fornecedor">CNPJ:</label>
+                  <input type="number" id="cnpj_fornecedor" name="cnpj_fornecedor" class="form-control"
+                    placeholder="000.000.000-00">
+                </div>
+
+                <div class="linha">
+                  <label for="produto_fornecido">Produto fornecido:</label>
+                  <input type="text" id="produto_fornecido" name="produto_fornecido" class="form-control"
+                    placeholder="Produto fornecido">
                 </div>
 
                 <div class="linha">
                   <label for="dataCadastro_fornecedor">Data Cadastro:</label>
-                  <input type="text" id="dataCadastro_fornecedor" name="dataCadastro_fornecedor" class="form-control" placeholder="Data de Cadastro">
+                  <input type="text" id="dataCadastro_fornecedor" name="dataCadastro_fornecedor" class="form-control"
+                    placeholder="Data de Cadastro">
                 </div>
 
                 <div class="linha">
                   <label for="dataFundacao_fornecedor">Data Fundação:</label>
-                  <input type="text" id="dataFundacao_fornecedor" name="dataFundacao_fornecedor" class="form-control">
+                  <input type="text" id="dataFundacao_fornecedor" name="dataFundacao_fornecedor" class="form-control"
+                    placeholder="Data de fundação">
                 </div>
 
                 <div class="linha">
                   <label for="cep_fornecedor">CEP:</label>
-                  <input type="text" id="cep_fornecedor" name="cep_fornecedor" class="form-control" maxlength="10" placeholder="00000-000">
+                  <input type="text" id="cep_fornecedor" name="cep_fornecedor" class="form-control" maxlength="10"
+                    placeholder="00000-000">
                 </div>
 
                 <div class="linha">
                   <label for="logradouro_fornecedor">Logradouro:</label>
-                  <input type="text" id="logradouro_fornecedor" name="logradouro_fornecedor" class="form-control" placeholder="Logradouro">
+                  <input type="text" id="logradouro_fornecedor" name="logradouro_fornecedor" class="form-control"
+                    placeholder="Logradouro">
                 </div>
 
                 <div class="linha">
-                  <label for="Telefone">Telefone:</label>
-                  <input type="tel" id="telefone" name="telefone" class="form-control" placeholder="(00) 00000-0000">
+                  <label for="telefone_forn">Telefone:</label>
+                  <input type="tel" id="telefone_forn" name="telefone_forn" class="form-control" placeholder="(00) 00000-0000">
                 </div>
 
                 <div class="linha">
-                  <label for="cidade">Cidade:</label>
-                  <input type="text" id="cidade" name="cidade" class="form-control" placeholder="Cidade">
+                  <label for="cidade_fornecedor">Cidade:</label>
+                  <input type="text" id="cidade_fornecedor" name="cidade_fornecedor" class="form-control" placeholder="Cidade">
                 </div>
 
                 <div class="linha">
-                  <label for="uf">Estado (UF):</label>
-                  <select id="uf" name="uf" class="form-control">
+                  <label for="uf_fornecedor">Estado (UF):</label>
+                  <select id="uf_fornecedor" name="uf_fornecedor" class="form-control">
                     <option value="">Selecione</option>
                     <option value="AC">Acre</option>
                     <option value="AL">Alagoas</option>
@@ -133,18 +141,19 @@ session_start();
                 </div>
 
                 <div class="linha">
-                  <label for="bairro">Bairro:</label>
-                  <input type="text" id="bairro" name="bairro" class="form-control" placeholder="Bairro">
+                  <label for="bairro_fornecedor">Bairro:</label>
+                  <input type="text" id="bairro_fornecedor" name="bairro_fornecedor" class="form-control" placeholder="Bairro">
                 </div>
 
                 <div class="linha">
                   <label for="numero_fornecedor">Número:</label>
-                  <input type="number" id="numero_fornecedor" name="numero_fornecedor" class="form-control" placeholder="Número">
+                  <input type="number" id="numero_fornecedor" name="numero_fornecedor" class="form-control"
+                    placeholder="Número">
                 </div>
 
                 <div class="linha">
-                  <label for="tipo_construcap">Tipo de Construção:</label>
-                  <select id="tipo_construcap" name="tipo_construcap" class="form-control">
+                  <label for="tipo_construcao">Tipo de Construção:</label>
+                  <select id="tipo_construcao" name="tipo_construcao" class="form-control">
                     <option value="">Selecione</option>
                     <option value="R">Residencial</option>
                     <option value="C">Comercial</option>
@@ -153,8 +162,7 @@ session_start();
 
                 <div class="linha">
                   <label for="complemento">Complemento:</label>
-                  <input type="text" id="complemento" name="complemento" class="form-control" 
-                    placeholder="Complemento">
+                  <input type="text" id="complemento" name="complemento" class="form-control" placeholder="Complemento">
                 </div>
 
                 <div class="linha">
@@ -167,7 +175,7 @@ session_start();
 
           <div class="container-botoes">
             <div class="enviar">
-              <button  id="enviar" class="form-control btn-enviar" onclick="return conferirCampos()">
+              <button id="enviar" class="form-control btn-enviar" type="submit">
                 Cadastrar
               </button>
             </div>
@@ -183,7 +191,7 @@ session_start();
         <div class="modal-conteudo">
           <h2>Pesquisar Funcionário</h2>
           <input type="text" id="input-pesquisa" placeholder="Digite o email ou id" class="form-control">
-          <div id="resultados-pesquisa" ></div>
+          <div id="resultados-pesquisa"></div>
           <button type="button" class="btn btn-fechar" id="fechar-modal">Fechar</button>
         </div>
       </div>

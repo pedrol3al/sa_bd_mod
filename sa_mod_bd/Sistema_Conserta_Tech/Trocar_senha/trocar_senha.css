@@ -14,7 +14,9 @@
   }
 }
 
-
+body{
+  background-image: url("../img/fundo_site.png");
+}
 
 .container {
   animation: aparecer 2s;

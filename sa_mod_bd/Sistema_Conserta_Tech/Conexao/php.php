@@ -1,6 +1,6 @@
 <?php
 // Inclui o arquivo de conexão com o banco
-require_once 'conexao.php'; // Altere para o caminho correto se necessário
+require_once '../Conexao/conexao.php'; // Altere para o caminho correto se necessário
 
 try {
     // Seleciona todos os usuários que ainda têm senha em texto plano

@@ -39,8 +39,8 @@ function carregarMenuLateral() {
                   <span class="txt-link">Cliente <i class="bi bi-chevron-down"></i></span>
                 </a>
                 <div id="sub-orcamento" class="sub-menu" style="display: none;">
-                  <a href="../Cliente/cadastrar_cliente.php"><i class="bi bi-circle-fill"></i>Cadastrar Cliente</a>
-                  <a href="../Cliente/financas.php"><i class="bi bi-circle-fill"></i>Pesquisar Cliente</a>
+                  <a href="../Cliente/cliente.php"><i class="bi bi-circle-fill"></i>Cadastrar Cliente</a>
+                  <a href="../Cliente/cliente.php"><i class="bi bi-circle-fill"></i>Pesquisar Cliente</a>
                   <a href="../Cliente/cadastrar_cliente.php"><i class="bi bi-circle-fill"></i> Alterar Cliente</a>
                   <a href="../Cliente/cadastrar_cliente.php"><i class="bi bi-circle-fill"></i> Excluir Cliente</a>
                 </div>

@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         } else {
             //REDIRECIONA PARA A PAGINA PRINCIPAL
-            header("Location: ../Principal/main.html");
+            header("Location: ../Principal/main.php");
             exit();
         }
     } // LOGIN INVÁLIDO

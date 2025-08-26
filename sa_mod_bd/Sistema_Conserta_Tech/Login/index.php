@@ -38,8 +38,8 @@ session_start();
 
                 </div>
                 <div class="interacoes">
-                    <a href="../Trocar_senha/trocar_senha.html">Esqueci minha senha</a>
                     <button id="login" class="btn btn-primary" type="submit">Logar</button>
+                    <a href="../Trocar_senha/trocar_senha.html">Esqueci minha senha</a>
                 </div>
                 <div class="rodape">
                     <footer class="text-center mt-5"> <small>© 2025 Conserta Tech - Suporte: (47) 98472-8108</small>

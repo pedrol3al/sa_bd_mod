@@ -20,7 +20,6 @@ CREATE TABLE `usuario` (
   `cpf` VARCHAR(15) UNIQUE,
   `username` VARCHAR(30) UNIQUE NOT NULL,
   `email` VARCHAR(100) UNIQUE NOT NULL,
-  `rg` VARCHAR(12) UNIQUE,
   `senha` VARCHAR(255) NOT NULL,
   `data_cad` DATE DEFAULT NULL,
   `data_nasc` DATE DEFAULT NULL,
@@ -63,12 +62,12 @@ CREATE TABLE `juridico` (
   CONSTRAINT `fk_cliente_juridico` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Tabela fornecedor sem referência a adm
+-- Tabela fornecedor 
 DROP TABLE IF EXISTS `fornecedor`;
 CREATE TABLE `fornecedor` (
   `id_fornecedor` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(100) UNIQUE,
-  `nome` VARCHAR(50) NOT NULL,
+  `razao_social` VARCHAR(50) NOT NULL,
   `cnpj` VARCHAR(20) UNIQUE,
   `data_fundacao` date,
   `produto_fornecido` VARCHAR(100),
@@ -220,3 +219,5 @@ CREATE TABLE `us_os` (
   CONSTRAINT `fk_os_usuario` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`) ON DELETE CASCADE,
   CONSTRAINT `fk_usuario_os` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
