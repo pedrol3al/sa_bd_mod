@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -15,7 +19,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
-  <!-- Imagem no navegador --> 
+  <!-- Imagem no navegador -->
   <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
 
   <!-- Link notfy -->
@@ -32,7 +36,7 @@
 
   <main>
     <div class="conteudo">
-      <form  method="POST">
+      <form method="POST" action="cadastrar_usuario.php">
 
         <div class="topoTitulo">
           <h1>CADASTRO DE FUNCIONÁRIOS</h1>
@@ -45,13 +49,13 @@
               <div class="campo_usuario">
 
                 <div class="linha">
-                  <label for="id_adm">Id Administrador:</label>
-                  <input type="number" id="id_adm" name="id_adm" class="form-control" placeholder="Seu id vai aqui">
+                  <label for="nome_usuario">Nome:</label>
+                  <input type="text" id="nome_usuario" name="nome_usuario" class="form-control" placeholder="Nome">
                 </div>
 
                 <div class="linha">
-                  <label for="nome_usuario">Nome:</label>
-                  <input type="text" id="nome_usuario" name="nome_usuario" class="form-control" placeholder="Nome">
+                  <label for="username">Nome de usuário</label>
+                  <input type="text" id="username" name="username" class="form-control" placeholder="Nome de usuário">
                 </div>
 
                 <div class="linha">
@@ -60,15 +64,20 @@
                     placeholder="Exemplo123@gmail.com">
                 </div>
 
+                <div class="linha">
+                  <label for="senha_usuario">Senha:</label>
+                  <input type="password" id="senha_usuario" name="senha_usuario" class="form-control"
+                    placeholder="Digite a senha" required>
+                </div>
 
                 <div class="linha">
                   <label for="cargo_usuario">Selecione o cargo do Funcionário:</label>
                   <select id="cargo_usuario" name="cargo_usuario" class="form-control">
                     <option value="">Selecione</option>
-                    <option value="administrador">Administrador</option>
-                    <option value="atendente">Atendente</option>
-                    <option value="tecnico">Técnico</option>
-                    <option value="financeiro">Financeiro</option>
+                    <option value="1">Administrador</option>
+                    <option value="2">Atendente</option>
+                    <option value="3">Técnico</option>
+                    <option value="4">Financeiro</option>
                   </select>
                 </div>
 
@@ -79,9 +88,15 @@
                 </div>
 
                 <div class="linha">
-                  <label for="dataNascimento_usuario">Data Nascimento:</label>
-                  <input type="text" id="dataNascimento_usuario" name="dataNascimento_usuario" class="form-control"
+                  <label for="dataNascimento">Data Nascimento:</label>
+                  <input type="text" id="dataNascimento" name="dataNascimento" class="form-control"
                     placeholder="Data de Nascimento">
+                </div>
+
+                <div class="linha">
+                  <label for="dataCadastro">Data Cadastro:</label>
+                  <input type="text" id="dataCadastro" name="dataCadastro" class="form-control"
+                    placeholder="Data de Cadastro">
                 </div>
 
                 <div class="linha">
@@ -113,8 +128,8 @@
                 </div>
 
                 <div class="linha">
-                  <label for="tipo_casa_usuario">Tipo de moradia:</label>
-                  <select id="tipo_casa_usuario" name="tipo_casa_usuario" class="form-control">
+                  <label for="tipo_casa">Tipo de moradia:</label>
+                  <select id="tipo_casa" name="tipo_casa" class="form-control">
                     <option value="">Selecione</option>
                     <option value="R">Residencial</option>
                     <option value="C">Comercial</option>
@@ -184,28 +199,22 @@
                   <input type="file" id="foto_usuario" name="foto_usuario" class="form-control">
                 </div>
 
-                <div class="linha">
-                  <label for="observacoes_usuario">Observações:</label>
-                  <input type="text" id="observacoes_usuario" name="observacoes_usuario" class="form-control"
-                    placeholder="Observações">
-                </div>
-
               </div>
             </div>
           </div>
 
           <div class="container-botoes">
             <div class="enviar">
-              <button  id="enviar" class="form-control btn-enviar" onclick="return conferirCampos()">
+              <button id="enviar" class="form-control btn-enviar" onclick="return conferirCampos()">
                 Cadastrar
               </button>
             </div>
-            
+
             <div class="limpar">
               <button type="reset" id="limpar" class="form-control btn-limpar"> Cancelar </button>
             </div>
           </div>
-        </form>
+      </form>
     </div>
   </main>
 

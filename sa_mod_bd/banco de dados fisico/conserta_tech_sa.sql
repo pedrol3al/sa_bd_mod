@@ -264,7 +264,7 @@ INSERT INTO
     `senha`,
     `data_cad`,
     `data_nasc`,
-    `foto_usuario`,
+    `foto_usuario`, 
     `sexo`,
     `senha_temporaria`
   )

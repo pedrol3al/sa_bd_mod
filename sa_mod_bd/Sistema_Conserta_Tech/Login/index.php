@@ -50,7 +50,9 @@ session_start();
 
         <!-- Links do javascript -->
         <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+        <script scr="../bootstrap/js/bootstrap.min.js"></script>
         <script src="inicio.js"></script>
+        
     </main>
 
 </body>
