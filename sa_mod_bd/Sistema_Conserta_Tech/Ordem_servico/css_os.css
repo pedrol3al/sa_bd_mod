@@ -1,213 +1,179 @@
+@keyframes aparecer {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  background-image: url("../img/fundo_site.png");
-}
-
-
-
-h1 {
-  color: rgb(0, 0, 58);
-  font-family: "Roboto", sans-serif;
-  font-size: 36px;
-  position: fixed;
-  top: 30px;
-  left: 240px;
-  /* Para não ficar sobre a sidebar */
-  z-index: 1000;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: calc(100% - 250px);
-}
-
-.formulario {
+  min-height: 100vh;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../img/fundo_site.png");
+  scrollbar-width: none;
+
+}
+
+/* Container principal */
+.conteudo {
+  animation: aparecer 1.2s ease forwards;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 800px;
+  height: auto;
+  align-items: center;
+  border: 1px solid black;
+  justify-content: center;
+  display: flex;
+  border-radius: 16px;
+  background-color: #FAFAFA;
+  padding: 30px;
   flex-direction: column;
-  gap: 15px;
-  width: 83%;
-  position: fixed;
-  top: 90px;
-  left: 230px;
-  max-width: calc(100% - 230px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  gap: 4%;
+}
+
+/* Campo de entrada */
+.form-control {
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  border: 1px solid black;
+  border-radius: 5px;
   box-sizing: border-box;
 }
 
-.linha {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  align-items: center;
-}
+
 
 label {
+  position: relative;
+  top: 8px;
   font-weight: bold;
-  font-size: 14px;
-  color: #002b5c;
-  min-width: 120px;
+  margin-bottom: 5px;
 }
 
-input[type="text"],
-textarea {
-  border: 1px dotted #002b5c;
-  background-color: #f2f2f2;
-  padding: 5px;
-  font-size: 14px;
-  resize: none;
-  flex: 1;
-  min-width: 0;
-  /* para flex funcionar corretamente */
+h1 {
+  text-align: center;
+  font-weight: bold;
+  color: rgb(0, 0, 58);
+  margin-bottom: 20px;
+  font-family: 'Poppins' sans-serif
 }
 
-.input-curto {
-  width: 120px;
+.container-botoes {
+  width: 100%;
+  max-width: 350px;
+  margin: 20px auto 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
-.input-medio {
-  width: 250px;
+.btn-enviar,
+.btn-limpar,
+.btn-pesquisar {
+  width: 100px;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  border: none;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  padding: 10px;
 }
 
-.input-longo {
+.btn-enviar {
+  background-color: rgb(31, 221, 31);
+}
+
+.btn-limpar {
+  background-color: rgb(224, 24, 9);
+}
+
+.btn-enviar:hover {
+  background-color: rgb(111, 235, 107);
+}
+
+.btn-limpar:hover {
+  background-color: rgb(240, 50, 37);
+}
+
+.btn-pesquisar{
+  background-color: #e08013;
+}
+
+.btn-pesquisar:hover{
+  background-color: #f0a753;
+}
+.btn-fechar{
+  background-color: grey;
+  margin-top: 250px;
+}
+
+.campo_os {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  justify-content: space-between;
   width: 100%;
 }
 
-textarea {
-  height: 80px;
-}
-
-.coluna-textarea {
+.campo_os .linha {
+  width: 48%;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  gap: 4px;
+  margin-bottom: 15px;
 }
 
-.grupo-textareas {
-  display: flex;
-  gap: 20px;
+.form-container {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 10px;
+  scrollbar-width: none;
+}
+.modal-overlay {
+  display: none; /* começa escondido */
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-}
-
-.botoes {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 25px;
-  width: 100%;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-button {
-  display: flex;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  justify-content: center;
   align-items: center;
-  gap: 6px;
-  padding: 10px 25px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  color: #ffffff;
-  flex: 1;
-  min-width: 120px;
+  z-index: 1000;
 }
 
-.salvar,
-.pesquisar {
-  background-color: #4caf50;
+.modal-conteudo {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 600px;
+  height: 400px;
+  max-width: 90%;
+  box-shadow: 0 5px 15px rgba(54, 14, 14, 0.3);
+  animation: aparecer 0.3s ease-out;
 }
 
-.novo {
-  background-color: #2196f3;
+/* Inputs dentro do modal ficam maiores */
+.modal-overlay .form-control {
+  max-width: 100%; /* ocupa todo o espaço */
+  display: block; /* comportamento normal de input */
 }
 
-button.sair,
-button.fechar {
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
 
-/* Estilo da imagem dentro do botão */
-button.sair img,
-button.fechar img {
-  width: 40px;
-  height: 40px;
-  transition: transform 0.2s ease, filter 0.2s ease;
-}
-
-/* Efeito ao passar o mouse */
-button.sair:hover img,
-button.fechar:hover img {
-  transform: scale(1.1);
-  filter: brightness(1.2);
-}
-
-/* Botões fixos no topo */
-button.fechar {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999;
-}
-
-button.sair {
-  position: fixed;
-  top: 20px;
-  right: 70px;
-  /* afastado do botão fechar */
-  z-index: 999;
-}
-
-/* RESPONSIVIDADE */
-@media (max-width: 1024px) {
-  h1 {
-    left: 20px;
-    max-width: calc(100% - 40px);
-  }
-
-  .conteudo {
-    margin-left: 0;
-    padding: 20px;
-    width: 100%;
-    margin-top: 70px;
-  }
-
-  .formulario {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-
-  .botoes {
-    flex-direction: column;
-    gap: 10px;
-  }
-}
-
-@media (max-width: 600px) {
-  h1 {
-    font-size: 28px;
-  }
-
-  .linha {
-    flex-direction: column;
-  }
-
-  label {
-    min-width: auto;
-  }
-
-  input[type="text"],
-  textarea {
-    width: 100% !important;
-  }
-
-  button {
-    width: 100%;
-    min-width: auto;
-  }
+@keyframes aparecer {
+  from {opacity:0; transform: scale(0.8);}
+  to {opacity:1; transform: scale(1);}
 }
