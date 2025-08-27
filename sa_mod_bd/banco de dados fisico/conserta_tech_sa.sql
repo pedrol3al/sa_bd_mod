@@ -251,8 +251,28 @@ CREATE TABLE `estoque` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
+CREATE TABLE `os_pecas` (
+  `id_os` INT NOT NULL,
+  `id_pecas` INT NOT NULL,
+  `quantidade` INT NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id_os`, `id_pecas`),
+  CONSTRAINT `fk_ospecas_os` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`) ON DELETE CASCADE,
+  CONSTRAINT `fk_ospecas_pecas` FOREIGN KEY (`id_pecas`) REFERENCES `pecas` (`id_pecas`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Inserir usuário admin
+
+CREATE TABLE `nf_pecas` (
+  `id_nf` INT NOT NULL,
+  `id_pecas` INT NOT NULL,
+  `quantidade` INT NOT NULL DEFAULT 1,
+  `valor_unit` DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (`id_nf`, `id_pecas`),
+  CONSTRAINT `fk_nfpecas_nf` FOREIGN KEY (`id_nf`) REFERENCES `nf` (`id_nf`) ON DELETE CASCADE,
+  CONSTRAINT `fk_nfpecas_pecas` FOREIGN KEY (`id_pecas`) REFERENCES `pecas` (`id_pecas`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+  
 INSERT INTO `usuario` (
   `id_usuario`,
   `id_perfil`,
