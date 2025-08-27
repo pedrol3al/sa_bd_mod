@@ -34,11 +34,11 @@ function carregarMenuLateral() {
                 </a>
               </li>
               <li class="item-menu">
-                <a href="#" id="orcamento" class="menu-link">
+                <a href="#" id="cliente" class="menu-link">
                   <span class="icon"><i class="bi bi-person-fill"></i></span>
                   <span class="txt-link">Cliente <i class="bi bi-chevron-down"></i></span>
                 </a>
-                <div id="sub-orcamento" class="sub-menu" style="display: none;">
+                <div id="sub-cliente" class="sub-menu" style="display: none;">
                   <a href="../Cliente/cliente.php"><i class="bi bi-circle-fill"></i>Cadastrar Cliente</a>
                   <a href="../Cliente/buscar_cliente.php"><i class="bi bi-circle-fill"></i>Pesquisar Cliente</a>
                   <a href="../Cliente/cadastrar_cliente.php"><i class="bi bi-circle-fill"></i> Alterar Cliente</a>
@@ -57,12 +57,19 @@ function carregarMenuLateral() {
                   <span class="txt-link">Cadastro Fornecedor</span>
                 </a>
               </li>
-              <li class="item-menu">
-                <a href="../Estoque/estoque_cad.php" class="menu-link">
-                  <span class="icon"><i class="bi bi-box-seam"></i></span>
-                  <span class="txt-link">Estoque</span>
-                </a>
+               <li class="item-menu">
+                <a href="#" id="estoque" class="menu-link">
+                  <span class="icon"><i class="bi bi-person-fill"></i></span>
+                  <span class="txt-link">Estoque <i class="bi bi-chevron-down"></i></span>
+             </a>
+              <div id="sub-estoque" class="sub-menu" style="display: none;">
+              <a href="../Estoque/cadastrar_estoque.php"><i class="bi bi-circle-fill"></i> Cadastrar Estoque</a>
+              <a href="../Estoque/visualizar_pecas.php"><i class="bi bi-circle-fill"></i> Pesquisar Peças</a>
+              <a href="../Estoque/estoque_alterar.php"><i class="bi bi-circle-fill"></i> Alterar Estoque</a>
+              <a href="../Estoque/estoque_excluir.php"><i class="bi bi-circle-fill"></i> Excluir Estoque</a>
+              </div>
               </li>
+
               <li class="item-menu">
                 <a href="#" id="orcamento" class="menu-link">
                   <span class="icon"><i class="bi bi-receipt-cutoff"></i></span>
@@ -95,9 +102,11 @@ function carregarMenuLateral() {
 
   const menuContainer = document.getElementById('menu-container'); //Inserindo o menu dentro de uma constante
 
+  //Criando if para tratar a variavél como html
   if (menuContainer) {
     menuContainer.innerHTML = menuHtml;
 
+    //Comando para que ao clicar na imagem do menu, ele fique fixo em todas as paginas, mesmo após trocar de pagina com ele aberto
     const menu = menuContainer.querySelector('.menu-lateral');
     const botaoFixar = menuContainer.querySelector('#fixar_menu');
 
@@ -112,6 +121,9 @@ function carregarMenuLateral() {
       menu.classList.add('fixo');
     }
 
+
+
+
     // Submenu Orçamento
     const orcamentoLink = menuContainer.querySelector('#orcamento');
     const subOrcamento = menuContainer.querySelector('#sub-orcamento');
@@ -120,6 +132,28 @@ function carregarMenuLateral() {
       orcamentoLink.addEventListener('click', (e) => {
         e.preventDefault();
         subOrcamento.style.display = subOrcamento.style.display === 'none' ? 'block' : 'none';
+      });
+    }
+
+    // Submenu Cliente
+    const clienteLink = menuContainer.querySelector('#cliente');
+    const subCliente = menuContainer.querySelector('#sub-cliente');
+
+    if (clienteLink && subCliente) {
+      clienteLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        subCliente.style.display = subCliente.style.display === 'none' ? 'block' : 'none';
+      });
+    }
+
+    // Submenu Estoque
+    const estoqueLink = menuContainer.querySelector('#estoque');
+    const subEstoque = menuContainer.querySelector('#sub-estoque');
+
+    if (estoqueLink && subEstoque) {
+      estoqueLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        subEstoque.style.display = subEstoque.style.display === 'none' ? 'block' : 'none';
       });
     }
 
