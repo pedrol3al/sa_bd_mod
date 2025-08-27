@@ -240,6 +240,8 @@ CREATE TABLE `estoque` (
   `id_fornecedor` int NOT NULL,
   `nome_peca` VARCHAR(255),
   `data_cadastro` date,
+  `quantidade` int(150) NOT NULL,
+  `valor_unitario` varchar(255) NOT NULL, 
   `descricao` VARCHAR(255),
   `imagem_peca` LONGBLOB DEFAULT NULL, 
   PRIMARY KEY (`id_usuario`, `id_pecas`, `id_fornecedor`),
@@ -247,6 +249,8 @@ CREATE TABLE `estoque` (
   CONSTRAINT `fk_estoque_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE,
   CONSTRAINT `fk_estoque_peca` FOREIGN KEY (`id_pecas`) REFERENCES `pecas` (`id_pecas`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 
 -- Inserir usuário admin
 INSERT INTO `usuario` (
