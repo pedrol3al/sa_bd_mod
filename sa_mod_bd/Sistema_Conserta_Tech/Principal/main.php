@@ -1,3 +1,16 @@
+<?php
+    session_start();
+    require_once("../Conexao/conexao.php");
+
+    $id_perfil=$_SESSION['perfil'];
+    $sqlPerfil="SELECT perfil FROM perfil WHERE id_perfil =:id_perfil";
+    $stmtPerfil=$pdo->prepare($sqlPerfil);
+    $stmtPerfil->bindParam(':id_perfil',$id_perfil);
+    $stmtPerfil->execute();
+    $perfil=$stmtPerfil->fetch(PDO::FETCH_ASSOC);
+    $nome_perfil=$perfil['perfil'];
+?>
+
 <!DOCTYPE HTML>
 
 <html lang="pt-br">
@@ -32,7 +45,7 @@
 
             <div class="tituloTopo">
                 <h1 class="titulo">CONSERTA TECH</h1> 
-                <h2 class="bem_vindo">Bem-Vindo(a):  </h2>
+                <h2 class="bem_vindo">Bem-Vindo(a):<?php echo $_SESSION["usuario"]; ?>! </br>Perfil: <?php echo $nome_perfil; ?></h2>
             </div>
 
             <div class="quadrado1">

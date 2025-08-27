@@ -28,7 +28,7 @@ body {
   animation: aparecer 1.2s ease forwards;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   width: 90%;
-  max-width: 800px;
+  max-width: 100%;
   height: auto;
   align-items: center;
   border: 1px solid black;
@@ -147,20 +147,21 @@ h1 {
   margin-bottom: 15px;
 }
 
-
 .tipo_pessoa {
   width: 100%;
   max-width: 733px;
 }
 
-
 .form-container {
-  max-height: 600px;
+  max-height: 800px;
   /* ajuste como preferir */
   overflow-y: auto;
   /* ativa a rolagem vertical */
   padding-right: 10px;
   /* para espaço da barra de rolagem */
   scrollbar-width: none;
+}
 
+.container {
+  max-width: 100%;
 }

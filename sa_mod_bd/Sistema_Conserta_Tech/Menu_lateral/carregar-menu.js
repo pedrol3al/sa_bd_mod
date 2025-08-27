@@ -41,8 +41,8 @@ function carregarMenuLateral() {
                 <div id="sub-orcamento" class="sub-menu" style="display: none;">
                   <a href="../Cliente/cliente.php"><i class="bi bi-circle-fill"></i>Cadastrar Cliente</a>
                   <a href="../Cliente/buscar_cliente.php"><i class="bi bi-circle-fill"></i>Pesquisar Cliente</a>
-                  <a href="../Cliente/cadastrar_cliente.php"><i class="bi bi-circle-fill"></i> Alterar Cliente</a>
-                  <a href="../Cliente/cadastrar_cliente.php"><i class="bi bi-circle-fill"></i> Excluir Cliente</a>
+                  <a href="../Cliente/alterar_cliente.php"><i class="bi bi-circle-fill"></i> Alterar Cliente</a>
+                  <a href="../Cliente/excluir_cliente.php"><i class="bi bi-circle-fill"></i> Excluir Cliente</a>
                 </div>
               </li>
               <li class="item-menu">
