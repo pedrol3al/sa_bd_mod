@@ -1,95 +1,106 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-    <title>Conserta Tech - Estoque</title>
+//Reporta erros, caso houver
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-    <!-- Links css -->
-    <link rel="stylesheet" type="text/css" href="css_estoque.css">
-    <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css">
+session_start();
+require_once('../Conexao/conexao.php');
 
-    <!-- Link bootstrap e favicon-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
+// Perfil vazio ou diferente de administrador
+if (!isset($_SESSION['perfil']) || $_SESSION['perfil'] != 1) {
+    die("Acesso Negado");
+}
 
-</head>
+try {
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $pdo->beginTransaction(); // inicia transação
+     
 
-<body>
+        // ---------- UPLOAD DA FOTO ----------
+        $foto_usuario = null;
 
+        if (isset($_FILES['foto_usuario']) && $_FILES['foto_usuario']['error'] === UPLOAD_ERR_OK) {
+            $arquivo_tmp = $_FILES['foto_usuario']['tmp_name'];
+            $nome_arquivo = $_FILES['foto_usuario']['name'];
 
-    <!-- Menu lateral ou superior -->
-    <div id="menu-container"></div>
+            // Pasta destino 
+            $pasta_destino = 'uploads/';
+            if (!is_dir($pasta_destino)) {
+                mkdir($pasta_destino, 0755, true);
+            }
 
-    <!-- Conteúdo principal -->
-    <div class="conteudo">
-        <h1>ESTOQUE</h1>
+            // Evita sobrescrever arquivos com o mesmo nome
+            $nome_unico = time() . '_' . basename($nome_arquivo);
+            $caminho_arquivo = $pasta_destino . $nome_unico;
 
-        <form class="formulario">
-            <div class="linha">
-                <label for="id_pecas">ID Peças:</label>
-                <input type="text" id="id_pecas" class="input-curto">
+            if (move_uploaded_file($arquivo_tmp, $caminho_arquivo)) {
+                $foto_usuario = $caminho_arquivo;
+            }
+        }
+      
 
-                <label for="id_fornecedor">ID Fornecedor:</label>
-                <input type="text" id="id_fornecedor" class="input-curto">
+        // ---------- INSERT usuário ----------
 
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" class="input-longo">
-            </div>
+        $sqlUsuario = "INSERT INTO usuario 
+        (id_perfil, nome, cpf, username, email, senha, data_cad, data_nasc, foto_usuario, sexo, senha_temporaria)
+        VALUES (:id_perfil, :nome, :cpf, :username, :email, :senha, :data_cad, :data_nasc, :foto_usuario, :sexo, :senha_temporaria)";
+        
+        $stmt = $pdo->prepare($sqlUsuario);
+        $stmt->execute([
+            ':id_perfil' => $_POST['cargo_usuario'],      
+            ':nome' => $_POST['nome_usuario'],            
+            ':cpf' => $_POST['cpf_usuario'],
+            ':username' => $_POST['username'],            
+            ':email' => $_POST['email_usuario'],
+            ':senha' => password_hash($_POST['senha_usuario'], PASSWORD_DEFAULT),
+            ':data_cad' => $_POST['dataCadastro'],
+            ':data_nasc' => $_POST['dataNascimento'],
+            ':foto_usuario' => $foto_usuario,
+            ':sexo' => $_POST['sexo_usuario'],
+            ':senha_temporaria' => 0
+        ]);
+        
+        
 
-            <div class="linha">
-                <label for="aparelho_utilizado">Aparelho Utilizado:</label>
-                <input type="text" id="aparelho_utilizado" class="input-medio">
+        // Pega o id do usuário gerado automaticamente pelo banco
+        $id_usuario = $pdo->lastInsertId();
 
-                <label for="quantidade">Quantidade:</label>
-                <input type="text" id="quantidade" class="input-curto">
+        // ---------- INSERT endereço ----------
+        $sql = "INSERT INTO endereco_usuario 
+            (id_usuario, cep, logradouro, tipo_rua, complemento, numero, cidade, uf, bairro)
+            VALUES (:id_usuario, :cep, :logradouro, :tipo_rua, :complemento, :numero, :cidade, :uf, :bairro)";
 
-                <label for="preco">Preço:</label>
-                <input type="text" id="preco" class="input-curto">
-            </div>
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':id_usuario' => $id_usuario,
+            ':cep' => $_POST['cep_usuario'],
+            ':logradouro' => $_POST['logradouro_usuario'],
+            ':tipo_rua' => $_POST['tipo_casa'],
+            ':complemento' => $_POST['complemento_usuario'],
+            ':numero' => $_POST['numero_usuario'],
+            ':cidade' => $_POST['cidade_usuario'],
+            ':uf' => $_POST['uf_usuario'],
+            ':bairro' => $_POST['bairro_usuario'] 
+        ]);
 
-            <div class="linha">
-                <label for="data_registro">Data de Registro:</label>
-                <input type="date" id="data_registro" class="input-medio">
+        // ---------- INSERT telefone ----------
+        $sql = "INSERT INTO telefone_usuario (id_usuario, telefone) 
+                        VALUES (:id_usuario, :telefone)";
 
-                <label for="status">Status:</label>
-                <select id="status" class="input-curto">
-                    <option value=""> Selecione: </option>
-                    <option value="Em estoque">Em estoque</option>
-                    <option value="Reservado">Reservado</option>
-                    <option value="Fora de estoque">Fora de estoque</option>
-                </select>
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':id_usuario' => $id_usuario,   
+            ':telefone' => $_POST['telefone_usuario'] 
+        ]);
+     
 
-                <label for="tipo">Tipo:</label>
-                <input type="text" id="tipo" class="input-curto">
-            </div>
-
-            <div class="linha">
-                <label for="numero_serie">Número de Série:</label>
-                <input type="text" id="numero_serie" class="input-medio">
-            </div>
-
-            <div class="linha">
-                <label for="descricao">Descrição:</label>
-                <textarea id="descricao" class="input-longo"></textarea>
-            </div>
-
-            <div class="botoes">
-                <button type="button" id="bnt-cadastrar" class="cadastrar"><i class="bi bi-save"></i> Cadastrar</button>
-                <button type="button" id="bntPesquisar" class="pesquisar"><i class="bi bi-search"></i>
-                    Pesquisar</button>
-                <button type="reset" id="bnt-novo" class="novo"><i class="bi bi-plus-circle"></i> Novo</button>
-                <button type="button" id="btn-cancelar-edicao" style="display: none;">Cancelar</button>
-
-            </div>
-        </form>
-    </div>
-
-    <!-- Links do javascript -->
-    <script src="../Menu_lateral/carregar-menu.js"></script>
-    <script src="js/estoque.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-</body>
-
-</html>
+        $pdo->commit(); // confirma tudo
+        echo "<script>alert('Usuário cadastrado com sucesso!');</script>";
+    }
+} catch (Exception $e) {
+    $pdo->rollBack(); // desfaz tudo se deu erro
+    echo "Erro no cadastro: " . $e->getMessage();
+}
+?>
