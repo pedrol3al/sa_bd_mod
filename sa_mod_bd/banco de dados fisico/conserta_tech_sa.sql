@@ -7,7 +7,7 @@ CREATE TABLE `perfil` (
   PRIMARY KEY (`id_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO perfil (`perfil`) VALUES
+INSERT INTO `perfil` (`perfil`) VALUES
   ('Administrador'),
   ('Atendente'),
   ('Técnico'),
@@ -28,6 +28,15 @@ CREATE TABLE `usuario` (
   `data_nasc` DATE DEFAULT NULL,
   `foto_usuario` LONGBLOB DEFAULT NULL,
   `sexo` ENUM('M','F','O'),
+  `cep` VARCHAR(10) DEFAULT NULL,
+  `logradouro` VARCHAR(80) DEFAULT NULL,
+  `tipo` VARCHAR(20) DEFAULT NULL,
+  `complemento` VARCHAR(15) DEFAULT NULL,
+  `numero` INT DEFAULT NULL,
+  `cidade` VARCHAR(30) DEFAULT NULL,
+  `uf` VARCHAR(2) DEFAULT NULL,
+  `bairro` VARCHAR(20) DEFAULT NULL,
+  `telefone` VARCHAR(18) DEFAULT NULL,
   `inativo` TINYINT,
   `senha_temporaria` TINYINT,
   PRIMARY KEY (`id_usuario`),
@@ -44,8 +53,18 @@ CREATE TABLE `cliente` (
   `nome` VARCHAR(40),
   `observacao` VARCHAR(255),
   `data_nasc` DATE DEFAULT NULL,
-  `sexo` ENUM('M','F','O'),
+  `sexo` ENUM('M','F'),
   `foto_cliente` LONGBLOB DEFAULT NULL,
+  `cep` VARCHAR(10) DEFAULT NULL,
+  `logradouro` VARCHAR(80) DEFAULT NULL,
+  `tipo` VARCHAR(20) DEFAULT NULL,
+  `complemento` VARCHAR(15) DEFAULT NULL,
+  `numero` INT DEFAULT NULL,
+  `cidade` VARCHAR(30) DEFAULT NULL,
+  `telefone` VARCHAR(18) DEFAULT NULL,
+  `uf` VARCHAR(2) DEFAULT NULL,
+  `bairro` VARCHAR(20) DEFAULT NULL,
+  `inativo` TINYINT,
   PRIMARY KEY (`id_cliente`),
   CONSTRAINT `fk_cliente_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -61,9 +80,9 @@ CREATE TABLE `cliente_fisico` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Cliente jurídico
-DROP TABLE IF EXISTS `juridico`;
+DROP TABLE IF EXISTS `cliente_juridico`;
 
-CREATE TABLE `juridico` (
+CREATE TABLE `cliente_juridico` (
   `id_cliente` INT NOT NULL,
   `cnpj` VARCHAR(18) UNIQUE NOT NULL,
   PRIMARY KEY (`id_cliente`),
@@ -78,29 +97,49 @@ CREATE TABLE `fornecedor` (
   `email` VARCHAR(100) UNIQUE,
   `razao_social` VARCHAR(50) NOT NULL,
   `cnpj` VARCHAR(20) UNIQUE,
-  `data_fundacao` date,
+  `data_fundacao` DATE,
   `produto_fornecido` VARCHAR(100),
   `data_cad` DATE DEFAULT NULL,
+  `cep` VARCHAR(10) DEFAULT NULL,
+  `logradouro` VARCHAR(80) DEFAULT NULL,
+  `tipo` VARCHAR(20) DEFAULT NULL,
+  `complemento` VARCHAR(15) DEFAULT NULL,
+  `numero` INT DEFAULT NULL,
+  `cidade` VARCHAR(30) DEFAULT NULL,
+  `uf` VARCHAR(2) DEFAULT NULL,
+  `bairro` VARCHAR(20) DEFAULT NULL,
+  `telefone` VARCHAR(18) DEFAULT NULL,
   `foto_fornecedor` LONGBLOB DEFAULT NULL,
+  `inativo` TINYINT,
   PRIMARY KEY (`id_fornecedor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Peças
-DROP TABLE IF EXISTS `pecas`;
+-- Produto
+DROP TABLE IF EXISTS `produto`;
 
-CREATE TABLE `pecas` (
-  `id_pecas` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE `produto` (
+  `id_produto` INT NOT NULL AUTO_INCREMENT,
+  `id_usuario` INT NOT NULL,
   `tipo` VARCHAR(50),
   `nome` VARCHAR(50),
   `aparelho_utilizado` VARCHAR(50),
   `quantidade` INT DEFAULT 0,
-  `preco` DECIMAL(10, 2) DEFAULT NULL,
+  `preco` DECIMAL(10,2) DEFAULT NULL,
   `data_registro` DATE DEFAULT NULL,
-  `descricao` TEXT,
-  `status` ENUM('em estoque','fora de estoque','em manutenção','reservada'),
+  `descricao` VARCHAR(255),
   `imagem_peca` LONGBLOB DEFAULT NULL,
-  `numero_serie` VARCHAR(50) UNIQUE,
-  PRIMARY KEY (`id_pecas`)
+  PRIMARY KEY (`id_produto`),
+  CONSTRAINT `fk_produto_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tipo de serviço (precisa existir antes da OS)
+DROP TABLE IF EXISTS `tipo_servico`;
+
+CREATE TABLE `tipo_servico` (
+  `id_tipo_servico` INT NOT NULL AUTO_INCREMENT,
+  `tipo_servico` VARCHAR(255),
+  `valor_servico` DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (`id_tipo_servico`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Ordem de Serviço
@@ -110,6 +149,7 @@ CREATE TABLE `os` (
   `id_os` INT NOT NULL AUTO_INCREMENT,
   `id_cliente` INT NOT NULL,
   `id_usuario` INT NOT NULL,
+  `id_tipo_servico` INT NOT NULL,
   `num_serie` VARCHAR(50) UNIQUE NOT NULL,
   `data_abertura` DATE DEFAULT NULL,
   `data_termino` DATE DEFAULT NULL,
@@ -121,160 +161,55 @@ CREATE TABLE `os` (
   `fabricante` VARCHAR(50),
   PRIMARY KEY (`id_os`),
   CONSTRAINT `fk_os_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE,
-  CONSTRAINT `fk_os_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
+  CONSTRAINT `fk_os_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE,
+  CONSTRAINT `fk_os_tipo_servico` FOREIGN KEY (`id_tipo_servico`) REFERENCES `tipo_servico` (`id_tipo_servico`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Nota Fiscal
-DROP TABLE IF EXISTS `nf`;
+-- Pagamento
+DROP TABLE IF EXISTS `pagamento`;
 
-CREATE TABLE `nf` (
-  `id_nf` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pagamento` (
+  `id_pagamento` INT NOT NULL AUTO_INCREMENT,
   `id_os` INT NOT NULL,
-  `id_cliente` INT NOT NULL,
-  `id_usuario` INT NOT NULL,
-  `valor_unit` DECIMAL(10, 2),
-  `valor_total` DECIMAL(10, 2),
+  `valor_total` DECIMAL(10,2),
   `frm_pagamento` VARCHAR(50),
-  `data_emissao` DATE DEFAULT NULL,
+  `data_pagamento` DATE,
   `status` VARCHAR(30),
-  `numero_nf` VARCHAR(50) UNIQUE,
-  `observacoes` TEXT,
-  PRIMARY KEY (`id_nf`),
-  CONSTRAINT `fk_nf_os` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`) ON DELETE CASCADE,
-  CONSTRAINT `fk_nf_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE,
-  CONSTRAINT `fk_nf_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Endereços
-CREATE TABLE `endereco_cliente` (
-  `id_endereco_cliente` INT NOT NULL AUTO_INCREMENT,
-  `id_cliente` int NOT NULL,
-  `cep` varchar(10) DEFAULT NULL,
-  `logradouro` varchar(80) DEFAULT NULL,
-  `tipo` varchar(20) DEFAULT NULL,
-  `complemento` varchar(15) DEFAULT NULL,
-  `numero` int DEFAULT NULL,
-  `cidade` varchar(30) DEFAULT NULL,
-  `uf` varchar(2) DEFAULT NULL,
-  `bairro` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id_endereco_cliente`),
-  CONSTRAINT `fk_endereco_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `endereco_fornecedor` (
-  `id_endereco_fornecedor` INT NOT NULL AUTO_INCREMENT,
-  `id_fornecedor` int NOT NULL,
-  `cep` varchar(10) DEFAULT NULL,
-  `logradouro` varchar(100) DEFAULT NULL,
-  `tipo_construcao` varchar(20) DEFAULT NULL,
-  `complemento` varchar(30) DEFAULT NULL,
-  `numero` int DEFAULT NULL,
-  `cidade` varchar(30) DEFAULT NULL,
-  `uf` varchar(2) DEFAULT NULL,
-  `bairro` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id_endereco_fornecedor`),
-  CONSTRAINT `fk_endereco_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `endereco_usuario` (
-  `id_endereco_usuario` INT NOT NULL AUTO_INCREMENT,
-  `id_usuario` int NOT NULL,
-  `cep` varchar(10) DEFAULT NULL,
-  `logradouro` varchar(100) DEFAULT NULL,
-  `tipo_rua` varchar(20) DEFAULT NULL,
-  `complemento` varchar(30) DEFAULT NULL,
-  `numero` int DEFAULT NULL,
-  `cidade` varchar(30) DEFAULT NULL,
-  `uf` varchar(2) DEFAULT NULL,
-  `bairro` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id_endereco_usuario`),
-  CONSTRAINT `fk_endereco_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Telefones
-CREATE TABLE `telefone_cliente` (
-  `id_tel_cliente` INT NOT NULL AUTO_INCREMENT,
-  `id_cliente` int NOT NULL,
-  `telefone` varchar(18) DEFAULT NULL,
-  PRIMARY KEY (`id_tel_cliente`),
-  CONSTRAINT `fk_tel_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `telefone_fornecedor` (
-  `id_tel_fornecedor` INT NOT NULL AUTO_INCREMENT,
-  `id_fornecedor` int NOT NULL,
-  `telefone` varchar(18) DEFAULT NULL,
-  PRIMARY KEY (`id_tel_fornecedor`),
-  CONSTRAINT `fk_tel_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `telefone_usuario` (
-  `id_tel_usuario` INT NOT NULL AUTO_INCREMENT,
-  `id_usuario` int NOT NULL,
-  `telefone` varchar(18) DEFAULT NULL,
-  PRIMARY KEY (`id_tel_usuario`),
-  CONSTRAINT `fk_tel_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Relacionamentos muitos-para-muitos
-CREATE TABLE `for_pc` (
-  `id_pecas` int NOT NULL,
-  `id_fornecedor` int NOT NULL,
-  PRIMARY KEY (`id_pecas`, `id_fornecedor`),
-  CONSTRAINT `fk_forpc_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE,
-  CONSTRAINT `fk_forpc_pecas` FOREIGN KEY (`id_pecas`) REFERENCES `pecas` (`id_pecas`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `us_os` (
-  `id_usuario` int NOT NULL,
-  `id_os` int NOT NULL,
-  PRIMARY KEY (`id_usuario`, `id_os`),
-  CONSTRAINT `fk_usos_os` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`) ON DELETE CASCADE,
-  CONSTRAINT `fk_usos_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
+  PRIMARY KEY (`id_pagamento`),
+  CONSTRAINT `fk_pag_os` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Estoque
+DROP TABLE IF EXISTS `estoque`;
+
 CREATE TABLE `estoque` (
-  `id_usuario` int NOT NULL,
-  `id_pecas` int NOT NULL,
-  `id_fornecedor` int NOT NULL,
+  `id_produto` INT NOT NULL,
+  `id_fornecedor` INT NOT NULL,
   `nome_peca` VARCHAR(255),
-  `data_cadastro` date,
-  `quantidade` int(150) NOT NULL,
-  `valor_unitario` varchar(255) NOT NULL, 
+  `data_cadastro` DATE,
+  `quantidade` INT NOT NULL,
+  `valor_unitario` DECIMAL(10,2) NOT NULL,
   `descricao` VARCHAR(255),
-  `imagem_peca` LONGBLOB DEFAULT NULL, 
-  PRIMARY KEY (`id_usuario`, `id_pecas`, `id_fornecedor`),
-  CONSTRAINT `fk_estoque_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE,
+  `imagem_peca` LONGBLOB DEFAULT NULL,
+  PRIMARY KEY (`id_produto`, `id_fornecedor`),
   CONSTRAINT `fk_estoque_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE,
-  CONSTRAINT `fk_estoque_peca` FOREIGN KEY (`id_pecas`) REFERENCES `pecas` (`id_pecas`) ON DELETE CASCADE
+  CONSTRAINT `fk_estoque_produto` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id_produto`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Relação OS x Produto
+DROP TABLE IF EXISTS `os_produto`;
 
-CREATE TABLE `os_pecas` (
+CREATE TABLE `os_produto` (
   `id_os` INT NOT NULL,
-  `id_pecas` INT NOT NULL,
+  `id_produto` INT NOT NULL,
   `quantidade` INT NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id_os`, `id_pecas`),
-  CONSTRAINT `fk_ospecas_os` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`) ON DELETE CASCADE,
-  CONSTRAINT `fk_ospecas_pecas` FOREIGN KEY (`id_pecas`) REFERENCES `pecas` (`id_pecas`) ON DELETE CASCADE
+  PRIMARY KEY (`id_os`, `id_produto`),
+  CONSTRAINT `fk_osprod_os` FOREIGN KEY (`id_os`) REFERENCES `os` (`id_os`) ON DELETE CASCADE,
+  CONSTRAINT `fk_osprod_produto` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id_produto`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
-CREATE TABLE `nf_pecas` (
-  `id_nf` INT NOT NULL,
-  `id_pecas` INT NOT NULL,
-  `quantidade` INT NOT NULL DEFAULT 1,
-  `valor_unit` DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (`id_nf`, `id_pecas`),
-  CONSTRAINT `fk_nfpecas_nf` FOREIGN KEY (`id_nf`) REFERENCES `nf` (`id_nf`) ON DELETE CASCADE,
-  CONSTRAINT `fk_nfpecas_pecas` FOREIGN KEY (`id_pecas`) REFERENCES `pecas` (`id_pecas`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-  
+-- Inserção do usuário admin
 INSERT INTO `usuario` (
-  `id_usuario`,
   `id_perfil`,
   `nome`,
   `cpf`,
@@ -286,10 +221,7 @@ INSERT INTO `usuario` (
   `foto_usuario`,
   `sexo`,
   `senha_temporaria`
-)
-VALUES
-(
-  1,
+) VALUES (
   1,
   'Pedro Gabriel Leal Costa',
   '05361534005',
