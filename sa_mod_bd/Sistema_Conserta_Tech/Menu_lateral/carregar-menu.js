@@ -45,17 +45,29 @@ function carregarMenuLateral() {
                   <a href="../Cliente/excluir_cliente.php"><i class="bi bi-circle-fill"></i> Excluir Cliente</a>
                 </div>
               </li>
-              <li class="item-menu">
-                <a href="../Usuario/usuario.php" class="menu-link">
+             <li class="item-menu">
+                <a href="#" id="usuario" class="menu-link">
                   <span class="icon"><i class="bi bi-person-circle"></i></span>
-                  <span class="txt-link">Cadastro Usuário</span>
+                  <span class="txt-link">Usuário <i class="bi bi-chevron-down"></i></span>
                 </a>
+                <div id="sub-usuario" class="sub-menu" style="display: none;">
+                  <a href="../Usuario/usuario.php"><i class="bi bi-circle-fill"></i>Cadastrar Usuário</a>
+                  <a href="../Usuario/buscar_usuario.php"><i class="bi bi-circle-fill"></i>Pesquisar Usuário</a>
+                  <a href="../Usuario/alterar_usuario.php"><i class="bi bi-circle-fill"></i> Alterar Usuário</a>
+                  <a href="../Usuario/excluir_usuario.php"><i class="bi bi-circle-fill"></i> Excluir Usuário</a>
+                </div>
               </li>
-              <li class="item-menu"> 
-                <a href="../Fornecedor/fornecedor.php" class="menu-link">
+              <li class="item-menu">
+                <a href="#" id="fornecedor" class="menu-link">
                   <span class="icon"><i class="bi bi-truck"></i></span>
-                  <span class="txt-link">Cadastro Fornecedor</span>
+                  <span class="txt-link">Fornecedor <i class="bi bi-chevron-down"></i></span>
                 </a>
+                <div id="sub-fornecedor" class="sub-menu" style="display: none;">
+                  <a href="../Fornecedor/cadastro_fornecedor.php"><i class="bi bi-circle-fill"></i>Cadastrar Fornecedor</a>
+                  <a href="../Fornecedor/buscar_fornecedor.php"><i class="bi bi-circle-fill"></i>Pesquisar fornecedor</a>
+                  <a href="../Fornecedor/alterar_usuario.php"><i class="bi bi-circle-fill"></i> Alterar fornecedor</a>
+                  <a href="../Fornecedor/excluir_usuario.php"><i class="bi bi-circle-fill"></i> Excluir fornecedor</a>
+                </div>
               </li>
                <li class="item-menu">
                 <a href="#" id="estoque" class="menu-link">
@@ -123,7 +135,6 @@ function carregarMenuLateral() {
 
 
 
-
     // Submenu Orçamento
     const orcamentoLink = menuContainer.querySelector('#orcamento');
     const subOrcamento = menuContainer.querySelector('#sub-orcamento');
@@ -134,6 +145,28 @@ function carregarMenuLateral() {
         subOrcamento.style.display = subOrcamento.style.display === 'none' ? 'block' : 'none';
       });
     }
+
+    // Submenu usuário
+    const usuarioLink = menuContainer.querySelector('#usuario');
+    const subUsuario = menuContainer.querySelector('#sub-usuario');
+
+    if (usuarioLink && subUsuario) {
+      usuarioLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        subUsuario.style.display = subUsuario.style.display === 'none' ? 'block' : 'none';
+      });
+    }
+
+        // Submenu fornecedor
+        const fornecedorLink = menuContainer.querySelector('#fornecedor');
+        const subfornecedor = menuContainer.querySelector('#sub-fornecedor');
+    
+        if (fornecedorLink && subfornecedor) {
+          fornecedorLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            subfornecedor.style.display = subfornecedor.style.display === 'none' ? 'block' : 'none';
+          });
+        }
 
     // Submenu Cliente
     const clienteLink = menuContainer.querySelector('#cliente');
