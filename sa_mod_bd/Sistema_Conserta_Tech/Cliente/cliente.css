@@ -161,7 +161,3 @@ h1 {
   /* para espaço da barra de rolagem */
   scrollbar-width: none;
 }
-
-.container {
-  max-width: 100%;
-}

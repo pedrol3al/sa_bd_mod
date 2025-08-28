@@ -14,34 +14,18 @@
     if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca'])){
         $busca=trim($_POST['busca']);
 
-        $cliente="SELECT os.id_cliente, cliente.nome, cliente.id_cliente FROM os INNER JOIN cliente on os.id_cliente=cliente.id_cliente";
         //verifica se a busca é um numero ou nome
         if(is_numeric($busca)){
-            $sql="SELECT * FROM os WHERE id_os = :busca ORDER BY data_termino ASC";
+            $sql="SELECT os.*, cliente.nome, cliente.id_cliente FROM os INNER JOIN cliente on os.id_cliente=cliente.id_cliente WHERE id_os = :busca ORDER BY data_termino ASC";
             $stmt=$pdo->prepare($sql);
             $stmt->bindParam(':busca',$busca, PDO::PARAM_INT);
         } else {
-            $sql="SELECT 
-                    os.id_os,
-                    os.id_cliente,
-                    os.num_serie,
-                    os.data_abertura,
-                    os.data_termino,
-                    os.modelo,
-                    os.num_aparelho,
-                    os.defeito_rlt,
-                    os.condicao,
-                    os.observacoes,
-                    os.fabricante,
-                    cliente.id_cliente,
-                    cliente.nome AS nome_cliente,
-                    FROM os
-                    INNER JOIN cliente ON os.id_cliente = cliente.id_cliente; WHERE nome_cliente LIKE :busca_nome ORDER BY nome ASC";
+            $sql="SELECT os.*, cliente.id_cliente, cliente.nome FROM os INNER JOIN cliente ON os.id_cliente = cliente.id_cliente WHERE nome LIKE :busca_nome ORDER BY nome ASC";
             $stmt=$pdo->prepare($sql);
             $stmt->bindValue(':busca_nome',"$busca%", PDO::PARAM_STR); //MUDAR AQUI PARA A ENTREGA (ja mudei)
         }
     } else {
-        $sql="SELECT * FROM os ORDER BY data_termino ASC";
+        $sql="SELECT os.*, cliente.id_cliente, cliente.nome FROM os INNER JOIN cliente on os.id_cliente=cliente.id_cliente ORDER BY data_termino ASC";
         $stmt=$pdo->prepare($sql);
     }
     $stmt->execute();
@@ -103,7 +87,7 @@
             <?php foreach($oss as $os): ?>
                 <tr>
                     <td><?=htmlspecialchars($os['id_os'])?></td>
-                    <td><?=htmlspecialchars($cliente['$cliente'])?></td>
+                    <td><?=htmlspecialchars($os['nome'])?></td>
                     <td><?=htmlspecialchars($os['num_serie'])?></td>
                     <td><?=htmlspecialchars($os['data_abertura'])?></td>
                     <td><?=htmlspecialchars($os['data_termino'])?></td>

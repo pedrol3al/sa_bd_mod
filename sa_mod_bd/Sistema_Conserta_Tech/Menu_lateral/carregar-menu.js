@@ -64,9 +64,9 @@ function carregarMenuLateral() {
              </a>
               <div id="sub-estoque" class="sub-menu" style="display: none;">
               <a href="../Estoque/cadastrar_estoque.php"><i class="bi bi-circle-fill"></i> Cadastrar Estoque</a>
-              <a href="../Estoque/visualizar_pecas.php"><i class="bi bi-circle-fill"></i> Pesquisar Peças</a>
-              <a href="../Estoque/estoque_alterar.php"><i class="bi bi-circle-fill"></i> Alterar Estoque</a>
-              <a href="../Estoque/estoque_excluir.php"><i class="bi bi-circle-fill"></i> Excluir Estoque</a>
+              <a href="../Estoque/buscar_estoque.php"><i class="bi bi-circle-fill"></i> Pesquisar Peças</a>
+              <a href="../Estoque/alterar_estoque.php"><i class="bi bi-circle-fill"></i> Alterar Estoque</a>
+              <a href="../Estoque/excluir_estoque.php"><i class="bi bi-circle-fill"></i> Excluir Estoque</a>
               </div>
               </li>
 
