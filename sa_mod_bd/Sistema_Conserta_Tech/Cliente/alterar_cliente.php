@@ -42,14 +42,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alterar cliente</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- certifique-se de que o JavaScript esta sendo carregado corretamente -->
-    <script src="scripts.js"></script>
-    <script src="bootstrap/jquery-3.6.0.js"></script>
-    <script src="bootstrap/js/bootstrap.js"></script>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <!-- Links bootstrapt e css -->
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="cliente.css" />
+    <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+
+    <!-- Imagem no navegador -->
+    <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
+
+    <!-- Link notfy -->
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+    <!-- Link das máscaras dos campos -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 </head>
-<body>
+<body class="corpo">
     <div id="menu-container"></div>
     <main>
     <div class="conteudo">
@@ -97,5 +108,9 @@
     <p align="center"><a class="btn btn-secondary" role="button" href="principal.php">Voltar</a></p>
     </div>
     </main>
+    <!-- Links javascript -->
+    <script src="../Menu_lateral/carregar-menu.js" defer></script>
+    <script src="cliente.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
 </html>

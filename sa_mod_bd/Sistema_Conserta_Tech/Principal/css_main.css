@@ -8,7 +8,7 @@
 }
 
 body {
- background-image: url("../img/fundo_site.png");
+  background-color: #f0f0f0;
 }
 
 .animarConteudo {
@@ -97,6 +97,7 @@ body {
 .num_quadrado {
   position: fixed;
   top: 260px;
+  font-size: 50px;
 }
 
 #num_quadrado1 {

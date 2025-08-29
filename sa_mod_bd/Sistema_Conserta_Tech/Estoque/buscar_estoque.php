@@ -47,7 +47,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscar estoque</title>
     <!-- Links bootstrapt e css -->
-    <link rel="stylesheet" href="estoque.css">
+    <link rel="stylesheet" href="css_estoque.css">
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
@@ -92,7 +92,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca'])){
             </tr>
             <?php foreach($estoques as $estoque): ?>
                 <tr>
-                    <td><?=htmlspecialchars($estoque['id_pecas'])?></td>
+                    <td><?=htmlspecialchars($estoque['id_produto'])?></td>
                     <td><?=htmlspecialchars($estoque['nome_peca'])?></td>
                     <td><?=htmlspecialchars($estoque['razao_social'])?></td>
                     <td><?=htmlspecialchars($estoque['data_cadastro'])?></td>
@@ -104,8 +104,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca'])){
                         width="50" height="50">
                     </td>
                     <td>
-                        <a class="btn btn-warning" href="alterar_estoque.php?id=<?=htmlspecialchars($estoque['id_pecas'])?>">Alterar</a>
-                        <a class="btn btn-danger" href="excluir_estoque.php?id=<?=htmlspecialchars($estoque['id_pecas'])?>" onclick="return confirm('Tem certeza da exclusão?')">Excluir</a>
+                        <a class="btn btn-warning" href="alterar_estoque.php?id=<?=htmlspecialchars($estoque['id_produto'])?>">Alterar</a>
+                        <a class="btn btn-danger" href="excluir_estoque.php?id=<?=htmlspecialchars($estoque['id_produto'])?>" onclick="return confirm('Tem certeza da exclusão?')">Excluir</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

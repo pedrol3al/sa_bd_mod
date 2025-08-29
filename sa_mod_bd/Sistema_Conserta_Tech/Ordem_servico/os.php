@@ -122,6 +122,16 @@ $usuarios = $pdo->query("SELECT id_usuario, nome FROM usuario")->fetchAll(PDO::F
                   <label for="observacoes">Observações:</label>
                   <input type="box-text" id="observacoes" name="observacoes" class="form-control" placeholder="Observações adicionais">
                 </div>
+
+                <div class="linha">
+                    <label for="status">Status:</label>
+                    <select name="status" id="status" class="form-control" required>
+                        <option value="">Selecione...</option>
+                        <option value="1">Em andamento</option>
+                        <option value="2">Concluído</option>
+                        <option value="3">Atrasado</option>
+                    </select>
+                </div>
               </div>
             </div>
           </div>

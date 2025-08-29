@@ -93,7 +93,7 @@
                         width="50" height="50">
                     </td>
                     <td>
-                        <a class="btn btn-warning" href="alterar_cliente.php?id=<?=htmlspecialchars($cliente['id_cliente'])?>">Alterar</a>
+                        <a class="btn btn-warning" href="alterar_cliente.php?id=<?=htmlspecialchars($cliente['id_cliente'])?>">Alterar</a>data-toggle="modal" data-target="#myModal"
                         <a class="btn btn-danger" href="excluir_cliente.php?id=<?=htmlspecialchars($cliente['id_cliente'])?>" onclick="return confirm('Tem certeza da exclusão?')">Excluir</a>
                     </td>
                 </tr>

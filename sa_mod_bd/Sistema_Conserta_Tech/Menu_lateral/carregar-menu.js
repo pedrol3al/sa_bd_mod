@@ -28,12 +28,6 @@ function carregarMenuLateral() {
                 </a>
               </li>
               <li class="item-menu">
-                <a href="../Agenda/agenda.php" class="menu-link">
-                  <span class="icon"><i class="bi bi-calendar"></i></span>
-                  <span class="txt-link">Agenda</span>
-                </a>
-              </li>
-              <li class="item-menu">
                 <a href="#" id="cliente" class="menu-link">
                   <span class="icon"><i class="bi bi-person-fill"></i></span>
                   <span class="txt-link">Cliente <i class="bi bi-chevron-down"></i></span>

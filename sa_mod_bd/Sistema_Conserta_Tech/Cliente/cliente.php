@@ -1,3 +1,60 @@
+<?php
+  session_start();
+  require_once '../Conexao/conexao.php';
+
+  //verifica se o usuario tem permissao 
+  //supondo que o perfil 1 seja o administrador
+
+  if($_SESSION['perfil']!=1){
+      echo "Acesso Negado!";
+  }
+
+  if($_SERVER["REQUEST_METHOD"]=="POST"){
+      $id_usuario=$_POST['id_usuario'];
+      $nome=$_POST['nome_funcionario'];
+      $email=$_POST['email'];
+      $observacao=$_POST['observacao'];
+      $data_nasc=$_POST['data_nasc'];
+      $sexo=$_POST['sexo'];
+      $foto_cliente=$_FILES['foto_cliente'];
+      $cep=$_POST['cep'];
+      $logradouro=$_POST['logradouro'];
+      $tipo=$_POST['tipo'];
+      $complemento=$_POST['complemento'];
+      $numero=$_POST['numero'];
+      $cidade=$_POST['cidade'];
+      $telefone=$_POST['telefone'];
+      $uf=$_POST['uf'];
+      $bairro=$_POST['bairro'];
+      
+      $sql="INSERT INTO cliente(id_usuario,email,nome,observacao,data_nasc,sexo,foto_cliente,cep,logradouro,tipo,complemento,numero,cidade,telefone,uf,bairro) VALUES (:id_usuario,:email,:nome,:observacao,:data_nasc,:sexo,:foto_cliente,:cep,:logradouro,:tipo,:complemento,:numero,:cidade,:telefone,:uf,:bairro)";
+      $stmt=$pdo->prepare($sql);
+      $stmt->bindParam(':id_usuario',$id_usuario);
+      $stmt->bindParam(':nome',$nome);
+      $stmt->bindParam(':email',$email);
+      $stmt->bindParam(':observacao',$observacao);
+      $stmt->bindParam(':data_nasc',$data_nasc);
+      $stmt->bindParam(':sexo',$sexo);
+      $stmt->bindParam(':foto_cliente',$foto_cliente);
+      $stmt->bindParam(':cep',$cep);
+      $stmt->bindParam(':logradouro',$logradouro);
+      $stmt->bindParam(':tipo',$tipo);
+      $stmt->bindParam(':complemento',$complemento);
+      $stmt->bindParam(':numero',$numero);
+      $stmt->bindParam(':cidade',$cidade);
+      $stmt->bindParam(':telefone',$telefone);
+      $stmt->bindParam(':uf',$uf);
+      $stmt->bindParam(':bairro',$bairro);
+
+      if($stmt->execute()){
+          echo "<script>alert('Cliente cadastrado com sucesso!');</script>";
+      } else {
+          echo "<script>alert('Erro ao cadastrar cliente');</script>";
+      }
+  }
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 

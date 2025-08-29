@@ -28,7 +28,7 @@ body {
   animation: aparecer 1.2s ease forwards;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   width: 90%;
-  max-width: 100%;
+  max-width: 800px;
   height: auto;
   align-items: center;
   border: 1px solid black;
@@ -52,8 +52,6 @@ body {
   border-radius: 5px;
   box-sizing: border-box;
 }
-
-
 
 label {
   position: relative;

@@ -1,3 +1,17 @@
+<?php
+  session_start();
+  require_once("../Conexao/conexao.php");
+
+  // Query
+  $sql = "SELECT o.id_os, c.nome, p.valor_total
+                      FROM os o
+                      INNER JOIN cliente c ON o.id_cliente = c.id_cliente
+                      LEFT JOIN pagamento p ON o.id_os = p.id_os
+                      WHERE o.status = 1";
+  $stmt = $pdo->query($sql);
+  $oss = $stmt->fetch(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -39,8 +53,15 @@
 
     <form class="formulario">
       <div class="linha">
-        <label for="id_pecas">ID OS:</label>
-        <input type="text" id="id_pecas" class="input-curto">
+        <label for="id_os">ID OS:</label>
+        <select id="id_os" class="input-curto">
+            <option value="">Selecione a OS</option>
+            <?php foreach($oss as $os): ?>
+                <option>
+                    <?= $os['id_os'] ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
         <label for="nome">Nome:</label>
         <input type="text" id="nome" class="input-longo">
