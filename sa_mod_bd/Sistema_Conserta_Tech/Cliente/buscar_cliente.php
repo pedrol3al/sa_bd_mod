@@ -62,10 +62,12 @@
     <main>
     <div class="conteudo">
     <h2 align="center">Clientes</h2>
-    <form action="buscar_cliente.php" method="POST">
-        <label for="busca">Digite o ID ou Nome(opcional): </label>
-        <input type="text" id="busca" name="busca">
-        <button class="btn btn-primary" type="submit">Pesquisar</button>
+    <form action="buscar_cliente.php" method="POST" class="mb-4">
+        <label for="busca_cliente" class="form-label fw-bold">Digite o ID ou Nome do cliente:</label>
+            <div class="input-group input-group-lg shadow-sm">
+                <input type="text" id="busca_cliente" name="busca_cliente" class="form-control border-start-0" placeholder="Ex: 12 ou João" required>
+                <button class="btn btn-primary px-4" type="submit">Buscar</button>
+            </div>
     </form>
     <?php if(!empty($clientes)): ?>
         <div class="container">
@@ -93,7 +95,9 @@
                         width="50" height="50">
                     </td>
                     <td>
-                        <a class="btn btn-warning" href="alterar_cliente.php?id=<?=htmlspecialchars($cliente['id_cliente'])?>">Alterar</a>data-toggle="modal" data-target="#myModal"
+                        <a class="btn btn-warning" href="alterar_cliente.php?id=<?=htmlspecialchars($cliente['id_cliente'])?>">Alterar</a>
+                    <br>
+                    </br>
                         <a class="btn btn-danger" href="excluir_cliente.php?id=<?=htmlspecialchars($cliente['id_cliente'])?>" onclick="return confirm('Tem certeza da exclusão?')">Excluir</a>
                     </td>
                 </tr>
@@ -105,7 +109,6 @@
         <?php endif; ?>
         </div>
         </br>
-        <p align="center"><a class="btn btn-secondary" role="button" href="index.php">Voltar</a></p>
         </div>
     </main>
     <script src="../Menu_lateral/carregar-menu.js" defer></script>

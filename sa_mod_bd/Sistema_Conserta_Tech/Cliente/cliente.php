@@ -151,7 +151,6 @@
                       <option value="">Selecione</option>
                       <option value="M">Masculino</option>
                       <option value="F">Feminino</option>
-                      <option value="O">Outro</option>
                     </select>
                   </div>
 

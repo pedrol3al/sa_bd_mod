@@ -97,8 +97,6 @@
     <?php else: ?>
         <p>Nenhum cliente encontrado!</p>
     <?php endif; ?>
-    </br>
-    <p align="center"><a class="btn btn-secondary" role="button" href="principal.php">Voltar</a></p>
     </div>
     </div>
     </main>

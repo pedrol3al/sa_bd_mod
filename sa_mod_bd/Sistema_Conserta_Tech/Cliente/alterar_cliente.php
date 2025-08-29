@@ -1,41 +1,52 @@
 <?php
-    session_start();
-    require_once '../Conexao/conexao.php';
+session_start();
+require '../Conexao/conexao.php';
 
-    //verifica se o cliente tem permissao de adm
-    if($_SESSION['perfil'] !=1){
-        echo "<script>alert('Acesso negado!');window.location.href='principal.php';</script>";
-        exit();
+// Verifica se é admin
+if($_SESSION['perfil'] !=1){
+    echo "<script>alert('Acesso negado!');window.location.href='principal.php';</script>";
+    exit();
+}
+
+// Se um POST for enviado, atualiza o cliente
+if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
+    $id_cliente = $_POST['id_cliente'];
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+
+    $sql="UPDATE cliente SET nome=:nome, email=:email WHERE id_cliente=:id";
+    $stmt=$pdo->prepare($sql);
+    $stmt->bindParam(':nome', $nome);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
+
+    if($stmt->execute()){
+        echo "<script>alert('Cliente alterado com sucesso!');window.location.href='alterar_cliente.php';</script>";
+        exit;
+    } else {
+        echo "<script>alert('Erro ao alterar o cliente!');</script>";
     }
+}
 
-    //inicializa variaveis
-    $cliente=null;
+// Se um GET com id for passado, busca os dados do cliente
+$clienteAtual = null;
+if(isset($_GET['id']) && is_numeric($_GET['id'])){
+    $id_cliente = $_GET['id'];
+    $sql="SELECT * FROM cliente WHERE id_cliente=:id";
+    $stmt=$pdo->prepare($sql);
+    $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
+    $stmt->execute();
+    $clienteAtual = $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
-    if($_SERVER['REQUEST_METHOD'] == "POST"){
-        if(!empty($_POST['busca_cliente'])){
-            $busca=trim($_POST['busca_cliente']);
-
-            //verifica se a busca é um numero (id) ou um nome
-            if(is_numeric($busca)){
-                $sql="SELECT * FROM cliente where id_cliente = :busca";
-                $stmt=$pdo->prepare($sql);
-                $stmt->bindParam(':busca',$busca,PDO::PARAM_INT);
-            } else {
-                $sql="SELECT * FROM cliente where nome LIKE :busca_nome";
-                $stmt=$pdo->prepare($sql);
-                $stmt->bindValue(':busca_nome',"$busca%",PDO::PARAM_STR);
-            }
-
-            $stmt->execute();
-            $cliente=$stmt->fetch(PDO::FETCH_ASSOC);
-
-            //se o cliente nao for encontrado, exibe um alerta
-            if(!$cliente){
-                echo "<script>alert('Cliente não encontrado!');</script>";
-            }
-        }
-    }
+// Busca todos os clientes para exibir na tabela
+$sql="SELECT * FROM cliente ORDER BY nome ASC";
+$stmt=$pdo->prepare($sql);
+$stmt->execute();
+$clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -64,51 +75,65 @@
     <div id="menu-container"></div>
     <main>
     <div class="conteudo">
-    <h2 align="center">Alterar cliente</h2>
-    
-    <form action="alterar_cliente.php" method="POST">
-        <label for="busca_cliente">Digite o ID ou Nome do cliente</label>
-        <input type="text" id="busca_cliente" name="busca_cliente" required onkeyup="buscarSugestoes()">
-
-        <!-- div para exibis sugestoes de clientes -->
-        <div id="sugestoes"></div>
-        <button class="btn btn-primary" type="submit">Buscar</button>
-    </form>
-
-    <?php if($cliente): ?>
-        <!-- formulario para alterar cliente -->
-        <form action="processa_alteracao_cliente.php" method="POST">
-            <input type="hidden" name="id_cliente" value="<?=htmlspecialchars($cliente['id_cliente'])?>">
-
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nome" value="<?=htmlspecialchars($cliente['nome'])?>" required>
-
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" value="<?=htmlspecialchars($cliente['email'])?>" required>
-
-            <label for="id_perfil">Perfil</label>
-            <select id="id_perfil" name="id_perfil">
-                <option value="1" <?=$cliente['id_perfil'] == 1 ?'select':''?>>Administrador</option>
-                <option value="2" <?=$cliente['id_perfil'] == 2 ?'select':''?>>Secretaria</option>
-                <option value="3" <?=$cliente['id_perfil'] == 3 ?'select':''?>>Almoxarife</option>
-                <option value="4" <?=$cliente['id_perfil'] == 4 ?'select':''?>>Cliente</option>
-            </select>
-
-            <!-- se o cliente logado for adm, exibir opção de alterar senha -->
-            <?php if($_SESSION['perfil']==1): ?>
-                <label for="nova_senha">Nova senha</label>
-                <input type="password" id="nova_senha" name="nova_senha">
-            <?php endif; ?>
-
-            <button class="btn btn-primary" type="submit">Alterar</button>
-            </br>
-            <button class="btn btn-primary" type="reset">Limpar</button>
-        </form>
+    <h2 align="center">Alterar Cliente</h2>
+    <?php if(!empty($clientes)): ?>
+        <div class="container">
+        <table border="1" align="center" class="table table-light table-hover">
+            <tr class="table-secondary">
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Observação</th>
+                <th>Data de nascimento</th>
+                <th>Sexo</th>
+                <th>Foto do cliente</th>
+                <th>Ações</th>
+            </tr>
+            <?php foreach($clientes as $cliente): ?>
+            <tr>
+                <td><?=htmlspecialchars($cliente['id_cliente'])?></td>
+                <td><?=htmlspecialchars($cliente['nome'])?></td>
+                <td><?=htmlspecialchars($cliente['email'])?></td>
+                <td><?=htmlspecialchars($cliente['observacao'])?></td>
+                <td><?=htmlspecialchars($cliente['data_nasc'])?></td>
+                <td><?=htmlspecialchars($cliente['sexo'])?></td>
+                <td><img src="../img/techinho.png<?= htmlspecialchars($cliente['foto_cliente']) ?>" 
+                    alt="Foto do cliente" 
+                    width="50" height="50">
+                </td>
+                <td>
+                    <a class="btn btn-warning" role="button" href="alterar_cliente.php?id=<?=htmlspecialchars($cliente['id_cliente'])?>" onclick="return confirm('Tem certeza de que deseja alterar este cliente?')">Alterar</a>                
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php else: ?>
+        <p>Nenhum cliente encontrado!</p>
     <?php endif; ?>
-    <p align="center"><a class="btn btn-secondary" role="button" href="principal.php">Voltar</a></p>
+
+    <?php if($clienteAtual): ?>
+<form action="alterar_cliente.php" method="POST">
+    <input type="hidden" name="id_cliente" value="<?=htmlspecialchars($clienteAtual['id_cliente'])?>">
+
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome" value="<?=htmlspecialchars($clienteAtual['nome'])?>" required>
+
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" name="email" value="<?=htmlspecialchars($clienteAtual['email'])?>" required>
+
+    <label for="observacao">Observação:</label>
+    <input type="text" id="observacao" name="observacao" value="<?=htmlspecialchars($clienteAtual['observacao'])?>">
+
+    
+</form>
+<?php endif; ?>
+
+
+
+    </div>
     </div>
     </main>
-    <!-- Links javascript -->
+    </div>
     <script src="../Menu_lateral/carregar-menu.js" defer></script>
     <script src="cliente.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
