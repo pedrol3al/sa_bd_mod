@@ -53,8 +53,6 @@ body {
   box-sizing: border-box;
 }
 
-
-
 label {
   position: relative;
   top: 8px;
@@ -160,4 +158,83 @@ h1 {
   padding-right: 10px;
   /* para espaço da barra de rolagem */
   scrollbar-width: none;
+}
+
+/* Input de busca */
+.input-group .form-control {
+  border-radius: 0 10px 10px 0 !important;
+}
+
+.input-group .input-group-text {
+  border-radius: 10px 0 0 10px !important;
+}
+
+/* Botão */
+.input-group .btn {
+  border-radius: 10px !important;
+  font-weight: 600;
+}
+
+
+
+
+
+
+
+
+
+/* Label acima do input */
+.conteudo label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #34495e;
+  text-align: left;
+}
+
+/* Grupo de input + botão lado a lado */
+.input-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Input */
+.conteudo input[type="text"] {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.conteudo input[type="text"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0,123,255,0.3);
+}
+
+/* Botão */
+.conteudo button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+.conteudo button:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Animação */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
