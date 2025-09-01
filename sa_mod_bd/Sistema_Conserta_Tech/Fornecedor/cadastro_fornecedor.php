@@ -15,33 +15,13 @@
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $pdo->beginTransaction(); // inicia transação
         
-            // ---------- UPLOAD DA FOTO ----------
-            $foto_fornecedor = null;
-
-            if (isset($_FILES['foto_forn']) && $_FILES['foto_forn']['error'] === UPLOAD_ERR_OK) {
-                $arquivo_tmp = $_FILES['foto_forn']['tmp_name'];
-                $nome_arquivo = $_FILES['foto_forn']['name'];
-
-                // Pasta destino 
-                $pasta_destino = 'uploads/';
-                if (!is_dir($pasta_destino)) {
-                    mkdir($pasta_destino, 0755, true);
-                }
-
-                // Evita sobrescrever arquivos com o mesmo nome
-                $nome_unico = time() . '_' . basename($nome_arquivo);
-                $caminho_arquivo = $pasta_destino . $nome_unico;
-
-                if (move_uploaded_file($arquivo_tmp, $caminho_arquivo)) {
-                    $foto_fornecedor = $caminho_arquivo;
-                }
-            }
+        
         
             // ---------- INSERT fornecedor ----------
             $sqlFornecedor = "INSERT INTO fornecedor 
             (razao_social, email, cnpj, data_fundacao, foto_fornecedor, observacoes,
              cep, logradouro, tipo_estabelecimento, complemento, numero, cidade, uf, bairro, telefone)
-            VALUES (:razao_social, :email, :cnpj, :data_fundacao, :foto_fornecedor, :observacoes,
+            VALUES (:razao_social, :email, :cnpj, :data_fundacao, :observacoes,
                     :cep, :logradouro, :tipo_estabelecimento, :complemento, :numero, :cidade, :uf, :bairro, :telefone)";
         
         $stmt = $pdo->prepare($sqlFornecedor);

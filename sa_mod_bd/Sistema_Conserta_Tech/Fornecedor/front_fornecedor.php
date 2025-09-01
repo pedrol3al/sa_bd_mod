@@ -1,6 +1,5 @@
 <?php
 session_start();
-require_once('../Conexao/conexao.php');
 ?>
 
 <!DOCTYPE html>
@@ -155,11 +154,6 @@ require_once('../Conexao/conexao.php');
                 <label for="complemento_forn">Complemento:</label>
                 <input type="text" id="complemento_forn" name="complemento_forn" class="form-control"
                   placeholder="Complemento">
-              </div>
-
-              <div class="linha">
-                <label for="foto_forn">Imagem:</label>
-                <input type="file" id="foto_forn" name="foto_forn" class="form-control">
               </div>
 
               <div class="linha">

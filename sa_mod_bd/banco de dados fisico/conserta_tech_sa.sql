@@ -26,7 +26,6 @@ CREATE TABLE `usuario` (
   `senha` VARCHAR(255) NOT NULL,
   `data_cad` DATE DEFAULT NULL,
   `data_nasc` DATE DEFAULT NULL,
-  `foto_usuario` LONGBLOB DEFAULT NULL,
   `sexo` ENUM('M','F','O'),
   `cep` VARCHAR(10) DEFAULT NULL,
   `logradouro` VARCHAR(80) DEFAULT NULL,
@@ -54,7 +53,6 @@ CREATE TABLE `cliente` (
   `observacao` VARCHAR(255),
   `data_nasc` DATE DEFAULT NULL,
   `sexo` ENUM('M','F'),
-  `foto_cliente` LONGBLOB DEFAULT NULL,
   `cep` VARCHAR(10) DEFAULT NULL,
   `logradouro` VARCHAR(80) DEFAULT NULL,
   `tipo` VARCHAR(20) DEFAULT NULL,
@@ -109,7 +107,6 @@ CREATE TABLE `fornecedor` (
   `uf` VARCHAR(2) DEFAULT NULL,
   `bairro` VARCHAR(20) DEFAULT NULL,
   `telefone` VARCHAR(18) DEFAULT NULL,
-  `foto_fornecedor` LONGBLOB DEFAULT NULL,
   `inativo` TINYINT,
   PRIMARY KEY (`id_fornecedor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -127,12 +124,11 @@ CREATE TABLE `produto` (
   `preco` DECIMAL(10,2) DEFAULT NULL,
   `data_registro` DATE DEFAULT NULL,
   `descricao` VARCHAR(255),
-  `imagem_peca` LONGBLOB DEFAULT NULL,
   PRIMARY KEY (`id_produto`),
   CONSTRAINT `fk_produto_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Tipo de serviço (precisa existir antes da OS)
+-- Tipo de serviço
 DROP TABLE IF EXISTS `tipo_servico`;
 
 CREATE TABLE `tipo_servico` (
@@ -191,7 +187,6 @@ CREATE TABLE `estoque` (
   `quantidade` INT NOT NULL,
   `valor_unitario` DECIMAL(10,2) NOT NULL,
   `descricao` VARCHAR(255),
-  `imagem_peca` LONGBLOB DEFAULT NULL,
   PRIMARY KEY (`id_produto`, `id_fornecedor`),
   CONSTRAINT `fk_estoque_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE,
   CONSTRAINT `fk_estoque_produto` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id_produto`) ON DELETE CASCADE
@@ -209,7 +204,7 @@ CREATE TABLE `os_produto` (
   CONSTRAINT `fk_osprod_produto` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id_produto`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Inserção do usuário admin
+-- Inserção do usuário admin (sem foto)
 INSERT INTO `usuario` (
   `id_perfil`,
   `nome`,
@@ -219,7 +214,6 @@ INSERT INTO `usuario` (
   `senha`,
   `data_cad`,
   `data_nasc`,
-  `foto_usuario`,
   `sexo`,
   `senha_temporaria`
 ) VALUES (
@@ -231,7 +225,6 @@ INSERT INTO `usuario` (
   '12345678',
   '2025-08-26',
   '2008-05-30',
-  NULL,
   'M',
   0
 );
