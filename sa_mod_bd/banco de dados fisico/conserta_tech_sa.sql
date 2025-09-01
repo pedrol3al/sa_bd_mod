@@ -157,6 +157,7 @@ CREATE TABLE `os` (
   `num_aparelho` VARCHAR(50),
   `defeito_rlt` VARCHAR(255),
   `condicao` VARCHAR(100),
+  `status` VARCHAR(30),
   `observacoes` TEXT,
   `fabricante` VARCHAR(50),
   PRIMARY KEY (`id_os`),

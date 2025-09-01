@@ -1,30 +1,34 @@
 <?php
-    session_start();
-    require_once("../Conexao/conexao.php");
+session_start();
+require_once("../Conexao/conexao.php");
 
-    $id_perfil=$_SESSION['perfil'];
-    $sqlPerfil="SELECT perfil FROM perfil WHERE id_perfil =:id_perfil";
-    $stmtPerfil=$pdo->prepare($sqlPerfil);
-    $stmtPerfil->bindParam(':id_perfil',$id_perfil);
-    $stmtPerfil->execute();
-    $perfil=$stmtPerfil->fetch(PDO::FETCH_ASSOC);
-    $nome_perfil=$perfil['perfil'];
+$id_perfil = $_SESSION['perfil'];
+$sqlPerfil = "SELECT perfil FROM perfil WHERE id_perfil =:id_perfil";
+$stmtPerfil = $pdo->prepare($sqlPerfil);
+$stmtPerfil->bindParam(':id_perfil', $id_perfil);
+$stmtPerfil->execute();
+$perfil = $stmtPerfil->fetch(PDO::FETCH_ASSOC);
+$nome_perfil = $perfil['perfil'];
 
-    // Query
-    $sqlOsAberta = "SELECT COUNT(*) AS total_abertas FROM os WHERE status = 1";
-    $stmt = $pdo->query($sqlOsAberta);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+// Query
+$sqlOsAberta = "SELECT COUNT(*) AS total_abertas FROM os WHERE status = 1";
+$stmt = $pdo->query($sqlOsAberta);
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Quantidade de OS abertas
-    $total_abertas = $result['total_abertas'];
+// Quantidade de OS abertas
+$total_abertas = $result['total_abertas'];
 
-    // Query
-    $sqlValorAberto = "SELECT p.valor_total AS valor_aberto, o.id_os, p.id_pagamento, p.id_os, o.status FROM pagamento p INNER JOIN os o ON p.id_os=o.id_os WHERE o.status = 1";
-    $stmt = $pdo->query($sqlValorAberto);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+// Query
+$sqlValorAberto = "SELECT SUM(p.valor_total) AS valor_aberto 
+FROM pagamento p 
+INNER JOIN os o ON p.id_os=o.id_os 
+WHERE o.status = 1
+";
+$stmt = $pdo->query($sqlValorAberto);
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Quantidade de OS abertas
-    $valor_aberto = $result['valor_aberto'];
+// Quantidade de OS abertas
+$valor_aberto = $result['valor_aberto'];
 ?>
 
 <!DOCTYPE HTML>
@@ -60,8 +64,9 @@
         <section class="conteudo">
 
             <div class="tituloTopo">
-                <h1 class="titulo">CONSERTA TECH</h1> 
-                <h2 class="bem_vindo">Bem-Vindo(a): <?php echo $_SESSION["usuario"]; ?>! </br>Perfil: <?php echo $nome_perfil; ?></h2>
+                <h1 class="titulo">CONSERTA TECH</h1>
+                <h2 class="bem_vindo">Bem-Vindo(a): <?php echo $_SESSION["usuario"]; ?>! </br>Perfil:
+                    <?php echo $nome_perfil; ?></h2>
             </div>
 
             <div class="quadrado1">

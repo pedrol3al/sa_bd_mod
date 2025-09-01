@@ -57,7 +57,7 @@ function carregarMenuLateral() {
                   <span class="txt-link">Fornecedor <i class="bi bi-chevron-down"></i></span>
                 </a>
                 <div id="sub-fornecedor" class="sub-menu" style="display: none;">
-                  <a href="../Fornecedor/cadastro_fornecedor.php"><i class="bi bi-circle-fill"></i>Cadastrar Fornecedor</a>
+                  <a href="../Fornecedor/front_fornecedor.php"><i class="bi bi-circle-fill"></i>Cadastrar Fornecedor</a>
                   <a href="../Fornecedor/buscar_fornecedor.php"><i class="bi bi-circle-fill"></i>Pesquisar fornecedor</a>
                   <a href="../Fornecedor/alterar_usuario.php"><i class="bi bi-circle-fill"></i> Alterar fornecedor</a>
                   <a href="../Fornecedor/excluir_usuario.php"><i class="bi bi-circle-fill"></i> Excluir fornecedor</a>
