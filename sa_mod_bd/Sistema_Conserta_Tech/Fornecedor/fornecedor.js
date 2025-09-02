@@ -5,31 +5,41 @@ document.addEventListener("DOMContentLoaded", function () {
     maxDate: "today"
   });
 
+  flatpickr("#dataCadastro_forn", {
+    dateFormat: "d/m/Y",
+    maxDate: "today"
+  });
+
   const notyf = new Notyf({
     position: { x: "center", y: "top" }
   });
 
-  function conferirCampos(event) {
+  function conferirCampos() {
     const camposObrigatorios = [
-        'razao_social_forn', 'email_forn', 'cnpj_forn', 'dataFundacao_forn',
-        'telefone_forn', 'cep_forn', 'logradouro_forn', 'tipo_estabelecimento_forn',
-        'numero_forn', 'cidade_forn', 'uf_forn', 'bairro_forn'
+      { id: "razao_social_forn", nome: "Razão Social" },
+      { id: "cnpj_forn", nome: "CNPJ" },
+      { id: "dataFundacao_forn", nome: "Data de Fundação" },
+      { id: "telefone_forn", nome: "Telefone" },
+      { id: "email_forn", nome: "Email" },
+      { id: "cep_forn", nome: "CEP" },
+      { id: "logradouro_forn", nome: "Logradouro" },
+      { id: "tipo_estabelecimento_forn", nome: "Tipo de Estabelecimento" },
+      { id: "uf_forn", nome: "Estado (UF)" },
+      { id: "numero_forn", nome: "Número" },
+      { id: "cidade_forn", nome: "Cidade" },
+      { id: "bairro_forn", nome: "Bairro" },
+      { id: "foto_forn", nome: "Imagem" }
     ];
 
-    for (let id of camposObrigatorios) {
-        const elemento = document.getElementById(id);
-        if (!elemento || elemento.value.trim() === '') {
-            notyf.error(`O campo "${id}" é obrigatório!`);
-            elemento.focus();
-            event.preventDefault(); // impede o submit
-            return false;
-        }
+    for (let campo of camposObrigatorios) {
+      const elemento = document.getElementById(campo.id);
+      if (elemento && elemento.value.trim() === "") {
+        notyf.error(`O campo "${campo.nome}" é obrigatório!`);
+        elemento.focus();
+        return false;
+      }
     }
-
-    notyf.success('Todos os campos preenchidos!');
-    // permite o submit
-}
-
+  }
 
   // Máscaras
   $(document).ready(function () {

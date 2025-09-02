@@ -36,7 +36,10 @@ $usuarios = $pdo->query("SELECT id_usuario, nome FROM usuario")->fetchAll(PDO::F
 
 <body class="corpo">
 
-  <div id="menu-container"></div>
+<?php
+  include("../Menu_lateral/menu.php"); 
+?>
+
 
   <main>
     <div class="conteudo">

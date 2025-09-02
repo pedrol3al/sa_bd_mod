@@ -20,7 +20,10 @@
 <body>
 
 
-  <div id="menu-container"></div>
+<?php
+  include("../Menu_lateral/menu.php"); 
+?>
+
 
   <header class="topo">
     <h1 class="titulo"><span>FINANÇAS</span> GASTOS </h1>

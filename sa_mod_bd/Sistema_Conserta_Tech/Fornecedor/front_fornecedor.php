@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 3) {
+  echo "<script>alert('Acesso negado!');window.location.href='../Login/index.php'</script>";
+  exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,14 +39,16 @@ session_start();
 
 <body class="corpo">
 
-  <div id="menu-container"></div>
+<?php
+  include("../Menu_lateral/menu.php"); 
+?>
 
   <main>
     <div class="conteudo">
-      <form method="post">
+      <form method="post" action="cadastro_fornecedor.php">
 
         <div class="topoTitulo">
-          <h1>CADASTRO DE FORNECEDOR</h1>
+          <h1>CADASTRO DE FORNECEDOR </h1>
           <hr>
         </div>
 
@@ -66,6 +73,12 @@ session_start();
                 <label for="dataFundacao_forn">Data de fundação:</label>
                 <input type="text" id="dataFundacao_forn" name="dataFundacao_forn" class="form-control"
                   placeholder="Data de fundação">
+              </div>
+
+              <div class="linha">
+                <label for="dataCadastro_forn">Data de Cadastro:</label>
+                <input type="text" id="dataCadastro_forn" name="dataCadastro_forn" class="form-control"
+                  placeholder="Data de cadastro">
               </div>
 
               <div class="linha">
@@ -157,6 +170,12 @@ session_start();
               </div>
 
               <div class="linha">
+                <label for="produto_fornecido">Produto fornecido:</label>
+                <input type="text" id="produto_fornecido" name="produto_fornecido" class="form-control" 
+                placeholder="Produto fornecido">
+              </div>
+
+              <div class="linha">
                 <label for="observacoes_forn">Observações:</label>
                 <input type="text" id="observacoes_forn" name="observacoes_forn" class="form-control"
                   placeholder="Observações">
@@ -168,12 +187,12 @@ session_start();
 
         <div class="container-botoes">
           <div class="enviar">
-            <button type="submit" id="enviar" class="form-control btn-enviar">
+            <button type="submit" id="enviar" class="form-control btn-enviar" onclick="conferirCampos()">
               Cadastrar </button>
           </div>
 
           <div class="limpar">
-            <button type="reset" id="limpar" class="form-control btn-limpar"> Limpar </button>
+            <button type="reset" id="limpar" class="form-control btn-limpar" > Limpar </button>
           </div>
         </div>
       </form>

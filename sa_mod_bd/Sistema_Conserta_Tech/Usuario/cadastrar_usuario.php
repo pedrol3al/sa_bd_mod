@@ -16,30 +16,7 @@ if (!isset($_SESSION['perfil']) || $_SESSION['perfil'] != 1) {
 try {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $pdo->beginTransaction(); // inicia transação
-     
 
-        // ---------- UPLOAD DA FOTO ----------
-        $foto_usuario = null;
-
-        if (isset($_FILES['foto_usuario']) && $_FILES['foto_usuario']['error'] === UPLOAD_ERR_OK) {
-            $arquivo_tmp = $_FILES['foto_usuario']['tmp_name'];
-            $nome_arquivo = $_FILES['foto_usuario']['name'];
-
-            // Pasta destino 
-            $pasta_destino = 'uploads/';
-            if (!is_dir($pasta_destino)) {
-                mkdir($pasta_destino, 0755, true);
-            }
-
-            // Evita sobrescrever arquivos com o mesmo nome
-            $nome_unico = time() . '_' . basename($nome_arquivo);
-            $caminho_arquivo = $pasta_destino . $nome_unico;
-
-            if (move_uploaded_file($arquivo_tmp, $caminho_arquivo)) {
-                $foto_usuario = $caminho_arquivo;
-            }
-        }
-      
 
         // ---------- INSERT usuário ----------
 

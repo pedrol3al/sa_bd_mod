@@ -57,7 +57,10 @@ $valor_aberto = $result['valor_aberto'];
 
 <body>
 
-    <div id="menu-container"></div>
+<?php
+  include("../Menu_lateral/menu.php"); 
+?>
+
 
     <!-- Conteúdo principal da página -->
     <div class="animarConteudo">
