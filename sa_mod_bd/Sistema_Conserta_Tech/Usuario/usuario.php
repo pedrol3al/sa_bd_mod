@@ -32,7 +32,10 @@ session_start();
 
 <body class="corpo">
 
-  <div id="menu-container"></div>
+<?php
+  include("../Menu_lateral/menu.php"); 
+?>
+
 
   <main>
     <div class="conteudo">
@@ -194,10 +197,6 @@ session_start();
                     placeholder="Complemento">
                 </div>
 
-                <div class="linha">
-                  <label for="foto_usuario">Foto do usuário:</label>
-                  <input type="file" id="foto_usuario" name="foto_usuario" class="form-control">
-                </div>
 
               </div>
             </div>

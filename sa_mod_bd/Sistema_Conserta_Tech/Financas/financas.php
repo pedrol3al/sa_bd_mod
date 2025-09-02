@@ -26,7 +26,10 @@
 
   <h1 class="titulo"><span>FINANÇAS</span> SERVIÇOS</h1>
 
-  <div id="menu-container"></div>
+  <?php
+  include("../Menu_lateral/menu.php"); 
+?>
+
 
   <header class="topo">
     <div class="header-container">

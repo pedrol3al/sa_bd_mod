@@ -32,7 +32,10 @@ session_start();
 
 <body class="corpo">
 
-  <div id="menu-container"></div>
+<?php
+  include("../Menu_lateral/menu.php"); 
+?>
+
 
   <main>
     <div class="conteudo">

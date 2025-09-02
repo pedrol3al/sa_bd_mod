@@ -37,7 +37,10 @@ $tipos = $pdo->query("SELECT id_tipo_servico, tipo_servico, valor_servico FROM t
 
 <body class="corpo">
 
-  <div id="menu-container"></div>
+<?php
+  include("../Menu_lateral/menu.php"); 
+?>
+
 
   <main>
     <div class="conteudo">

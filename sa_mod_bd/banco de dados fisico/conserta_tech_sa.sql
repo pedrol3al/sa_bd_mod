@@ -107,6 +107,7 @@ CREATE TABLE `fornecedor` (
   `uf` VARCHAR(2) DEFAULT NULL,
   `bairro` VARCHAR(20) DEFAULT NULL,
   `telefone` VARCHAR(18) DEFAULT NULL,
+  `observacoes` VARCHAR(255),
   `inativo` TINYINT,
   PRIMARY KEY (`id_fornecedor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
