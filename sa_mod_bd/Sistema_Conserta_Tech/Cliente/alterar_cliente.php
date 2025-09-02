@@ -3,10 +3,12 @@ session_start();
 require '../Conexao/conexao.php';
 
 // Verifica se é admin
-if($_SESSION['perfil'] !=1){
-    echo "<script>alert('Acesso negado!');window.location.href='principal.php';</script>";
+if($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2){
+    echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
     exit();
 }
+
+
 
 // Se um POST for enviado, atualiza o cliente
 if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
@@ -56,7 +58,7 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Links bootstrapt e css -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="cliente.css" />
+    <link rel="stylesheet" href="cliente_alterar.css" />
     <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
@@ -78,69 +80,107 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
-    <main>
-    <div class="conteudo">
-    <h2 align="center">Alterar Cliente</h2>
-    <?php if(!empty($clientes)): ?>
-        <div class="container">
-        <table border="1" align="center" class="table table-light table-hover">
-            <tr class="table-secondary">
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Observação</th>
-                <th>Data de nascimento</th>
-                <th>Sexo</th>
-                <th>Foto do cliente</th>
-                <th>Ações</th>
-            </tr>
-            <?php foreach($clientes as $cliente): ?>
-            <tr>
-                <td><?=htmlspecialchars($cliente['id_cliente'])?></td>
-                <td><?=htmlspecialchars($cliente['nome'])?></td>
-                <td><?=htmlspecialchars($cliente['email'])?></td>
-                <td><?=htmlspecialchars($cliente['observacao'])?></td>
-                <td><?=htmlspecialchars($cliente['data_nasc'])?></td>
-                <td><?=htmlspecialchars($cliente['sexo'])?></td>
-                <td><img src="../img/techinho.png<?= htmlspecialchars($cliente['foto_cliente']) ?>" 
-                    alt="Foto do cliente" 
-                    width="50" height="50">
-                </td>
-                <td>
-                    <a class="btn btn-warning" role="button" href="alterar_cliente.php?id=<?=htmlspecialchars($cliente['id_cliente'])?>" onclick="return confirm('Tem certeza de que deseja alterar este cliente?')">Alterar</a>                
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php else: ?>
-        <p>Nenhum cliente encontrado!</p>
-    <?php endif; ?>
+<main>
+<div class="conteudo">
+    <div class="topoTitulo">
+        <h1>ALTERAR CLIENTE</h1>
+        <hr>
+    </div>
 
     <?php if($clienteAtual): ?>
-<form action="alterar_cliente.php" method="POST">
-    <input type="hidden" name="id_cliente" value="<?=htmlspecialchars($clienteAtual['id_cliente'])?>">
+    <form method="POST" enctype="multipart/form-data">
 
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" name="nome" value="<?=htmlspecialchars($clienteAtual['nome'])?>" required>
+        <input type="hidden" name="id_cliente" value="<?= htmlspecialchars($clienteAtual['id_cliente']) ?>">
 
-    <label for="email">E-mail:</label>
-    <input type="email" id="email" name="email" value="<?=htmlspecialchars($clienteAtual['email'])?>" required>
+        <!-- Nome -->
+        <div class="campos_juridica">
+        <div class="linha">
+            <label for="nome_cliente">Nome:</label>
+            <input type="text" id="nome_cliente" name="nome_cliente" class="form-control" value="<?= htmlspecialchars($clienteAtual['nome']) ?>" required>
+        </div>
 
-    <label for="observacao">Observação:</label>
-    <input type="text" id="observacao" name="observacao" value="<?=htmlspecialchars($clienteAtual['observacao'])?>">
+        <!-- Email -->
+        <div class="linha">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" value="<?= htmlspecialchars($clienteAtual['email']) ?>" required>
+        </div>
 
-    
-</form>
-<?php endif; ?>
+        <!-- Observação -->
+        <div class="linha">
+            <label for="observacao">Observação:</label>
+            <input type="text" id="observacao" name="observacao" class="form-control" value="<?= htmlspecialchars($clienteAtual['observacao']) ?>">
+        </div>
+
+        <!-- CPF / CNPJ -->
+        <div class="linha">
+            <label for="cep">Cep:</label>
+            <input type="text" id="cep" name="cep" class="form-control" value="<?= htmlspecialchars($clienteAtual['cep'] ?? '') ?>">
+        </div>
+
+        <!-- Telefone -->
+        <div class="linha">
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" name="telefone" class="form-control" value="<?= htmlspecialchars($clienteAtual['telefone'] ?? '') ?>">
+        </div>
+
+        <!-- Data de Nascimento -->
+        <div class="linha">
+            <label for="data_nasc">Data de Nascimento:</label>
+            <input type="text" id="data_nasc" name="data_nasc" class="form-control" value="<?= htmlspecialchars($clienteAtual['data_nasc'] ?? '') ?>">
+        </div>
+
+        <!-- Sexo -->
+        <div class="linha">
+            <label for="sexo">Sexo:</label>
+            <select id="sexo" name="sexo" class="form-control">
+                <option value="">Selecione</option>
+                <option value="M" <?= ($clienteAtual['sexo']=='M') ? 'selected' : '' ?>>Masculino</option>
+                <option value="F" <?= ($clienteAtual['sexo']=='F') ? 'selected' : '' ?>>Feminino</option>
+            </select>
+        </div>
+
+        <!-- Endereço completo -->
+        <div class="linha">
+            <label for="cep">CEP:</label>
+            <input type="text" id="cep" name="cep" class="form-control" value="<?= htmlspecialchars($clienteAtual['cep'] ?? '') ?>">
+        </div>
+        <div class="linha">
+            <label for="logradouro">Logradouro:</label>
+            <input type="text" id="logradouro" name="logradouro" class="form-control" value="<?= htmlspecialchars($clienteAtual['logradouro'] ?? '') ?>">
+        </div>
+        <div class="linha">
+            <label for="numero">Número:</label>
+            <input type="text" id="numero" name="numero" class="form-control" value="<?= htmlspecialchars($clienteAtual['numero'] ?? '') ?>">
+        </div>
+        <div class="linha">
+            <label for="bairro">Bairro:</label>
+            <input type="text" id="bairro" name="bairro" class="form-control" value="<?= htmlspecialchars($clienteAtual['bairro'] ?? '') ?>">
+        </div>
+        <div class="linha">
+            <label for="cidade">Cidade:</label>
+            <input type="text" id="cidade" name="cidade" class="form-control" value="<?= htmlspecialchars($clienteAtual['cidade'] ?? '') ?>">
+        </div>
+        <div class="linha">
+            <label for="uf">UF:</label>
+            <select id="uf" name="uf" class="form-control">
+                <?php
+                $ufs = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
+                foreach($ufs as $uf){
+                    $selected = ($clienteAtual['uf']==$uf) ? 'selected' : '';
+                    echo "<option value='$uf' $selected>$uf</option>";
+                }
+                ?>
+            </select>
+        </div>
 
 
+        <!-- Botões -->
+        <div class="container-botoes">
+            <button type="submit" class="btn btn-warning btn-enviar">Salvar Alterações</button>
+            <button type="reset" class="btn btn-limpar">Limpar</button>
+        </div>
 
-    </div>
-    </div>
-    </main>
-    </div>
-    <script src="../Menu_lateral/carregar-menu.js" defer></script>
-    <script src="cliente.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-</body>
-</html>
+    </form>
+    <?php endif; ?>
+</div>
+</main>

@@ -1,0 +1,214 @@
+/* ==========================
+   CONFIGURAÇÕES GERAIS
+   ========================== */
+   body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+   background-image: url("../img/fundo_site.png");
+  }
+
+/* ==========================
+   ANIMAÇÃO DE ENTRADA
+   ========================== */
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(-20px); } /* Início invisível e deslocado */
+    to { opacity: 1; transform: translateY(0); } /* Final visível e alinhado */
+}
+
+/* ==========================
+   CONTAINER PRINCIPAL
+   ========================== */
+.conteudo {
+    background: rgba(255, 255, 255, 0.95); /* Fundo branco levemente transparente */
+    padding: 30px; /* Espaçamento interno */
+    border-radius: 12px; /* Bordas arredondadas */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* Sombra elegante */
+    width: 100%;
+    max-width: 1000px; /* Limite de largura */
+    animation: aparecer 0.6s ease-in-out; /* Animação de entrada */
+    overflow-y: auto; /* Rolagem apenas vertical */
+    max-height: 90vh; /* Impede que ultrapasse a tela */
+}
+
+/* ==========================
+   TÍTULOS
+   ========================== */
+h2 {
+    color: #041857; /* Azul escuro */
+    text-align: center; /* Centralizado */
+    margin-bottom: 20px; /* Espaço abaixo */
+    font-size: 28px; /* Tamanho maior */
+    font-weight: 600; /* Semibold */
+}
+
+/* ==========================
+   FORMULÁRIOS
+   ========================== */
+label {
+    font-weight: 500; /* Peso médio */
+    color: #333; /* Cinza escuro */
+    display: block; /* Quebra de linha automática */
+    margin-bottom: 6px; /* Espaço abaixo */
+}
+
+.form-control {
+    width: 100%; /* Ocupar largura total */
+    padding: 10px; /* Espaçamento interno */
+    border: 1px solid #ccc; /* Borda padrão */
+    border-radius: 8px; /* Bordas arredondadas */
+    margin-bottom: 15px; /* Espaço entre inputs */
+    font-size: 16px; /* Tamanho de fonte */
+    transition: 0.3s; /* Transição suave */
+}
+
+/* Efeito ao focar no input */
+.form-control:focus {
+    border-color: #041857; /* Azul escuro */
+    box-shadow: 0 0 8px rgba(4, 24, 87, 0.3); /* Sombra azul */
+    outline: none; /* Remove contorno padrão */
+}
+
+/* ==========================
+   BOTÕES GERAIS
+   ========================== */
+.btn {
+    padding: 10px 18px; /* Espaçamento interno */
+    border-radius: 8px; /* Bordas arredondadas */
+    font-size: 15px; /* Texto médio */
+    font-weight: 500; /* Peso médio */
+    cursor: pointer; /* Mostra a mãozinha */
+    border: none; /* Sem borda */
+    transition: all 0.3s ease-in-out; /* Animações suaves */
+}
+
+/* Botão primário */
+.btn-primary {
+    background-color: #041857; /* Azul escuro */
+    color: #fff; /* Texto branco */
+}
+.btn-primary:hover {
+    background-color: #062385; /* Azul mais forte */
+    transform: translateY(-2px); /* Efeito de subir */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Sombra */
+}
+
+/* Botão de aviso */
+.btn-warning {
+    background-color: #ffc107; /* Amarelo */
+    color: #000;
+}
+.btn-warning:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Botão de perigo */
+.btn-danger {
+    background-color: #dc3545; /* Vermelho */
+    color: #fff;
+}
+.btn-danger:hover {
+    background-color: #a71d2a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* ==========================
+   TABELAS
+   ========================== */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Remove espaçamento entre bordas */
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Linha divisória */
+}
+
+th {
+    background-color: #041857; /* Azul escuro */
+    color: #fff;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Destaque ao passar o mouse */
+}
+
+/* ==========================
+   INPUT DE BUSCA
+   ========================== */
+#busca {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+/* ==========================
+   BOTÕES ESPECÍFICOS (formulário)
+   ========================== */
+.btn-enviar {
+    background-color: #28a745; /* Verde */
+    color: #fff;
+}
+.btn-enviar:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-limpar {
+    background-color: #6c757d; /* Cinza */
+    color: #fff;
+}
+.btn-limpar:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.campos_juridica {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espaço entre colunas e linhas */
+  }
+  
+  .campos_juridica .linha {
+    flex: 1 1 48%; /* Ocupa ~48% da linha, dois por linha */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .campos_juridica .linha label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #34495e;
+  }
+  
+  .campos_juridica .linha input,
+  .campos_juridica .linha select {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .campos_juridica .linha input:focus,
+  .campos_juridica .linha select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0,123,255,0.3);
+  }

@@ -34,8 +34,6 @@
           <div id="sub-cliente" class="sub-menu" style="display: none;">
             <a href="../Cliente/cliente.php"><i class="bi bi-circle-fill"></i>Cadastrar Cliente</a>
             <a href="../Cliente/buscar_cliente.php"><i class="bi bi-circle-fill"></i>Pesquisar Cliente</a>
-            <a href="../Cliente/alterar_cliente.php"><i class="bi bi-circle-fill"></i> Alterar Cliente</a>
-            <a href="../Cliente/excluir_cliente.php"><i class="bi bi-circle-fill"></i> Excluir Cliente</a>
           </div>
         </li>
 
@@ -47,8 +45,6 @@
           <div id="sub-usuario" class="sub-menu" style="display: none;">
             <a href="../Usuario/usuario.php"><i class="bi bi-circle-fill"></i>Cadastrar Usuário</a>
             <a href="../Usuario/buscar_usuario.php"><i class="bi bi-circle-fill"></i>Pesquisar Usuário</a>
-            <a href="../Usuario/alterar_usuario.php"><i class="bi bi-circle-fill"></i> Alterar Usuário</a>
-            <a href="../Usuario/excluir_usuario.php"><i class="bi bi-circle-fill"></i> Excluir Usuário</a>
           </div>
         </li>
 
@@ -60,8 +56,6 @@
           <div id="sub-fornecedor" class="sub-menu" style="display: none;">
             <a href="../Fornecedor/front_fornecedor.php"><i class="bi bi-circle-fill"></i>Cadastrar Fornecedor</a>
             <a href="../Fornecedor/buscar_fornecedor.php"><i class="bi bi-circle-fill"></i>Pesquisar fornecedor</a>
-            <a href="../Fornecedor/alterar_usuario.php"><i class="bi bi-circle-fill"></i> Alterar fornecedor</a>
-            <a href="../Fornecedor/excluir_usuario.php"><i class="bi bi-circle-fill"></i> Excluir fornecedor</a>
           </div>
         </li>
 
@@ -73,8 +67,6 @@
           <div id="sub-estoque" class="sub-menu" style="display: none;">
             <a href="../Estoque/cadastrar_estoque.php"><i class="bi bi-circle-fill"></i> Cadastrar Estoque</a>
             <a href="../Estoque/buscar_estoque.php"><i class="bi bi-circle-fill"></i> Pesquisar Peças</a>
-            <a href="../Estoque/alterar_estoque.php"><i class="bi bi-circle-fill"></i> Alterar Estoque</a>
-            <a href="../Estoque/excluir_estoque.php"><i class="bi bi-circle-fill"></i> Excluir Estoque</a>
           </div>
         </li>
 
