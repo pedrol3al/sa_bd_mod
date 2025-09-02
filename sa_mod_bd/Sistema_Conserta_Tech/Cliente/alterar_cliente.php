@@ -2,8 +2,8 @@
 session_start();
 require '../Conexao/conexao.php';
 
-// Verifica se é admin
-if($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2){
+
+if($_SESSION['perfil'] !=1){
     echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
     exit();
 }

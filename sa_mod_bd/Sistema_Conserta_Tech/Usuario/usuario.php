@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if($_SESSION['perfil'] !=1){
+  echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
+  exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -197,10 +202,6 @@ session_start();
                     placeholder="Complemento">
                 </div>
 
-                <div class="linha">
-                  <label for="foto_usuario">Foto do usuário:</label>
-                  <input type="file" id="foto_usuario" name="foto_usuario" class="form-control">
-                </div>
 
               </div>
             </div>
