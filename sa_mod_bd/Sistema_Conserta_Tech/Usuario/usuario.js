@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Calendário para data de nascimento
     flatpickr("#dataNascimento", {
-        dateFormat: "d/m/Y",
+        dateFormat: "Y-m-d",  
         maxDate: "today"
     });
-
+    
     flatpickr("#dataCadastro", {
-        dateFormat: "d/m/Y",
+        dateFormat: "Y-m-d",
         maxDate: "today"
     });
-
+    
     const notyf = new Notyf({
         position: { x: 'center', y: 'top' }
     });

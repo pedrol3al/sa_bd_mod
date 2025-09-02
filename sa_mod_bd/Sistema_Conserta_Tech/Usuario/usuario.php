@@ -197,10 +197,6 @@ session_start();
                     placeholder="Complemento">
                 </div>
 
-                <div class="linha">
-                  <label for="foto_usuario">Foto do usuário:</label>
-                  <input type="file" id="foto_usuario" name="foto_usuario" class="form-control">
-                </div>
 
               </div>
             </div>
