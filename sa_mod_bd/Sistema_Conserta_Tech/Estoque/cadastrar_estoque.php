@@ -91,12 +91,6 @@ session_start();
                   <input type="text" id="descricao" name="descricao" class="form-control"
                     placeholder="Insira informações adicionais">
                 </div>
-
-                <div class="linha">
-                  <label for="foto_peca">Foto da peça:</label>
-                  <input type="file" id="foto_peca" name="foto_peca" class="form-control">
-                </div>
-
               </div>
             </div>
           </div>
