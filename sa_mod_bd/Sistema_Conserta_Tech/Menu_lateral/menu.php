@@ -67,7 +67,7 @@
 
         <li class="item-menu">
           <a href="#" id="estoque" class="menu-link">
-            <span class="icon"><i class="bi bi-person-fill"></i></span>
+            <span class="icon"><i class="bi bi-archive"></i></span>
             <span class="txt-link">Estoque <i class="bi bi-chevron-down"></i></span>
           </a>
           <div id="sub-estoque" class="sub-menu" style="display: none;">
@@ -90,10 +90,16 @@
         </li>
 
         <li class="item-menu">
-          <a href="../Ordem_servico/os.php" class="menu-link">
-            <span class="icon"><i class="bi bi-tools"></i></span>
-            <span class="txt-link">O.S</span>
+          <a href="#" id="os" class="menu-link">
+            <span class="icon"><i class="bi bi-clipboard"></i></span>
+            <span class="txt-link">O.S. <i class="bi bi-chevron-down"></i></span>
           </a>
+          <div id="sub-os" class="sub-menu" style="display: none;">
+            <a href="../Ordem_servico/os.php"><i class="bi bi-circle-fill"></i> Cadastrar O.S.</a>
+            <a href="../Ordem_servico/buscar_os.php"><i class="bi bi-circle-fill"></i> Pesquisar O.S.</a>
+            <a href="../Ordem_servico/alterar_os.php"><i class="bi bi-circle-fill"></i> Alterar O.S.</a>
+            <a href="../Ordem_servico/excluir_os.php"><i class="bi bi-circle-fill"></i> Excluir O.S.</a>
+          </div>
         </li>
       </ul>
     </div>
@@ -145,6 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
   toggleSubmenu('#fornecedor', '#sub-fornecedor');
   toggleSubmenu('#cliente', '#sub-cliente');
   toggleSubmenu('#estoque', '#sub-estoque');
+  toggleSubmenu('#os', '#sub-os');
 
   // Botão de sair
   const botaoSair = menuContainer.querySelector(".sair");

@@ -52,6 +52,7 @@ CREATE TABLE `cliente` (
   `nome` VARCHAR(40),
   `observacao` VARCHAR(255),
   `data_nasc` DATE DEFAULT NULL,
+  `data_cad` DATE DEFAULT NULL,
   `sexo` ENUM('M','F'),
   `cep` VARCHAR(10) DEFAULT NULL,
   `logradouro` VARCHAR(80) DEFAULT NULL,
@@ -138,6 +139,7 @@ CREATE TABLE `tipo_servico` (
   `valor_servico` DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (`id_tipo_servico`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- Ordem de Serviço
 DROP TABLE IF EXISTS `os`;

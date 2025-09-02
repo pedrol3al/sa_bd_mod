@@ -1,8 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Calendário para data de nascimento
+    const hoje = new Date();
+    const anoMinimo = hoje.getFullYear() - 16;
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    const dataMaxima = `${anoMinimo}-${mes}-${dia}`;
+    
     flatpickr("#dataNascimento", {
-        dateFormat: "Y-m-d",  
-        maxDate: "today"
+        dateFormat: "Y-m-d",  // formato compatível com MySQL
+        maxDate: dataMaxima,  // somente datas até 16 anos atrás
     });
     
     flatpickr("#dataCadastro", {
@@ -19,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             { id: 'id_adm', nome: 'Id do adminstrador'},
             { id: 'nome_usuario', nome: 'Nome' },
             { id: 'email_usuario', nome: 'Email' },
+            { id: 'seha_cliente', nome: 'Senha' },
             { id: 'cpf_usuario', nome: 'CPF' },
             { id: 'dataNascimento_usuario', nome: 'Data de Nascimento' },
             { id: 'sexo_usuario', nome: 'Sexo' },
@@ -30,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
             { id: 'numero_usuario', nome: 'Número' },
             { id: 'cidade_usuario', nome: 'Cidade' },
             { id: 'bairro_usuario', nome: 'Bairro' },
-            { id: 'foto_usuario', nome: 'Foto do funcionario' },
             { id: 'cargo_usuario', nome: 'Cargo do funcionario'}
         ];
 
