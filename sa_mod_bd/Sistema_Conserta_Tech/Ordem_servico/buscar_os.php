@@ -83,8 +83,9 @@
                 <th>Número do aparelho</th>
                 <th>Defeito relatado</th>
                 <th>Condição</th>
-                <th>Observações</th>
                 <th>Fabricante</th>
+                <th>Status</th>
+                <th>Observações</th>
                 <th>Ações</th>
             </tr>
             <?php foreach($oss as $os): ?>
@@ -98,9 +99,11 @@
                     <td><?=htmlspecialchars($os['num_aparelho'])?></td>
                     <td><?=htmlspecialchars($os['defeito_rlt'])?></td>
                     <td><?=htmlspecialchars($os['condicao'])?></td>
-                    <td><?=htmlspecialchars($os['observacoes'])?></td>
                     <td><?=htmlspecialchars($os['fabricante'])?></td>
+                    <td><?=htmlspecialchars($os['status'])?></td>
+                    <td><?=htmlspecialchars($os['observacoes'])?></td>
                     <td>
+                        <a class="btn btn-info" href="emitir_nf.php?id=<?=htmlspecialchars($os['id_os'])?>">Emitir NF</a>
                         <a class="btn btn-warning" href="alterar_os.php?id=<?=htmlspecialchars($os['id_os'])?>">Alterar</a>
                         <a class="btn btn-danger" href="excluir_os.php?id=<?=htmlspecialchars($os['id_os'])?>" onclick="return confirm('Tem certeza da exclusão?')">Excluir</a>
                     </td>

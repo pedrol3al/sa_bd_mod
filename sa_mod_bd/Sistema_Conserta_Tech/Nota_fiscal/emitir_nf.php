@@ -1,114 +1,64 @@
 <?php
-  session_start();
-  require_once("../Conexao/conexao.php");
+require('fpdf/fpdf.php');
+require_once '../Conexao/conexao.php';
 
-  // Query
-  $sql = "SELECT o.id_os, c.nome, p.valor_total
-                      FROM os o
-                      INNER JOIN cliente c ON o.id_cliente = c.id_cliente
-                      LEFT JOIN pagamento p ON o.id_os = p.id_os
-                      WHERE o.status = 1";
-  $stmt = $pdo->query($sql);
-  $oss = $stmt->fetch(PDO::FETCH_ASSOC);
+if(!isset($_GET['id_os'])){
+    die("OS não informada!");
+}
+
+$id_os = (int) $_GET['id_os'];
+
+// Busca dados da OS + cliente
+$sql = "SELECT 
+            os.id_os,
+            cliente.nome AS nome_cliente,
+            cliente.email,
+            cliente.telefone,
+            os.num_serie,
+            os.data_abertura,
+            os.data_termino,
+            os.modelo,
+            os.num_aparelho,
+            os.defeito_rlt,
+            os.condicao,
+            os.fabricante,
+            os.status,
+            os.observacoes
+        FROM os
+        INNER JOIN cliente ON os.id_cliente = cliente.id_cliente
+        WHERE os.id_os = :id";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':id',$id_os,PDO::PARAM_INT);
+$stmt->execute();
+$os = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if(!$os){
+    die("OS não encontrada!");
+}
+
+$pdf = new FPDF();
+$pdf->AddPage();
+$pdf->SetFont('Arial','B',14);
+$pdf->Cell(0,10,'NOTA FISCAL (simulacao)',0,1,'C');
+$pdf->Ln(5);
+
+$pdf->SetFont('Arial','',12);
+$pdf->Cell(0,10,'Cliente: '.utf8_decode($os['nome_cliente']),0,1);
+$pdf->Cell(0,10,'Telefone: '.$os['telefone'],0,1);
+$pdf->Cell(0,10,'Email: '.$os['email'],0,1);
+$pdf->Ln(5);
+
+$pdf->Cell(0,10,'Ordem de Servico: '.$os['id_os'],0,1);
+$pdf->Cell(0,10,'Numero de serie: '.$os['num_serie'],0,1);
+$pdf->Cell(0,10,'Modelo: '.$os['modelo'],0,1);
+$pdf->Cell(0,10,'Fabricante: '.$os['fabricante'],0,1);
+$pdf->Cell(0,10,'Abertura: '.date('d/m/Y', strtotime($os['data_abertura'])),0,1);
+$pdf->Cell(0,10,'Termino: '.($os['data_termino'] ? date('d/m/Y', strtotime($os['data_termino'])) : '-'),0,1);
+$pdf->Cell(0,10,'Status: '.$os['status'],0,1);
+$pdf->Ln(5);
+
+$pdf->MultiCell(0,10,'Defeito relatado: '.utf8_decode($os['defeito_rlt']));
+$pdf->MultiCell(0,10,'Observacoes: '.utf8_decode($os['observacoes']));
+
+$pdf->Output('I','nota_fiscal.pdf');
 ?>
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Emitir NF</title>
-
-
-  <!-- Links do css -->
-  <link rel="stylesheet" href="css_nf.css" />
-  <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
-
-  <!-- Link do bootstrap e do favicon -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-  <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
-</head>
-
-<body>
-
-
-<?php
-  include("../Menu_lateral/menu.php"); 
-?>
-
-
-  <!-- Conteúdo Principal -->
-  <div class="conteudo">
-    <h1>EMITIR NF</h1>
-    
-    <!-- Container das informações fixas -->
-    <div class="info-container">
-      <div class="prestador-esquerda">
-        <p><strong>CNPJ:</strong> 00.623.904/0001-73</p>
-        <p><strong>Nome:</strong> Conserta Tech</p>
-        <p><strong>Endereço:</strong> Rua Imaginária, 142</p>
-      </div>
-      <div class="prestador-direita">
-        <p><strong>Município:</strong> Joinville</p>
-        <p><strong>I.E:</strong> 123.456.789</p>
-        <p><strong>UF:</strong> Santa Catarina</p>
-      </div>
-    </div>
-
-    <form class="formulario">
-      <div class="linha">
-        <label for="id_os">ID OS:</label>
-        <select id="id_os" class="input-curto">
-            <option value="">Selecione a OS</option>
-            <?php foreach($oss as $os): ?>
-                <option>
-                    <?= $os['id_os'] ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" class="input-longo">
-      </div>
-
-      <div class="linha">
-        <label for="aparelho_utilizado">Aparelho Utilizado:</label>
-        <input type="text" id="aparelho_utilizado" class="input-medio">
-
-        <label for="quantidade">Quantidade:</label>
-        <input type="text" id="quantidade" class="input-curto">
-
-        <label for="preco">Preço:</label>
-        <input type="text" id="preco" class="input-curto">
-      </div>
-
-      <div class="linha">
-        <label for="data_registro">Data de Registro:</label>
-        <input type="date" id="data_registro" class="input-medio">
-      </div>
-
-      <div class="linha">
-        <label for="numero_serie">Número da nota:</label>
-        <input type="text" id="numero_serie" class="input-medio">
-      </div>
-
-      <div class="linha">
-        <label for="descricao">Descrição:</label>
-        <textarea id="descricao" class="input-longo"></textarea>
-      </div>
-
-      <div class="botoes">
-        <button type="button" id="bnt-cadastrar" class="cadastrar"><i class="bi bi-save"></i> Cadastrar</button>
-        <button type="button" id="bntPesquisar" class="pesquisar"><i class="bi bi-search"></i> Pesquisar</button>
-        <button type="reset" id="bnt-novo" class="novo"><i class="bi bi-plus-circle"></i> Novo</button>
-        <button type="button" id="btn-imprimir" class="imprimir"><i class="bi bi-printer"></i> Imprimir NF</button>
-        <button type="button" id="btn-cancelar-edicao" style="display: none;">Cancelar</button>
-      </div>
-    </form>
-  </div>
-
-  <!-- Links javascript -->
-  <script src="../Menu_lateral/carregar-menu.js"></script>
-  <script src="emitir_nf.js"></script>
-
-</body>
-</html>
