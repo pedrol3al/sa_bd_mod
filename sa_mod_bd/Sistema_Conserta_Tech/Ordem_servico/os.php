@@ -4,6 +4,7 @@ require_once("../Conexao/conexao.php");
 
 $clientes = $pdo->query("SELECT id_cliente, nome FROM cliente")->fetchAll(PDO::FETCH_ASSOC);
 $usuarios = $pdo->query("SELECT id_usuario, nome FROM usuario")->fetchAll(PDO::FETCH_ASSOC);
+$tipos = $pdo->query("SELECT id_tipo_servico, tipo_servico, valor_servico FROM tipo_servico")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -68,6 +69,16 @@ $usuarios = $pdo->query("SELECT id_usuario, nome FROM usuario")->fetchAll(PDO::F
                         <option value="">Selecione...</option>
                         <?php foreach ($usuarios as $u): ?>
                             <option value="<?= $u['id_usuario'] ?>"><?= $u['nome'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="linha">
+                    <label for="id_tipo">Serviço:</label>
+                    <select name="id_tipo" id="id_tipo" class="form-control" required>
+                        <option value="">Selecione...</option>
+                        <?php foreach ($tipos as $t): ?>
+                            <option value="<?= $t['id_tipo_servico'] ?>"><?= $t['tipo_servico'] ?> - <?= $t['valor_servico'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
