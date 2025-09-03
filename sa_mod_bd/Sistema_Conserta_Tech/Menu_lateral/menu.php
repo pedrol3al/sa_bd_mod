@@ -89,8 +89,6 @@
           <div id="sub-os" class="sub-menu" style="display: none;">
             <a href="../Ordem_servico/os.php"><i class="bi bi-circle-fill"></i> Cadastrar O.S.</a>
             <a href="../Ordem_servico/buscar_os.php"><i class="bi bi-circle-fill"></i> Pesquisar O.S.</a>
-            <a href="../Ordem_servico/alterar_os.php"><i class="bi bi-circle-fill"></i> Alterar O.S.</a>
-            <a href="../Ordem_servico/excluir_os.php"><i class="bi bi-circle-fill"></i> Excluir O.S.</a>
           </div>
         </li>
       </ul>

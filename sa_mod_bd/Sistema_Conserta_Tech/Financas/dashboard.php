@@ -9,8 +9,8 @@ function debugTabelas($pdo) {
     // Verificar dados na tabela pagamento
     try {
         $query = "SELECT COUNT(*) as total, 
-                         SUM(CASE WHEN status = 'Pago' THEN valor_total ELSE 0 END) as total_pago,
-                         SUM(CASE WHEN status = 'Pendente' THEN valor_total ELSE 0 END) as total_pendente,
+                         SUM(CASE WHEN status = 'Concluído' THEN valor_total ELSE 0 END) as total_pago,
+                         SUM(CASE WHEN status != 'Concluído' THEN valor_total ELSE 0 END) as total_pendente,
                          GROUP_CONCAT(CONCAT('ID:', id_pagamento, '-Status:', status, '-Valor:', valor_total) SEPARATOR '; ') as detalhes
                   FROM pagamento";
         $stmt = $pdo->query($query);
@@ -23,43 +23,36 @@ function debugTabelas($pdo) {
 
     // Verificar dados na tabela ordens_servico
     try {
-        $query = "SELECT COUNT(*) as total FROM ordens_servico";
+        $query = "SELECT COUNT(*) as total, 
+                         SUM(CASE WHEN status = 'Concluído' THEN 1 ELSE 0 END) as concluidas,
+                         SUM(CASE WHEN status != 'Concluído' THEN 1 ELSE 0 END) as nao_concluidas
+                  FROM ordens_servico";
         $stmt = $pdo->query($query);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo "<!-- ORDENS_SERVICO: Total={$row['total']} -->";
+        echo "<!-- ORDENS_SERVICO: Total={$row['total']}, Concluidas={$row['concluidas']}, NaoConcluidas={$row['nao_concluidas']} -->";
     } catch (Exception $e) {
         echo "<!-- Erro ao verificar ordens_servico: " . $e->getMessage() . " -->";
     }
 
-    // Verificar dados na tabela os_produto
+    // Verificar dados na tabela servicos_os
     try {
-        $query = "SELECT COUNT(*) as total, SUM(quantidade) as total_qtd FROM os_produto";
+        $query = "SELECT COUNT(*) as total, SUM(valor) as total_valor FROM servicos_os";
         $stmt = $pdo->query($query);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo "<!-- OS_PRODUTO: Total={$row['total']}, Quantidade={$row['total_qtd']} -->";
+        echo "<!-- SERVICOS_OS: Total={$row['total']}, ValorTotal={$row['total_valor']} -->";
     } catch (Exception $e) {
-        echo "<!-- Erro ao verificar os_produto: " . $e->getMessage() . " -->";
-    }
-
-    // Verificar dados na tabela estoque
-    try {
-        $query = "SELECT COUNT(*) as total, SUM(valor_unitario) as total_valor FROM estoque";
-        $stmt = $pdo->query($query);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo "<!-- ESTOQUE: Total={$row['total']}, ValorTotal={$row['total_valor']} -->";
-    } catch (Exception $e) {
-        echo "<!-- Erro ao verificar estoque: " . $e->getMessage() . " -->";
+        echo "<!-- Erro ao verificar servicos_os: " . $e->getMessage() . " -->";
     }
     
     echo "<!-- DEBUG FINALIZADO -->";
 }
 
-// Funções simplificadas para buscar dados
+// Funções simplificadas para buscar dados - CORRIGIDAS
 function getReceitaTotal($pdo) {
     try {
         $query = "SELECT COALESCE(SUM(valor_total), 0) as total 
                   FROM pagamento 
-                  WHERE status = 'Pago'";
+                  WHERE status = 'Concluído'";
         $stmt = $pdo->query($query);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['total'];
@@ -70,12 +63,15 @@ function getReceitaTotal($pdo) {
 
 function getDespesasTotal($pdo) {
     try {
-        // Valor total dos produtos em estoque como despesa simplificada
-        $query = "SELECT COALESCE(SUM(valor_unitario * quantidade), 0) as total 
-                  FROM estoque";
+        // Valor total dos serviços prestados como custo simplificado
+        $query = "SELECT COALESCE(SUM(s.valor), 0) as total 
+                  FROM servicos_os s
+                  INNER JOIN equipamentos_os e ON s.id_equipamento = e.id
+                  INNER JOIN ordens_servico os ON e.id_os = os.id
+                  WHERE os.status = 'Concluído'";
         $stmt = $pdo->query($query);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row['total'];
+        return $row['total'] * 0.6; // Considerando 60% como custo dos serviços
     } catch (Exception $e) {
         return 0;
     }
@@ -85,7 +81,7 @@ function getPagamentosPendentes($pdo) {
     try {
         $query = "SELECT COALESCE(SUM(valor_total), 0) as total 
                   FROM pagamento 
-                  WHERE status = 'Pendente'";
+                  WHERE status != 'Concluído'";
         $stmt = $pdo->query($query);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['total'];
@@ -96,9 +92,9 @@ function getPagamentosPendentes($pdo) {
 
 function getQuantidadePendentes($pdo) {
     try {
-        $query = "SELECT COUNT(*) as total 
+        $query = "SELECT COUNT(DISTINCT id_os) as total 
                   FROM pagamento 
-                  WHERE status = 'Pendente'";
+                  WHERE status != 'Concluído'";
         $stmt = $pdo->query($query);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['total'];
@@ -110,11 +106,20 @@ function getQuantidadePendentes($pdo) {
 function getUltimasOrdensServico($pdo) {
     try {
         $query = "SELECT os.id, c.nome as cliente, os.data_criacao, 
-                         COALESCE(p.valor_total, 0) as valor_total, 
-                         COALESCE(p.status, 'Pendente') as status 
+                         COALESCE((
+                             SELECT SUM(valor_total) 
+                             FROM pagamento p 
+                             WHERE p.id_os = os.id
+                         ), 0) as valor_total, 
+                         CASE 
+                             WHEN EXISTS (
+                                 SELECT 1 FROM pagamento p 
+                                 WHERE p.id_os = os.id AND p.status != 'Concluído'
+                             ) THEN 'Pendente'
+                             ELSE 'Pago'
+                         END as status 
                   FROM ordens_servico os 
                   LEFT JOIN cliente c ON os.id_cliente = c.id_cliente 
-                  LEFT JOIN pagamento p ON os.id = p.id_os 
                   ORDER BY os.data_criacao DESC 
                   LIMIT 5";
         $stmt = $pdo->query($query);
@@ -361,33 +366,33 @@ if (isset($pdo)) {
     </div>
 
     <script>
-    // Variáveis globais para os gráficos
-    let receitaDespesasChart;
-    let statusPagamentosChart;
+// Variáveis globais para os gráficos
+let receitaDespesasChart;
+let statusPagamentosChart;
 
-    // Dados iniciais do PHP
-    const dadosIniciais = {
-        receitaTotal: <?php echo $receitaTotal; ?>,
-        despesasTotal: <?php echo $despesasTotal; ?>,
-        lucroLiquido: <?php echo $lucroLiquido; ?>,
-        pagamentosPendentes: <?php echo $pagamentosPendentes; ?>,
-        quantidadePendentes: <?php echo $quantidadePendentes; ?>,
-        ultimasOrdens: <?php echo json_encode($ultimasOrdens); ?>
-    };
+// Dados iniciais do PHP
+const dadosIniciais = {
+    receitaTotal: <?php echo $receitaTotal; ?>,
+    despesasTotal: <?php echo $despesasTotal; ?>,
+    lucroLiquido: <?php echo $lucroLiquido; ?>,
+    pagamentosPendentes: <?php echo $pagamentosPendentes; ?>,
+    quantidadePendentes: <?php echo $quantidadePendentes; ?>,
+    ultimasOrdens: <?php echo json_encode($ultimasOrdens); ?>
+};
 
-    // Função para formatar valores monetários
-    function formatarValor(valor) {
-        return parseFloat(valor || 0).toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-    }
+// Função para formatar valores monetários
+function formatarValor(valor) {
+    return parseFloat(valor || 0).toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
 
-    // Função para carregar os dados do dashboard
+// Função para carregar os dados do dashboard
 function carregarDados() {
     console.log("Dados iniciais:", dadosIniciais);
     
-    // Usar dados iniciais do PHP com fallback para 0
+    // Usar dados iniciais do PHP
     const receita = parseFloat(dadosIniciais.receitaTotal || 0);
     const despesas = parseFloat(dadosIniciais.despesasTotal || 0);
     const lucro = parseFloat(dadosIniciais.lucroLiquido || 0);
@@ -401,25 +406,33 @@ function carregarDados() {
     
     document.getElementById('quantidade-pendentes').textContent = qtdPendentes + ' ordens com pagamento pendente';
     
-    // Dados para gráficos (usando dados reais quando disponíveis)
+    // Dados para gráficos
     const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
     
-    // Se não há receita, usar valores de exemplo para demonstração
-    let receitas, despesasGraf;
-    if (receita > 0) {
-        receitas = [receita * 0.8, receita * 0.9, receita, receita * 1.1, receita * 1.2, receita * 1.3];
-        despesasGraf = [despesas * 0.8, despesas * 0.9, despesas, despesas * 1.1, despesas * 1.2, despesas * 1.3];
-    } else {
-        // Dados de exemplo para demonstração
-        receitas = [8500, 9200, 10200, 11200, 10500, 12400];
-        despesasGraf = [4200, 4500, 4800, 5100, 4900, 5300];
-    }
+    // Dados baseados nos valores reais com projeção
+    const receitas = [
+        receita * 0.7, 
+        receita * 0.8, 
+        receita * 0.9, 
+        receita, 
+        receita * 1.1, 
+        receita * 1.2
+    ];
+    
+    const despesasGraf = [
+        despesas * 0.7, 
+        despesas * 0.8, 
+        despesas * 0.9, 
+        despesas, 
+        despesas * 1.1, 
+        despesas * 1.2
+    ];
     
     // Atualizar gráficos
     atualizarGraficoReceitaDespesas(meses, receitas, despesasGraf);
     
     // Gráfico de status
-    const totalOrdens = dadosIniciais.ultimasOrdens.length || 1;
+    const totalOrdens = Math.max(dadosIniciais.ultimasOrdens.length, 1);
     const pagosCount = totalOrdens - qtdPendentes;
     const percentualPagos = (pagosCount / totalOrdens) * 100;
     const percentualPendentes = (qtdPendentes / totalOrdens) * 100;

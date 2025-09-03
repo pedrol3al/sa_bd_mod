@@ -68,14 +68,16 @@
                                     os.status, 
                                     c.nome as cliente_nome, 
                                     u.nome as tecnico_nome,
-                                    COALESCE(SUM(s.valor), 0) as valor_total,
-                                    COALESCE(SUM(p.valor_total), 0) as valor_pago
+                                    (SELECT COALESCE(SUM(s.valor), 0) 
+                                    FROM equipamentos_os e 
+                                    LEFT JOIN servicos_os s ON e.id = s.id_equipamento 
+                                    WHERE e.id_os = os.id) as valor_total,
+                                    (SELECT COALESCE(SUM(p.valor_total), 0) 
+                                    FROM pagamento p 
+                                    WHERE p.id_os = os.id) as valor_pago
                                 FROM ordens_servico os
                                 INNER JOIN cliente c ON os.id_cliente = c.id_cliente
-                                INNER JOIN usuario u ON os.id_usuario = u.id_usuario
-                                LEFT JOIN equipamentos_os e ON os.id = e.id_os
-                                LEFT JOIN servicos_os s ON e.id = s.id_equipamento
-                                LEFT JOIN pagamento p ON os.id = p.id_os";
+                                INNER JOIN usuario u ON os.id_usuario = u.id_usuario";
                                 
                                 // Adicionar WHERE se houver pesquisa
                                 if (!empty($search)) {

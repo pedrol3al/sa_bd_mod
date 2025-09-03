@@ -33,24 +33,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             throw new Exception("Ordem de Serviço não encontrada!");
         }
         
-        // Calcular valores totais e pagos
+        // **CORREÇÃO: Calcular valores totais ANTES de inserir o novo pagamento**
         $sql_valores = "SELECT 
-            COALESCE(SUM(s.valor), 0) as valor_total_os,
-            COALESCE(SUM(p.valor_total), 0) as valor_pago
+            COALESCE(SUM(s.valor), 0) as valor_total_os
         FROM ordens_servico os
         LEFT JOIN equipamentos_os e ON os.id = e.id_os
         LEFT JOIN servicos_os s ON e.id = s.id_equipamento
-        LEFT JOIN pagamento p ON os.id = p.id_os
         WHERE os.id = :id_os
         GROUP BY os.id";
         
         $stmt_valores = $pdo->prepare($sql_valores);
         $stmt_valores->bindParam(':id_os', $id_os);
         $stmt_valores->execute();
-        $valores = $stmt_valores->fetch();
+        $valores_os = $stmt_valores->fetch();
         
-        $valor_total_os = $valores['valor_total_os'];
-        $valor_pago = $valores['valor_pago'];
+        $valor_total_os = $valores_os['valor_total_os'];
+        
+        // **CORREÇÃO: Calcular valor já pago separadamente (excluindo o pagamento atual)**
+        $sql_valor_pago = "SELECT COALESCE(SUM(valor_total), 0) as valor_pago 
+                          FROM pagamento 
+                          WHERE id_os = :id_os";
+        
+        $stmt_valor_pago = $pdo->prepare($sql_valor_pago);
+        $stmt_valor_pago->bindParam(':id_os', $id_os);
+        $stmt_valor_pago->execute();
+        $valores_pago = $stmt_valor_pago->fetch();
+        
+        $valor_pago = $valores_pago['valor_pago'];
         
         // Verificar se o pagamento não excede o valor total
         if (($valor_pago + $valor_total) > $valor_total_os) {
