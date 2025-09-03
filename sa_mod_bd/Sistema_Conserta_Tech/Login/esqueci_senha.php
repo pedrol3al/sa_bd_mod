@@ -58,13 +58,36 @@
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Segoe UI', 'Roboto', sans-serif;
             padding: 20px;
+        }
+
+        /* Animação de fundo dinâmico */
+        @keyframes moveBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(41, 128, 185, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 80% 20%, rgba(52, 152, 219, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 40% 40%, rgba(26, 188, 156, 0.2) 0%, transparent 25%);
+            background-size: 200% 200%;
+            animation: moveBackground 15s ease infinite;
+            z-index: -1;
         }
         
         .login-container {
@@ -77,7 +100,7 @@
         }
         
         .login-header {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
             color: white;
             padding: 25px;
             text-align: center;
@@ -126,7 +149,7 @@
         }
         
         .btn-primary {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
             border: none;
             color: white;
             padding: 12px;
@@ -139,9 +162,9 @@
         }
         
         .btn-primary:hover {
-            background: var(--dark-color);
+            background: linear-gradient(135deg, #2471a3 0%, #2980b9 100%);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 15px rgba(41, 128, 185, 0.4);
         }
         
         .btn-primary:active {
@@ -178,7 +201,7 @@
         }
         
         .logo img {
-            height: 60px;
+            height: 100px;
         }
         
         @media (max-width: 576px) {
@@ -204,9 +227,6 @@
         </div>
         
         <div class="login-body">
-            <div class="logo">
-                <img src="../img/logo.png" alt="Conserta Tech Logo">
-            </div>
             
             <form action="esqueci_senha.php" method="POST">
                 <div class="form-group">
@@ -223,7 +243,7 @@
         </div>
         
         <div class="login-footer">
-            &copy; 2023 Sistema Conserta Tech - Todos os direitos reservados
+            &copy; 2025 Sistema Conserta Tech - Todos os direitos reservados
         </div>
     </div>
 

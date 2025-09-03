@@ -183,7 +183,7 @@ session_start();
 
         .interacoes a {
             text-decoration: none;
-            color: #3498db;
+            color: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
             margin-top: 15px;
             font-size: 14px;
             transition: all 0.3s ease;

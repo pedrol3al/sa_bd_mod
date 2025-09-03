@@ -26,7 +26,14 @@ try {
             LEFT JOIN pagamento p ON os.id = p.id_os";
     
     if (!empty($search)) {
-        $sql .= " WHERE (c.nome LIKE :search OR os.id LIKE :search OR os.status LIKE :search)";
+        $sql .= " WHERE (";
+        $sql .= "c.nome = :search_exact OR "; // Busca exata
+        $sql .= "c.nome LIKE CONCAT(:search_start, ' %') OR "; // Nome que começa com
+        $sql .= "c.nome LIKE CONCAT('% ', :search_end) OR "; // Nome que termina com
+        $sql .= "c.nome LIKE CONCAT('% ', :search_middle, ' %') OR "; // Nome que contém como palavra separada
+        $sql .= "os.id = :search_id OR "; // ID exato
+        $sql .= "os.status LIKE CONCAT('%', :search_status, '%')"; // Status parcial
+        $sql .= ")";
     }
     
     $sql .= " GROUP BY os.id ORDER BY os.data_criacao DESC";
@@ -34,8 +41,21 @@ try {
     $stmt = $pdo->prepare($sql);
     
     if (!empty($search)) {
-        $searchParam = "%$search%";
-        $stmt->bindParam(':search', $searchParam);
+        // Prepara os parâmetros para a busca
+        $search_exact = $search;
+        $search_start = $search;
+        $search_end = $search;
+        $search_middle = $search;
+        $search_id = $search;
+        $search_status = $search;
+        
+        // Bind dos parâmetros
+        $stmt->bindParam(':search_exact', $search_exact);
+        $stmt->bindParam(':search_start', $search_start);
+        $stmt->bindParam(':search_end', $search_end);
+        $stmt->bindParam(':search_middle', $search_middle);
+        $stmt->bindParam(':search_id', $search_id);
+        $stmt->bindParam(':search_status', $search_status);
     }
     
     $stmt->execute();
@@ -62,8 +82,9 @@ try {
     <style>
         .container {
             max-width: 1400px;
-            margin: 20px auto;
+            margin: 20px 20px 20px 220px; /* Alterado: 220px na margem esquerda */
             padding: 20px;
+            transition: margin-left 0.3s ease;
         }
         
         h1 {
@@ -163,6 +184,21 @@ try {
             text-align: center;
             padding: 40px;
             color: #6c757d;
+        }
+        
+        /* Garantir que o menu lateral não sobreponha o conteúdo */
+        @media (min-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+        }
+        
+        /* Ajuste para telas menores */
+        @media (max-width: 992px) {
+            .container {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
         }
     </style>
 </head>

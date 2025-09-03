@@ -11,6 +11,23 @@
     <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    
+    <style>
+        .selected-row {
+            background-color: #f8f9fa !important;
+            font-weight: bold;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: white;
+        }
+        .status-aberto { background-color: #17a2b8; }
+        .status-andamento { background-color: #ffc107; color: #000; }
+        .status-pendente { background-color: #fd7e14; }
+        .status-concluido { background-color: #28a745; }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -74,7 +91,7 @@
                                     WHERE e.id_os = os.id) as valor_total,
                                     (SELECT COALESCE(SUM(p.valor_total), 0) 
                                     FROM pagamento p 
-                                    WHERE p.id_os = os.id) as valor_pago
+                                    WHERE p.id_os = os.id AND p.status = 'Concluído') as valor_pago
                                 FROM ordens_servico os
                                 INNER JOIN cliente c ON os.id_cliente = c.id_cliente
                                 INNER JOIN usuario u ON os.id_usuario = u.id_usuario";
@@ -154,16 +171,22 @@
                 <input type="hidden" id="id_os" name="id_os" value="">
                 
                 <div class="row mb-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="valor_total_os">Valor Total da OS:</label>
                             <input type="text" id="valor_total_os" class="form-control" readonly>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="valor_pago">Valor Já Pago:</label>
                             <input type="text" id="valor_pago" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="saldo_restante">Saldo Restante:</label>
+                            <input type="text" id="saldo_restante" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
@@ -173,6 +196,7 @@
                         <div class="form-group">
                             <label for="valor_total">Valor do Pagamento *</label>
                             <input type="number" step="0.01" min="0.01" id="valor_total" name="valor_total" class="form-control" required>
+                            <small class="form-text text-muted">Informe o valor que está sendo pago agora</small>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -203,20 +227,21 @@
                         <div class="form-group">
                             <label for="status">Status do Pagamento *</label>
                             <select id="status" name="status" class="form-control" required>
+                                <option value="">Selecione</option>
                                 <option value="Pendente">Pendente</option>
-                                <option value="Processando">Processando</option>
                                 <option value="Concluído" selected>Concluído</option>
-                                <option value="Estornado">Estornado</option>
                                 <option value="Cancelado">Cancelado</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-md-12">
-                        <div class="valor-total mb-3" id="saldo-restante">
-                            Saldo restante: R$ 0,00
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i> 
+                            <strong>Informação:</strong> Você pode registrar pagamentos parciais. 
+                            O sistema irá somar automaticamente ao valor já pago.
                         </div>
                     </div>
                 </div>
@@ -246,8 +271,8 @@
             const idOsInput = document.getElementById('id_os');
             const valorTotalOsInput = document.getElementById('valor_total_os');
             const valorPagoInput = document.getElementById('valor_pago');
+            const saldoRestanteInput = document.getElementById('saldo_restante');
             const valorTotalInput = document.getElementById('valor_total');
-            const saldoRestanteElement = document.getElementById('saldo-restante');
             const cancelPaymentBtn = document.getElementById('cancel-payment');
             
             // Event listener para seleção de OS
@@ -268,10 +293,10 @@
                         
                         // Calcular saldo restante
                         const saldoRestante = valorTotalOS - valorPago;
-                        saldoRestanteElement.textContent = 'Saldo restante: R$ ' + saldoRestante.toFixed(2).replace('.', ',');
+                        saldoRestanteInput.value = 'R$ ' + saldoRestante.toFixed(2).replace('.', ',');
                         
-                        // Definir valor máximo para pagamento
-                        valorTotalInput.max = saldoRestante;
+                        // Sugerir valor do pagamento (saldo restante)
+                        valorTotalInput.value = saldoRestante.toFixed(2);
                         
                         // Mostrar seção de pagamento
                         paymentSection.style.display = 'block';
@@ -286,16 +311,6 @@
                         paymentSection.scrollIntoView({ behavior: 'smooth' });
                     }
                 });
-            });
-            
-            // Atualizar saldo restante ao alterar valor do pagamento
-            valorTotalInput.addEventListener('input', function() {
-                const valorTotalOS = parseFloat(valorTotalOsInput.value.replace('R$ ', '').replace('.', '').replace(',', '.'));
-                const valorPago = parseFloat(valorPagoInput.value.replace('R$ ', '').replace('.', '').replace(',', '.'));
-                const valorPagamento = parseFloat(this.value) || 0;
-                
-                const saldoRestante = valorTotalOS - (valorPago + valorPagamento);
-                saldoRestanteElement.textContent = 'Saldo restante: R$ ' + saldoRestante.toFixed(2).replace('.', ',');
             });
             
             // Cancelar pagamento
@@ -315,15 +330,16 @@
                 const valorPago = parseFloat(valorPagoInput.value.replace('R$ ', '').replace('.', '').replace(',', '.'));
                 const valorPagamento = parseFloat(valorTotalInput.value) || 0;
                 
-                if (valorPagamento > (valorTotalOS - valorPago)) {
-                    e.preventDefault();
-                    notyf.error('O valor do pagamento não pode ser maior que o saldo restante!');
-                    return false;
-                }
-                
                 if (valorPagamento <= 0) {
                     e.preventDefault();
                     notyf.error('O valor do pagamento deve ser maior que zero!');
+                    return false;
+                }
+                
+                // Verificar se o pagamento não excede o valor total da OS
+                if ((valorPago + valorPagamento) > valorTotalOS) {
+                    e.preventDefault();
+                    notyf.error('O valor do pagamento excede o valor total da OS!');
                     return false;
                 }
                 

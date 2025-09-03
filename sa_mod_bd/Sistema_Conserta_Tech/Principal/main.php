@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("../Conexao/conexao.php");
+require_once("../Financas/finance_functions.php");
 
 // Verificar se usuário está logado
 if (!isset($_SESSION['usuario'])) {
@@ -16,40 +17,29 @@ $stmtPerfil->execute();
 $perfil = $stmtPerfil->fetch(PDO::FETCH_ASSOC);
 $nome_perfil = $perfil['perfil'];
 
-// Query para OS abertas
+// Query para OS abertas (usando status correto)
 $sqlOsAberta = "SELECT COUNT(*) AS total_abertas FROM ordens_servico WHERE status != 'Concluído'";
 $stmt = $pdo->query($sqlOsAberta);
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 $total_abertas = $result['total_abertas'];
 
-// Query para valor em aberto
-$sqlValorAberto = "SELECT SUM(s.valor) AS valor_aberto 
-                   FROM ordens_servico os
-                   INNER JOIN equipamentos_os e ON os.id = e.id_os
-                   INNER JOIN servicos_os s ON e.id = s.id_equipamento
-                   WHERE os.status != 'Concluído'";
-$stmt = $pdo->query($sqlValorAberto);
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-$valor_aberto = $result['valor_aberto'] ? number_format($result['valor_aberto'], 2, ',', '.') : '0,00';
+// Query para valor em aberto (usando função padronizada)
+$valor_aberto = getPagamentosPendentes($pdo);
+$valor_aberto_formatado = number_format($valor_aberto, 2, ',', '.');
 
 // Query para OS concluídas no mês
 $sqlOsConcluidas = "SELECT COUNT(*) AS total_concluidas 
                     FROM ordens_servico 
                     WHERE status = 'Concluído' 
-                    AND MONTH(data_criacao) = MONTH(CURRENT_DATE())
-                    AND YEAR(data_criacao) = YEAR(CURRENT_DATE())";
+                    AND MONTH(data_termino) = MONTH(CURRENT_DATE())
+                    AND YEAR(data_termino) = YEAR(CURRENT_DATE())";
 $stmt = $pdo->query($sqlOsConcluidas);
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 $total_concluidas = $result['total_concluidas'];
 
-// Query para valor recebido no mês
-$sqlValorRecebido = "SELECT SUM(valor_total) AS valor_recebido 
-                     FROM pagamento 
-                     WHERE MONTH(data_pagamento) = MONTH(CURRENT_DATE())
-                     AND YEAR(data_pagamento) = YEAR(CURRENT_DATE())";
-$stmt = $pdo->query($sqlValorRecebido);
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-$valor_recebido = $result['valor_recebido'] ? number_format($result['valor_recebido'], 2, ',', '.') : '0,00';
+// Query para valor recebido no mês (usando função padronizada)
+$valor_recebido = getReceitaTotal($pdo, 30); // Últimos 30 dias
+$valor_recebido_formatado = number_format($valor_recebido, 2, ',', '.');
 
 // Query para total de clientes
 $sqlTotalClientes = "SELECT COUNT(*) AS total_clientes FROM cliente WHERE inativo = 0";

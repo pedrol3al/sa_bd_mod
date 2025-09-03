@@ -181,6 +181,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar_os'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap 5 JS (inclui Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     
     <style>
         .container {
@@ -191,8 +197,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar_os'])) {
         }
         
         h1 {
-            margin-bottom: 30px;
-            color: #2c3e50;
+            text-align: center;
+            font-weight: bold;
+            color: rgb(0, 0, 58);
+            margin-bottom: 20px;
+            font-family: 'Poppins' sans-serif
         }
         
         .form-section {
@@ -276,6 +285,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar_os'])) {
         .status-pendente {
             background-color: #f6c23e;
             color: #000;
+        }
+
+        .container{
+            margin-left: 200px !important;
         }
     </style>
 </head>
@@ -395,7 +408,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar_os'])) {
                         </span>
                     </div>
                     <p><strong>Forma:</strong> <?= htmlspecialchars($pagamento['frm_pagamento']) ?></p>
-                    <p><strong>Data:</strong> <?= date('d/m/Y', strtotime($pagamento['data_pagamento'])) ?></p>
+                    <p><strong>Data:</strong> 
+                        <?= 
+                            !empty($pagamento['data_pagamento']) 
+                            ? date('d/m/Y', strtotime($pagamento['data_pagamento'])) 
+                            : 'Data não informada' 
+                        ?>
+                    </p>
                 </div>
                 <?php endforeach; ?>
             </div>

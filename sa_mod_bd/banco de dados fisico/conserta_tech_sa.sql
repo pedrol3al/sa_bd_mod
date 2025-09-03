@@ -248,18 +248,6 @@ VALUES
 (5, 1, 'juliana.lima@email.com', 'Juliana Lima', NULL, '1995-05-18', '2023-05-30', 'F', '05678-901', 'Rua Oscar Freire', 'Apartamento', 'Apto 1501', '200', 'São Paulo', '(11) 95555-7890', 'SP', 'Jardins', 0);
 
 
-INSERT INTO `cliente_fisico` (`id_cliente`, `cpf`) 
-VALUES 
-(1, '123.456.789-00'),
-(2, '987.654.321-00'),
-(3, '456.789.123-00');
-
-INSERT INTO `cliente_juridico` (`id_cliente`, `cnpj`) 
-VALUES 
-(4, '12.345.678/0001-90'),
-(5, '98.765.432/0001-10');
-
-
 INSERT INTO `fornecedor`(`id_fornecedor`, `email`, `razao_social`, `cnpj`, `data_fundacao`, `produto_fornecido`, `data_cad`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `uf`, `bairro`, `telefone`, `observacoes`, `inativo`) 
 VALUES 
 (1, 'contato@alimentosbrasil.com.br', 'Alimentos Brasil Ltda', '12.345.678/0001-90', '1998-05-15', 'Matéria-prima alimentícia', '2023-01-10', '01234-567', 'Avenida Industrial', 'Galpão', 'Setor A', '1000', 'São Paulo', 'SP', 'Jardim Industrial', '(11) 3333-4444', 'Entrega apenas dias úteis', 0),
@@ -292,15 +280,6 @@ VALUES
 (3, 2, 5, 1),   
 (4, 3, 3, 1),  
 (5, 4, 4, 3);   
-
-INSERT INTO `pagamento`(`id_pagamento`, `id_os`, `valor_total`, `frm_pagamento`, `data_pagamento`, `status`) 
-VALUES 
-(1, 1, 450.00, 'Cartão de Crédito', '2024-05-05', 'Pago'),
-(2, 2, 289.90, 'PIX', '2024-05-12', 'Pago'),
-(3, 3, 899.00, 'Dinheiro', '2024-05-18', 'Pago'),
-(4, 4, 1250.00, 'Cartão de Débito', NULL, 'Pendente'),
-(5, 5, 2100.00, 'Transferência Bancária', '2024-05-28', 'Pago');
-
 
 INSERT INTO `estoque`(`id_estoque`, `id_produto`, `id_fornecedor`, `nome_peca`, `data_cadastro`, `quantidade`, `valor_unitario`, `descricao`) 
 VALUES 
