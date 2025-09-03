@@ -2,7 +2,7 @@
     session_start();
     require_once '../Conexao/conexao.php';
 
-    //verifica se o cliente tem permissao de adm ou secretaria
+    //verifica se o cliente tem permissao de adm ou atendente
     if($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2){
         echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
         exit();
