@@ -99,6 +99,7 @@ DROP TABLE IF EXISTS `produto`;
 CREATE TABLE `produto` (
   `id_produto` INT NOT NULL AUTO_INCREMENT,
   `id_usuario` INT NOT NULL,
+  `id_fornecedor` INT NOT NULL,
   `tipo` VARCHAR(50),
   `nome` VARCHAR(50),
   `aparelho_utilizado` VARCHAR(50),
@@ -107,19 +108,9 @@ CREATE TABLE `produto` (
   `data_registro` DATE DEFAULT NULL,
   `descricao` VARCHAR(255),
   PRIMARY KEY (`id_produto`),
-  CONSTRAINT `fk_produto_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
+  CONSTRAINT `fk_produto_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE,
+  CONSTRAINT `fk_produto_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `tipo_servico`;
-
-CREATE TABLE `tipo_servico` (
-  `id_tipo_servico` INT NOT NULL AUTO_INCREMENT,
-  `tipo_servico` VARCHAR(255),
-  `valor_servico` DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (`id_tipo_servico`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 
 DROP TABLE IF EXISTS `ordens_servico`;
 
@@ -231,12 +222,7 @@ INSERT INTO `usuario` (
 );
 
 
-INSERT INTO `tipo_servico` (`tipo_servico`, `valor_servico`) VALUES
-  ('Manutenção Preventiva', 80.00),
-  ('Manutenção Corretiva', 120.00),
-  ('Limpeza Interna', 60.00),
-  ('Troca de Peças', 150.00),
-  ('Diagnóstico', 40.00);
+
 
 
 INSERT INTO `cliente`(`id_cliente`, `id_usuario`, `email`, `nome`, `observacao`, `data_nasc`, `data_cad`, `sexo`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `telefone`, `uf`, `bairro`, `inativo`) 
@@ -256,13 +242,13 @@ VALUES
 (4, 'contato@embalagensrj.com.br', 'Embalagens Rio Ltda', '76.543.210/0001-56', '2005-07-30', 'Embalagens plásticas', '2023-04-25', '20000-000', 'Rua do Porto', 'Armazém', 'Porto 12', '500', 'Rio de Janeiro', 'RJ', 'Centro', '(21) 3444-5555', 'Prazo de entrega 15 dias', 0),
 (5, 'vendas@madeirasul.com.br', 'Madeira Sul Madeireira', '23.456.789/0001-78', '2015-12-05', 'Madeira e derivados', '2023-05-30', '90000-000', 'Avenida das Araucárias', 'Depósito', 'Pátio 3', '750', 'Porto Alegre', 'RS', 'Navegantes', '(51) 3666-7777', 'Trabalham apenas com madeira certificada', 0);
 
-INSERT INTO `produto`(`id_produto`, `id_usuario`, `tipo`, `nome`, `aparelho_utilizado`, `quantidade`, `preco`, `data_registro`, `descricao`) 
+INSERT INTO `produto`(`id_produto`, `id_usuario`, `id_fornecedor`, `tipo`, `nome`, `aparelho_utilizado`, `quantidade`, `preco`, `data_registro`, `descricao`) 
 VALUES 
-(1, 1, 'Eletrônico', 'Smartphone Galaxy S23', 'Testador de bateria', 50, 2899.90, '2024-01-15', 'Smartphone Android com 256GB, 8GB RAM, câmera tripla 50MP'),
-(2, 1, 'Eletrodoméstico', 'Geladeira Frost Free', 'Medidor de temperatura', 25, 3499.00, '2024-02-20', 'Geladeira duplex 440L frost free, inversor, prata'),
-(3, 1, 'Informática', 'Notebook Gamer', 'Testador de performance', 15, 5999.99, '2024-03-10', 'Notbook gamer i7, 16GB RAM, RTX 4060, SSD 1TB'),
-(4, 1, 'Móvel', 'Sofá 3 Lugares', 'Nenhum', 8, 1999.90, '2024-04-05', 'Sofá 3 lugares retrátil, tecido suede, cinza'),
-(5, 1, 'Eletrônico', 'Smart TV 55" 4K', 'Calibrador de cores', 30, 2499.90, '2024-05-12', 'Smart TV LED 55" 4K UHD, Android TV, 3 HDMI');
+(1, 1, 1, 'Eletrônico', 'Smartphone Galaxy S23', 'Testador de bateria', 50, 2899.90, '2024-01-15', 'Smartphone Android com 256GB, 8GB RAM, câmera tripla 50MP'),
+(2, 1, 1, 'Eletrodoméstico', 'Geladeira Frost Free', 'Medidor de temperatura', 25, 3499.00, '2024-02-20', 'Geladeira duplex 440L frost free, inversor, prata'),
+(3, 1, 2, 'Informática', 'Notebook Gamer', 'Testador de performance', 15, 5999.99, '2024-03-10', 'Notbook gamer i7, 16GB RAM, RTX 4060, SSD 1TB'),
+(4, 1, 2, 'Móvel', 'Sofá 3 Lugares', 'Nenhum', 8, 1999.90, '2024-04-05', 'Sofá 3 lugares retrátil, tecido suede, cinza'),
+(5, 1, 1, 'Eletrônico', 'Smart TV 55" 4K', 'Calibrador de cores', 30, 2499.90, '2024-05-12', 'Smart TV LED 55" 4K UHD, Android TV, 3 HDMI');
 
 INSERT INTO `ordens_servico`(`id`, `id_cliente`, `id_usuario`, `data_termino`, `status`, `observacoes`, `data_criacao`) 
 VALUES 
