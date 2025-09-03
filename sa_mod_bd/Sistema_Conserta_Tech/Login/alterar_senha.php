@@ -288,7 +288,7 @@
         </div>
         
         <div class="password-footer">
-            &copy; 2023 Sistema Conserta Tech - Todos os direitos reservados
+            &copy; 2025 Sistema Conserta Tech - Todos os direitos reservados
         </div>
     </div>
 
