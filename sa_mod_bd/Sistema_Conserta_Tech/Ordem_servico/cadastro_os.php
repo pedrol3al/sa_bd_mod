@@ -88,10 +88,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pdo->commit();
 
         // Redirecionar com mensagem de sucesso
-        $_SESSION['mensagem'] = 'Ordem de serviço cadastrada com sucesso!';
-        $_SESSION['tipo_mensagem'] = 'success';
-        header('Location: lista_os.php');
-        exit;
+        echo "<script>
+        alert('Ordem de serviço cadastrada com sucesso!');
+        window.location.href = 'os.php';
+    </script>";
 
     } catch (Exception $e) {
         // Rollback em caso de erro
@@ -99,13 +99,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $_SESSION['mensagem'] = 'Erro ao cadastrar ordem de serviço: ' . $e->getMessage();
         $_SESSION['tipo_mensagem'] = 'danger';
-        header('Location: cadastro_os.php');
+        header('Location: os.php');
         exit;
     }
 } else {
     $_SESSION['mensagem'] = 'Método de requisição inválido!';
     $_SESSION['tipo_mensagem'] = 'danger';
-    header('Location: cadastro_os.php');
+    header('Location: os.php');
     exit;
 }
 ?>
