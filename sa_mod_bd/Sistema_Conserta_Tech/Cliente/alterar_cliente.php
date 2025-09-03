@@ -232,12 +232,16 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
 </main>
 <script>
 $(document).ready(function(){
+    // Mantenha as máscaras para outros campos
     $('#cpf').mask('000.000.000-00');
     $('#cnpj').mask('00.000.000/0000-00');
     $('#telefone, #telefone_jur').mask('(00) 00000-0000');
     $('#cep, #cep_jur').mask('00000-000');
-    flatpickr("#dataNascimento", {dateFormat: "d/m/Y"});
-    flatpickr("#dataFundacao", {dateFormat: "d/m/Y"});
+    
+    flatpickr("#data_nasc", {
+        dateFormat: "d/m/Y",
+        locale: "pt"
+    });
 });
 </script>
 <script src="../Menu_lateral/carregar-menu.js" defer></script>
