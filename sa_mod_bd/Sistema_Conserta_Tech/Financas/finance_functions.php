@@ -2,20 +2,23 @@
 // ARQUIVO: finance_functions.php
 // Funções financeiras centralizadas para garantir consistência
 
-function getReceitaTotal($pdo, $filtro_periodo = 30) {
+function getReceitaTotal($pdo, $periodo) {
     try {
-        $query = "SELECT COALESCE(SUM(valor_total), 0) as total 
-                  FROM pagamento 
-                  WHERE status = 'Concluído'";
+        $data_inicio = date('Y-m-d', strtotime("-$periodo days"));
         
-        // Aplicar filtro de período se especificado
-        if ($filtro_periodo > 0) {
-            $data_inicio = date('Y-m-d', strtotime("-$filtro_periodo days"));
-            $query .= " AND data_pagamento >= '$data_inicio'";
-        }
+        $query = "
+            SELECT COALESCE(SUM(s.valor), 0) as total
+            FROM servicos_os s
+            INNER JOIN equipamentos_os e ON s.id_equipamento = e.id
+            INNER JOIN ordens_servico os ON e.id_os = os.id
+            WHERE os.data_criacao >= :data_inicio
+        ";
         
-        $stmt = $pdo->query($query);
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':data_inicio', $data_inicio);
+        $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
         return floatval($row['total']);
     } catch (Exception $e) {
         error_log("Erro getReceitaTotal: " . $e->getMessage());
@@ -23,20 +26,24 @@ function getReceitaTotal($pdo, $filtro_periodo = 30) {
     }
 }
 
-function getDespesasTotal($pdo, $filtro_periodo = 30) {
+function getDespesasTotal($pdo, $periodo) {
     try {
-        $query = "SELECT COALESCE(SUM(preco * quantidade), 0) as total 
-                  FROM produto 
-                  WHERE 1=1";
+        $data_inicio = date('Y-m-d', strtotime("-$periodo days"));
         
-        // Aplicar filtro de período se especificado
-        if ($filtro_periodo > 0) {
-            $data_inicio = date('Y-m-d', strtotime("-$filtro_periodo days"));
-            $query .= " AND data_registro >= '$data_inicio'";
-        }
+        // Soma o custo dos produtos utilizados nas OS
+        $query = "
+            SELECT COALESCE(SUM(op.quantidade * p.preco_custo), 0) as total
+            FROM os_produto op
+            INNER JOIN produto p ON op.id_produto = p.id_produto
+            INNER JOIN ordens_servico os ON op.id_os = os.id
+            WHERE os.data_criacao >= :data_inicio
+        ";
         
-        $stmt = $pdo->query($query);
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':data_inicio', $data_inicio);
+        $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
         return floatval($row['total']);
     } catch (Exception $e) {
         error_log("Erro getDespesasTotal: " . $e->getMessage());

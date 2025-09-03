@@ -8,10 +8,6 @@
     <img src="../img/logout.png" alt="Sair">
   </button>
 
-  <button class="fechar" title="fechar">
-    <img src="../img/person-circle.svg" alt="Fechar">
-  </button>
-
   <nav class="menu-lateral">
     <div class="top-menu">
       <ul>
@@ -29,40 +25,52 @@
         <li class="item-menu">
           <a href="#" id="cliente" class="menu-link">
             <span class="icon"><i class="bi bi-person-fill"></i></span>
-            <span class="txt-link">Cliente <i class="bi bi-chevron-down"></i></span>
+            <div class="txt-link-container">
+              <span class="txt-link">Cliente</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
           </a>
           <div id="sub-cliente" class="sub-menu" style="display: none;">
-            <a href="../Cliente/cliente.php"><i class="bi bi-circle-fill"></i>Cadastrar Cliente</a>
-            <a href="../Cliente/buscar_cliente.php"><i class="bi bi-circle-fill"></i>Pesquisar Cliente</a>
+            <a href="../Cliente/cliente.php"><i class="bi bi-circle-fill"></i><span>Cadastrar Cliente</span></a>
+            <a href="../Cliente/buscar_cliente.php"><i class="bi bi-circle-fill"></i><span>Pesquisar Cliente</span></a>
           </div>
         </li>
 
         <li class="item-menu">
           <a href="#" id="usuario" class="menu-link">
             <span class="icon"><i class="bi bi-person-circle"></i></span>
-            <span class="txt-link">Usuário <i class="bi bi-chevron-down"></i></span>
+            <div class="txt-link-container">
+              <span class="txt-link">Usuário</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
           </a>
           <div id="sub-usuario" class="sub-menu" style="display: none;">
-            <a href="../Usuario/usuario.php"><i class="bi bi-circle-fill"></i>Cadastrar Usuário</a>
-            <a href="../Usuario/buscar_usuario.php"><i class="bi bi-circle-fill"></i>Pesquisar Usuário</a>
+            <a href="../Usuario/usuario.php"><i class="bi bi-circle-fill"></i><span>Cadastrar Usuário</span></a>
+            <a href="../Usuario/buscar_usuario.php"><i class="bi bi-circle-fill"></i><span>Pesquisar Usuário</span></a>
           </div>
         </li>
 
         <li class="item-menu">
           <a href="#" id="fornecedor" class="menu-link">
             <span class="icon"><i class="bi bi-truck"></i></span>
-            <span class="txt-link">Fornecedor <i class="bi bi-chevron-down"></i></span>
+            <div class="txt-link-container">
+              <span class="txt-link">Fornecedor</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
           </a>
           <div id="sub-fornecedor" class="sub-menu" style="display: none;">
-            <a href="../Fornecedor/front_fornecedor.php"><i class="bi bi-circle-fill"></i>Cadastrar Fornecedor</a>
-            <a href="../Fornecedor/buscar_fornecedor.php"><i class="bi bi-circle-fill"></i>Pesquisar fornecedor</a>
+            <a href="../Fornecedor/front_fornecedor.php"><i class="bi bi-circle-fill"></i><span>Cadastrar Fornecedor</span></a>
+            <a href="../Fornecedor/buscar_fornecedor.php"><i class="bi bi-circle-fill"></i><span>Pesquisar Fornecedor</span></a>
           </div>
         </li>
 
         <li class="item-menu">
           <a href="#" id="estoque" class="menu-link">
             <span class="icon"><i class="bi bi-archive"></i></span>
-            <span class="txt-link">Estoque <i class="bi bi-chevron-down"></i></span>
+            <div class="txt-link-container">
+              <span class="txt-link">Estoque</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
           </a>
           <div id="sub-estoque" class="sub-menu" style="display: none;">
             <a href="../Estoque/cadastro_produto.php"><i class="bi bi-circle-fill"></i> Cadastrar Produtos</a>
@@ -73,22 +81,28 @@
         <li class="item-menu">
           <a href="#" id="orcamento" class="menu-link">
             <span class="icon"><i class="bi bi-receipt-cutoff"></i></span>
-            <span class="txt-link">Orçamento <i class="bi bi-chevron-down"></i></span>
+            <div class="txt-link-container">
+              <span class="txt-link">Orçamento</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
           </a>
           <div id="sub-orcamento" class="sub-menu" style="display: none;">
-            <a href="../Financas/dashboard.php"><i class="bi bi-circle-fill"></i> Finanças</a>
-            <a href="../Financas/pagamento_os.php"><i class="bi bi-circle-fill"></i> Pagamentos</a>
+            <a href="../Financas/dashboard.php"><i class="bi bi-circle-fill"></i><span>Finanças</span></a>
+            <a href="../Financas/pagamento_os.php"><i class="bi bi-circle-fill"></i><span>Pagamentos</span></a>
           </div>
         </li>
 
         <li class="item-menu">
           <a href="#" id="os" class="menu-link">
             <span class="icon"><i class="bi bi-clipboard"></i></span>
-            <span class="txt-link">O.S. <i class="bi bi-chevron-down"></i></span>
+            <div class="txt-link-container">
+              <span class="txt-link">O.S.</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
           </a>
           <div id="sub-os" class="sub-menu" style="display: none;">
-            <a href="../Ordem_servico/os.php"><i class="bi bi-circle-fill"></i> Cadastrar O.S.</a>
-            <a href="../Ordem_servico/buscar_os.php"><i class="bi bi-circle-fill"></i> Pesquisar O.S.</a>
+            <a href="../Ordem_servico/os.php"><i class="bi bi-circle-fill"></i><span>Cadastrar O.S.</span></a>
+            <a href="../Ordem_servico/buscar_os.php"><i class="bi bi-circle-fill"></i><span>Pesquisar O.S.</span></a>
           </div>
         </li>
       </ul>
@@ -104,6 +118,8 @@
     </div> 
   </nav>
 </div>
+
+<link rel="stylesheet" href="css-home-bar.css">
 
 <script>
 // Função de interação do menu
@@ -131,17 +147,46 @@ document.addEventListener("DOMContentLoaded", () => {
     if (link && submenu) {
       link.addEventListener('click', (e) => {
         e.preventDefault();
+        
+        // Fecha outros submenus abertos
+        document.querySelectorAll('.sub-menu').forEach(otherSubmenu => {
+          if (otherSubmenu.id !== submenuId) {
+            otherSubmenu.style.display = 'none';
+            otherSubmenu.previousElementSibling.classList.remove('active');
+          }
+        });
+        
+        // Alterna o submenu atual
         submenu.style.display = submenu.style.display === 'none' ? 'block' : 'none';
+        
+        // Adiciona/remove classe ativa
+        if (submenu.style.display === 'block') {
+          link.closest('.item-menu').classList.add('active');
+        } else {
+          link.closest('.item-menu').classList.remove('active');
+        }
       });
     }
   };
 
-  toggleSubmenu('#orcamento', '#sub-orcamento');
+  toggleSubmenu('#cliente', '#sub-cliente');
   toggleSubmenu('#usuario', '#sub-usuario');
   toggleSubmenu('#fornecedor', '#sub-fornecedor');
-  toggleSubmenu('#cliente', '#sub-cliente');
   toggleSubmenu('#estoque', '#sub-estoque');
+  toggleSubmenu('#orcamento', '#sub-orcamento');
   toggleSubmenu('#os', '#sub-os');
+
+  // Fecha submenus ao clicar fora
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.item-menu')) {
+      document.querySelectorAll('.sub-menu').forEach(submenu => {
+        submenu.style.display = 'none';
+      });
+      document.querySelectorAll('.item-menu').forEach(item => {
+        item.classList.remove('active');
+      });
+    }
+  });
 
   // Botão de sair
   const botaoSair = menuContainer.querySelector(".sair");
