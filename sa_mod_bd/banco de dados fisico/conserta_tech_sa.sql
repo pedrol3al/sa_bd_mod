@@ -1,4 +1,4 @@
--- Criar tabela de perfis
+
 DROP TABLE IF EXISTS `perfil`;
 
 CREATE TABLE `perfil` (
@@ -13,7 +13,7 @@ INSERT INTO `perfil` (`perfil`) VALUES
   ('Técnico'),
   ('Financeiro');
 
--- Usuários
+
 DROP TABLE IF EXISTS `usuario`;
 
 CREATE TABLE `usuario` (
@@ -42,7 +42,7 @@ CREATE TABLE `usuario` (
   CONSTRAINT `fk_usuario_perfil` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id_perfil`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Cliente
+
 DROP TABLE IF EXISTS `cliente`;
 
 CREATE TABLE `cliente` (
@@ -69,7 +69,7 @@ CREATE TABLE `cliente` (
   CONSTRAINT `fk_cliente_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Fornecedor
+
 DROP TABLE IF EXISTS `fornecedor`;
 
 CREATE TABLE `fornecedor` (
@@ -94,7 +94,6 @@ CREATE TABLE `fornecedor` (
   PRIMARY KEY (`id_fornecedor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Produto
 DROP TABLE IF EXISTS `produto`;
 
 CREATE TABLE `produto` (
@@ -111,7 +110,7 @@ CREATE TABLE `produto` (
   CONSTRAINT `fk_produto_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Tipo de serviço
+
 DROP TABLE IF EXISTS `tipo_servico`;
 
 CREATE TABLE `tipo_servico` (
@@ -121,7 +120,7 @@ CREATE TABLE `tipo_servico` (
   PRIMARY KEY (`id_tipo_servico`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Ordem de Serviço (Tabela principal)
+
 DROP TABLE IF EXISTS `ordens_servico`;
 
 CREATE TABLE `ordens_servico` (
@@ -136,7 +135,7 @@ CREATE TABLE `ordens_servico` (
     CONSTRAINT `fk_ordens_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Equipamentos da OS
+
 DROP TABLE IF EXISTS `equipamentos_os`;
 
 CREATE TABLE `equipamentos_os` (
@@ -151,7 +150,7 @@ CREATE TABLE `equipamentos_os` (
     CONSTRAINT `fk_equipamentos_os` FOREIGN KEY (`id_os`) REFERENCES `ordens_servico` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Serviços dos equipamentos
+
 DROP TABLE IF EXISTS `servicos_os`;
 
 CREATE TABLE `servicos_os` (
@@ -163,7 +162,7 @@ CREATE TABLE `servicos_os` (
     CONSTRAINT `fk_servicos_equipamento` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamentos_os` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Pagamento
+
 DROP TABLE IF EXISTS `pagamento`;
 
 CREATE TABLE `pagamento` (
@@ -177,7 +176,6 @@ CREATE TABLE `pagamento` (
   CONSTRAINT `fk_pag_os` FOREIGN KEY (`id_os`) REFERENCES `ordens_servico` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Estoque
 DROP TABLE IF EXISTS `estoque`;
 
 CREATE TABLE `estoque` (
@@ -270,7 +268,6 @@ VALUES
 (4, 'contato@embalagensrj.com.br', 'Embalagens Rio Ltda', '76.543.210/0001-56', '2005-07-30', 'Embalagens plásticas', '2023-04-25', '20000-000', 'Rua do Porto', 'Armazém', 'Porto 12', '500', 'Rio de Janeiro', 'RJ', 'Centro', '(21) 3444-5555', 'Prazo de entrega 15 dias', 0),
 (5, 'vendas@madeirasul.com.br', 'Madeira Sul Madeireira', '23.456.789/0001-78', '2015-12-05', 'Madeira e derivados', '2023-05-30', '90000-000', 'Avenida das Araucárias', 'Depósito', 'Pátio 3', '750', 'Porto Alegre', 'RS', 'Navegantes', '(51) 3666-7777', 'Trabalham apenas com madeira certificada', 0);
 
-
 INSERT INTO `produto`(`id_produto`, `id_usuario`, `tipo`, `nome`, `aparelho_utilizado`, `quantidade`, `preco`, `data_registro`, `descricao`) 
 VALUES 
 (1, 1, 'Eletrônico', 'Smartphone Galaxy S23', 'Testador de bateria', 50, 2899.90, '2024-01-15', 'Smartphone Android com 256GB, 8GB RAM, câmera tripla 50MP'),
@@ -291,11 +288,10 @@ VALUES
 INSERT INTO `os_produto`(`id_os_produto`, `id_os`, `id_produto`, `quantidade`) 
 VALUES 
 (1, 1, 3, 1),  
-(2, 1, 1, 2),  
+(2, 1, 1, 2),   
 (3, 2, 5, 1),   
-(4, 3, 3, 1),   
+(4, 3, 3, 1),  
 (5, 4, 4, 3);   
-
 
 INSERT INTO `pagamento`(`id_pagamento`, `id_os`, `valor_total`, `frm_pagamento`, `data_pagamento`, `status`) 
 VALUES 
