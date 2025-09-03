@@ -184,8 +184,7 @@ main.conteudo-principal {
 }
 
 /* Estilização dos botões sair e fechar */
-button.sair,
-button.fechar {
+button.sair {
   background: transparent;
   border: none;
   padding: 0;
@@ -193,8 +192,7 @@ button.fechar {
 }
 
 /* Estilo da imagem dentro dos botões */
-button.sair img,
-button.fechar img {
+button.sair img {
   width: 40px;
   height: 40px;
   transition: transform 0.2s ease, filter 0.2s ease;
@@ -202,31 +200,22 @@ button.fechar img {
 }
 
 /* Efeito ao passar o mouse nos botões */
-button.sair:hover img,
-button.fechar:hover img {
+button.sair:hover img {
   transform: scale(1.1);
   filter: brightness(1.2);
-}
-
-/* Botão fechar fixo no canto superior direito */
-button.fechar {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999;
 }
 
 /* Botão sair fixo ao lado do botão fechar */
 button.sair {
   position: fixed;
   top: 20px;
-  right: 70px;
+  right: 15px;
   /* afastado do botão fechar */
   z-index: 999;
 }
 
 /* Botão fixar menu */
-button.fixar-menu {
+button.fixar-menu { 
   margin: 0;
   background-color: #013d8d;
   transition: width 0.5s ease-in, filter 0.2s ease;
