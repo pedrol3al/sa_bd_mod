@@ -73,8 +73,8 @@
             </div>
           </a>
           <div id="sub-estoque" class="sub-menu" style="display: none;">
-            <a href="../Estoque/cadastrar_estoque.php"><i class="bi bi-circle-fill"></i><span>Cadastrar Estoque</span></a>
-            <a href="../Estoque/buscar_estoque.php"><i class="bi bi-circle-fill"></i><span>Pesquisar Peças</span></a>
+            <a href="../Estoque/cadastro_produto.php"><i class="bi bi-circle-fill"></i> Cadastrar Produtos</a>
+            <a href="../Estoque/buscar_produto.php"><i class="bi bi-circle-fill"></i> Pesquisar Produtos</a>
           </div>
         </li>
 

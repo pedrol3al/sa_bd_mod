@@ -1,42 +1,55 @@
 <?php
-    session_start();
-    require_once '../Conexao/conexao.php';
+session_start();
+require_once '../Conexao/conexao.php';
 
-    //verifica se o fornecedor tem permissao de adm ou secretaria
-    if($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2){
-        echo "<script>alert('Acesso negado!');window.location.href='principal.php';</script>";
-        exit();
-    }
+// Verificar permissão do usuário
+if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
+    echo "<script>alert('Acesso negado!');window.location.href='principal.php';</script>";
+    exit();
+}
 
-    $fornecedor=[]; //inicializa a variavel para evitar erros
+$produtos = []; // inicializa a variável para evitar erros
 
-    //se o formulario for enviado, busca o fornecedor pelo id ou nome
-    if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca'])){
-        $busca=trim($_POST['busca']);
+// Se o formulário for enviado, busca o produto pelo id ou nome
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca'])) {
+    $busca = trim($_POST['busca']);
 
-        //verifica se a busca é um numero ou nome
-        if(is_numeric($busca)){
-            $sql="SELECT * FROM fornecedor WHERE id_fornecedor = :busca ORDER BY nome ASC";
-            $stmt=$pdo->prepare($sql);
-            $stmt->bindParam(':busca',$busca, PDO::PARAM_INT);
-        } else {
-            $sql="SELECT * FROM fornecedor WHERE razao_social LIKE :busca_nome ORDER BY razao_social ASC";
-            $stmt=$pdo->prepare($sql);
-            $stmt->bindValue(':busca_nome',"$busca%", PDO::PARAM_STR); //MUDAR AQUI PARA A ENTREGA (ja mudei)
-        }
+    // Verifica se a busca é um número ou nome
+    if (is_numeric($busca)) {
+        $sql = "SELECT p.*, f.razao_social as fornecedor_nome 
+                FROM produto p 
+                INNER JOIN fornecedor f ON p.id_fornecedor = f.id_fornecedor 
+                WHERE p.id_produto = :busca 
+                ORDER BY p.nome ASC";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':busca', $busca, PDO::PARAM_INT);
     } else {
-        $sql="SELECT * FROM fornecedor ORDER BY razao_social ASC";
-        $stmt=$pdo->prepare($sql);
+        $sql = "SELECT p.*, f.razao_social as fornecedor_nome 
+                FROM produto p 
+                INNER JOIN fornecedor f ON p.id_fornecedor = f.id_fornecedor 
+                WHERE p.nome LIKE :busca_nome 
+                ORDER BY p.nome ASC";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':busca_nome', "%$busca%", PDO::PARAM_STR);
     }
-    $stmt->execute();
-    $fornecedores=$stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $sql = "SELECT p.*, f.razao_social as fornecedor_nome 
+            FROM produto p 
+            INNER JOIN fornecedor f ON p.id_fornecedor = f.id_fornecedor 
+            ORDER BY p.nome ASC";
+    $stmt = $pdo->prepare($sql);
+}
+
+$stmt->execute();
+$produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Fornecedores</title>
+    <title>Buscar Produtos</title>
     
     <!-- Links bootstrap e css -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
@@ -50,7 +63,7 @@
     <style>
         .container {
             max-width: 1400px;
-            margin: 20px 20px 20px 220px; /* Alterado: 220px na margem esquerda */
+            margin: 20px 20px 20px 220px;
             padding: 20px;
             transition: margin-left 0.3s ease;
         }
@@ -127,13 +140,6 @@
             color: #6c757d;
         }
         
-        .fornecedor-img {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        
         /* Garantir que o menu lateral não sobreponha o conteúdo */
         @media (min-width: 768px) {
             body {
@@ -155,23 +161,23 @@
     </style>
 </head>
 <body>
+    <?php include("../Menu_lateral/menu.php"); ?>
+    
     <div class="container">
-        <h1>BUSCAR FORNECEDORES</h1>
-        
-        <?php include("../Menu_lateral/menu.php"); ?>
+        <h1>BUSCAR PRODUTOS (ESTOQUE)</h1>
         
         <!-- Seção de busca -->
         <div class="search-section">
             <form method="POST" action="">
                 <div class="search-container">
                     <input type="text" name="busca" class="form-control search-input" 
-                           placeholder="Buscar por ID ou Razão Social..." 
+                           placeholder="Buscar por ID ou Nome do Produto..." 
                            value="<?= isset($_POST['busca']) ? htmlspecialchars($_POST['busca']) : '' ?>">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i> Buscar
                     </button>
                     <?php if (isset($_POST['busca']) && !empty($_POST['busca'])): ?>
-                        <a href="buscar_fornecedor.php" class="btn btn-secondary">
+                        <a href="buscar_produto.php" class="btn btn-secondary">
                             <i class="bi bi-x-circle"></i> Limpar
                         </a>
                     <?php endif; ?>
@@ -182,7 +188,7 @@
         <!-- Tabela de resultados -->
         <div class="card">
             <div class="card-header">
-                <i class="bi bi-building"></i> Fornecedores Encontrados
+                <i class="bi bi-box-seam"></i> Produtos Encontrados
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -190,28 +196,28 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Razão Social</th>
-                                <th>Email</th>
-                                <th>CNPJ</th>
-                                <th>Data de Fundação</th>
-                                <th>Produto Fornecido</th>
-                                <th>Data de Cadastro</th>
+                                <th>Nome</th>
+                                <th>Fornecedor</th>
+                                <th>Tipo</th>
+                                <th>Quantidade</th>
+                                <th>Preço</th>
+                                <th>Data Registro</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (count($fornecedores) > 0): ?>
-                                <?php foreach ($fornecedores as $fornecedor): ?>
+                            <?php if (count($produtos) > 0): ?>
+                                <?php foreach ($produtos as $produto): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($fornecedor['id_fornecedor']) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor['razao_social']) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor['email']) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor['cnpj']) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor['data_fundacao']) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor['produto_fornecido']) ?></td>
-                                    <td><?= htmlspecialchars($fornecedor['data_cad']) ?></td>
+                                    <td><?= htmlspecialchars($produto['id_produto']) ?></td>
+                                    <td><?= htmlspecialchars($produto['nome']) ?></td>
+                                    <td><?= htmlspecialchars($produto['fornecedor_nome']) ?></td>
+                                    <td><?= htmlspecialchars($produto['tipo']) ?></td>
+                                    <td><?= htmlspecialchars($produto['quantidade']) ?></td>
+                                    <td>R$ <?= number_format($produto['preco'], 2, ',', '.') ?></td>
+                                    <td><?= date('d/m/Y', strtotime($produto['data_registro'])) ?></td>
                                     <td class="actions">
-                                        <a href="alterar_fornecedor.php?id=<?= $fornecedor['id_fornecedor'] ?>" class="btn btn-primary btn-sm">
+                                        <a href="alterar_produto.php?id=<?= $produto['id_produto'] ?>" class="btn btn-primary btn-sm">
                                             <i class="bi bi-pencil"></i> Alterar/Excluir
                                         </a>
                                     </td>
@@ -219,10 +225,10 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="9" class="no-results">
+                                    <td colspan="8" class="no-results">
                                         <i class="bi bi-search" style="font-size: 3rem;"></i>
-                                        <h4>Nenhum fornecedor encontrado</h4>
-                                        <p><?= (isset($_POST['busca']) && !empty($_POST['busca'])) ? 'Tente ajustar os termos da busca.' : 'Não há fornecedores cadastrados.' ?></p>
+                                        <h4>Nenhum produto encontrado</h4>
+                                        <p><?= (isset($_POST['busca']) && !empty($_POST['busca'])) ? 'Tente ajustar os termos da busca.' : 'Não há produtos cadastrados.' ?></p>
                                     </td>
                                 </tr>
                             <?php endif; ?>
@@ -236,14 +242,15 @@
             <a class="btn btn-secondary" role="button" href="index.php">
                 <i class="bi bi-arrow-left"></i> Voltar
             </a>
+            <a class="btn btn-success" role="button" href="cadastro_produto.php">
+                <i class="bi bi-plus-circle"></i> Novo Produto
+            </a>
         </p>
     </div>
 
     <!-- Scripts -->
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -259,8 +266,5 @@
             <?php endif; ?>
         });
     </script>
-    
-    <script src="../Menu_lateral/carregar-menu.js" defer></script>
-    <script src="fornecedor.js"></script>
 </body>
 </html>
