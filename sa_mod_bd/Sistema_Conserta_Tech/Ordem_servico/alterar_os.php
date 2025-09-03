@@ -54,7 +54,7 @@ if (isset($_GET['excluir_os'])) {
         $_SESSION['mensagem'] = 'OS excluída com sucesso!';
         $_SESSION['tipo_mensagem'] = 'success';
         
-        header('Location: buscar_os.php');
+        header('Location: /sa_bd_mod/sa_mod_bd/Sistema_Conserta_Tech/Ordem_servico/buscar_os.php');
         exit;
         
     } catch (Exception $e) {
@@ -184,9 +184,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar_os'])) {
     
     <style>
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 20px auto;
             padding: 20px;
+            margin-left: 200px;
         }
         
         h1 {
@@ -451,6 +452,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar_os'])) {
                 unset($_SESSION['tipo_mensagem']);
                 ?>
             <?php endif; ?>
+
+            // Debug para verificar se o modal está sendo inicializado
+            var myModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+            
+            // Adicionar evento de clique ao botão de excluir
+            document.querySelector('[data-bs-target="#confirmDeleteModal"]').addEventListener('click', function() {
+                myModal.show();
+            });
         });
     </script>
 </body>
