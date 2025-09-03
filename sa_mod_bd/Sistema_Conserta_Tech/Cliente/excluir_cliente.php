@@ -59,56 +59,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 </head>
 <body>
-    
-<?php
-  include("../Menu_lateral/menu.php"); 
-?>
-
-
-    <main>
-    <div class="conteudo">
-    <h2 align="center">Excluir cliente</h2>
-    <?php if(!empty($clientes)): ?>
-        <div class="container">
-        <table border="1" align="center" class="table table-light table-hover">
-            <tr class="table-secondary">
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Observação</th>
-                <th>Data de nascimento</th>
-                <th>Sexo</th>
-                <th>Foto do cliente</th>
-                <th>Ações</th>
-            </tr>
-            <?php foreach($clientes as $cliente): ?>
-            <tr>
-                <td><?=htmlspecialchars($cliente['id_cliente'])?></td>
-                <td><?=htmlspecialchars($cliente['nome'])?></td>
-                <td><?=htmlspecialchars($cliente['email'])?></td>
-                <td><?=htmlspecialchars($cliente['observacao'])?></td>
-                <td><?=htmlspecialchars($cliente['data_nasc'])?></td>
-                <td><?=htmlspecialchars($cliente['sexo'])?></td>
-                <td><img src="../img/techinho.png<?= htmlspecialchars($cliente['foto_cliente']) ?>" 
-                    alt="Foto do cliente" 
-                    width="50" height="50">
-                </td>
-                <td>
-                    <a class="btn btn-danger" role="button" href="excluir_cliente.php?id=<?=htmlspecialchars($cliente['id_cliente'])?>" onclick="return confirm('Tem certeza de que deseja excluir este cliente?')">Excluir</a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php else: ?>
-        <p>Nenhum cliente encontrado!</p>
-    <?php endif; ?>
-    </div>
-    </div>
-    </main>
-    
-    </div>
-    <script src="../Menu_lateral/carregar-menu.js" defer></script>
-    <script src="cliente.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
 </html>

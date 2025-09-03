@@ -1,44 +1,56 @@
 <?php
-    session_start();
-    require_once '../Conexao/conexao.php';
+session_start();
+require_once '../Conexao/conexao.php';
 
-    //verifica se o cliente tem permissao de adm ou atendente
-    if($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2){
-        echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
-        exit();
-    }
+// verifica se o cliente tem permissão de adm ou atendente
+if($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2){
+    echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
+    exit();
+}
 
-    $cliente=[]; //inicializa a variavel para evitar erros
+$clientes = []; // inicializa a variavel
 
-    //se o formulario for enviado, busca o cliente pelo id ou nome
-    if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca'])){
-        $busca=trim($_POST['busca']);
+// Se o formulário for enviado, busca o cliente pelo id ou nome
+if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca_cliente'])){
+    $busca = trim($_POST['busca_cliente']);
 
-        //verifica se a busca é um numero ou nome
-        if(is_numeric($busca)){
-            $sql="SELECT * FROM cliente WHERE id_cliente = :busca ORDER BY nome ASC";
-            $stmt=$pdo->prepare($sql);
-            $stmt->bindParam(':busca',$busca, PDO::PARAM_INT);
-        } else {
-            $sql="SELECT * FROM cliente WHERE nome LIKE :busca_nome ORDER BY nome ASC";
-            $stmt=$pdo->prepare($sql);
-            $stmt->bindValue(':busca_nome',"$busca%", PDO::PARAM_STR); //MUDAR AQUI PARA A ENTREGA (ja mudei)
-        }
+    if(is_numeric($busca)){
+        $sql = "SELECT * FROM cliente WHERE id_cliente = :busca ORDER BY nome ASC";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':busca', $busca, PDO::PARAM_INT);
     } else {
-        $sql="SELECT * FROM cliente ORDER BY nome ASC";
-        $stmt=$pdo->prepare($sql);
+        $sql = "SELECT * FROM cliente WHERE nome LIKE :busca_nome ORDER BY nome ASC";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':busca_nome', "%$busca%", PDO::PARAM_STR); // busca em qualquer posição
     }
+} else {
+    // Se não enviou busca, lista todos
+    $sql = "SELECT * FROM cliente ORDER BY nome ASC";
+    $stmt = $pdo->prepare($sql);
+}
+
+$stmt->execute();
+$clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+ 
+// Se um GET com id for passado, busca os dados do cliente
+$clienteAtual = null;
+if(isset($_GET['id']) && is_numeric($_GET['id'])){
+    $id_cliente = $_GET['id'];
+    $sql = "SELECT * FROM cliente WHERE id_cliente = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
     $stmt->execute();
-    $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    // Se um POST for enviado, atualiza o cliente
+    $clienteAtual = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Atualização do cliente
 if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
     $id_cliente = $_POST['id_cliente'];
     $nome = $_POST['nome'];
     $email = $_POST['email'];
 
-    $sql="UPDATE cliente SET nome=:nome, email=:email WHERE id_cliente=:id";
-    $stmt=$pdo->prepare($sql);
+    $sql = "UPDATE cliente SET nome = :nome, email = :email WHERE id_cliente = :id";
+    $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':nome', $nome);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
@@ -50,24 +62,8 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
         echo "<script>alert('Erro ao alterar o cliente!');</script>";
     }
 }
-
-// Se um GET com id for passado, busca os dados do cliente
-$clienteAtual = null;
-if(isset($_GET['id']) && is_numeric($_GET['id'])){
-    $id_cliente = $_GET['id'];
-    $sql="SELECT * FROM cliente WHERE id_cliente=:id";
-    $stmt=$pdo->prepare($sql);
-    $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
-    $stmt->execute();
-    $clienteAtual = $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-// Busca todos os clientes para exibir na tabela
-$sql="SELECT * FROM cliente ORDER BY nome ASC";
-$stmt=$pdo->prepare($sql);
-$stmt->execute();
-$clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -75,11 +71,13 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscar cliente</title>
+    
     <!-- Links bootstrapt e css -->
     <link rel="stylesheet" href="cliente.css">
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="cliente_pesquisar.css" />
+    <link rel="stylesheet" href="info_detalhe.css" />
     <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
@@ -93,6 +91,7 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Link das máscaras dos campos -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    
 </head>
 <body class="corpo">
 
@@ -102,6 +101,11 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 <main>
+    <div class="mb-3">
+    <a href="buscar_cliente.php" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+</div>
     <div class="conteudo">
         <h2 align="center">Clientes</h2>
 
@@ -125,7 +129,6 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th>Observação</th>
                         <th>Data de nascimento</th>
                         <th>Sexo</th>
-                        <th>Foto do cliente</th>
                         <th>Ações</th>
                     </tr>
                     <?php foreach($clientes as $cliente): ?>
@@ -133,15 +136,15 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?=htmlspecialchars($cliente['id_cliente'])?></td>
                             <td><?=htmlspecialchars($cliente['nome'])?></td>
                             <td><?=htmlspecialchars($cliente['email'])?></td>
-                            <td><?=htmlspecialchars($cliente['observacao'])?></td>
+                            <td><?= !empty($cliente['observacao']) ? htmlspecialchars($cliente['observacao']) : '' ?></td>
                             <td><?=htmlspecialchars($cliente['data_nasc'])?></td>
                             <td><?=htmlspecialchars($cliente['sexo'])?></td>
                             <td>
-                                <img src="../img/<?= htmlspecialchars($cliente['foto_cliente']) ?>" 
-                                     alt="Foto do cliente" width="50" height="50">
-                            </td>
-                            <td>
                                 <a class="btn btn-warning" href="alterar_cliente.php?id=<?=htmlspecialchars($cliente['id_cliente'])?>">Alterar</a>
+                                <!-- Botão de Informações Detalhadas -->
+                                <button class="btn btn-detalhes" onclick="abrirModalDetalhes(<?= $cliente['id_cliente'] ?>)">
+                                    Informações Detalhadas
+                                </button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -153,6 +156,20 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </main>
 
+<!-- Modal de Detalhes do Cliente -->
+<div class="modal-overlay" id="modalDetalhes">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Informações Detalhadas do Cliente</h3>
+            <button class="modal-close" onclick="fecharModalDetalhes()">&times;</button>
+        </div>
+        <div class="modal-body" id="modalDetalhesBody">
+            <!-- Conteúdo será carregado via JavaScript -->
+            <div class="text-center p-4">Carregando informações do cliente...</div>
+        </div>
+    </div>
+</div>
+
 <!-- Máscaras + Flatpickr -->
 <script>
 $(document).ready(function(){
@@ -162,6 +179,156 @@ $(document).ready(function(){
     $('#cep, #cep_jur').mask('00000-000');
     flatpickr("#dataNascimento", {dateFormat: "d/m/Y"});
     flatpickr("#dataFundacao", {dateFormat: "d/m/Y"});
+});
+
+// Dados dos clientes em formato JSON para uso no modal
+const clientesData = <?php echo json_encode($clientes); ?>;
+
+// Funções para controlar o modal de detalhes
+function abrirModalDetalhes(idCliente) {
+    // Encontrar o cliente com o ID correspondente
+    const cliente = clientesData.find(c => c.id_cliente == idCliente);
+    
+    if (cliente) {
+        // Formatar as datas para exibição
+        const dataNasc = formatarData(cliente.data_nasc);
+        const dataCad = formatarData(cliente.data_cad);
+        
+        // Construir o HTML do modal
+        const modalHTML = `
+            <div class="info-section">
+                <h4>Dados Pessoais</h4>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">ID:</span>
+                        <span class="info-value">${escapeHtml(cliente.id_cliente)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Nome:</span>
+                        <span class="info-value">${escapeHtml(cliente.nome)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">${escapeHtml(cliente.email)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">CPF:</span>
+                        <span class="info-value">${escapeHtml(cliente.cpf)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Data de Nascimento:</span>
+                        <span class="info-value">${dataNasc}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sexo:</span>
+                        <span class="info-value">${escapeHtml(cliente.sexo)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Data de Cadastro:</span>
+                        <span class="info-value">${dataCad}</span>
+                    </div>
+                </div>
+                ${cliente.observacao ? `
+                <div class="info-item">
+                    <span class="info-label">Observação:</span>
+                    <span class="info-value">${escapeHtml(cliente.observacao)}</span>
+                </div>
+                ` : ''}
+            </div>
+            
+            <div class="info-section">
+                <h4>Endereço</h4>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">CEP:</span>
+                        <span class="info-value">${escapeHtml(cliente.cep)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Logradouro:</span>
+                        <span class="info-value">${escapeHtml(cliente.logradouro)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Número:</span>
+                        <span class="info-value">${escapeHtml(cliente.numero)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Complemento:</span>
+                        <span class="info-value">${escapeHtml(cliente.complemento)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Bairro:</span>
+                        <span class="info-value">${escapeHtml(cliente.bairro)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Cidade:</span>
+                        <span class="info-value">${escapeHtml(cliente.cidade)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">UF:</span>
+                        <span class="info-value">${escapeHtml(cliente.uf)}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <h4>Contato</h4>
+                <div class="info-item">
+                    <span class="info-label">Telefone:</span>
+                    <span class="info-value">${escapeHtml(cliente.telefone)}</span>
+                </div>
+            </div>
+        `;
+        
+        // Inserir o HTML no modal
+        document.getElementById('modalDetalhesBody').innerHTML = modalHTML;
+    } else {
+        document.getElementById('modalDetalhesBody').innerHTML = '<div class="alert alert-danger">Cliente não encontrado.</div>';
+    }
+    
+    // Mostrar o modal
+    document.getElementById('modalDetalhes').style.display = 'flex';
+}
+
+function fecharModalDetalhes() {
+    document.getElementById('modalDetalhes').style.display = 'none';
+}
+
+// Função para formatar data (de YYYY-MM-DD para DD/MM/YYYY)
+function formatarData(data) {
+    if (!data) return 'Não informado';
+    
+    const partes = data.split('-');
+    if (partes.length === 3) {
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+    return data;
+}
+
+// Função para escapar HTML (prevenir XSS)
+function escapeHtml(text) {
+    if (!text) return '';
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.toString().replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+// Fechar modal ao clicar fora do conteúdo
+document.getElementById('modalDetalhes').addEventListener('click', function(e) {
+    if (e.target === this) {
+        fecharModalDetalhes();
+    }
+});
+
+// Fechar modal com a tecla ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        fecharModalDetalhes();
+    }
 });
 </script>
 
