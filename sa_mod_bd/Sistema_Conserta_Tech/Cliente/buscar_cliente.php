@@ -1,44 +1,56 @@
 <?php
-    session_start();
-    require_once '../Conexao/conexao.php';
+session_start();
+require_once '../Conexao/conexao.php';
 
-    //verifica se o cliente tem permissao de adm ou atendente
-    if($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2){
-        echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
-        exit();
-    }
+// verifica se o cliente tem permissão de adm ou atendente
+if($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2){
+    echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
+    exit();
+}
 
-    $cliente=[]; //inicializa a variavel para evitar erros
+$clientes = []; // inicializa a variavel
 
-    //se o formulario for enviado, busca o cliente pelo id ou nome
-    if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca'])){
-        $busca=trim($_POST['busca']);
+// Se o formulário for enviado, busca o cliente pelo id ou nome
+if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca_cliente'])){
+    $busca = trim($_POST['busca_cliente']);
 
-        //verifica se a busca é um numero ou nome
-        if(is_numeric($busca)){
-            $sql="SELECT * FROM cliente WHERE id_cliente = :busca ORDER BY nome ASC";
-            $stmt=$pdo->prepare($sql);
-            $stmt->bindParam(':busca',$busca, PDO::PARAM_INT);
-        } else {
-            $sql="SELECT * FROM cliente WHERE nome LIKE :busca_nome ORDER BY nome ASC";
-            $stmt=$pdo->prepare($sql);
-            $stmt->bindValue(':busca_nome',"$busca%", PDO::PARAM_STR); //MUDAR AQUI PARA A ENTREGA (ja mudei)
-        }
+    if(is_numeric($busca)){
+        $sql = "SELECT * FROM cliente WHERE id_cliente = :busca ORDER BY nome ASC";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':busca', $busca, PDO::PARAM_INT);
     } else {
-        $sql="SELECT * FROM cliente ORDER BY nome ASC";
-        $stmt=$pdo->prepare($sql);
+        $sql = "SELECT * FROM cliente WHERE nome LIKE :busca_nome ORDER BY nome ASC";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':busca_nome', "%$busca%", PDO::PARAM_STR); // busca em qualquer posição
     }
+} else {
+    // Se não enviou busca, lista todos
+    $sql = "SELECT * FROM cliente ORDER BY nome ASC";
+    $stmt = $pdo->prepare($sql);
+}
+
+$stmt->execute();
+$clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Se um GET com id for passado, busca os dados do cliente
+$clienteAtual = null;
+if(isset($_GET['id']) && is_numeric($_GET['id'])){
+    $id_cliente = $_GET['id'];
+    $sql = "SELECT * FROM cliente WHERE id_cliente = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
     $stmt->execute();
-    $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    // Se um POST for enviado, atualiza o cliente
+    $clienteAtual = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Atualização do cliente
 if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
     $id_cliente = $_POST['id_cliente'];
     $nome = $_POST['nome'];
     $email = $_POST['email'];
 
-    $sql="UPDATE cliente SET nome=:nome, email=:email WHERE id_cliente=:id";
-    $stmt=$pdo->prepare($sql);
+    $sql = "UPDATE cliente SET nome = :nome, email = :email WHERE id_cliente = :id";
+    $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':nome', $nome);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
@@ -50,24 +62,8 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
         echo "<script>alert('Erro ao alterar o cliente!');</script>";
     }
 }
-
-// Se um GET com id for passado, busca os dados do cliente
-$clienteAtual = null;
-if(isset($_GET['id']) && is_numeric($_GET['id'])){
-    $id_cliente = $_GET['id'];
-    $sql="SELECT * FROM cliente WHERE id_cliente=:id";
-    $stmt=$pdo->prepare($sql);
-    $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
-    $stmt->execute();
-    $clienteAtual = $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-// Busca todos os clientes para exibir na tabela
-$sql="SELECT * FROM cliente ORDER BY nome ASC";
-$stmt=$pdo->prepare($sql);
-$stmt->execute();
-$clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -75,6 +71,7 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscar cliente</title>
+    
     <!-- Links bootstrapt e css -->
     <link rel="stylesheet" href="cliente.css">
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
@@ -102,6 +99,11 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 <main>
+    <div class="mb-3">
+    <a href="buscar_cliente.php" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+</div>
     <div class="conteudo">
         <h2 align="center">Clientes</h2>
 
@@ -125,7 +127,6 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th>Observação</th>
                         <th>Data de nascimento</th>
                         <th>Sexo</th>
-                        <th>Foto do cliente</th>
                         <th>Ações</th>
                     </tr>
                     <?php foreach($clientes as $cliente): ?>
@@ -133,13 +134,9 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?=htmlspecialchars($cliente['id_cliente'])?></td>
                             <td><?=htmlspecialchars($cliente['nome'])?></td>
                             <td><?=htmlspecialchars($cliente['email'])?></td>
-                            <td><?=htmlspecialchars($cliente['observacao'])?></td>
+                            <td><?= !empty($cliente['observacao']) ? htmlspecialchars($cliente['observacao']) : '' ?></td>
                             <td><?=htmlspecialchars($cliente['data_nasc'])?></td>
                             <td><?=htmlspecialchars($cliente['sexo'])?></td>
-                            <td>
-                                <img src="../img/<?= htmlspecialchars($cliente['foto_cliente']) ?>" 
-                                     alt="Foto do cliente" width="50" height="50">
-                            </td>
                             <td>
                                 <a class="btn btn-warning" href="alterar_cliente.php?id=<?=htmlspecialchars($cliente['id_cliente'])?>">Alterar</a>
                             </td>

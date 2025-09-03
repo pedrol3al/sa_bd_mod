@@ -91,6 +91,15 @@ label {
     background-color: #041857; /* Azul escuro */
     color: #fff; /* Texto branco */
 }
+
+.mb-3{
+
+
+
+
+    
+}
+
 .btn-primary:hover {
     background-color: #062385; /* Azul mais forte */
     transform: translateY(-2px); /* Efeito de subir */
