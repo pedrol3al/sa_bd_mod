@@ -110,17 +110,6 @@ CREATE TABLE `produto` (
   CONSTRAINT `fk_produto_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
-DROP TABLE IF EXISTS `tipo_servico`;
-
-CREATE TABLE `tipo_servico` (
-  `id_tipo_servico` INT NOT NULL AUTO_INCREMENT,
-  `tipo_servico` VARCHAR(255),
-  `valor_servico` DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (`id_tipo_servico`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
 DROP TABLE IF EXISTS `ordens_servico`;
 
 CREATE TABLE `ordens_servico` (
@@ -231,12 +220,7 @@ INSERT INTO `usuario` (
 );
 
 
-INSERT INTO `tipo_servico` (`tipo_servico`, `valor_servico`) VALUES
-  ('Manutenção Preventiva', 80.00),
-  ('Manutenção Corretiva', 120.00),
-  ('Limpeza Interna', 60.00),
-  ('Troca de Peças', 150.00),
-  ('Diagnóstico', 40.00);
+
 
 
 INSERT INTO `cliente`(`id_cliente`, `id_usuario`, `email`, `nome`, `observacao`, `data_nasc`, `data_cad`, `sexo`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `telefone`, `uf`, `bairro`, `inativo`) 
