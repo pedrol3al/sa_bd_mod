@@ -230,3 +230,17 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endif; ?>
 </div>
 </main>
+<script>
+$(document).ready(function(){
+    $('#cpf').mask('000.000.000-00');
+    $('#cnpj').mask('00.000.000/0000-00');
+    $('#telefone, #telefone_jur').mask('(00) 00000-0000');
+    $('#cep, #cep_jur').mask('00000-000');
+    flatpickr("#dataNascimento", {dateFormat: "d/m/Y"});
+    flatpickr("#dataFundacao", {dateFormat: "d/m/Y"});
+});
+</script>
+<script src="../Menu_lateral/carregar-menu.js" defer></script>
+<script src="cliente.js"></script>
+</body>
+</html>
