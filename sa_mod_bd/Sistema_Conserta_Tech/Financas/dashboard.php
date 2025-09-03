@@ -2,12 +2,122 @@
     session_start();
     require_once("../Conexao/conexao.php");
 
-    $sql="SELECT cliente SET nome=:nome, email=:email WHERE id_cliente=:id";
-    $stmt=$pdo->prepare($sql);
-    $stmt->bindParam(':nome', $nome);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
-?>
+    // Funções para buscar dados do banco
+    function getReceitaTotal($conn, $periodo = 30) {
+        $dataInicio = date('Y-m-d', strtotime("-$periodo days"));
+        
+        $query = "SELECT SUM(valor_total) as total 
+                FROM pagamento 
+                WHERE status = 'Pago' 
+                AND data_pagamento >= '$dataInicio'";
+        
+        $result = $conn->query($query);
+        $row = $result->fetch_assoc();
+        return $row['total'] ? $row['total'] : 0;
+    }
+
+    function getDespesasTotal($conn, $periodo = 30) {
+        $dataInicio = date('Y-m-d', strtotime("-$periodo days"));
+        
+        $query = "SELECT SUM(op.quantidade * e.valor_unitario) as total 
+                FROM os_produto op 
+                JOIN estoque e ON op.id_produto = e.id_produto 
+                JOIN ordens_servico os ON op.id_os = os.id 
+                JOIN pagamento p ON os.id = p.id_os 
+                WHERE p.status = 'Pago' 
+                AND p.data_pagamento >= '$dataInicio'";
+        
+        $result = $conn->query($query);
+        $row = $result->fetch_assoc();
+        return $row['total'] ? $row['total'] : 0;
+    }
+
+    function getPagamentosPendentes($conn) {
+        $query = "SELECT SUM(valor_total) as total 
+                FROM pagamento 
+                WHERE status = 'Pendente'";
+        
+        $result = $conn->query($query);
+        $row = $result->fetch_assoc();
+        return $row['total'] ? $row['total'] : 0;
+    }
+
+    function getQuantidadePendentes($conn) {
+        $query = "SELECT COUNT(*) as total 
+                FROM pagamento 
+                WHERE status = 'Pendente'";
+        
+        $result = $conn->query($query);
+        $row = $result->fetch_assoc();
+        return $row['total'];
+    }
+
+    function getUltimasOrdensServico($conn, $limit = 5) {
+        $query = "SELECT os.id, c.nome as cliente, os.data_criacao, p.valor_total, p.status 
+                FROM ordens_servico os 
+                JOIN cliente c ON os.id_cliente = c.id_cliente 
+                JOIN pagamento p ON os.id = p.id_os 
+                ORDER BY os.data_criacao DESC 
+                LIMIT $limit";
+        
+        $result = $conn->query($query);
+        $ordens = [];
+        
+        while ($row = $result->fetch_assoc()) {
+            $ordens[] = $row;
+        }
+        
+        return $ordens;
+    }
+
+    function getReceitaMensal($conn, $meses = 6) {
+        $query = "SELECT 
+                    DATE_FORMAT(data_pagamento, '%Y-%m') as mes,
+                    SUM(valor_total) as total
+                FROM pagamento 
+                WHERE status = 'Pago' 
+                AND data_pagamento >= DATE_SUB(NOW(), INTERVAL $meses MONTH)
+                GROUP BY DATE_FORMAT(data_pagamento, '%Y-%m')
+                ORDER BY mes";
+        
+        $result = $conn->query($query);
+        $dados = [];
+        
+        while ($row = $result->fetch_assoc()) {
+            $dados[$row['mes']] = $row['total'];
+        }
+        
+        return $dados;
+    }
+
+    function getStatusPagamentos($conn) {
+        $query = "SELECT 
+                    status,
+                    COUNT(*) as quantidade,
+                    SUM(valor_total) as valor_total
+                FROM pagamento 
+                GROUP BY status";
+        
+        $result = $conn->query($query);
+        $dados = ['Pago' => 0, 'Pendente' => 0];
+        
+        while ($row = $result->fetch_assoc()) {
+            $dados[$row['status']] = $row['quantidade'];
+        }
+        
+        return $dados;
+    }
+
+    // Buscar dados iniciais
+    $receitaTotal = getReceitaTotal($conn);
+    $despesasTotal = getDespesasTotal($conn);
+    $lucroLiquido = $receitaTotal - $despesasTotal;
+    $pagamentosPendentes = getPagamentosPendentes($conn);
+    $quantidadePendentes = getQuantidadePendentes($conn);
+    $ultimasOrdens = getUltimasOrdensServico($conn);
+    $receitaMensal = getReceitaMensal($conn);
+    $statusPagamentos = getStatusPagamentos($conn);
+    ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -137,183 +247,191 @@
     </div>
 
     <script>
-        // Variáveis globais para os gráficos
-        let receitaDespesasChart;
-        let statusPagamentosChart;
+    // Variáveis globais para os gráficos
+    let receitaDespesasChart;
+    let statusPagamentosChart;
 
-        // Função para carregar os dados do dashboard
-        function carregarDados() {
-            const periodo = document.getElementById('periodo').value;
-            const mes = document.getElementById('mesSelecionado').value;
-            
-            // Simulação de dados - na implementação real, isso virá do PHP
-            simularDadosDashboard(periodo, mes);
-        }
+    // Dados iniciais do PHP
+    const dadosIniciais = {
+        receitaTotal: <?php echo $receitaTotal; ?>,
+        despesasTotal: <?php echo $despesasTotal; ?>,
+        lucroLiquido: <?php echo $lucroLiquido; ?>,
+        pagamentosPendentes: <?php echo $pagamentosPendentes; ?>,
+        quantidadePendentes: <?php echo $quantidadePendentes; ?>,
+        ultimasOrdens: <?php echo json_encode($ultimasOrdens); ?>
+    };
 
-        // Função para simular dados (substituir por chamadas PHP reais)
-        function simularDadosDashboard(periodo, mes) {
-            // Simular dados dos cards
-            document.getElementById('receita-total').textContent = 'R$ 12.456,00';
-            document.getElementById('despesas-total').textContent = 'R$ 5.234,00';
-            document.getElementById('lucro-liquido').textContent = 'R$ 7.222,00';
-            document.getElementById('pagamentos-pendentes').textContent = 'R$ 3.450,00';
-            
-            document.getElementById('variacao-receita').textContent = '+15% em relação ao período anterior';
-            document.getElementById('variacao-despesas').textContent = '+5% em relação ao período anterior';
-            document.getElementById('variacao-lucro').textContent = '+22% em relação ao período anterior';
-            document.getElementById('quantidade-pendentes').textContent = '12 ordens com pagamento pendente';
-            
-            // Simular dados para os gráficos
-            const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-            const receitas = [8500, 9200, 10200, 11200, 10500, 12400, 13200, 14500, 13000, 14200, 15800, 16400];
-            const despesas = [4200, 4500, 4800, 5100, 4900, 5300, 5600, 5900, 5400, 5800, 6100, 6300];
-            
-            // Atualizar gráfico de receitas e despesas
-            atualizarGraficoReceitaDespesas(meses, receitas, despesas);
-            
-            // Atualizar gráfico de status de pagamentos
-            atualizarGraficoStatusPagamentos([65, 25, 10]);
-            
-            // Simular dados da tabela
-            const ordensServico = [
-                { id: 'OS-00125', cliente: 'Maria Silva', data: '15/08/2023', valor: 'R$ 450,00', status: 'pago' },
-                { id: 'OS-00124', cliente: 'João Santos', data: '14/08/2023', valor: 'R$ 320,00', status: 'pendente' },
-                { id: 'OS-00123', cliente: 'Empresa XYZ Ltda', data: '13/08/2023', valor: 'R$ 1.250,00', status: 'pago' },
-                { id: 'OS-00122', cliente: 'Ana Costa', data: '12/08/2023', valor: 'R$ 280,00', status: 'atrasado' },
-                { id: 'OS-00121', cliente: 'Carlos Oliveira', data: '11/08/2023', valor: 'R$ 520,00', status: 'pago' }
-            ];
-            
-            atualizarTabelaOS(ordensServico);
-        }
-
-        // Função para atualizar o gráfico de receitas e despesas
-        function atualizarGraficoReceitaDespesas(meses, receitas, despesas) {
-            const ctx = document.getElementById('receitaDespesasChart').getContext('2d');
-            
-            // Destruir gráfico existente se houver
-            if (receitaDespesasChart) {
-                receitaDespesasChart.destroy();
-            }
-            
-            // Criar novo gráfico
-            receitaDespesasChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: meses,
-                    datasets: [
-                        {
-                            label: 'Receita',
-                            data: receitas,
-                            backgroundColor: '#2ecc71',
-                            borderColor: '#27ae60',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Despesas',
-                            data: despesas,
-                            backgroundColor: '#e74c3c',
-                            borderColor: '#c0392b',
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return 'R$ ' + value.toLocaleString('pt-BR');
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': R$ ' + context.raw.toLocaleString('pt-BR');
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Função para atualizar o gráfico de status de pagamentos
-        function atualizarGraficoStatusPagamentos(dados) {
-            const ctx = document.getElementById('statusPagamentosChart').getContext('2d');
-            
-            // Destruir gráfico existente se houver
-            if (statusPagamentosChart) {
-                statusPagamentosChart.destroy();
-            }
-            
-            // Criar novo gráfico
-            statusPagamentosChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Pagos', 'Pendentes', 'Atrasados'],
-                    datasets: [{
-                        data: dados,
-                        backgroundColor: [
-                            '#2ecc71',
-                            '#f39c12',
-                            '#e74c3c'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.label + ': ' + context.raw + '%';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Função para atualizar a tabela de ordens de serviço
-        function atualizarTabelaOS(dados) {
-            const tabela = document.getElementById('tabela-os');
-            tabela.innerHTML = '';
-            
-            dados.forEach(item => {
-                const tr = document.createElement('tr');
-                
-                tr.innerHTML = `
-                    <td>${item.id}</td>
-                    <td>${item.cliente}</td>
-                    <td>${item.data}</td>
-                    <td>${item.valor}</td>
-                    <td><span class="status ${item.status}">${item.status.charAt(0).toUpperCase() + item.status.slice(1)}</span></td>
-                `;
-                
-                tabela.appendChild(tr);
-            });
-        }
-
-        // Inicializar o dashboard quando a página carregar
-        document.addEventListener('DOMContentLoaded', function() {
-            // Definir mês atual como padrão
-            const agora = new Date();
-            const mesAtual = agora.toISOString().slice(0, 7);
-            document.getElementById('mesSelecionado').value = mesAtual;
-            
-            // Carregar dados iniciais
-            carregarDados();
+    // Função para formatar valores monetários
+    function formatarValor(valor) {
+        return parseFloat(valor).toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         });
-    </script>
+    }
+
+    // Função para carregar os dados do dashboard
+    function carregarDados() {
+        // Usar dados iniciais do PHP
+        document.getElementById('receita-total').textContent = 'R$ ' + formatarValor(dadosIniciais.receitaTotal);
+        document.getElementById('despesas-total').textContent = 'R$ ' + formatarValor(dadosIniciais.despesasTotal);
+        document.getElementById('lucro-liquido').textContent = 'R$ ' + formatarValor(dadosIniciais.lucroLiquido);
+        document.getElementById('pagamentos-pendentes').textContent = 'R$ ' + formatarValor(dadosIniciais.pagamentosPendentes);
+        
+        document.getElementById('quantidade-pendentes').textContent = dadosIniciais.quantidadePendentes + ' ordens com pagamento pendente';
+        
+        // Simular dados para gráficos (você pode adaptar depois)
+        const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
+        const receitas = [dadosIniciais.receitaTotal * 0.8, dadosIniciais.receitaTotal * 0.9, dadosIniciais.receitaTotal, dadosIniciais.receitaTotal * 1.1, dadosIniciais.receitaTotal * 1.2, dadosIniciais.receitaTotal * 1.3];
+        const despesas = [dadosIniciais.despesasTotal * 0.8, dadosIniciais.despesasTotal * 0.9, dadosIniciais.despesasTotal, dadosIniciais.despesasTotal * 1.1, dadosIniciais.despesasTotal * 1.2, dadosIniciais.despesasTotal * 1.3];
+        
+        // Atualizar gráficos
+        atualizarGraficoReceitaDespesas(meses, receitas, despesas);
+        
+        // Gráfico de status (simplificado)
+        const totalPagamentos = dadosIniciais.quantidadePendentes + (dadosIniciais.ultimasOrdens.length - dadosIniciais.quantidadePendentes);
+        const percentualPagos = totalPagamentos > 0 ? ((dadosIniciais.ultimasOrdens.length - dadosIniciais.quantidadePendentes) / totalPagamentos) * 100 : 0;
+        const percentualPendentes = totalPagamentos > 0 ? (dadosIniciais.quantidadePendentes / totalPagamentos) * 100 : 0;
+        
+        atualizarGraficoStatusPagamentos([percentualPagos, percentualPendentes]);
+        
+        // Atualizar tabela
+        atualizarTabelaOS(dadosIniciais.ultimasOrdens);
+    }
+
+    // Função para atualizar o gráfico de receitas e despesas
+    function atualizarGraficoReceitaDespesas(meses, receitas, despesas) {
+        const ctx = document.getElementById('receitaDespesasChart').getContext('2d');
+        
+        // Destruir gráfico existente se houver
+        if (receitaDespesasChart) {
+            receitaDespesasChart.destroy();
+        }
+        
+        // Criar novo gráfico
+        receitaDespesasChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: meses,
+                datasets: [
+                    {
+                        label: 'Receita',
+                        data: receitas,
+                        backgroundColor: '#2ecc71',
+                        borderColor: '#27ae60',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Despesas',
+                        data: despesas,
+                        backgroundColor: '#e74c3c',
+                        borderColor: '#c0392b',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'R$ ' + value.toLocaleString('pt-BR');
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': R$ ' + context.raw.toLocaleString('pt-BR');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Função para atualizar o gráfico de status de pagamentos
+    function atualizarGraficoStatusPagamentos(dados) {
+        const ctx = document.getElementById('statusPagamentosChart').getContext('2d');
+        
+        // Destruir gráfico existente se houver
+        if (statusPagamentosChart) {
+            statusPagamentosChart.destroy();
+        }
+        
+        // Criar novo gráfico
+        statusPagamentosChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Pagos', 'Pendentes'],
+                datasets: [{
+                    data: dados,
+                    backgroundColor: [
+                        '#2ecc71',
+                        '#f39c12'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.raw.toFixed(1) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Função para atualizar a tabela de ordens de serviço
+    function atualizarTabelaOS(dados) {
+        const tabela = document.getElementById('tabela-os');
+        tabela.innerHTML = '';
+        
+        if (dados.length === 0) {
+            tabela.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhuma ordem de serviço encontrada</td></tr>';
+            return;
+        }
+        
+        dados.forEach(item => {
+            const tr = document.createElement('tr');
+            
+            // Formatar data
+            const data = new Date(item.data_criacao);
+            const dataFormatada = data.toLocaleDateString('pt-BR');
+            
+            // Formatar valor
+            const valorFormatado = 'R$ ' + formatarValor(item.valor_total);
+            
+            tr.innerHTML = `
+                <td>OS-${item.id.toString().padStart(5, '0')}</td>
+                <td>${item.cliente}</td>
+                <td>${dataFormatada}</td>
+                <td>${valorFormatado}</td>
+                <td><span class="status ${item.status.toLowerCase()}">${item.status.charAt(0).toUpperCase() + item.status.slice(1).toLowerCase()}</span></td>
+            `;
+            
+            tabela.appendChild(tr);
+        });
+    }
+
+    // Inicializar o dashboard quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+        // Carregar dados iniciais
+        carregarDados();
+    });
+</script>
 </body>
 </html>

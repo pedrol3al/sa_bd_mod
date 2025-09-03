@@ -239,3 +239,97 @@ INSERT INTO `tipo_servico` (`tipo_servico`, `valor_servico`) VALUES
   ('Limpeza Interna', 60.00),
   ('Troca de Peças', 150.00),
   ('Diagnóstico', 40.00);
+
+--insert para cliente
+INSERT INTO `cliente`(`id_cliente`, `id_usuario`, `email`, `nome`, `observacao`, `data_nasc`, `data_cad`, `sexo`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `telefone`, `uf`, `bairro`, `inativo`) 
+VALUES 
+(1, 1, 'maria.silva@email.com', 'Maria Silva', 'Cliente preferencial', '1985-03-15', '2023-01-10', 'F', '01234-567', 'Rua das Flores', 'Casa', 'Apto 102', '123', 'São Paulo', '(11) 99999-1234', 'SP', 'Centro', 0),
+(2, 1, 'joao.santos@email.com', 'João Santos', NULL, '1990-07-22', '2023-02-15', 'M', '04567-890', 'Avenida Paulista', 'Apartamento', 'Bloco B', '456', 'São Paulo', '(11) 98888-5678', 'SP', 'Bela Vista', 0),
+(3, 1, 'ana.oliveira@email.com', 'Ana Oliveira', 'Entregar apenas à noite', '1982-11-05', '2023-03-20', 'F', '07890-123', 'Rua Augusta', 'Loja', 'Sala 3', '789', 'São Paulo', '(11) 97777-9012', 'SP', 'Consolação', 1),
+(4, 1, 'carlos.rodrigues@email.com', 'Carlos Rodrigues', 'Cliente desde 2022', '1978-12-30', '2023-04-25', 'M', '02345-678', 'Praça da Sé', 'Casa', 'Fundos', '101', 'São Paulo', '(11) 96666-3456', 'SP', 'Sé', 0),
+(5, 1, 'juliana.lima@email.com', 'Juliana Lima', NULL, '1995-05-18', '2023-05-30', 'F', '05678-901', 'Rua Oscar Freire', 'Apartamento', 'Apto 1501', '200', 'São Paulo', '(11) 95555-7890', 'SP', 'Jardins', 0);
+
+--insert para cliente fisico
+INSERT INTO `cliente_fisico` (`id_cliente`, `cpf`) 
+VALUES 
+(1, '123.456.789-00'),
+(2, '987.654.321-00'),
+(3, '456.789.123-00');
+
+--insert para cliente juridico
+INSERT INTO `cliente_juridico` (`id_cliente`, `cnpj`) 
+VALUES 
+(4, '12.345.678/0001-90'),
+(5, '98.765.432/0001-10');
+
+-- insert para fornecedor
+INSERT INTO `fornecedor`(`id_fornecedor`, `email`, `razao_social`, `cnpj`, `data_fundacao`, `produto_fornecido`, `data_cad`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `uf`, `bairro`, `telefone`, `observacoes`, `inativo`) 
+VALUES 
+(1, 'contato@alimentosbrasil.com.br', 'Alimentos Brasil Ltda', '12.345.678/0001-90', '1998-05-15', 'Matéria-prima alimentícia', '2023-01-10', '01234-567', 'Avenida Industrial', 'Galpão', 'Setor A', '1000', 'São Paulo', 'SP', 'Jardim Industrial', '(11) 3333-4444', 'Entrega apenas dias úteis', 0),
+(2, 'vendas@tecnoequip.com.br', 'Tecno Equipamentos ME', '98.765.432/0001-10', '2010-11-22', 'Equipamentos industriais', '2023-02-15', '04567-890', 'Rua das Máquinas', 'Prédio', 'Sala 201', '250', 'Campinas', 'SP', 'Centro', '(19) 2555-6666', 'Fornecedor premium', 0),
+(3, 'sac@quimicosa.com.br', 'Químicos Associados S/A', '45.678.912/0001-34', '1985-03-08', 'Produtos químicos', '2023-03-20', '07890-123', 'Estrada do Chemical', 'Complexo', 'Bloco B', 's/n', 'São Paulo', 'SP', 'Interlagos', '(11) 2777-8888', 'Necessita certificação para compra', 1),
+(4, 'contato@embalagensrj.com.br', 'Embalagens Rio Ltda', '76.543.210/0001-56', '2005-07-30', 'Embalagens plásticas', '2023-04-25', '20000-000', 'Rua do Porto', 'Armazém', 'Porto 12', '500', 'Rio de Janeiro', 'RJ', 'Centro', '(21) 3444-5555', 'Prazo de entrega 15 dias', 0),
+(5, 'vendas@madeirasul.com.br', 'Madeira Sul Madeireira', '23.456.789/0001-78', '2015-12-05', 'Madeira e derivados', '2023-05-30', '90000-000', 'Avenida das Araucárias', 'Depósito', 'Pátio 3', '750', 'Porto Alegre', 'RS', 'Navegantes', '(51) 3666-7777', 'Trabalham apenas com madeira certificada', 0);
+
+--insert para produtos
+INSERT INTO `produto`(`id_produto`, `id_usuario`, `tipo`, `nome`, `aparelho_utilizado`, `quantidade`, `preco`, `data_registro`, `descricao`) 
+VALUES 
+(1, 1, 'Eletrônico', 'Smartphone Galaxy S23', 'Testador de bateria', 50, 2899.90, '2024-01-15', 'Smartphone Android com 256GB, 8GB RAM, câmera tripla 50MP'),
+(2, 1, 'Eletrodoméstico', 'Geladeira Frost Free', 'Medidor de temperatura', 25, 3499.00, '2024-02-20', 'Geladeira duplex 440L frost free, inversor, prata'),
+(3, 1, 'Informática', 'Notebook Gamer', 'Testador de performance', 15, 5999.99, '2024-03-10', 'Notbook gamer i7, 16GB RAM, RTX 4060, SSD 1TB'),
+(4, 1, 'Móvel', 'Sofá 3 Lugares', 'Nenhum', 8, 1999.90, '2024-04-05', 'Sofá 3 lugares retrátil, tecido suede, cinza'),
+(5, 1, 'Eletrônico', 'Smart TV 55" 4K', 'Calibrador de cores', 30, 2499.90, '2024-05-12', 'Smart TV LED 55" 4K UHD, Android TV, 3 HDMI');
+
+--insert para os
+INSERT INTO `ordens_servico`(`id`, `id_cliente`, `id_usuario`, `data_termino`, `status`, `observacoes`, `data_criacao`) 
+VALUES 
+(1, 1, 1, '2024-05-10', 'Concluído', 'Manutenção preventiva realizada', '2024-05-08'),
+(2, 2, 1, NULL, 'Em andamento', 'Aguardando aprovação do cliente', '2024-05-15'),
+(3, 3, 1, '2024-05-20', 'Concluído', 'Serviço de limpeza completo', '2024-05-18'),
+(4, 4, 1, NULL, 'Pendente', 'Cliente não trouxe o equipamento', '2024-05-22'),
+(5, 5, 1, '2024-05-25', 'Concluído', 'Troca de peças e ajustes finos', '2024-05-23');
+
+--insert para os_produto
+INSERT INTO `os_produto`(`id_os_produto`, `id_os`, `id_produto`, `quantidade`) 
+VALUES 
+(1, 1, 3, 1),   -- OS 1 usa 1 Notebook Gamer
+(2, 1, 1, 2),   -- OS 1 usa 2 Smartphones Galaxy S23
+(3, 2, 5, 1),   -- OS 2 usa 1 Smart TV 55"
+(4, 3, 3, 1),   -- OS 3 usa 1 Notebook Gamer  
+(5, 4, 4, 3);   -- OS 4 usa 3 Sofás 3 Lugares
+
+--insert para pagamento
+INSERT INTO `pagamento`(`id_pagamento`, `id_os`, `valor_total`, `frm_pagamento`, `data_pagamento`, `status`) 
+VALUES 
+(1, 1, 450.00, 'Cartão de Crédito', '2024-05-05', 'Pago'),
+(2, 2, 289.90, 'PIX', '2024-05-12', 'Pago'),
+(3, 3, 899.00, 'Dinheiro', '2024-05-18', 'Pago'),
+(4, 4, 1250.00, 'Cartão de Débito', NULL, 'Pendente'),
+(5, 5, 2100.00, 'Transferência Bancária', '2024-05-28', 'Pago');
+
+--insert para estoque
+INSERT INTO `estoque`(`id_estoque`, `id_produto`, `id_fornecedor`, `nome_peca`, `data_cadastro`, `quantidade`, `valor_unitario`, `descricao`) 
+VALUES 
+(1, 1, 2, 'Bateria Smartphone', '2024-03-15', 25, 89.90, 'Bateria original para smartphones Samsung Galaxy S23'),
+(2, 3, 2, 'Cooler Notebook Gamer', '2024-04-10', 15, 120.00, 'Cooler para notebook gamer, modelo universal'),
+(3, 5, 3, 'Placa Principal TV LED', '2024-02-20', 8, 350.00, 'Placa de circuito para Smart TV LG 55" 4K'),
+(4, 1, 1, 'Tela OLED Samsung', '2024-05-05', 12, 299.90, 'Tela OLED original Samsung Galaxy S23'),
+(5, 4, 4, 'Espuma para Sofá', '2024-01-30', 20, 45.00, 'Espuma de reposição para sofá 3 lugares');
+
+--insert para equipamentos_os
+INSERT INTO `equipamentos_os`(`id`, `id_os`, `fabricante`, `modelo`, `num_serie`, `num_aparelho`, `defeito_reclamado`, `condicao`) 
+VALUES 
+(1, 1, 'Samsung', 'Galaxy S23', 'SN123456789', 'AP001', 'Tela não funciona', 'Aparelho com arranhões na traseira'),
+(2, 1, 'Apple', 'iPhone 15 Pro', 'SN987654321', 'AP002', 'Bateria não carrega', 'Estado de conservação bom'),
+(3, 2, 'LG', 'Smart TV 55" 4K', 'SN456789123', 'AP003', 'Não liga', 'TV com poeira acumulada nas entradas'),
+(4, 3, 'Dell', 'Notebook Gamer', 'SN321654987', 'AP004', 'Superaquecimento', 'Teclado com teclas desgastadas'),
+(5, 4, 'Brastemp', 'Geladeira Frost Free', 'SN789123456', 'AP005', 'Não está gelando', 'Amassado lateral direito');
+
+--insert para servico_os
+INSERT INTO `servicos_os`(`id`, `id_equipamento`, `tipo_servico`, `descricao`, `valor`) 
+VALUES 
+(1, 1, 'Troca de Tela', 'Substituição da tela OLED danificada', 299.90),
+(2, 2, 'Troca de Bateria', 'Substituição da bateria com defeito', 89.90),
+(3, 3, 'Reparo Elétrico', 'Reparo na placa principal e fonte', 450.00),
+(4, 4, 'Manutenção Preventiva', 'Limpeza interna e troca de pasta térmica', 150.00),
+(5, 5, 'Troca de Compressor', 'Substituição do compressor defeituoso', 850.00);
