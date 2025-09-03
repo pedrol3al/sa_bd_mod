@@ -8,10 +8,6 @@
     <img src="../img/logout.png" alt="Sair">
   </button>
 
-  <button class="fechar" title="fechar">
-    <img src="../img/person-circle.svg" alt="Fechar">
-  </button>
-
   <nav class="menu-lateral">
     <div class="top-menu">
       <ul>
