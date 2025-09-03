@@ -194,7 +194,7 @@ CREATE TABLE `estoque` (
   CONSTRAINT `fk_estoque_produto` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id_produto`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Relação OS x Produto
+
 DROP TABLE IF EXISTS `os_produto`;
 
 CREATE TABLE `os_produto` (
@@ -207,7 +207,7 @@ CREATE TABLE `os_produto` (
   CONSTRAINT `fk_osprod_produto` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id_produto`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Inserção do usuário admin
+
 INSERT INTO `usuario` (
   `id_perfil`,
   `nome`,
@@ -232,7 +232,7 @@ INSERT INTO `usuario` (
   0
 );
 
--- Inserir alguns tipos de serviço
+
 INSERT INTO `tipo_servico` (`tipo_servico`, `valor_servico`) VALUES
   ('Manutenção Preventiva', 80.00),
   ('Manutenção Corretiva', 120.00),
@@ -240,7 +240,7 @@ INSERT INTO `tipo_servico` (`tipo_servico`, `valor_servico`) VALUES
   ('Troca de Peças', 150.00),
   ('Diagnóstico', 40.00);
 
---insert para cliente
+
 INSERT INTO `cliente`(`id_cliente`, `id_usuario`, `email`, `nome`, `observacao`, `data_nasc`, `data_cad`, `sexo`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `telefone`, `uf`, `bairro`, `inativo`) 
 VALUES 
 (1, 1, 'maria.silva@email.com', 'Maria Silva', 'Cliente preferencial', '1985-03-15', '2023-01-10', 'F', '01234-567', 'Rua das Flores', 'Casa', 'Apto 102', '123', 'São Paulo', '(11) 99999-1234', 'SP', 'Centro', 0),
@@ -249,20 +249,19 @@ VALUES
 (4, 1, 'carlos.rodrigues@email.com', 'Carlos Rodrigues', 'Cliente desde 2022', '1978-12-30', '2023-04-25', 'M', '02345-678', 'Praça da Sé', 'Casa', 'Fundos', '101', 'São Paulo', '(11) 96666-3456', 'SP', 'Sé', 0),
 (5, 1, 'juliana.lima@email.com', 'Juliana Lima', NULL, '1995-05-18', '2023-05-30', 'F', '05678-901', 'Rua Oscar Freire', 'Apartamento', 'Apto 1501', '200', 'São Paulo', '(11) 95555-7890', 'SP', 'Jardins', 0);
 
---insert para cliente fisico
+
 INSERT INTO `cliente_fisico` (`id_cliente`, `cpf`) 
 VALUES 
 (1, '123.456.789-00'),
 (2, '987.654.321-00'),
 (3, '456.789.123-00');
 
---insert para cliente juridico
 INSERT INTO `cliente_juridico` (`id_cliente`, `cnpj`) 
 VALUES 
 (4, '12.345.678/0001-90'),
 (5, '98.765.432/0001-10');
 
--- insert para fornecedor
+
 INSERT INTO `fornecedor`(`id_fornecedor`, `email`, `razao_social`, `cnpj`, `data_fundacao`, `produto_fornecido`, `data_cad`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `uf`, `bairro`, `telefone`, `observacoes`, `inativo`) 
 VALUES 
 (1, 'contato@alimentosbrasil.com.br', 'Alimentos Brasil Ltda', '12.345.678/0001-90', '1998-05-15', 'Matéria-prima alimentícia', '2023-01-10', '01234-567', 'Avenida Industrial', 'Galpão', 'Setor A', '1000', 'São Paulo', 'SP', 'Jardim Industrial', '(11) 3333-4444', 'Entrega apenas dias úteis', 0),
@@ -271,7 +270,7 @@ VALUES
 (4, 'contato@embalagensrj.com.br', 'Embalagens Rio Ltda', '76.543.210/0001-56', '2005-07-30', 'Embalagens plásticas', '2023-04-25', '20000-000', 'Rua do Porto', 'Armazém', 'Porto 12', '500', 'Rio de Janeiro', 'RJ', 'Centro', '(21) 3444-5555', 'Prazo de entrega 15 dias', 0),
 (5, 'vendas@madeirasul.com.br', 'Madeira Sul Madeireira', '23.456.789/0001-78', '2015-12-05', 'Madeira e derivados', '2023-05-30', '90000-000', 'Avenida das Araucárias', 'Depósito', 'Pátio 3', '750', 'Porto Alegre', 'RS', 'Navegantes', '(51) 3666-7777', 'Trabalham apenas com madeira certificada', 0);
 
---insert para produtos
+
 INSERT INTO `produto`(`id_produto`, `id_usuario`, `tipo`, `nome`, `aparelho_utilizado`, `quantidade`, `preco`, `data_registro`, `descricao`) 
 VALUES 
 (1, 1, 'Eletrônico', 'Smartphone Galaxy S23', 'Testador de bateria', 50, 2899.90, '2024-01-15', 'Smartphone Android com 256GB, 8GB RAM, câmera tripla 50MP'),
@@ -280,7 +279,6 @@ VALUES
 (4, 1, 'Móvel', 'Sofá 3 Lugares', 'Nenhum', 8, 1999.90, '2024-04-05', 'Sofá 3 lugares retrátil, tecido suede, cinza'),
 (5, 1, 'Eletrônico', 'Smart TV 55" 4K', 'Calibrador de cores', 30, 2499.90, '2024-05-12', 'Smart TV LED 55" 4K UHD, Android TV, 3 HDMI');
 
---insert para os
 INSERT INTO `ordens_servico`(`id`, `id_cliente`, `id_usuario`, `data_termino`, `status`, `observacoes`, `data_criacao`) 
 VALUES 
 (1, 1, 1, '2024-05-10', 'Concluído', 'Manutenção preventiva realizada', '2024-05-08'),
@@ -289,16 +287,16 @@ VALUES
 (4, 4, 1, NULL, 'Pendente', 'Cliente não trouxe o equipamento', '2024-05-22'),
 (5, 5, 1, '2024-05-25', 'Concluído', 'Troca de peças e ajustes finos', '2024-05-23');
 
---insert para os_produto
+
 INSERT INTO `os_produto`(`id_os_produto`, `id_os`, `id_produto`, `quantidade`) 
 VALUES 
-(1, 1, 3, 1),   -- OS 1 usa 1 Notebook Gamer
-(2, 1, 1, 2),   -- OS 1 usa 2 Smartphones Galaxy S23
-(3, 2, 5, 1),   -- OS 2 usa 1 Smart TV 55"
-(4, 3, 3, 1),   -- OS 3 usa 1 Notebook Gamer  
-(5, 4, 4, 3);   -- OS 4 usa 3 Sofás 3 Lugares
+(1, 1, 3, 1),  
+(2, 1, 1, 2),  
+(3, 2, 5, 1),   
+(4, 3, 3, 1),   
+(5, 4, 4, 3);   
 
---insert para pagamento
+
 INSERT INTO `pagamento`(`id_pagamento`, `id_os`, `valor_total`, `frm_pagamento`, `data_pagamento`, `status`) 
 VALUES 
 (1, 1, 450.00, 'Cartão de Crédito', '2024-05-05', 'Pago'),
@@ -307,7 +305,7 @@ VALUES
 (4, 4, 1250.00, 'Cartão de Débito', NULL, 'Pendente'),
 (5, 5, 2100.00, 'Transferência Bancária', '2024-05-28', 'Pago');
 
---insert para estoque
+
 INSERT INTO `estoque`(`id_estoque`, `id_produto`, `id_fornecedor`, `nome_peca`, `data_cadastro`, `quantidade`, `valor_unitario`, `descricao`) 
 VALUES 
 (1, 1, 2, 'Bateria Smartphone', '2024-03-15', 25, 89.90, 'Bateria original para smartphones Samsung Galaxy S23'),
@@ -316,7 +314,7 @@ VALUES
 (4, 1, 1, 'Tela OLED Samsung', '2024-05-05', 12, 299.90, 'Tela OLED original Samsung Galaxy S23'),
 (5, 4, 4, 'Espuma para Sofá', '2024-01-30', 20, 45.00, 'Espuma de reposição para sofá 3 lugares');
 
---insert para equipamentos_os
+
 INSERT INTO `equipamentos_os`(`id`, `id_os`, `fabricante`, `modelo`, `num_serie`, `num_aparelho`, `defeito_reclamado`, `condicao`) 
 VALUES 
 (1, 1, 'Samsung', 'Galaxy S23', 'SN123456789', 'AP001', 'Tela não funciona', 'Aparelho com arranhões na traseira'),
@@ -325,7 +323,7 @@ VALUES
 (4, 3, 'Dell', 'Notebook Gamer', 'SN321654987', 'AP004', 'Superaquecimento', 'Teclado com teclas desgastadas'),
 (5, 4, 'Brastemp', 'Geladeira Frost Free', 'SN789123456', 'AP005', 'Não está gelando', 'Amassado lateral direito');
 
---insert para servico_os
+
 INSERT INTO `servicos_os`(`id`, `id_equipamento`, `tipo_servico`, `descricao`, `valor`) 
 VALUES 
 (1, 1, 'Troca de Tela', 'Substituição da tela OLED danificada', 299.90),
@@ -333,3 +331,11 @@ VALUES
 (3, 3, 'Reparo Elétrico', 'Reparo na placa principal e fonte', 450.00),
 (4, 4, 'Manutenção Preventiva', 'Limpeza interna e troca de pasta térmica', 150.00),
 (5, 5, 'Troca de Compressor', 'Substituição do compressor defeituoso', 850.00);
+
+INSERT INTO `usuario`(`id_usuario`, `id_perfil`, `nome`, `cpf`, `username`, `email`, `senha`, `data_cad`, `data_nasc`, `sexo`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `uf`, `bairro`, `telefone`, `inativo`, `senha_temporaria`) 
+VALUES 
+(6, 1, 'João Silva', '123.456.789-00', 'joao.silva', 'joao.silva@empresa.com', '$2y$10$rQZ8bW7cT9hLmN6vX5pJ3O', '2023-01-15', '1985-03-20', 'M', '01234-567', 'Rua das Flores', 'Casa', 'Apto 101', '123', 'São Paulo', 'SP', 'Centro', '(11) 99999-1234', 0, 0),
+(2, 2, 'Maria Santos', '987.654.321-00', 'maria.santos', 'maria.santos@empresa.com', '$2y$10$sR9cT8uV7wX5yZ4pQ2nM6L', '2023-02-10', '1990-07-12', 'F', '04567-890', 'Avenida Paulista', 'Apartamento', 'Bloco B', '456', 'São Paulo', 'SP', 'Bela Vista', '(11) 98888-5678', 0, 0),
+(3, 3, 'Carlos Oliveira', '456.789.123-00', 'carlos.oliveira', 'carlos.oliveira@empresa.com', '$2y$10$tS0dU9vW8x6z5aQ3oN7pK4M', '2023-03-20', '1988-11-05', 'M', '07890-123', 'Rua Augusta', 'Sala', 'Sala 302', '789', 'São Paulo', 'SP', 'Consolação', '(11) 97777-9012', 0, 0),
+(4, 4, 'Ana Costa', '321.654.987-00', 'ana.costa', 'ana.costa@empresa.com', '$2y$10$uT1eV0wX9y7a6bR4pM8qL5N', '2023-04-05', '1992-05-18', 'F', '02345-678', 'Praça da Sé', 'Loja', 'Fundos', '101', 'São Paulo', 'SP', 'Sé', '(11) 96666-3456', 0, 0),
+(5, 3, 'Pedro Almeida', '654.321.987-00', 'pedro.almeida', 'pedro.almeida@empresa.com', '$2y$10$vU2fW1xY0z8b7cS5qN9rM6O', '2023-05-12', '1987-12-25', 'M', '05678-901', 'Rua Oscar Freire', 'Apartamento', 'Apto 1501', '200', 'São Paulo', 'SP', 'Jardins', '(11) 95555-7890', 1, 1);

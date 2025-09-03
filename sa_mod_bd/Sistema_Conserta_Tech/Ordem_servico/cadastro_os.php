@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Redirecionar com mensagem de sucesso
         $_SESSION['mensagem'] = 'Ordem de serviço cadastrada com sucesso!';
         $_SESSION['tipo_mensagem'] = 'success';
-        header('Location: lista_os.php');
+        header('Location: os.php');
         exit;
 
     } catch (Exception $e) {
