@@ -76,8 +76,8 @@
             <span class="txt-link">Orçamento <i class="bi bi-chevron-down"></i></span>
           </a>
           <div id="sub-orcamento" class="sub-menu" style="display: none;">
-            <a href="../Financas/financas.php"><i class="bi bi-circle-fill"></i> Finanças</a>
-            <a href="../Nota_Fiscal/emitir_nf.php"><i class="bi bi-circle-fill"></i> Emitir NF</a>
+            <a href="../Financas/dashboard.php"><i class="bi bi-circle-fill"></i> Finanças</a>
+            <a href="../Financas/pagamento_os.php"><i class="bi bi-circle-fill"></i> Pagamentos</a>
           </div>
         </li>
 

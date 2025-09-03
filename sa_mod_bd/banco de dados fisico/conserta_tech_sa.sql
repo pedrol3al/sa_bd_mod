@@ -254,7 +254,6 @@ VALUES
 (2, '987.654.321-00'),
 (3, '456.789.123-00');
 
-
 INSERT INTO `cliente_juridico` (`id_cliente`, `cnpj`) 
 VALUES 
 (4, '12.345.678/0001-90'),
@@ -276,7 +275,6 @@ VALUES
 (3, 1, 'Informática', 'Notebook Gamer', 'Testador de performance', 15, 5999.99, '2024-03-10', 'Notbook gamer i7, 16GB RAM, RTX 4060, SSD 1TB'),
 (4, 1, 'Móvel', 'Sofá 3 Lugares', 'Nenhum', 8, 1999.90, '2024-04-05', 'Sofá 3 lugares retrátil, tecido suede, cinza'),
 (5, 1, 'Eletrônico', 'Smart TV 55" 4K', 'Calibrador de cores', 30, 2499.90, '2024-05-12', 'Smart TV LED 55" 4K UHD, Android TV, 3 HDMI');
-
 
 INSERT INTO `ordens_servico`(`id`, `id_cliente`, `id_usuario`, `data_termino`, `status`, `observacoes`, `data_criacao`) 
 VALUES 
@@ -329,3 +327,11 @@ VALUES
 (3, 3, 'Reparo Elétrico', 'Reparo na placa principal e fonte', 450.00),
 (4, 4, 'Manutenção Preventiva', 'Limpeza interna e troca de pasta térmica', 150.00),
 (5, 5, 'Troca de Compressor', 'Substituição do compressor defeituoso', 850.00);
+
+INSERT INTO `usuario`(`id_usuario`, `id_perfil`, `nome`, `cpf`, `username`, `email`, `senha`, `data_cad`, `data_nasc`, `sexo`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `uf`, `bairro`, `telefone`, `inativo`, `senha_temporaria`) 
+VALUES 
+(6, 1, 'João Silva', '123.456.789-00', 'joao.silva', 'joao.silva@empresa.com', '$2y$10$rQZ8bW7cT9hLmN6vX5pJ3O', '2023-01-15', '1985-03-20', 'M', '01234-567', 'Rua das Flores', 'Casa', 'Apto 101', '123', 'São Paulo', 'SP', 'Centro', '(11) 99999-1234', 0, 0),
+(2, 2, 'Maria Santos', '987.654.321-00', 'maria.santos', 'maria.santos@empresa.com', '$2y$10$sR9cT8uV7wX5yZ4pQ2nM6L', '2023-02-10', '1990-07-12', 'F', '04567-890', 'Avenida Paulista', 'Apartamento', 'Bloco B', '456', 'São Paulo', 'SP', 'Bela Vista', '(11) 98888-5678', 0, 0),
+(3, 3, 'Carlos Oliveira', '456.789.123-00', 'carlos.oliveira', 'carlos.oliveira@empresa.com', '$2y$10$tS0dU9vW8x6z5aQ3oN7pK4M', '2023-03-20', '1988-11-05', 'M', '07890-123', 'Rua Augusta', 'Sala', 'Sala 302', '789', 'São Paulo', 'SP', 'Consolação', '(11) 97777-9012', 0, 0),
+(4, 4, 'Ana Costa', '321.654.987-00', 'ana.costa', 'ana.costa@empresa.com', '$2y$10$uT1eV0wX9y7a6bR4pM8qL5N', '2023-04-05', '1992-05-18', 'F', '02345-678', 'Praça da Sé', 'Loja', 'Fundos', '101', 'São Paulo', 'SP', 'Sé', '(11) 96666-3456', 0, 0),
+(5, 3, 'Pedro Almeida', '654.321.987-00', 'pedro.almeida', 'pedro.almeida@empresa.com', '$2y$10$vU2fW1xY0z8b7cS5qN9rM6O', '2023-05-12', '1987-12-25', 'M', '05678-901', 'Rua Oscar Freire', 'Apartamento', 'Apto 1501', '200', 'São Paulo', 'SP', 'Jardins', '(11) 95555-7890', 1, 1);

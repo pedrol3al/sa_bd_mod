@@ -88,10 +88,9 @@ try {
                         <label for="status">Status:</label>
                         <select id="status" name="status" class="form-control" required>
                             <option value="aberto">Aberto</option>
-                            <option value="andamento">Em Andamento</option>
-                            <option value="aguardando">Aguardando Peças</option>
-                            <option value="concluido">Concluído</option>
-                            <option value="entregue">Entregue</option>
+                            <option value="Em andamento">Em Andamento</option>
+                            <option value="Pendente">Aguardando Peças</option>
+                            <option value="Concluído">Concluído</option>
                         </select>
                     </div>
                 </div>
