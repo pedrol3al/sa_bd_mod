@@ -309,6 +309,7 @@ VALUES
 
 INSERT INTO `usuario`(`id_usuario`, `id_perfil`, `nome`, `cpf`, `username`, `email`, `senha`, `data_cad`, `data_nasc`, `sexo`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `uf`, `bairro`, `telefone`, `inativo`, `senha_temporaria`) 
 VALUES 
+(7, 1, 'Admin', '123.456.789-00', 'ADM.ADM', 'admin@admin', '12345', '2023-01-15', '1985-03-20', 'M', '01234-567', 'Rua das Flores', 'Casa', 'Apto 101', '123', 'São Paulo', 'SP', 'Centro', '(11) 99999-1234', 0, 0),
 (6, 1, 'João Silva', '123.456.789-00', 'joao.silva', 'joao.silva@empresa.com', '$2y$10$rQZ8bW7cT9hLmN6vX5pJ3O', '2023-01-15', '1985-03-20', 'M', '01234-567', 'Rua das Flores', 'Casa', 'Apto 101', '123', 'São Paulo', 'SP', 'Centro', '(11) 99999-1234', 0, 0),
 (2, 2, 'Maria Santos', '987.654.321-00', 'maria.santos', 'maria.santos@empresa.com', '$2y$10$sR9cT8uV7wX5yZ4pQ2nM6L', '2023-02-10', '1990-07-12', 'F', '04567-890', 'Avenida Paulista', 'Apartamento', 'Bloco B', '456', 'São Paulo', 'SP', 'Bela Vista', '(11) 98888-5678', 0, 0),
 (3, 3, 'Carlos Oliveira', '456.789.123-00', 'carlos.oliveira', 'carlos.oliveira@empresa.com', '$2y$10$tS0dU9vW8x6z5aQ3oN7pK4M', '2023-03-20', '1988-11-05', 'M', '07890-123', 'Rua Augusta', 'Sala', 'Sala 302', '789', 'São Paulo', 'SP', 'Consolação', '(11) 97777-9012', 0, 0),
