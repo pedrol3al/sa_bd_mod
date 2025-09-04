@@ -60,5 +60,9 @@ try {
 } catch (Exception $e) {
     $pdo->rollBack(); // desfaz tudo se deu erro
     echo "Erro no cadastro: " . $e->getMessage();
+    echo "<script>
+        alert('Usuário cadastrado com sucesso!');
+        window.location.href = 'usuario.php';
+    </script>";
 }
 ?>

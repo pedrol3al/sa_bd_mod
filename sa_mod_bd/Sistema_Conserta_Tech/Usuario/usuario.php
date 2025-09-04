@@ -6,12 +6,6 @@ if($_SESSION['perfil'] !=1){
   echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
   exit();
 }
-
-// Buscar técnicos
-$sql = "SELECT id_usuario, nome FROM usuario WHERE inativo = 0 ORDER BY nome";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$usuarios = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -175,12 +169,8 @@ $usuarios = $stmt->fetchAll();
 
           <div class="linha">
             <label for="username">Nome de usuário:</label>
-            <select id="id_usuario" name="id_usuario" class="form-control" required>
-                <option value="">Selecione um usuário</option>
-                  <?php foreach ($usuarios as $u): ?>
-                    <option value="<?= $u['id_usuario'] ?>"><?= htmlspecialchars($u['nome']) ?></option>
-                  <?php endforeach; ?>
-            </select>
+            <input type="text" id="username" name="username" class="form-control"
+              placeholder="Nome de usuário" required>
           </div>
 
           <div class="linha">
@@ -341,6 +331,7 @@ $usuarios = $stmt->fetchAll();
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
   <script src="../Menu_lateral/carregar-menu.js" defer></script>
+  <script src="usuario.js"></script>
   
   <script>
     // Aplicar máscaras aos campos
@@ -349,23 +340,9 @@ $usuarios = $stmt->fetchAll();
       $('#telefone_usuario').mask('(00) 00000-0000');
       $('#cep_usuario').mask('00000-000');
       
-      // Inicializar datepickers
-      $("#dataNascimento").flatpickr({
-        dateFormat: "d/m/Y",
-        allowInput: true
-      });
-      
-      $("#dataCadastro").flatpickr({
-        dateFormat: "d/m/Y",
-        allowInput: true,
-        defaultDate: "today"
-      });
+
     });
-    
-    function conferirCampos() {
-      // Sua lógica de validação aqui
-      return true;
-    }
+
   </script>
 </body>
 </html>
