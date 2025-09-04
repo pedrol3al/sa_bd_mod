@@ -3,13 +3,14 @@
             --primary-color: #4e73df;
             --secondary-color: #1cc88a;
             --warning-color: #f6c23e;
+            --background-color: #ecf0f1;
             --danger-color: #e74a3b;
             --info-color: #36b9cc;
             --dark-color: #5a5c69;
         }
         
         body {
-            background-color: #f8f9fc;
+            background-color: #ecf0f1 !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         

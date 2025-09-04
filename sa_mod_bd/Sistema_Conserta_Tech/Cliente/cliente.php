@@ -141,7 +141,7 @@ require_once("../Conexao/conexao.php");
       <h1>CADASTRO DE CLIENTES</h1>
       
       <div class="form-section">
-        <h2>Dados Pessoais</h2>
+        <h2>Dados:</h2>
         
         <div class="campo_cliente">
           <div class="linha">
@@ -150,7 +150,7 @@ require_once("../Conexao/conexao.php");
           </div>
 
           <div class="linha">
-            <label for="id_usuario">Id do usuário</label>
+            <label for="id_usuario">Usuario de cadastro:</label>
             <select id="id_usuario" name="id_usuario" class="form-control" required>
                 <option value="">Selecione um usuário</option>
                   <?php foreach ($usuarios as $u): ?>
