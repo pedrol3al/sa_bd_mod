@@ -312,6 +312,7 @@ require_once("../Conexao/conexao.php");
         dateFormat: "d/m/Y",
         allowInput: true,
     });
+  });
     
     function conferirCampos() {
       // Sua lógica de validação aqui
