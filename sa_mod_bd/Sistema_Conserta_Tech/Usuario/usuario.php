@@ -6,12 +6,6 @@ if($_SESSION['perfil'] !=1){
   echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
   exit();
 }
-
-// Buscar técnicos
-$sql = "SELECT id_usuario, nome FROM usuario WHERE inativo = 0 ORDER BY nome";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$usuarios = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -175,12 +169,8 @@ $usuarios = $stmt->fetchAll();
 
           <div class="linha">
             <label for="username">Nome de usuário:</label>
-            <select id="id_usuario" name="id_usuario" class="form-control" required>
-                <option value="">Selecione um usuário</option>
-                  <?php foreach ($usuarios as $u): ?>
-                    <option value="<?= $u['id_usuario'] ?>"><?= htmlspecialchars($u['nome']) ?></option>
-                  <?php endforeach; ?>
-            </select>
+            <input type="text" id="username" name="username" class="form-control"
+              placeholder="Nome de usuário" required>
           </div>
 
           <div class="linha">
