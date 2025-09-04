@@ -329,6 +329,7 @@ if($_SESSION['perfil'] !=1){
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
   <script src="../Menu_lateral/carregar-menu.js" defer></script>
+  <script src="usuario.js"></script>
   
   <script>
     // Aplicar máscaras aos campos
@@ -337,23 +338,9 @@ if($_SESSION['perfil'] !=1){
       $('#telefone_usuario').mask('(00) 00000-0000');
       $('#cep_usuario').mask('00000-000');
       
-      // Inicializar datepickers
-      $("#dataNascimento").flatpickr({
-        dateFormat: "d/m/Y",
-        allowInput: true
-      });
-      
-      $("#dataCadastro").flatpickr({
-        dateFormat: "d/m/Y",
-        allowInput: true,
-        defaultDate: "today"
-      });
+
     });
-    
-    function conferirCampos() {
-      // Sua lógica de validação aqui
-      return true;
-    }
+
   </script>
 </body>
 </html>
