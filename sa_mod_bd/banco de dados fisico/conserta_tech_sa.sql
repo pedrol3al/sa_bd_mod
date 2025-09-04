@@ -194,7 +194,7 @@ CREATE TABLE `os_produto` (
   `id_os` INT NOT NULL,
   `id_produto` INT NOT NULL,
   `valor_unitario` DECIMAL(10,2) DEFAULT 0,
-  `valor_total` DECIMAL(10,2) DEFAULT 0;
+  `valor_total` DECIMAL(10,2) DEFAULT 0,  -- CORRIGIDO: vírgula em vez de ;
   `quantidade` INT NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_os_produto`),
   CONSTRAINT `fk_osprod_os` FOREIGN KEY (`id_os`) REFERENCES `ordens_servico` (`id`) ON DELETE CASCADE,
