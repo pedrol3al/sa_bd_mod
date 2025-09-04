@@ -7,6 +7,52 @@ if($_SESSION['perfil'] !=1){
     exit();
 }
 
+// Processar inativação do cliente
+if(isset($_GET['inativar']) && is_numeric($_GET['inativar'])){
+    try {
+        $id_cliente = $_GET['inativar'];
+        $sql = "UPDATE cliente SET inativo = 1 WHERE id_cliente = :id_cliente";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id_cliente', $id_cliente, PDO::PARAM_INT);
+        
+        if($stmt->execute()){
+            $_SESSION['mensagem'] = 'Cliente inativado com sucesso!';
+            $_SESSION['tipo_mensagem'] = 'success';
+            header('Location: alterar_cliente.php');
+            exit;
+        } else {
+            $_SESSION['mensagem'] = 'Erro ao inativar o cliente!';
+            $_SESSION['tipo_mensagem'] = 'danger';
+        }
+    } catch (PDOException $e) {
+        $_SESSION['mensagem'] = 'Erro ao inativar cliente: ' . $e->getMessage();
+        $_SESSION['tipo_mensagem'] = 'danger';
+    }
+}
+
+// Processar ativação do cliente
+if(isset($_GET['ativar']) && is_numeric($_GET['ativar'])){
+    try {
+        $id_cliente = $_GET['ativar'];
+        $sql = "UPDATE cliente SET inativo = 0 WHERE id_cliente = :id_cliente";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id_cliente', $id_cliente, PDO::PARAM_INT);
+        
+        if($stmt->execute()){
+            $_SESSION['mensagem'] = 'Cliente ativado com sucesso!';
+            $_SESSION['tipo_mensagem'] = 'success';
+            header('Location: alterar_cliente.php');
+            exit;
+        } else {
+            $_SESSION['mensagem'] = 'Erro ao ativar o cliente!';
+            $_SESSION['tipo_mensagem'] = 'danger';
+        }
+    } catch (PDOException $e) {
+        $_SESSION['mensagem'] = 'Erro ao ativar cliente: ' . $e->getMessage();
+        $_SESSION['tipo_mensagem'] = 'danger';
+    }
+}
+
 // Mova todo o código de processamento do POST para DENTRO de uma verificação de método POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (
@@ -63,13 +109,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            echo "<script>alert('Cliente alterado com sucesso!');window.location.href='buscar_cliente.php?id=" . $id_cliente . "';</script>";
+            $_SESSION['mensagem'] = 'Cliente alterado com sucesso!';
+            $_SESSION['tipo_mensagem'] = 'success';
+            header('Location: alterar_cliente.php?id=' . $id_cliente);
             exit;
         } else {
-            echo "<script>alert('Erro ao alterar o cliente!');</script>";
+            $_SESSION['mensagem'] = 'Erro ao alterar o cliente!';
+            $_SESSION['tipo_mensagem'] = 'danger';
         }
     } else {
-        echo "<script>alert('Por favor, preencha todos os campos obrigatórios!');</script>";
+        $_SESSION['mensagem'] = 'Por favor, preencha todos os campos obrigatórios!';
+        $_SESSION['tipo_mensagem'] = 'warning';
     }
 }
 
@@ -85,20 +135,29 @@ if(isset($_GET['id']) && is_numeric($_GET['id'])){
     
     // Se não encontrar o cliente, redireciona
     if(!$clienteAtual) {
-        echo "<script>alert('Cliente não encontrado!');window.location.href='buscar_cliente.php';</script>";
+        $_SESSION['mensagem'] = 'Cliente não encontrado!';
+        $_SESSION['tipo_mensagem'] = 'danger';
+        header('Location: buscar_cliente.php');
         exit;
     }
 } else {
     // Se não tem ID, redireciona para busca
-    echo "<script>alert('Nenhum cliente selecionado!');window.location.href='buscar_cliente.php';</script>";
+    $_SESSION['mensagem'] = 'Nenhum cliente selecionado!';
+    $_SESSION['tipo_mensagem'] = 'warning';
+    header('Location: buscar_cliente.php');
     exit;
 }
 
-// Busca todos os clientes para exibir na tabela (se necessário)
-$sql="SELECT * FROM cliente ORDER BY nome ASC";
+// Busca todos os clientes para exibir na tabela (apenas os ativos)
+$sql="SELECT * FROM cliente WHERE inativo = 0 ORDER BY nome ASC";
 $stmt=$pdo->prepare($sql);
 $stmt->execute();
 $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Função auxiliar para evitar erros com valores nulos
+function safe_html($value) {
+    return $value !== null ? htmlspecialchars($value) : '';
+}
 ?>
 
 
@@ -108,143 +167,399 @@ $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alterar cliente</title>
-    <!-- Links bootstrapt e css -->
+    
+    <!-- Links bootstrap e css -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="cliente_alterar.css" />
     <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
     <!-- Imagem no navegador -->
     <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
+    
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #2c3e50;
+            --border-color: #bdc3c7;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 20px 20px 20px 220px;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 5px;
+            background-color: white;
+        }
+        
+        .form-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .campos_juridica {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .linha {
+            margin-bottom: 15px;
+        }
+        
+        .linha label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .linha input, 
+        .linha select, 
+        .linha textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .container-botoes {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .btn-enviar {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-limpar {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-ativo {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .status-inativo {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        /* Ajuste para telas menores */
+        @media (max-width: 992px) {
+            .container {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            
+            .campos_juridica {
+                grid-template-columns: 1fr;
+            }
+            
+            .container-botoes {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ALTERAR CLIENTE #<?= safe_html($clienteAtual['id_cliente'] ?? '') ?></h1>
+        
+        <?php include("../Menu_lateral/menu.php"); ?>
+        
+        <!-- Mensagens de alerta -->
+        <?php if (isset($_SESSION['mensagem'])): ?>
+            <div class="alert alert-<?= $_SESSION['tipo_mensagem'] ?> alert-dismissible fade show">
+                <?= $_SESSION['mensagem'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <?php
+            unset($_SESSION['mensagem']);
+            unset($_SESSION['tipo_mensagem']);
+            ?>
+        <?php endif; ?>
+        
+        <div class="mb-3">
+            <a href="buscar_cliente.php" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </a>
+        </div>
 
-    <!-- Link notfy -->
+        <?php if($clienteAtual): ?>
+        <form method="POST">
+            <input type="hidden" name="id_cliente" value="<?= safe_html($clienteAtual['id_cliente'] ?? '') ?>">
+            
+            <div class="form-section">
+                <h2>Dados Pessoais</h2>
+                
+                <div class="campos_juridica">
+                    <div class="linha">
+                        <label for="nome_cliente">Nome:</label>
+                        <input type="text" id="nome_cliente" name="nome" class="form-control" value="<?= safe_html($clienteAtual['nome'] ?? '') ?>" required>
+                    </div>
+
+                    <div class="linha">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control" value="<?= safe_html($clienteAtual['email'] ?? '') ?>" required>
+                    </div>
+
+                    <div class="linha">
+                        <label for="telefone">Telefone:</label>
+                        <input type="text" id="telefone" name="telefone" class="form-control" value="<?= safe_html($clienteAtual['telefone'] ?? '') ?>">
+                    </div>
+
+                    <div class="linha">
+                        <label for="data_nasc">Data de Nascimento:</label>
+                        <input type="text" id="data_nasc" name="data_nasc" class="form-control" value="<?= safe_html($clienteAtual['data_nasc'] ?? '') ?>">
+                    </div>
+
+                    <div class="linha">
+                        <label for="sexo">Sexo:</label>
+                        <select id="sexo" name="sexo" class="form-control">
+                            <option value="">Selecione</option>
+                            <option value="M" <?= ($clienteAtual['sexo']=='M') ? 'selected' : '' ?>>Masculino</option>
+                            <option value="F" <?= ($clienteAtual['sexo']=='F') ? 'selected' : '' ?>>Feminino</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Endereço</h2>
+                
+                <div class="campos_juridica">
+                    <div class="linha">
+                        <label for="cep">CEP:</label>
+                        <input type="text" id="cep" name="cep" class="form-control" value="<?= safe_html($clienteAtual['cep'] ?? '') ?>">
+                    </div>
+
+                    <div class="linha">
+                        <label for="logradouro">Logradouro:</label>
+                        <input type="text" id="logradouro" name="logradouro" class="form-control" value="<?= safe_html($clienteAtual['logradouro'] ?? '') ?>">
+                    </div>
+
+                    <div class="linha">
+                        <label for="numero">Número:</label>
+                        <input type="text" id="numero" name="numero" class="form-control" value="<?= safe_html($clienteAtual['numero'] ?? '') ?>">
+                    </div>
+
+                    <div class="linha">
+                        <label for="bairro">Bairro:</label>
+                        <input type="text" id="bairro" name="bairro" class="form-control" value="<?= safe_html($clienteAtual['bairro'] ?? '') ?>">
+                    </div>
+
+                    <div class="linha">
+                        <label for="cidade">Cidade:</label>
+                        <input type="text" id="cidade" name="cidade" class="form-control" value="<?= safe_html($clienteAtual['cidade'] ?? '') ?>">
+                    </div>
+
+                    <div class="linha">
+                        <label for="uf">UF:</label>
+                        <select id="uf" name="uf" class="form-control">
+                            <?php
+                            $ufs = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
+                            foreach($ufs as $uf){
+                                $selected = ($clienteAtual['uf']==$uf) ? 'selected' : '';
+                                echo "<option value='$uf' $selected>$uf</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Outras Informações</h2>
+                
+                <div class="campos_juridica">
+                    <div class="linha" style="grid-column: 1 / -1;">
+                        <label for="observacao">Observação:</label>
+                        <textarea id="observacao" name="observacao" class="form-control" rows="3"><?= safe_html($clienteAtual['observacao'] ?? '') ?></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container-botoes">
+                <button type="reset" class="btn btn-limpar">Limpar</button>
+                <button type="submit" class="btn btn-enviar">
+                    <i class="bi bi-check-circle"></i> Salvar Alterações
+                </button>
+                
+                <?php if($clienteAtual['inativo'] == 0): ?>
+                    <a href="alterar_cliente.php?inativar=<?= $clienteAtual['id_cliente'] ?>" 
+                       class="btn btn-danger" 
+                       onclick="return confirm('Tem certeza que deseja inativar este cliente?')">
+                        <i class="bi bi-person-x"></i> Inativar Cliente
+                    </a>
+                <?php else: ?>
+                    <a href="alterar_cliente.php?ativar=<?= $clienteAtual['id_cliente'] ?>" 
+                       class="btn btn-success" 
+                       onclick="return confirm('Tem certeza que deseja ativar este cliente?')">
+                        <i class="bi bi-person-check"></i> Ativar Cliente
+                    </a>
+                <?php endif; ?>
+            </div>
+        </form>
+        <?php endif; ?>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-
-    <!-- Link das máscaras dos campos -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-</head>
-<body class="corpo">
-
-<?php
-  include("../Menu_lateral/menu.php"); 
-?>
-
-
-<main>
-     <div class="mb-3">
-    <a href="buscar_cliente.php" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Voltar
-    </a>
-<div class="conteudo">
-    <div class="topoTitulo">
-        <h1>ALTERAR CLIENTE</h1>
-        <hr>
-    </div>
-
-    <?php if($clienteAtual): ?>
-    <form method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="id_cliente" value="<?= htmlspecialchars($clienteAtual['id_cliente'] ?? '') ?>">
-
-    <div class="campos_juridica">
-        <div class="linha">
-            <label for="nome_cliente">Nome:</label>
-            <input type="text" id="nome_cliente" name="nome" class="form-control" value="<?= htmlspecialchars($clienteAtual['nome'] ?? '') ?>" required>
-        </div>
-
-        <div class="linha">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" class="form-control" value="<?= htmlspecialchars($clienteAtual['email'] ?? '') ?>" required>
-        </div>
-
-        <div class="linha">
-            <label for="telefone">Telefone:</label>
-            <input type="text" id="telefone" name="telefone" class="form-control" value="<?= htmlspecialchars($clienteAtual['telefone'] ?? '') ?>">
-        </div>
-
-        <div class="linha">
-            <label for="data_nasc">Data de Nascimento:</label>
-            <input type="text" id="data_nasc" name="data_nasc" class="form-control" value="<?= htmlspecialchars($clienteAtual['data_nasc'] ?? '') ?>">
-        </div>
-
-        <div class="linha">
-            <label for="sexo">Sexo:</label>
-            <select id="sexo" name="sexo" class="form-control">
-                <option value="">Selecione</option>
-                <option value="M" <?= ($clienteAtual['sexo']=='M') ? 'selected' : '' ?>>Masculino</option>
-                <option value="F" <?= ($clienteAtual['sexo']=='F') ? 'selected' : '' ?>>Feminino</option>
-            </select>
-        </div>
-
-        <div class="linha">
-            <label for="cep">CEP:</label>
-            <input type="text" id="cep" name="cep" class="form-control" value="<?= htmlspecialchars($clienteAtual['cep'] ?? '') ?>">
-        </div>
-
-        <div class="linha">
-            <label for="logradouro">Logradouro:</label>
-            <input type="text" id="logradouro" name="logradouro" class="form-control" value="<?= htmlspecialchars($clienteAtual['logradouro'] ?? '') ?>">
-        </div>
-
-        <div class="linha">
-            <label for="numero">Número:</label>
-            <input type="text" id="numero" name="numero" class="form-control" value="<?= htmlspecialchars($clienteAtual['numero'] ?? '') ?>">
-        </div>
-
-        <div class="linha">
-            <label for="bairro">Bairro:</label>
-            <input type="text" id="bairro" name="bairro" class="form-control" value="<?= htmlspecialchars($clienteAtual['bairro'] ?? '') ?>">
-        </div>
-
-        <div class="linha">
-            <label for="cidade">Cidade:</label>
-            <input type="text" id="cidade" name="cidade" class="form-control" value="<?= htmlspecialchars($clienteAtual['cidade'] ?? '') ?>">
-        </div>
-
-        <div class="linha">
-            <label for="uf">UF:</label>
-            <select id="uf" name="uf" class="form-control">
-                <?php
-                $ufs = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
-                foreach($ufs as $uf){
-                    $selected = ($clienteAtual['uf']==$uf) ? 'selected' : '';
-                    echo "<option value='$uf' $selected>$uf</option>";
-                }
-                ?>
-            </select>
-        </div>
-
-        <div class="linha">
-            <label for="observacao">Observação:</label>
-            <input type="text" id="observacao" name="observacao" class="form-control" value="<?= htmlspecialchars($clienteAtual['observacao'] ?? '') ?>">
-        </div>
-        
-        <div class="container-botoes">
-            <button type="submit" class="btn btn-warning btn-enviar">Salvar Alterações</button>
-            <button type="reset" class="btn btn-limpar">Limpar</button>
-        </div>
-    </div>
-</form>
-    <?php endif; ?>
-</div>
-</main>
-<script>
-$(document).ready(function(){
-    // Mantenha as máscaras para outros campos
-    $('#cpf').mask('000.000.000-00');
-    $('#cnpj').mask('00.000.000/0000-00');
-    $('#telefone, #telefone_jur').mask('(00) 00000-0000');
-    $('#cep, #cep_jur').mask('00000-000');
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     
-    flatpickr("#data_nasc", {
-        dateFormat: "d/m/Y",
-        locale: "pt"
-    });
-});
-</script>
-<script src="../Menu_lateral/carregar-menu.js" defer></script>
-<script src="cliente.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Aplicar máscaras aos campos
+            $('#cpf').mask('000.000.000-00');
+            $('#cnpj').mask('00.000.000/0000-00');
+            $('#telefone, #telefone_jur').mask('(00) 00000-0000');
+            $('#cep, #cep_jur').mask('00000-000');
+            
+            // Inicializar datepicker
+            flatpickr("#data_nasc", {
+                dateFormat: "d/m/Y",
+                locale: "pt"
+            });
+            
+            // Buscar endereço pelo CEP
+            $('#cep').on('blur', function() {
+                var cep = $(this).val().replace(/\D/g, '');
+                
+                if (cep.length === 8) {
+                    $.getJSON('https://viacep.com.br/ws/' + cep + '/json/', function(data) {
+                        if (!data.erro) {
+                            $('#logradouro').val(data.logradouro);
+                            $('#bairro').val(data.bairro);
+                            $('#cidade').val(data.localidade);
+                            $('#uf').val(data.uf);
+                            $('#numero').focus();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
