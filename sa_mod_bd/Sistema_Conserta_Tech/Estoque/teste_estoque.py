@@ -10,7 +10,7 @@ class AutomacaoCadastroProdutos:
     def __init__(self):
         # Inicializa o navegador
         self.driver = webdriver.Chrome()
-        self.wait = WebDriverWait(self.driver, 10)
+        self.wait = WebDriverWait(self.driver, 20)
     
     def fazer_login(self, url, usuario, senha):
         """Realiza o login no sistema"""
@@ -133,7 +133,7 @@ class AutomacaoCadastroProdutos:
             estoque_menu.click()
             
             # Pequena pausa para garantir que o submenu seja expandido
-            time.sleep(2)
+            time.sleep(3)
             
             print("Acessando Cadastro de Produtos...")
             # Tenta diferentes formas de encontrar o link de cadastro
@@ -252,7 +252,7 @@ class AutomacaoCadastroProdutos:
             print("   ✓ Botão de cadastro clicado")
             
             # Aguarda o processamento
-            time.sleep(3)
+            time.sleep(15)
             
             # Verifica se o cadastro foi bem-sucedido
             try:
