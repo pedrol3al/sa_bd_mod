@@ -170,21 +170,6 @@ CREATE TABLE `pagamento` (
   CONSTRAINT `fk_pag_os` FOREIGN KEY (`id_os`) REFERENCES `ordens_servico` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-DROP TABLE IF EXISTS `estoque`;
-
-CREATE TABLE `estoque` (
-  `id_estoque` INT NOT NULL AUTO_INCREMENT,
-  `id_produto` INT NOT NULL,
-  `id_fornecedor` INT NOT NULL,
-  `nome_peca` VARCHAR(255),
-  `data_cadastro` DATE,
-  `quantidade` INT NOT NULL,
-  `valor_unitario` DECIMAL(10,2) NOT NULL,
-  `descricao` VARCHAR(255),
-  PRIMARY KEY (`id_estoque`),
-  CONSTRAINT `fk_estoque_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE,
-  CONSTRAINT `fk_estoque_produto` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id_produto`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 DROP TABLE IF EXISTS `os_produto`;
@@ -239,18 +224,18 @@ VALUES
 (5, 1, 'juliana.lima@email.com', 'Juliana Lima', NULL, '1995-05-18', '2023-05-30', 'F', '05678-901', 'Rua Oscar Freire', 'Apartamento', 'Apto 1501', '200', 'São Paulo', '(11) 95555-7890', 'SP', 'Jardins', 0);
 
 
-INSERT INTO `fornecedor`(`id_fornecedor`, `email`, `razao_social`, `cnpj`, `data_fundacao`, `produto_fornecido`, `data_cad`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `uf`, `bairro`, `telefone`, `observacoes`, `inativo`) 
+INSERT INTO `fornecedor`(`id_fornecedor`, `id_usuario`,`email`, `razao_social`, `cnpj`, `data_fundacao`, `produto_fornecido`, `data_cad`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `uf`, `bairro`, `telefone`, `observacoes`, `inativo`) 
 VALUES 
-(1, 'contato@alimentosbrasil.com.br', 'Alimentos Brasil Ltda', '12.345.678/0001-90', '1998-05-15', 'Matéria-prima alimentícia', '2023-01-10', '01234-567', 'Avenida Industrial', 'Galpão', 'Setor A', '1000', 'São Paulo', 'SP', 'Jardim Industrial', '(11) 3333-4444', 'Entrega apenas dias úteis', 0),
-(2, 'vendas@tecnoequip.com.br', 'Tecno Equipamentos ME', '98.765.432/0001-10', '2010-11-22', 'Equipamentos industriais', '2023-02-15', '04567-890', 'Rua das Máquinas', 'Prédio', 'Sala 201', '250', 'Campinas', 'SP', 'Centro', '(19) 2555-6666', 'Fornecedor premium', 0),
-(3, 'sac@quimicosa.com.br', 'Químicos Associados S/A', '45.678.912/0001-34', '1985-03-08', 'Produtos químicos', '2023-03-20', '07890-123', 'Estrada do Chemical', 'Complexo', 'Bloco B', 's/n', 'São Paulo', 'SP', 'Interlagos', '(11) 2777-8888', 'Necessita certificação para compra', 1),
-(4, 'contato@embalagensrj.com.br', 'Embalagens Rio Ltda', '76.543.210/0001-56', '2005-07-30', 'Embalagens plásticas', '2023-04-25', '20000-000', 'Rua do Porto', 'Armazém', 'Porto 12', '500', 'Rio de Janeiro', 'RJ', 'Centro', '(21) 3444-5555', 'Prazo de entrega 15 dias', 0),
-(5, 'vendas@madeirasul.com.br', 'Madeira Sul Madeireira', '23.456.789/0001-78', '2015-12-05', 'Madeira e derivados', '2023-05-30', '90000-000', 'Avenida das Araucárias', 'Depósito', 'Pátio 3', '750', 'Porto Alegre', 'RS', 'Navegantes', '(51) 3666-7777', 'Trabalham apenas com madeira certificada', 0);
+(1, 1, 'contato@alimentosbrasil.com.br', 'Alimentos Brasil Ltda', '12.345.678/0001-90', '1998-05-15', 'Matéria-prima alimentícia', '2023-01-10', '01234-567', 'Avenida Industrial', 'Galpão', 'Setor A', '1000', 'São Paulo', 'SP', 'Jardim Industrial', '(11) 3333-4444', 'Entrega apenas dias úteis', 0),
+(2, 1, 'vendas@tecnoequip.com.br', 'Tecno Equipamentos ME', '98.765.432/0001-10', '2010-11-22', 'Equipamentos industriais', '2023-02-15', '04567-890', 'Rua das Máquinas', 'Prédio', 'Sala 201', '250', 'Campinas', 'SP', 'Centro', '(19) 2555-6666', 'Fornecedor premium', 0),
+(3, 1, 'sac@quimicosa.com.br', 'Químicos Associados S/A', '45.678.912/0001-34', '1985-03-08', 'Produtos químicos', '2023-03-20', '07890-123', 'Estrada do Chemical', 'Complexo', 'Bloco B', 's/n', 'São Paulo', 'SP', 'Interlagos', '(11) 2777-8888', 'Necessita certificação para compra', 1),
+(4, 1, 'contato@embalagensrj.com.br', 'Embalagens Rio Ltda', '76.543.210/0001-56', '2005-07-30', 'Embalagens plásticas', '2023-04-25', '20000-000', 'Rua do Porto', 'Armazém', 'Porto 12', '500', 'Rio de Janeiro', 'RJ', 'Centro', '(21) 3444-5555', 'Prazo de entrega 15 dias', 0),
+(5, 1, 'vendas@madeirasul.com.br', 'Madeira Sul Madeireira', '23.456.789/0001-78', '2015-12-05', 'Madeira e derivados', '2023-05-30', '90000-000', 'Avenida das Araucárias', 'Depósito', 'Pátio 3', '750', 'Porto Alegre', 'RS', 'Navegantes', '(51) 3666-7777', 'Trabalham apenas com madeira certificada', 0);
 
 -- Limpar dados existentes
 DELETE FROM `produto`;
 
--- Inserir dados realistas de produtos/peças para assistência técnica
+
 INSERT INTO `produto` (`id_produto`, `id_usuario`, `id_fornecedor`, `tipo`, `nome`, `aparelho_utilizado`, `quantidade`, `preco`, `data_registro`, `descricao`) VALUES
 (1, 1, 2, 'Display', 'Tela OLED Samsung S23 Ultra', 'Samsung Galaxy S23 Ultra', 8, 899.90, '2024-03-15', 'Tela Original 6.8" Dynamic AMOLED 2X 120Hz - Com digitizer'),
 (2, 1, 2, 'Bateria', 'Bateria Original iPhone 15 Pro Max', 'iPhone 15 Pro Max', 12, 289.90, '2024-03-20', 'Bateria Li-Ion 4441mAh - Original Apple - Inclui cola'),
@@ -288,29 +273,6 @@ VALUES
 (3, 2, 5, 1),   
 (4, 3, 3, 1),  
 (5, 4, 4, 3);   
-
--- Limpar dados existentes da tabela estoque
-DELETE FROM `estoque`;
-
--- Inserir dados realistas de peças e materiais para assistência técnica
-INSERT INTO `estoque` (`id_estoque`, `id_produto`, `id_fornecedor`, `nome_peca`, `data_cadastro`, `quantidade`, `valor_unitario`, `descricao`) VALUES
-(1, 1, 2, 'Bateria Original Samsung S23', '2024-03-15', 15, 89.90, 'Bateria Li-Po 3900mAh para Samsung Galaxy S23 - Original'),
-(2, 1, 2, 'Display OLED Samsung S23', '2024-03-20', 8, 299.90, 'Tela OLED 6.1" Dynamic AMOLED 2X - Original Samsung'),
-(3, 3, 2, 'Cooler Notebook Dell G15', '2024-04-10', 12, 120.00, 'Ventoinha de refrigeração para notebook Dell Gamer G15'),
-(4, 5, 3, 'Placa Principal TV LG 55"', '2024-04-15', 5, 350.00, 'Placa mãe para Smart TV LG 55" 4K UHD - Modelo 55UN7300'),
-(5, 5, 3, 'Fonte Chaveada TV LED', '2024-04-20', 10, 180.00, 'Fonte de alimentação para TV LED 55" - 120W'),
-(6, 1, 1, 'Conector USB-C Samsung', '2024-05-05', 25, 15.00, 'Conector de carga USB-C para smartphones Samsung'),
-(7, 3, 2, 'Pasta Térmica Premium', '2024-05-10', 30, 25.00, 'Pasta térmica Arctic MX-6 - Alta condutividade'),
-(8, 2, 2, 'Sensor de Temperatura Geladeira', '2024-05-12', 8, 65.00, 'Sensor NTC para geladeiras Brastemp e Consul'),
-(9, 4, 4, 'Espuma Densidade 28D', '2024-05-15', 20, 45.00, 'Espuma para assentos de sofá - Densidade 28D'),
-(10, 1, 2, 'Câmera Traseira Samsung S23', '2024-05-18', 6, 150.00, 'Módulo de câmera traseira 50MP para Galaxy S23'),
-(11, 3, 2, 'Teclado Notebook Dell', '2024-05-20', 4, 85.00, 'Teclado completo para notebook Dell Inspiron'),
-(12, 5, 3, 'LED Strip TV Backlight', '2024-05-22', 15, 35.00, 'Fita LED para backlight de TV LED 55"'),
-(13, 2, 2, 'Compressor Geladeira 1/4HP', '2024-05-25', 3, 850.00, 'Compressor embraco 1/4HP para geladeiras frost free'),
-(14, 1, 1, 'Microfone Samsung S23', '2024-05-28', 10, 28.00, 'Módulo de microfone inferior para Galaxy S23'),
-(15, 3, 2, 'Memória RAM 8GB DDR4', '2024-06-01', 7, 180.00, 'Memória RAM 8GB DDR4 3200MHz para notebooks');
-
--- Atualizar a função getDespesasTotal para calcular baseado no estoque
 
 
 INSERT INTO `equipamentos_os` (`id`, `id_os`, `fabricante`, `modelo`, `num_serie`, `num_aparelho`, `defeito_reclamado`, `condicao`) VALUES

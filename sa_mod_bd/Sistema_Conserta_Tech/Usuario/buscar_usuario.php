@@ -336,6 +336,12 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h1>BUSCAR USUÁRIOS</h1>
         
         <?php include("../Menu_lateral/menu.php"); ?>
+
+        <div class="mb-3">
+            <a href="buscar_usuario.php" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </a>
+        </div>
         
         <!-- Seção de busca -->
         <div class="search-section">

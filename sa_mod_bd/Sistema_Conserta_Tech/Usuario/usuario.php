@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("../Conexao/conexao.php");
 
 if($_SESSION['perfil'] !=1){
   echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
@@ -168,7 +169,8 @@ if($_SESSION['perfil'] !=1){
 
           <div class="linha">
             <label for="username">Nome de usuário:</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Nome de usuário" required>
+            <input type="text" id="username" name="username" class="form-control"
+              placeholder="Nome de usuário" required>
           </div>
 
           <div class="linha">
