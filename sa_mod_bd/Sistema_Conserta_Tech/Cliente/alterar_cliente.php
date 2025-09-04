@@ -329,6 +329,7 @@ function safe_html($value) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="cliente.js"></script>
     
     <script>
         $(document).ready(function(){
@@ -340,7 +341,7 @@ function safe_html($value) {
             
             // Inicializar datepicker
             flatpickr("#data_nasc", {
-                dateFormat: "d/m/Y",
+                dateFormat: "Y/m/d",
                 locale: "pt"
             });
             
