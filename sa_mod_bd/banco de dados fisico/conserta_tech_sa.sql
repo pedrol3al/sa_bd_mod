@@ -75,6 +75,7 @@ DROP TABLE IF EXISTS `fornecedor`;
 
 CREATE TABLE `fornecedor` (
   `id_fornecedor` INT NOT NULL AUTO_INCREMENT,
+  `id_usuario` INT NOT NULL,
   `email` VARCHAR(100) UNIQUE,
   `razao_social` VARCHAR(50) NOT NULL,
   `cnpj` VARCHAR(20) UNIQUE,
@@ -92,7 +93,8 @@ CREATE TABLE `fornecedor` (
   `telefone` VARCHAR(18) DEFAULT NULL,
   `observacoes` VARCHAR(255),
   `inativo` TINYINT DEFAULT 0,
-  PRIMARY KEY (`id_fornecedor`)
+  PRIMARY KEY (`id_fornecedor`),
+  CONSTRAINT `fk_fornecedor_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `produto`;
