@@ -311,8 +311,6 @@ require_once("../Conexao/conexao.php");
       $("#data_cad").flatpickr({
         dateFormat: "d/m/Y",
         allowInput: true,
-        defaultDate: "today"
-      });
     });
     
     function conferirCampos() {
