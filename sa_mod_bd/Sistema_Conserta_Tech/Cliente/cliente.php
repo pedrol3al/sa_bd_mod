@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once("../Conexao/conexao.php");
-  // Buscar técnicos (usuários com perfil 3)
+  // Buscar 
     $sql = "SELECT id_usuario, nome FROM usuario WHERE inativo = 0 ORDER BY nome";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();

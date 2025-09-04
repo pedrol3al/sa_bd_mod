@@ -1,16 +1,23 @@
 <?php
 session_start();
+require_once("../Conexao/conexao.php");
 
 if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 3) {
   echo "<script>alert('Acesso negado!');window.location.href='../Login/index.php'</script>";
   exit();
 }
 
+$sql = "SELECT id_usuario, nome FROM usuario WHERE inativo = 0 ORDER BY nome";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $usuarios = $stmt->fetchAll();
+
 // Processar o cadastro do fornecedor
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once("../Conexao/conexao.php");
     
     $email = $_POST["email_forn"];
+    $id_usuario = $_POST["id_usuario"];
     $razao_social = $_POST["razao_social_forn"];
     $cnpj = $_POST["cnpj_forn"];
     $data_fundacao = $_POST["dataFundacao_forn"];
@@ -27,12 +34,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bairro = $_POST["bairro_forn"];
     $observacoes = $_POST["observacoes_forn"];
 
-    $sql = "INSERT INTO fornecedor (email, razao_social, cnpj, data_fundacao, data_cad, telefone, produto_fornecido, cep, logradouro, tipo, complemento, numero, cidade, uf, bairro, observacoes)
-            VALUES (:email, :razao_social, :cnpj, :data_fundacao, :data_cadastro, :telefone, :produto_fornecido, :cep, :logradouro, :tipo, :complemento, :numero, :cidade, :uf, :bairro, :observacoes)";
+    $sql = "INSERT INTO fornecedor (email, id_usuario, razao_social, cnpj, data_fundacao, data_cad, telefone, produto_fornecido, cep, logradouro, tipo, complemento, numero, cidade, uf, bairro, observacoes)
+            VALUES (:email, :id_usuario, :razao_social, :cnpj, :data_fundacao, :data_cadastro, :telefone, :produto_fornecido, :cep, :logradouro, :tipo, :complemento, :numero, :cidade, :uf, :bairro, :observacoes)";
 
     $stmt = $pdo->prepare($sql);
 
     $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':id_usuario', $id_usuario);
     $stmt->bindParam(':razao_social', $razao_social);
     $stmt->bindParam(':cnpj', $cnpj);
     $stmt->bindParam(':data_fundacao', $data_fundacao);
@@ -237,6 +245,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="razao_social_forn">Razão Social:</label>
             <input type="text" id="razao_social_forn" name="razao_social_forn" class="form-control"
               placeholder="Razão Social" required>
+          </div>
+
+          <div class="linha">
+            <label for="id_usuario">Id do usuário</label>
+            <select id="id_usuario" name="id_usuario" class="form-control" required>
+                <option value="">Selecione um usuário</option>
+                  <?php foreach ($usuarios as $u): ?>
+                    <option value="<?= $u['id_usuario'] ?>"><?= htmlspecialchars($u['nome']) ?></option>
+                  <?php endforeach; ?>
+            </select>
           </div>
 
           <div class="linha">
