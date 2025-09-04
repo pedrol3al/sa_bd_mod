@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     notyf.error('Sua conta está desativada. Entre em contato com o administrador.');
                     
                     setTimeout(() => {
-                        window.location.href = 'index.php';
+                        window.location.href = '../index.php';
                     }, 3000);
                 </script>
             </body>
@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             notyf.error('E-mail ou senha incorretos!');
             
             setTimeout(() => {
-                window.location.href = 'index.php';
+                window.location.href = '../index.php';
             }, 3000);
         </script>
     </body>

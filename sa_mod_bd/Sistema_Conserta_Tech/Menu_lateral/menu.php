@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const botaoSair = menuContainer.querySelector(".sair");
   if (botaoSair) {
     botaoSair.addEventListener("click", () => {
-      window.location.href = "../Login/index.php";
+      window.location.href = "../index.php";
     });
   }
 });
