@@ -3,9 +3,48 @@ session_start();
 require_once '../Conexao/conexao.php';
 
 // Verificar permissão do usuário
-if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
+if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 3) {
     echo "Acesso Negado!";
     exit;
+}
+
+if (isset($_SESSION['notyf_message'])) {
+    echo '<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const notyf = new Notyf({
+            duration: ' . ($_SESSION['notyf_duration'] ?? 5000) . ',
+            position: {
+                x: "right",
+                y: "top"
+            },
+            types: [
+                {
+                    type: "success",
+                    background: "#28a745",
+                    icon: {
+                        className: "bi bi-check-circle",
+                        tagName: "i",
+                        text: ""
+                    }
+                },
+                {
+                    type: "error",
+                    background: "#dc3545",
+                    icon: {
+                        className: "bi bi-x-circle",
+                        tagName: "i",
+                        text: ""
+                    }
+                }
+            ]
+        });
+        
+        notyf.' . $_SESSION['notyf_type'] . '("' . addslashes($_SESSION['notyf_message']) . '");
+    });
+    </script>';
+    
+    // Limpar a mensagem da sessão
+    unset($_SESSION['notyf_message'], $_SESSION['notyf_type'], $_SESSION['notyf_duration']);
 }
 
 // Buscar clientes do banco
@@ -44,6 +83,9 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Ordens de Serviço</title>
+
+      <!-- Imagem no navegador -->
+    <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
 
     <!-- Links bootstrap e css -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">

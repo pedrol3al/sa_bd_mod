@@ -52,16 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 :id_equipamento, :tipo_servico, :descricao, :valor
             )";
 
-            // SQL para atualizar o estoque do produto
-            $sql_atualizar_estoque = "UPDATE produto SET quantidade = quantidade - 1 WHERE id_produto = :id_produto AND quantidade > 0";
-            
-            // SQL para inserir na tabela os_produto
-            $sql_os_produto = "INSERT INTO os_produto (id_os, id_produto, quantidade) VALUES (:id_os, :id_produto, 1)";
-
             $stmt_equipamento = $pdo->prepare($sql_equipamento);
             $stmt_servico = $pdo->prepare($sql_servico);
-            $stmt_atualizar_estoque = $pdo->prepare($sql_atualizar_estoque);
-            $stmt_os_produto = $pdo->prepare($sql_os_produto);
 
             foreach ($_POST['equipamentos'] as $equipamento) {
                 // Inserir equipamento
@@ -86,25 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $stmt_servico->bindParam(':valor', $servico['valor']);
                             
                             $stmt_servico->execute();
-                            
-                            // Se foi selecionado um produto para este serviço, atualizar estoque e inserir na os_produto
-                            if (!empty($servico['id_produto'])) {
-                                $id_produto = $servico['id_produto'];
-                                
-                                // Atualizar estoque
-                                $stmt_atualizar_estoque->bindParam(':id_produto', $id_produto);
-                                $stmt_atualizar_estoque->execute();
-                                
-                                // Verificar se a quantidade foi atualizada
-                                if ($stmt_atualizar_estoque->rowCount() === 0) {
-                                    throw new Exception("Não foi possível reservar a peça. Estoque insuficiente ou produto não encontrado.");
-                                }
-                                
-                                // Inserir na tabela os_produto
-                                $stmt_os_produto->bindParam(':id_os', $id_os);
-                                $stmt_os_produto->bindParam(':id_produto', $id_produto);
-                                $stmt_os_produto->execute();
-                            }
                         }
                     }
                 }
@@ -115,10 +88,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pdo->commit();
 
         // Redirecionar com mensagem de sucesso
-        $_SESSION['mensagem'] = 'Ordem de serviço cadastrada com sucesso!';
-        $_SESSION['tipo_mensagem'] = 'success';
-        header('Location: os.php');
-        exit;
+        echo "<script>
+        alert('Ordem de serviço cadastrada com sucesso!');
+        window.location.href = 'os.php';
+    </script>";
 
     } catch (Exception $e) {
         // Rollback em caso de erro
@@ -126,13 +99,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $_SESSION['mensagem'] = 'Erro ao cadastrar ordem de serviço: ' . $e->getMessage();
         $_SESSION['tipo_mensagem'] = 'danger';
-        header('Location: cadastro_os.php');
+        header('Location: os.php');
         exit;
     }
 } else {
     $_SESSION['mensagem'] = 'Método de requisição inválido!';
     $_SESSION['tipo_mensagem'] = 'danger';
-    header('Location: cadastro_os.php');
+    header('Location: os.php');
     exit;
 }
 ?>
