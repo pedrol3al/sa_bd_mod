@@ -141,7 +141,7 @@ require_once("../Conexao/conexao.php");
       <h1>CADASTRO DE CLIENTES</h1>
       
       <div class="form-section">
-        <h2>Dados Pessoais</h2>
+        <h2>Dados:</h2>
         
         <div class="campo_cliente">
           <div class="linha">
@@ -150,7 +150,7 @@ require_once("../Conexao/conexao.php");
           </div>
 
           <div class="linha">
-            <label for="id_usuario">Id do usuário</label>
+            <label for="id_usuario">Usuario de cadastro:</label>
             <select id="id_usuario" name="id_usuario" class="form-control" required>
                 <option value="">Selecione um usuário</option>
                   <?php foreach ($usuarios as $u): ?>
@@ -299,6 +299,7 @@ require_once("../Conexao/conexao.php");
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+  <script src="cliente.js"></script>
 
   <script>
     // Aplicar máscaras aos campos
@@ -307,17 +308,9 @@ require_once("../Conexao/conexao.php");
       $('#telefone_cliente').mask('(00) 00000-0000');
       $('#cep_cliente').mask('00000-000');
       
-      // Inicializar datepickers
-      $("#data_nasc").flatpickr({
-        dateFormat: "d/m/Y",
-        allowInput: true
-      });
-      
       $("#data_cad").flatpickr({
         dateFormat: "d/m/Y",
         allowInput: true,
-        defaultDate: "today"
-      });
     });
     
     function conferirCampos() {
