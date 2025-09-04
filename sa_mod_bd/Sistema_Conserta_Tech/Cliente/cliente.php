@@ -299,6 +299,7 @@ require_once("../Conexao/conexao.php");
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+  <script src="cliente.js"></script>
 
   <script>
     // Aplicar máscaras aos campos
@@ -306,12 +307,6 @@ require_once("../Conexao/conexao.php");
       $('#cpf_cliente').mask('000.000.000-00');
       $('#telefone_cliente').mask('(00) 00000-0000');
       $('#cep_cliente').mask('00000-000');
-      
-      // Inicializar datepickers
-      $("#data_nasc").flatpickr({
-        dateFormat: "d/m/Y",
-        allowInput: true
-      });
       
       $("#data_cad").flatpickr({
         dateFormat: "d/m/Y",
