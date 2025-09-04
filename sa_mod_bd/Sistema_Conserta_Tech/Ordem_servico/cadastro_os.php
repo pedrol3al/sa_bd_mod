@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         
         $id_os = $pdo->lastInsertId();
-        $total_despesas_pecas = 0; // Variável para acumular o total de despesas com peças
 
         // Processar equipamentos e serviços
         if (isset($_POST['equipamentos'])) {
@@ -63,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $produto = $stmt_preco->fetch(PDO::FETCH_ASSOC);
                             
                             $valor_peca = $produto['preco'];
-                            $total_despesas_pecas += $valor_peca;
 
                             // Atualizar estoque
                             $sql_update_estoque = "UPDATE produto 
@@ -90,18 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
             }
-        }
-
-        // Registrar despesa total das peças utilizadas
-        if ($total_despesas_pecas > 0) {
-            $sql_despesa = "INSERT INTO despesas (id_os, descricao, valor, data_despesa, categoria, status)
-                           VALUES (:id_os, :descricao, :valor, CURDATE(), 'Peças Utilizadas', 'Utilizada')";
-            $stmt_despesa = $pdo->prepare($sql_despesa);
-            $stmt_despesa->execute([
-                ':id_os' => $id_os,
-                ':descricao' => 'Peças utilizadas na OS ' . $id_os,
-                ':valor' => $total_despesas_pecas
-            ]);
         }
 
         $pdo->commit();
