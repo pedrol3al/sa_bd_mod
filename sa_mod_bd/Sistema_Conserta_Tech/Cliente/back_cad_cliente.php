@@ -51,10 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $stmt->bindParam(':bairro', $bairro);
 
   if ($stmt->execute()) {
-    echo "<script>
-        alert('Cliente cadastrado com sucesso!');
-        window.location.href = 'cliente.php';
-    </script>";
+    $_SESSION['notyf_message'] = "Cliente cadastrado com sucesso!";
+    $_SESSION['notyf_type'] = "success";
+    header("Location: cliente.php");
+    exit;
+
   } else {
     echo "<script>alert('Erro ao cadastrar cliente');</script>";
   }

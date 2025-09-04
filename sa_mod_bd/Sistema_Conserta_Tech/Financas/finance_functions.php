@@ -61,13 +61,16 @@ function getDespesasTotal($pdo, $periodo) {
         $stmt->execute();
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['total_despesas'];
+
+        // Garantir que o valor retornado seja sempre positivo
+        return abs((float) $result['total_despesas']);
         
     } catch (Exception $e) {
         error_log("Erro ao buscar despesas do estoque: " . $e->getMessage());
         return 0;
     }
 }
+
 
 function getDadosGraficoDespesas($pdo, $periodo) {
     $timezone = new DateTimeZone('America/Sao_Paulo');
