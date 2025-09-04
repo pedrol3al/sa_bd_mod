@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             throw new Exception("Ordem de Serviço não encontrada!");
         }
         
-        // Calcular valores totais usando funções padronizadas
+        // Calcular valores totais usando as novas funções
         $valor_total_os = getValorTotalOS($pdo, $id_os);
         $valor_pago = getValorPagoOS($pdo, $id_os);
         

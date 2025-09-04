@@ -45,9 +45,40 @@ function getReceitaTotal($pdo, $periodo) {
 }
 
 function getDespesasTotal($pdo, $periodo) {
-    // Como não há tabela de despesas, vamos estimar como 30% da receita
-    $receita = getReceitaTotal($pdo, $periodo);
-    return $receita * 0.3;
+    $timezone = new DateTimeZone('America/Sao_Paulo');
+    $dataAtual = new DateTime('now', $timezone);
+    
+    $query = "SELECT COALESCE(SUM(e.valor_unitario * e.quantidade), 0) as total_despesas
+              FROM estoque e
+              WHERE e.data_cadastro >= DATE_SUB(:data_atual, INTERVAL :periodo DAY)";
+    
+    $stmt = $pdo->prepare($query);
+    $stmt->bindValue(':periodo', $periodo, PDO::PARAM_INT);
+    $stmt->bindValue(':data_atual', $dataAtual->format('Y-m-d H:i:s'));
+    $stmt->execute();
+    
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['total_despesas'];
+}
+
+function getDadosGraficoDespesas($pdo, $periodo) {
+    $timezone = new DateTimeZone('America/Sao_Paulo');
+    $dataAtual = new DateTime('now', $timezone);
+    
+    $query = "SELECT 
+                DATE_FORMAT(e.data_cadastro, '%Y-%m') as mes,
+                COALESCE(SUM(e.valor_unitario * e.quantidade), 0) as despesas
+              FROM estoque e
+              WHERE e.data_cadastro >= DATE_SUB(:data_atual, INTERVAL :periodo DAY)
+              GROUP BY DATE_FORMAT(e.data_cadastro, '%Y-%m')
+              ORDER BY mes";
+    
+    $stmt = $pdo->prepare($query);
+    $stmt->bindValue(':periodo', $periodo, PDO::PARAM_INT);
+    $stmt->bindValue(':data_atual', $dataAtual->format('Y-m-d H:i:s'));
+    $stmt->execute();
+    
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getPagamentosPendentes($pdo) {
@@ -232,10 +263,9 @@ function getUltimasOrdens($pdo, $limite = 5) {
     }
 }
 
-
-
 // Buscar dados com período informado
 $periodo = isset($_GET['periodo']) ? intval($_GET['periodo']) : 30;
+$mes = isset($_GET['mes']) ? $_GET['mes'] : null;
 
 try {
     $receitaTotal = getReceitaTotal($pdo, $periodo);
@@ -243,7 +273,8 @@ try {
     $lucroLiquido = $receitaTotal - $despesasTotal;
     $pagamentosPendentes = getPagamentosPendentes($pdo);
     $quantidadePendentes = getQuantidadePendentes($pdo);
-    $dadosGrafico = getDadosGraficoReceita($pdo, $periodo);
+    $dadosGraficoReceita = getDadosGraficoReceita($pdo, $periodo);
+    $dadosGraficoDespesas = getDadosGraficoDespesas($pdo, $periodo);
     $dadosStatus = getDadosStatusPagamentos($pdo);
     $ultimasOrdens = getUltimasOrdens($pdo, 5);
     
@@ -254,14 +285,13 @@ try {
         'lucroLiquido' => $lucroLiquido,
         'pagamentosPendentes' => $pagamentosPendentes,
         'quantidadePendentes' => $quantidadePendentes,
-        'dadosGrafico' => $dadosGrafico,
+        'dadosGraficoReceita' => $dadosGraficoReceita,
+        'dadosGraficoDespesas' => $dadosGraficoDespesas,
         'dadosStatus' => $dadosStatus,
         'ultimasOrdens' => $ultimasOrdens,
         'periodo' => $periodo,
         'sucesso' => true
     ];
- 
-    
     
 } catch (Exception $e) {
     // Em caso de erro, retornar mensagem de erro

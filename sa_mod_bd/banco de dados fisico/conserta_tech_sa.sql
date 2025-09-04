@@ -14,6 +14,7 @@ INSERT INTO `perfil` (`perfil`) VALUES
   ('Financeiro');
 
 
+
 DROP TABLE IF EXISTS `usuario`;
 
 CREATE TABLE `usuario` (
@@ -190,6 +191,8 @@ CREATE TABLE `os_produto` (
   `id_os_produto` INT NOT NULL AUTO_INCREMENT,
   `id_os` INT NOT NULL,
   `id_produto` INT NOT NULL,
+  `valor_unitario` DECIMAL(10,2) DEFAULT 0,
+  `valor_total` DECIMAL(10,2) DEFAULT 0;
   `quantidade` INT NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_os_produto`),
   CONSTRAINT `fk_osprod_os` FOREIGN KEY (`id_os`) REFERENCES `ordens_servico` (`id`) ON DELETE CASCADE,
@@ -242,14 +245,31 @@ VALUES
 (4, 'contato@embalagensrj.com.br', 'Embalagens Rio Ltda', '76.543.210/0001-56', '2005-07-30', 'Embalagens plásticas', '2023-04-25', '20000-000', 'Rua do Porto', 'Armazém', 'Porto 12', '500', 'Rio de Janeiro', 'RJ', 'Centro', '(21) 3444-5555', 'Prazo de entrega 15 dias', 0),
 (5, 'vendas@madeirasul.com.br', 'Madeira Sul Madeireira', '23.456.789/0001-78', '2015-12-05', 'Madeira e derivados', '2023-05-30', '90000-000', 'Avenida das Araucárias', 'Depósito', 'Pátio 3', '750', 'Porto Alegre', 'RS', 'Navegantes', '(51) 3666-7777', 'Trabalham apenas com madeira certificada', 0);
 
-INSERT INTO `produto`(`id_produto`, `id_usuario`, `id_fornecedor`, `tipo`, `nome`, `aparelho_utilizado`, `quantidade`, `preco`, `data_registro`, `descricao`) 
-VALUES 
-(1, 1, 1, 'Eletrônico', 'Smartphone Galaxy S23', 'Testador de bateria', 50, 2899.90, '2024-01-15', 'Smartphone Android com 256GB, 8GB RAM, câmera tripla 50MP'),
-(2, 1, 1, 'Eletrodoméstico', 'Geladeira Frost Free', 'Medidor de temperatura', 25, 3499.00, '2024-02-20', 'Geladeira duplex 440L frost free, inversor, prata'),
-(3, 1, 2, 'Informática', 'Notebook Gamer', 'Testador de performance', 15, 5999.99, '2024-03-10', 'Notbook gamer i7, 16GB RAM, RTX 4060, SSD 1TB'),
-(4, 1, 2, 'Móvel', 'Sofá 3 Lugares', 'Nenhum', 8, 1999.90, '2024-04-05', 'Sofá 3 lugares retrátil, tecido suede, cinza'),
-(5, 1, 1, 'Eletrônico', 'Smart TV 55" 4K', 'Calibrador de cores', 30, 2499.90, '2024-05-12', 'Smart TV LED 55" 4K UHD, Android TV, 3 HDMI');
+-- Limpar dados existentes
+DELETE FROM `produto`;
 
+-- Inserir dados realistas de produtos/peças para assistência técnica
+INSERT INTO `produto` (`id_produto`, `id_usuario`, `id_fornecedor`, `tipo`, `nome`, `aparelho_utilizado`, `quantidade`, `preco`, `data_registro`, `descricao`) VALUES
+(1, 1, 2, 'Display', 'Tela OLED Samsung S23 Ultra', 'Samsung Galaxy S23 Ultra', 8, 899.90, '2024-03-15', 'Tela Original 6.8" Dynamic AMOLED 2X 120Hz - Com digitizer'),
+(2, 1, 2, 'Bateria', 'Bateria Original iPhone 15 Pro Max', 'iPhone 15 Pro Max', 12, 289.90, '2024-03-20', 'Bateria Li-Ion 4441mAh - Original Apple - Inclui cola'),
+(3, 1, 2, 'Cooler', 'Kit Cooler Notebook Dell G15', 'Dell G15 Gaming', 6, 149.90, '2024-04-10', 'Ventoinha + dissipador de calor + pasta térmica premium'),
+(4, 1, 3, 'Placa', 'Placa Principal TV LG OLED C3', 'LG OLED 55" C3', 4, 1299.90, '2024-04-15', 'Placa mãe principal - Modelo EAX69085803'),
+(5, 1, 3, 'Fonte', 'Fonte Chaveada TV Samsung', 'Samsung QLED 65"', 10, 249.90, '2024-04-20', 'Fonte 120W - Modelo BN44-00999A'),
+(6, 1, 1, 'Conector', 'Conector USB-C Samsung', 'Samsung Galaxy系列', 25, 29.90, '2024-05-05', 'Conector de carga flex cable - Original'),
+(7, 1, 2, 'Pasta', 'Pasta Térmica Arctic MX-6', 'Notebooks/Consoles', 30, 39.90, '2024-05-10', 'Pasta térmica premium 4g - Condutividade 10.6W/mK'),
+(8, 1, 2, 'Sensor', 'Sensor Temperatura Brastemp', 'Brastemp Frost Free', 8, 89.90, '2024-05-12', 'Sensor NTC 10K - Para refrigeradores'),
+(9, 1, 4, 'Espuma', 'Espuma Assento Sofá 28D', 'Sofás 3 lugares', 15, 59.90, '2024-05-15', 'Espuma densidade 28D - 50x50x10cm'),
+(10, 1, 2, 'Câmera', 'Câmera Traseira Samsung S23', 'Samsung Galaxy S23', 6, 199.90, '2024-05-18', 'Módulo câmera 50MP OIS - Original'),
+(11, 1, 2, 'Teclado', 'Teclado Dell Inspiron', 'Dell Inspiron系列', 4, 129.90, '2024-05-20', 'Teclado completo ABNT2 - Com touchpad'),
+(12, 1, 3, 'LED', 'Fita LED TV Backlight', 'TVs LED 55"-65"', 18, 49.90, '2024-05-22', 'Fita LED 120LEDs/m - 5V - Branco Quente'),
+(13, 1, 2, 'Compressor', 'Compressor Embraco 1/4HP', 'Geladeiras Frost Free', 3, 899.90, '2024-05-25', 'Compressor 1/4HP - Modelo VEMT10K - Novo'),
+(14, 1, 1, 'Microfone', 'Microfone Samsung', 'Samsung Galaxy系列', 12, 39.90, '2024-05-28', 'Módulo microfone inferior - Compatível S20-S23'),
+(15, 1, 2, 'Memória', 'RAM 8GB DDR4 3200MHz', 'Notebooks', 9, 199.90, '2024-06-01', 'Memória SODIMM 8GB DDR4 3200MHz - Kingston'),
+(16, 1, 2, 'Display', 'Tela iPhone 15 Pro Max', 'iPhone 15 Pro Max', 7, 1099.90, '2024-06-05', 'Tela Original 6.7" Super Retina XDR - Com True Tone'),
+(17, 1, 3, 'Placa', 'Placa Xbox Series X', 'Xbox Series X', 5, 599.90, '2024-06-08', 'Placa mãe principal - Modelo 1882A'),
+(18, 1, 2, 'Ventoinha', 'Cooler PlayStation 5', 'PlayStation 5', 8, 79.90, '2024-06-12', 'Ventoinha de refrigeração - Original Sony'),
+(19, 1, 1, 'Flex', 'Flex Cable Volume Samsung', 'Samsung Galaxy系列', 15, 24.90, '2024-06-15', 'Cabo flex botões volume/power - Compatível'),
+(20, 1, 2, 'SSD', 'SSD NVMe 1TB Samsung', 'Notebooks/PCs', 6, 399.90, '2024-06-18', 'SSD NVMe PCIe 4.0 1TB - 7000MB/s - 980 Pro');
 INSERT INTO `ordens_servico`(`id`, `id_cliente`, `id_usuario`, `data_termino`, `status`, `observacoes`, `data_criacao`) 
 VALUES 
 (1, 1, 1, '2024-05-10', 'Concluído', 'Manutenção preventiva realizada', '2024-05-08'),
@@ -267,22 +287,46 @@ VALUES
 (4, 3, 3, 1),  
 (5, 4, 4, 3);   
 
-INSERT INTO `estoque`(`id_estoque`, `id_produto`, `id_fornecedor`, `nome_peca`, `data_cadastro`, `quantidade`, `valor_unitario`, `descricao`) 
-VALUES 
-(1, 1, 2, 'Bateria Smartphone', '2024-03-15', 25, 89.90, 'Bateria original para smartphones Samsung Galaxy S23'),
-(2, 3, 2, 'Cooler Notebook Gamer', '2024-04-10', 15, 120.00, 'Cooler para notebook gamer, modelo universal'),
-(3, 5, 3, 'Placa Principal TV LED', '2024-02-20', 8, 350.00, 'Placa de circuito para Smart TV LG 55" 4K'),
-(4, 1, 1, 'Tela OLED Samsung', '2024-05-05', 12, 299.90, 'Tela OLED original Samsung Galaxy S23'),
-(5, 4, 4, 'Espuma para Sofá', '2024-01-30', 20, 45.00, 'Espuma de reposição para sofá 3 lugares');
+-- Limpar dados existentes da tabela estoque
+DELETE FROM `estoque`;
+
+-- Inserir dados realistas de peças e materiais para assistência técnica
+INSERT INTO `estoque` (`id_estoque`, `id_produto`, `id_fornecedor`, `nome_peca`, `data_cadastro`, `quantidade`, `valor_unitario`, `descricao`) VALUES
+(1, 1, 2, 'Bateria Original Samsung S23', '2024-03-15', 15, 89.90, 'Bateria Li-Po 3900mAh para Samsung Galaxy S23 - Original'),
+(2, 1, 2, 'Display OLED Samsung S23', '2024-03-20', 8, 299.90, 'Tela OLED 6.1" Dynamic AMOLED 2X - Original Samsung'),
+(3, 3, 2, 'Cooler Notebook Dell G15', '2024-04-10', 12, 120.00, 'Ventoinha de refrigeração para notebook Dell Gamer G15'),
+(4, 5, 3, 'Placa Principal TV LG 55"', '2024-04-15', 5, 350.00, 'Placa mãe para Smart TV LG 55" 4K UHD - Modelo 55UN7300'),
+(5, 5, 3, 'Fonte Chaveada TV LED', '2024-04-20', 10, 180.00, 'Fonte de alimentação para TV LED 55" - 120W'),
+(6, 1, 1, 'Conector USB-C Samsung', '2024-05-05', 25, 15.00, 'Conector de carga USB-C para smartphones Samsung'),
+(7, 3, 2, 'Pasta Térmica Premium', '2024-05-10', 30, 25.00, 'Pasta térmica Arctic MX-6 - Alta condutividade'),
+(8, 2, 2, 'Sensor de Temperatura Geladeira', '2024-05-12', 8, 65.00, 'Sensor NTC para geladeiras Brastemp e Consul'),
+(9, 4, 4, 'Espuma Densidade 28D', '2024-05-15', 20, 45.00, 'Espuma para assentos de sofá - Densidade 28D'),
+(10, 1, 2, 'Câmera Traseira Samsung S23', '2024-05-18', 6, 150.00, 'Módulo de câmera traseira 50MP para Galaxy S23'),
+(11, 3, 2, 'Teclado Notebook Dell', '2024-05-20', 4, 85.00, 'Teclado completo para notebook Dell Inspiron'),
+(12, 5, 3, 'LED Strip TV Backlight', '2024-05-22', 15, 35.00, 'Fita LED para backlight de TV LED 55"'),
+(13, 2, 2, 'Compressor Geladeira 1/4HP', '2024-05-25', 3, 850.00, 'Compressor embraco 1/4HP para geladeiras frost free'),
+(14, 1, 1, 'Microfone Samsung S23', '2024-05-28', 10, 28.00, 'Módulo de microfone inferior para Galaxy S23'),
+(15, 3, 2, 'Memória RAM 8GB DDR4', '2024-06-01', 7, 180.00, 'Memória RAM 8GB DDR4 3200MHz para notebooks');
+
+-- Atualizar a função getDespesasTotal para calcular baseado no estoque
 
 
-INSERT INTO `equipamentos_os`(`id`, `id_os`, `fabricante`, `modelo`, `num_serie`, `num_aparelho`, `defeito_reclamado`, `condicao`) 
-VALUES 
-(1, 1, 'Samsung', 'Galaxy S23', 'SN123456789', 'AP001', 'Tela não funciona', 'Aparelho com arranhões na traseira'),
-(2, 1, 'Apple', 'iPhone 15 Pro', 'SN987654321', 'AP002', 'Bateria não carrega', 'Estado de conservação bom'),
-(3, 2, 'LG', 'Smart TV 55" 4K', 'SN456789123', 'AP003', 'Não liga', 'TV com poeira acumulada nas entradas'),
-(4, 3, 'Dell', 'Notebook Gamer', 'SN321654987', 'AP004', 'Superaquecimento', 'Teclado com teclas desgastadas'),
-(5, 4, 'Brastemp', 'Geladeira Frost Free', 'SN789123456', 'AP005', 'Não está gelando', 'Amassado lateral direito');
+INSERT INTO `equipamentos_os` (`id`, `id_os`, `fabricante`, `modelo`, `num_serie`, `num_aparelho`, `defeito_reclamado`, `condicao`) VALUES
+(1, 1, 'Samsung', 'Galaxy S23 Ultra', 'SN5U789012345', 'AP2024-001', 'Tela quebrada após queda', 'Aparelho com arranhões na traseira e tela trincada'),
+(2, 1, 'Apple', 'iPhone 15 Pro Max', 'SNIP159876543', 'AP2024-002', 'Bateria não segura carga', 'Estado de conservação bom, bateria com apenas 65% de saúde'),
+(3, 2, 'LG', 'Smart TV OLED 55" C3', 'SNLG55C312345', 'AP2024-003', 'Não liga - fica com luz vermelha piscando', 'TV com poeira acumulada, sem danos físicos aparentes'),
+(4, 3, 'Dell', 'G15 Gaming Notebook', 'SNDLLG1554321', 'AP2024-004', 'Superaquecimento e desligamento automático', 'Teclado com teclas WASD desgastadas, ventoinha fazendo barulho'),
+(5, 4, 'Brastemp', 'Frost Free BRM44', 'SNBRM44123456', 'AP2024-005', 'Não está gelando adequadamente', 'Amassado lateral direito, motor fazendo barulho incomum'),
+(6, 5, 'Sony', 'PlayStation 5', 'SNPS512345678', 'AP2024-006', 'Não lê discos físicos', 'Console com poeira, controle com analogico drift'),
+(7, 2, 'Apple', 'MacBook Air M2', 'SNMBAM298765', 'AP2024-007', 'Teclado não funciona algumas teclas', 'Carcaça com pequenos arranhões, tela impecável'),
+(8, 3, 'Samsung', 'Galaxy Z Fold 5', 'SNZF51234567', 'AP2024-008', 'Tela interna não funciona', 'Hinge com folga, tela externa funcionando normalmente'),
+(9, 4, 'Electrolux', 'Lava e Seca LW12', 'SNELXLW12345', 'AP2024-009', 'Vazamento de água durante lavagem', 'Bomba de água fazendo barulho excessivo'),
+(10, 5, 'Microsoft', 'Xbox Series X', 'SNXBX1234567', 'AP2024-010', 'Não conecta no Wi-Fi', 'Console bem conservado, ventilação obstruída por poeira'),
+(11, 1, 'Motorola', 'Moto G84', 'SNMG84567890', 'AP2024-011', 'Não carrega - porta USB solto', 'Porta USB-C com folga, aparelho com marcas de uso'),
+(12, 2, 'Samsung', 'Smart TV QLED 65"', 'SNQL65123456', 'AP2024-012', 'Manchas na tela (backlight bleeding)', 'TV sem danos físicos, painel com pontos escuros'),
+(13, 3, 'Apple', 'iPad Pro 12.9"', 'SNIPDP123456', 'AP2024-013', 'Touch screen não responde em algumas áreas', 'Tela com riscos leves, bateria com 78% de saúde'),
+(14, 4, 'Lenovo', 'ThinkPad T14', 'SNLNT1412345', 'AP2024-014', 'Tela azul frequente (BSOD)', 'Notebook com setor bad no SSD, ventoinha suja'),
+(15, 5, 'Philco', 'Micro-ondas PME31', 'SNPHM3123456', 'AP2024-015', 'Não aquece os alimentos', 'Painel digital funcionando, magnetron provavelmente queimado');
 
 
 INSERT INTO `servicos_os`(`id`, `id_equipamento`, `tipo_servico`, `descricao`, `valor`) 
@@ -296,7 +340,7 @@ VALUES
 INSERT INTO `usuario`(`id_usuario`, `id_perfil`, `nome`, `cpf`, `username`, `email`, `senha`, `data_cad`, `data_nasc`, `sexo`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `uf`, `bairro`, `telefone`, `inativo`, `senha_temporaria`) 
 VALUES 
 (7, 1, 'Admin', '123.456.789-00', 'ADM.ADM', 'admin@admin', '12345', '2023-01-15', '1985-03-20', 'M', '01234-567', 'Rua das Flores', 'Casa', 'Apto 101', '123', 'São Paulo', 'SP', 'Centro', '(11) 99999-1234', 0, 0),
-(6, 1, 'João Silva', '123.456.789-00', 'joao.silva', 'joao.silva@empresa.com', '$2y$10$rQZ8bW7cT9hLmN6vX5pJ3O', '2023-01-15', '1985-03-20', 'M', '01234-567', 'Rua das Flores', 'Casa', 'Apto 101', '123', 'São Paulo', 'SP', 'Centro', '(11) 99999-1234', 0, 0),
+(6, 1, 'João Silva', '123.456.789-98', 'joao.silva', 'joao.silva@empresa.com', '$2y$10$rQZ8bW7cT9hLmN6vX5pJ3O', '2023-01-15', '1985-03-20', 'M', '01234-567', 'Rua das Flores', 'Casa', 'Apto 101', '123', 'São Paulo', 'SP', 'Centro', '(11) 99999-1234', 0, 0),
 (2, 2, 'Maria Santos', '987.654.321-00', 'maria.santos', 'maria.santos@empresa.com', '$2y$10$sR9cT8uV7wX5yZ4pQ2nM6L', '2023-02-10', '1990-07-12', 'F', '04567-890', 'Avenida Paulista', 'Apartamento', 'Bloco B', '456', 'São Paulo', 'SP', 'Bela Vista', '(11) 98888-5678', 0, 0),
 (3, 3, 'Carlos Oliveira', '456.789.123-00', 'carlos.oliveira', 'carlos.oliveira@empresa.com', '$2y$10$tS0dU9vW8x6z5aQ3oN7pK4M', '2023-03-20', '1988-11-05', 'M', '07890-123', 'Rua Augusta', 'Sala', 'Sala 302', '789', 'São Paulo', 'SP', 'Consolação', '(11) 97777-9012', 0, 0),
 (4, 4, 'Ana Costa', '321.654.987-00', 'ana.costa', 'ana.costa@empresa.com', '$2y$10$uT1eV0wX9y7a6bR4pM8qL5N', '2023-04-05', '1992-05-18', 'F', '02345-678', 'Praça da Sé', 'Loja', 'Fundos', '101', 'São Paulo', 'SP', 'Sé', '(11) 96666-3456', 0, 0),

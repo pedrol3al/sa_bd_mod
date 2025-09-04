@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once("../Conexao/conexao.php");
 require_once("finance_functions.php");
@@ -13,14 +14,17 @@ $pagamentosPendentes = getPagamentosPendentes($pdo);
 // Buscar quantidade de OS com pagamentos pendentes
 try {
     $query = "SELECT COUNT(DISTINCT id_os) as total 
-                FROM pagamento 
-                WHERE status != 'Concluído'";
+              FROM pagamento 
+              WHERE status != 'Concluído'";
     $stmt = $pdo->query($query);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $quantidadePendentes = $row['total'];
 } catch (Exception $e) {
     $quantidadePendentes = 0;
 }
+
+// Buscar últimas ordens de serviço
+$ultimasOrdens = getUltimasOrdens($pdo, 5);
 
 // Buscar últimas ordens de serviço
 try {
@@ -231,7 +235,7 @@ try {
                     </div>
                     <div class="card-value" id="despesas-total">R$
                         <?php echo number_format($despesasTotal, 2, ',', '.'); ?></div>
-                    <div class="card-footer" id="variacao-despesas">Custo dos produtos vendidos</div>
+                    <div class="card-footer" id="variacao-despesas">Custo das peças utilizadas</div>
                 </div>
 
                 <div class="card">

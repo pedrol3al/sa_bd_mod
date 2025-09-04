@@ -188,6 +188,7 @@ try {
             locale: "pt"
         });
 
+
         let equipmentCount = 0;
         // Array de produtos disponíveis em estoque (para uso no JavaScript)
         const produtos = <?php echo json_encode($produtos); ?>;
@@ -314,6 +315,99 @@ try {
                     </div>
                 </div>
             `;
+
+            // Adicione este código JavaScript ao seu arquivo
+function addService(equipmentIndex) {
+    const serviceList = document.getElementById(`service-list-${equipmentIndex}`);
+    const serviceIndex = serviceList.children.length;
+    
+    const serviceItem = document.createElement('div');
+    serviceItem.className = 'service-item border p-2 mb-2';
+    serviceItem.innerHTML = `
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <input type="text" name="equipamentos[${equipmentIndex}][servicos][${serviceIndex}][tipo_servico]" 
+                       class="form-control form-control-sm" placeholder="Tipo de serviço" required>
+            </div>
+            <div class="col-md-3 mb-2">
+                <input type="text" name="equipamentos[${equipmentIndex}][servicos][${serviceIndex}][descricao]" 
+                       class="form-control form-control-sm" placeholder="Descrição">
+            </div>
+            <div class="col-md-2 mb-2">
+                <input type="number" name="equipamentos[${equipmentIndex}][servicos][${serviceIndex}][valor]" 
+                       class="form-control form-control-sm" placeholder="Valor R$" step="0.01" min="0" required>
+            </div>
+            <div class="col-md-3 mb-2">
+                <select name="equipamentos[${equipmentIndex}][servicos][${serviceIndex}][id_produto]" 
+                        class="form-control form-control-sm product-select" 
+                        onchange="updateStockInfo(this)">
+                    <option value="">Peça utilizada (opcional)</option>
+                    ${produtos.map(produto => 
+                        `<option value="${produto.id_produto}" data-stock="${produto.quantidade}">
+                            ${produto.nome} (Estoque: ${produto.quantidade})
+                        </option>`
+                    ).join('')}
+                </select>
+                <small class="stock-info text-muted"></small>
+            </div>
+            <div class="col-md-1 mb-2">
+                <button type="button" class="btn btn-sm btn-danger remove-service">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    serviceList.appendChild(serviceItem);
+    
+    // Adicionar evento para remover serviço
+    serviceItem.querySelector('.remove-service').addEventListener('click', function() {
+        serviceList.removeChild(serviceItem);
+    });
+}
+
+// Função para mostrar informações de estoque
+function updateStockInfo(selectElement) {
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const stockInfo = selectElement.parentElement.querySelector('.stock-info');
+    const stock = selectedOption.getAttribute('data-stock');
+    
+    if (selectedOption.value && stock) {
+        if (stock <= 0) {
+            stockInfo.innerHTML = '<span class="text-danger">Sem estoque!</span>';
+            selectElement.value = '';
+        } else if (stock <= 3) {
+            stockInfo.innerHTML = `<span class="text-warning">Baixo estoque: ${stock} unidades</span>`;
+        } else {
+            stockInfo.innerHTML = `<span class="text-success">Estoque: ${stock} unidades</span>`;
+        }
+    } else {
+        stockInfo.innerHTML = '';
+    }
+}
+
+// Validar estoque antes de enviar o formulário
+document.getElementById('os-form').addEventListener('submit', function(e) {
+    const productSelects = document.querySelectorAll('.product-select');
+    let hasStockIssue = false;
+    
+    productSelects.forEach(select => {
+        if (select.value) {
+            const selectedOption = select.options[select.selectedIndex];
+            const stock = parseInt(selectedOption.getAttribute('data-stock'));
+            
+            if (stock <= 0) {
+                hasStockIssue = true;
+                select.style.borderColor = 'red';
+                alert(`O produto "${selectedOption.text}" não está disponível em estoque!`);
+            }
+        }
+    });
+    
+    if (hasStockIssue) {
+        e.preventDefault();
+    }
+});
             
             serviceList.appendChild(serviceItem);
             
@@ -327,6 +421,8 @@ try {
         document.addEventListener('DOMContentLoaded', function() {
             addEquipment();
         });
+
+
     </script>
 </body>
 </html>
