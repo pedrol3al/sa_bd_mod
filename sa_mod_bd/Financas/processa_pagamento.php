@@ -4,13 +4,6 @@ session_start();
 require_once '../Conexao/conexao.php';
 require_once '../Financas/finance_functions.php';
 
-// Verificar permissão do usuário
-if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
-    $_SESSION['mensagem'] = 'Acesso negado!';
-    $_SESSION['tipo_mensagem'] = 'danger';
-    header('Location: ../index.php');
-    exit;
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {

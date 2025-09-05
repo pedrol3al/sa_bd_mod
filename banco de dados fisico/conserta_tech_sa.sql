@@ -138,6 +138,7 @@ INSERT INTO `estoque` (`id_estoque`, `id_produto`, `id_fornecedor`, `nome_peca`,
 
 CREATE TABLE `fornecedor` (
   `id_fornecedor` int(11) NOT NULL,
+   `id_usuario` int(11) NOT NULL, 
   `email` varchar(100) DEFAULT NULL,
   `razao_social` varchar(50) NOT NULL,
   `cnpj` varchar(20) DEFAULT NULL,
