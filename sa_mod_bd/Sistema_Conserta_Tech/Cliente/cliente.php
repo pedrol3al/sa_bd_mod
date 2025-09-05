@@ -3,21 +3,24 @@ session_start();
 require_once("../Conexao/conexao.php");
 
 
+
 if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
-    echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
-    exit();
+  echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
+  exit();
 }
 
 
-  // Buscar 
-    $sql = "SELECT id_usuario, nome FROM usuario WHERE inativo = 0 ORDER BY nome";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $usuarios = $stmt->fetchAll();
+// Buscar os usuarios administradores e atendente
+$sql = "SELECT id_usuario, nome FROM usuario WHERE inativo = 0 AND (id_perfil = 1 OR id_perfil = 2)
+    ORDER BY nome";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$usuarios = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -32,20 +35,21 @@ if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
 
   <!-- Imagem no navegador -->
   <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
-  
+
   <link rel="stylesheet" href="cliente.css  ">
 
 </head>
+
 <body>
   <?php include("../Menu_lateral/menu.php"); ?>
-  
+
   <div class="container">
     <form method="POST" action="back_cad_cliente.php">
       <h1>CADASTRO DE CLIENTES</h1>
-      
+
       <div class="form-section">
         <h2>Dados:</h2>
-        
+
         <div class="campo_cliente">
           <div class="linha">
             <label for="nome_cliente">Nome:</label>
@@ -55,10 +59,10 @@ if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
           <div class="linha">
             <label for="id_usuario">Usuario de cadastro:</label>
             <select id="id_usuario" name="id_usuario" class="form-control" required>
-                <option value="">Selecione um usuário</option>
-                  <?php foreach ($usuarios as $u): ?>
-                    <option value="<?= $u['id_usuario'] ?>"><?= htmlspecialchars($u['nome']) ?></option>
-                  <?php endforeach; ?>
+              <option value="">Selecione um usuário</option>
+              <?php foreach ($usuarios as $u): ?>
+                <option value="<?= $u['id_usuario'] ?>"><?= htmlspecialchars($u['nome']) ?></option>
+              <?php endforeach; ?>
             </select>
           </div>
 
@@ -69,21 +73,20 @@ if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
           </div>
 
           <div class="linha">
-            <label for="cpf_cliente">CPF:</label>
-            <input type="text" id="cpf_cliente" name="cpf_cliente" class="form-control"
-              placeholder="000.000.000-00" required>
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" class="form-control" placeholder="000.000.000-00" required>
           </div>
 
           <div class="linha">
             <label for="data_nasc">Data Nascimento:</label>
-            <input type="text" id="data_nasc" name="data_nasc" class="form-control"
-              placeholder="Data de Nascimento" required>
+            <input type="text" id="data_nasc" name="data_nasc" class="form-control" placeholder="Data de Nascimento"
+              required>
           </div>
 
           <div class="linha">
             <label for="data_cad">Data Cadastro:</label>
-            <input type="text" id="data_cad" name="data_cad" class="form-control"
-              placeholder="Data de Cadastro" required>
+            <input type="text" id="data_cad" name="data_cad" class="form-control" placeholder="Data de Cadastro"
+              required>
           </div>
 
           <div class="linha">
@@ -105,7 +108,7 @@ if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
 
       <div class="form-section">
         <h2>Endereço</h2>
-        
+
         <div class="campo_cliente">
           <div class="linha">
             <label for="cep_cliente">CEP:</label>
@@ -164,26 +167,38 @@ if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
 
           <div class="linha">
             <label for="numero_cliente">Número:</label>
-            <input type="number" id="numero_cliente" name="numero_cliente" class="form-control"
-              placeholder="Número" required>
+            <input type="number" id="numero_cliente" name="numero_cliente" class="form-control" placeholder="Número"
+              required>
           </div>
 
           <div class="linha">
             <label for="cidade_cliente">Cidade:</label>
-            <input type="text" id="cidade_cliente" name="cidade_cliente" class="form-control"
-              placeholder="Cidade" required>
+            <input type="text" id="cidade_cliente" name="cidade_cliente" class="form-control" placeholder="Cidade"
+              required>
           </div>
 
           <div class="linha">
             <label for="bairro_cliente">Bairro:</label>
-            <input type="text" id="bairro_cliente" name="bairro_cliente" class="form-control"
-              placeholder="Bairro" required>
+            <input type="text" id="bairro_cliente" name="bairro_cliente" class="form-control" placeholder="Bairro"
+              required>
           </div>
 
           <div class="linha">
             <label for="complemento_cliente">Complemento:</label>
             <input type="text" id="complemento_cliente" name="complemento_cliente" class="form-control"
               placeholder="Complemento">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Outras Informações</h2>
+
+        <div class="campo_fornecedor">
+          <div class="linha" style="grid-column: 1 / -1;">
+            <label for="observacoes">Observações:</label>
+            <textarea id="observacoes" name="observacoes" class="form-control" rows="3"
+              placeholder="Observações"></textarea>
           </div>
         </div>
       </div>
@@ -204,6 +219,38 @@ if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
   <script src="cliente.js"></script>
 
+  <?php if (isset($_SESSION['msg'])): ?>
+  <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+
+  <script>
+    const notyf = new Notyf({
+      duration: 4000,
+      position: { x: 'center', y: 'top' },
+      types: [
+        {
+          type: 'success',
+          background: '#28a745',
+          icon: { className: 'bi bi-check-circle-fill', tagName: 'i', text: '' }
+        },
+        {
+          type: 'error',
+          background: '#dc3545',
+          icon: { className: 'bi bi-x-circle-fill', tagName: 'i', text: '' }
+        }
+      ]
+    });
+
+    <?php if ($_SESSION['msg'] === "success"): ?>
+      notyf.success('Cadastro realizado com sucesso!');
+    <?php else: ?>
+      notyf.error('Erro ao cadastrar cliente.');
+    <?php endif; ?>
+  </script>
+  <?php unset($_SESSION['msg']); ?>
+<?php endif; ?>
+
 
 </body>
+
 </html>

@@ -27,7 +27,7 @@ flatpickr("#data_nasc", {
           { id: 'nome_cliente', nome: 'Nome do cliente'},
           { id: 'id_usuario', nome: 'Id do usuário' },
           { id: 'email_cliente', nome: 'Email' },
-          { id: 'cpf_cliente', nome: 'CPF' },
+          { id: 'cpf', nome: 'CPF' },
           { id: 'dataNascimento', nome: 'Data de Nascimento' },
           { id: 'sexo_cliente', nome: 'Sexo' },
           { id: 'telefone_cliente', nome: 'Telefone' },
@@ -55,7 +55,7 @@ flatpickr("#data_nasc", {
 
   // Máscaras
   $(document).ready(function () {
-      $('#cpf_cliente').mask('000.000.000-00');
+      $('#cpf').mask('000.000.000-00');
       $('#telefone_cliente').mask('(00) 00000-0000');
       $('#cep_cliente').mask('00000-000');
   });

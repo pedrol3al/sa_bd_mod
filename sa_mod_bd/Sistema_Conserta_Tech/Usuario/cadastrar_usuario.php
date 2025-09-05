@@ -1,6 +1,4 @@
 <?php
-
-//Reporta erros, caso houver
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -8,26 +6,22 @@ error_reporting(E_ALL);
 session_start();
 require_once('../Conexao/conexao.php');
 
-// Perfil vazio ou diferente de administrador
 if (!isset($_SESSION['perfil']) || $_SESSION['perfil'] != 1) {
     die("Acesso Negado");
 }
 
-try {
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $pdo->beginTransaction(); // inicia transação
-
-
-        // ---------- INSERT usuário ----------
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    try {
+        $pdo->beginTransaction();
 
         $sqlUsuario = "INSERT INTO usuario
         (id_perfil, nome, cpf, username, email, senha, data_cad, data_nasc, sexo, senha_temporaria, cep, logradouro, tipo, complemento, numero, cidade, uf, bairro, telefone)
         VALUES
         (:id_perfil, :nome, :cpf, :username, :email, :senha, :data_cad, :data_nasc, :sexo, :senha_temporaria, :cep, :logradouro, :tipo, :complemento, :numero, :cidade, :uf, :bairro, :telefone)";
         
-        
         $stmt = $pdo->prepare($sqlUsuario);
-        $stmt->execute([
+
+        $sucesso = $stmt->execute([
             ':id_perfil'        => $_POST['cargo_usuario'],
             ':nome'             => $_POST['nome_usuario'],
             ':cpf'              => $_POST['cpf_usuario'],
@@ -40,7 +34,7 @@ try {
             ':senha_temporaria' => 0,
             ':cep'              => $_POST['cep_usuario'],
             ':logradouro'       => $_POST['logradouro_usuario'],
-            ':tipo'         => $_POST['tipo_casa'], 
+            ':tipo'             => $_POST['tipo_casa'], 
             ':complemento'      => $_POST['complemento_usuario'],
             ':numero'           => $_POST['numero_usuario'],
             ':cidade'           => $_POST['cidade_usuario'],
@@ -48,21 +42,22 @@ try {
             ':bairro'           => $_POST['bairro_usuario'],
             ':telefone'         => $_POST['telefone_usuario']
         ]);
-        
-        
-        $pdo->commit(); // confirma tudo
-        echo "<script>
-        alert('Usuário cadastrado com sucesso!');
-        window.location.href = 'usuario.php';
-    </script>";
-    
+
+        if ($sucesso) {
+            $pdo->commit();
+            $_SESSION['msg'] = "success";
+        } else {
+            $pdo->rollback();
+            $_SESSION['msg'] = "error";
+        }
+
+    } catch (PDOException $e) {
+        $pdo->rollback();
+        $_SESSION['msg'] = "error";
+        // opcional: error_log($e->getMessage());
     }
-} catch (Exception $e) {
-    $pdo->rollBack(); // desfaz tudo se deu erro
-    echo "Erro no cadastro: " . $e->getMessage();
-    echo "<script>
-        alert('Usuário cadastrado com sucesso!');
-        window.location.href = 'usuario.php';
-    </script>";
+
+    header("Location: usuario.php");
+    exit();
 }
 ?>

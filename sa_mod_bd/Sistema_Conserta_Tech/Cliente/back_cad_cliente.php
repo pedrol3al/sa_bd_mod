@@ -6,7 +6,9 @@ require_once '../Conexao/conexao.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $id_usuario = $_POST['id_usuario'];
   $email = $_POST['email_cliente'];
+  $cpf = $_POST['cpf'];
   $nome = $_POST['nome_cliente'];
+  $observacao = $_POST['observacoes'];
   $data_nasc = $_POST['data_nasc'];
   $data_cad = $_POST['data_cad'];
   $sexo = $_POST['sexo_cliente'];
@@ -21,14 +23,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $bairro = $_POST['bairro_cliente'];
 
   $sql = "INSERT INTO cliente(
-    id_usuario,email,nome,observacao,data_nasc,data_cad,sexo,cep,logradouro,tipo,complemento,numero,cidade,telefone,uf,bairro
-) VALUES (
-    :id_usuario,:email,:nome,:observacao,:data_nasc,:data_cad,:sexo,:cep,:logradouro,:tipo,:complemento,:numero,:cidade,:telefone,:uf,:bairro
-)
-";
+      id_usuario,email,cpf,nome,observacao,data_nasc,data_cad,sexo,cep,logradouro,tipo,complemento,numero,cidade,telefone,uf,bairro
+  ) VALUES (
+      :id_usuario,:email,:cpf,:nome,:observacao,:data_nasc,:data_cad,:sexo,:cep,:logradouro,:tipo,:complemento,:numero,:cidade,:telefone,:uf,:bairro
+  )
+  ";
   $stmt = $pdo->prepare($sql);
-  $stmt->bindParam(':id_usuario', $id_usuario);
+  $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
   $stmt->bindParam(':email', $email);
+  $stmt->bindParam(':cpf', $cpf);
   $stmt->bindParam(':nome', $nome);
   $stmt->bindParam(':observacao', $observacao);
   $stmt->bindParam(':data_nasc', $data_nasc);
@@ -45,13 +48,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $stmt->bindParam(':bairro', $bairro);
 
   if ($stmt->execute()) {
-    $_SESSION['notyf_message'] = "Cliente cadastrado com sucesso!";
-    $_SESSION['notyf_type'] = "success";
-    header("Location: cliente.php");
-    exit;
+    if ($stmt->execute()) {
+      $_SESSION['msg'] = "success";
+    } else {
+      $_SESSION['msg'] = "error";
+    }
 
-  } else {
-    echo "<script>alert('Erro ao cadastrar cliente');</script>";
+    header("Location: cliente.php");
+    exit();
   }
 }
 ?>

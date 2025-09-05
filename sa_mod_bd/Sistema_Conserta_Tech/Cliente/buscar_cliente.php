@@ -3,7 +3,7 @@ session_start();
 require_once '../Conexao/conexao.php';
 
 // verifica se o cliente tem permissão de adm ou atendente
-if($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2){
+if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
     echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
     exit();
 }
@@ -11,10 +11,10 @@ if($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2){
 $clientes = []; // inicializa a variavel
 
 // Se o formulário for enviado, busca o cliente pelo id ou nome
-if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca_cliente'])){
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca_cliente'])) {
     $busca = trim($_POST['busca_cliente']);
 
-    if(is_numeric($busca)){
+    if (is_numeric($busca)) {
         $sql = "SELECT * FROM cliente WHERE id_cliente = :busca ORDER BY nome ASC";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':busca', $busca, PDO::PARAM_INT);
@@ -31,10 +31,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca_cliente'])){
 
 $stmt->execute();
 $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
- 
+
 // Se um GET com id for passado, busca os dados do cliente
 $clienteAtual = null;
-if(isset($_GET['id']) && is_numeric($_GET['id'])){
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id_cliente = $_GET['id'];
     $sql = "SELECT * FROM cliente WHERE id_cliente = :id";
     $stmt = $pdo->prepare($sql);
@@ -44,7 +44,7 @@ if(isset($_GET['id']) && is_numeric($_GET['id'])){
 }
 
 // Atualização do cliente
-if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
+if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
     $id_cliente = $_POST['id_cliente'];
     $nome = $_POST['nome'];
     $email = $_POST['email'];
@@ -55,7 +55,7 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
 
-    if($stmt->execute()){
+    if ($stmt->execute()) {
         echo "<script>alert('Cliente alterado com sucesso!');window.location.href='alterar_cliente.php';</script>";
         exit;
     } else {
@@ -67,11 +67,12 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscar cliente</title>
-    
+
     <!-- Links bootstrap e css -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
@@ -86,12 +87,13 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
 
 
 </head>
+
 <body>
     <div class="container">
         <h1>BUSCAR CLIENTES</h1>
-        
+
         <?php include("../Menu_lateral/menu.php"); ?>
-        
+
         <div class="mb-3">
             <a href="buscar_cliente.php" class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> Voltar
@@ -104,8 +106,10 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
                 <div class="form-group">
                     <label for="busca_cliente" class="form-label fw-bold">Digite o ID ou Nome do cliente:</label>
                     <div class="search-container">
-                        <input type="text" id="busca_cliente" name="busca_cliente" class="form-control search-input" 
-                               placeholder="Ex: 12 ou João" value="<?= isset($_POST['busca_cliente']) ? htmlspecialchars($_POST['busca_cliente']) : '' ?>" required>
+                        <input type="text" id="busca_cliente" name="busca_cliente" class="form-control search-input"
+                            placeholder="Ex: 12 ou João"
+                            value="<?= isset($_POST['busca_cliente']) ? htmlspecialchars($_POST['busca_cliente']) : '' ?>"
+                            required>
                         <button class="btn btn-primary px-4" type="submit">
                             <i class="bi bi-search"></i> Buscar
                         </button>
@@ -113,14 +117,14 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
                 </div>
             </form>
         </div>
-        
+
         <!-- Tabela de resultados -->
         <div class="card">
             <div class="card-header">
                 <i class="bi bi-people-fill"></i> Clientes Encontrados
             </div>
             <div class="card-body">
-                <?php if(!empty($clientes)): ?>
+                <?php if (!empty($clientes)): ?>
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover" width="100%" cellspacing="0">
                             <thead>
@@ -135,29 +139,39 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($clientes as $cliente): ?>
+                                <?php foreach ($clientes as $cliente): ?>
                                     <tr>
                                         <td><?= htmlspecialchars($cliente['id_cliente']) ?></td>
                                         <td><?= htmlspecialchars($cliente['nome']) ?></td>
                                         <td><?= htmlspecialchars($cliente['email']) ?></td>
-                                        <td><?= !empty($cliente['observacao']) ? htmlspecialchars($cliente['observacao']) : 'Nenhuma' ?></td>
+                                        <td><?= !empty($cliente['observacao']) ? htmlspecialchars($cliente['observacao']) : 'Nenhuma' ?>
+                                        </td>
                                         <td><?= htmlspecialchars($cliente['data_nasc']) ?></td>
                                         <td>
-                                            <?php 
-                                            switch($cliente['sexo']) {
-                                                case 'M': echo 'Masculino'; break;
-                                                case 'F': echo 'Feminino'; break;
-                                                case 'O': echo 'Outro'; break;
-                                                default: echo htmlspecialchars($cliente['sexo']);
+                                            <?php
+                                            switch ($cliente['sexo']) {
+                                                case 'M':
+                                                    echo 'Masculino';
+                                                    break;
+                                                case 'F':
+                                                    echo 'Feminino';
+                                                    break;
+                                                case 'O':
+                                                    echo 'Outro';
+                                                    break;
+                                                default:
+                                                    echo htmlspecialchars($cliente['sexo']);
                                             }
                                             ?>
                                         </td>
                                         <td class="actions">
-                                            <a class="btn btn-warning btn-sm" href="alterar_cliente.php?id=<?= htmlspecialchars($cliente['id_cliente']) ?>">
+                                            <a class="btn btn-warning btn-sm"
+                                                href="alterar_cliente.php?id=<?= htmlspecialchars($cliente['id_cliente']) ?>">
                                                 <i class="bi bi-pencil"></i> Alterar
                                             </a>
                                             <!-- Botão de Informações Detalhadas -->
-                                            <button class="btn btn-info btn-sm btn-detalhes" onclick="abrirModalDetalhes(<?= $cliente['id_cliente'] ?>)">
+                                            <button class="btn btn-info btn-sm btn-detalhes"
+                                                onclick="abrirModalDetalhes(<?= $cliente['id_cliente'] ?>)">
                                                 <i class="bi bi-info-circle"></i> Detalhes
                                             </button>
                                         </td>
@@ -170,7 +184,8 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
                     <div class="no-results">
                         <i class="bi bi-search" style="font-size: 3rem;"></i>
                         <h4>Nenhum cliente encontrado</h4>
-                        <p><?= isset($_POST['busca_cliente']) ? 'Tente ajustar os termos da busca.' : 'Não há clientes cadastrados.' ?></p>
+                        <p><?= isset($_POST['busca_cliente']) ? 'Tente ajustar os termos da busca.' : 'Não há clientes cadastrados.' ?>
+                        </p>
                     </div>
                 <?php endif; ?>
             </div>
@@ -197,7 +212,7 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    
+
     <script>
         // Dados dos clientes em formato JSON para uso no modal
         const clientesData = <?php echo json_encode($clientes); ?>;
@@ -206,20 +221,20 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
         function abrirModalDetalhes(idCliente) {
             // Encontrar o cliente com o ID correspondente
             const cliente = clientesData.find(c => c.id_cliente == idCliente);
-            
+
             if (cliente) {
                 // Formatar as datas para exibição
                 const dataNasc = formatarData(cliente.data_nasc);
                 const dataCad = formatarData(cliente.data_cad);
-                
+
                 // Formatar sexo para exibição
                 let sexoFormatado = cliente.sexo;
-                switch(cliente.sexo) {
+                switch (cliente.sexo) {
                     case 'M': sexoFormatado = 'Masculino'; break;
                     case 'F': sexoFormatado = 'Feminino'; break;
                     case 'O': sexoFormatado = 'Outro'; break;
                 }
-                
+
                 // Construir o HTML do modal
                 const modalHTML = `
                     <div class="info-section">
@@ -236,10 +251,9 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
                             <div class="info-item">
                                 <span class="info-label">Email:</span>
                                 <span class="info-value">${escapeHtml(cliente.email)}</span>
-                            </div>
                             <div class="info-item">
-                                <span class="info-label">CPF:</span>
-                                <span class="info-value">${cliente.cpf ? escapeHtml(cliente.cpf) : 'Não informado'}</span>
+                                <span class="info-label">Cpf:</span>
+                                <span class="info-value">${escapeHtml(cliente.cpf)}</span>
                             </div>
                             <div class="info-item">
                                 <span class="info-label">Data de Nascimento:</span>
@@ -304,13 +318,13 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
                         </div>
                     </div>
                 `;
-                
+
                 // Inserir o HTML no modal
                 document.getElementById('modalDetalhesBody').innerHTML = modalHTML;
             } else {
                 document.getElementById('modalDetalhesBody').innerHTML = '<div class="alert alert-danger">Cliente não encontrado.</div>';
             }
-            
+
             // Mostrar o modal
             document.getElementById('modalDetalhes').style.display = 'flex';
         }
@@ -322,7 +336,7 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
         // Função para formatar data (de YYYY-MM-DD para DD/MM/YYYY)
         function formatarData(data) {
             if (!data) return 'Não informado';
-            
+
             const partes = data.split('-');
             if (partes.length === 3) {
                 return `${partes[2]}/${partes[1]}/${partes[0]}`;
@@ -340,32 +354,33 @@ if(isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])){
                 '"': '&quot;',
                 "'": '&#039;'
             };
-            return text.toString().replace(/[&<>"']/g, function(m) { return map[m]; });
+            return text.toString().replace(/[&<>"']/g, function (m) { return map[m]; });
         }
 
         // Fechar modal ao clicar fora do conteúdo
-        document.getElementById('modalDetalhes').addEventListener('click', function(e) {
+        document.getElementById('modalDetalhes').addEventListener('click', function (e) {
             if (e.target === this) {
                 fecharModalDetalhes();
             }
         });
 
         // Fechar modal com a tecla ESC
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 fecharModalDetalhes();
             }
         });
 
         // Aplicar máscaras aos campos
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('#cpf').mask('000.000.000-00');
             $('#cnpj').mask('00.000.000/0000-00');
             $('#telefone, #telefone_jur').mask('(00) 00000-0000');
             $('#cep, #cep_jur').mask('00000-000');
-            flatpickr("#dataNascimento", {dateFormat: "d/m/Y"});
-            flatpickr("#dataFundacao", {dateFormat: "d/m/Y"});
+            flatpickr("#dataNascimento", { dateFormat: "d/m/Y" });
+            flatpickr("#dataFundacao", { dateFormat: "d/m/Y" });
         });
     </script>
 </body>
+
 </html>
