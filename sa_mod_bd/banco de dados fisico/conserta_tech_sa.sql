@@ -259,7 +259,7 @@ INSERT INTO `perfil` (`id_perfil`, `perfil`) VALUES
 (1, 'Administrador'),
 (2, 'Atendente'),
 (3, 'Técnico'),
-(4, 'Financeiro');
+(4, 'Financeiro'),
 (5, 'Almoxarife');
 
 -- --------------------------------------------------------
