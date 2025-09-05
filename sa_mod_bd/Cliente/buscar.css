@@ -204,7 +204,7 @@ h1, h2 {
 .info-item {
     display: flex;
     flex-direction: column;
-    margin-bottom: 12px;
+
 }
 
 .info-label {

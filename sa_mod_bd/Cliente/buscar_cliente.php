@@ -269,7 +269,7 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
                             </div>
                         </div>
                         ${cliente.observacao ? `
-                        <div class="info-item">
+                        <div class="info-item m-0">
                             <span class="info-label">Observação:</span>
                             <span class="info-value">${escapeHtml(cliente.observacao)}</span>
                         </div>

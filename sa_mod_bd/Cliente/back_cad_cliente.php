@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $stmt->bindParam(':bairro', $bairro);
 
   if ($stmt->execute()) {
-    if ($stmt->execute()) {
+    
       $_SESSION['msg'] = "success";
     } else {
       $_SESSION['msg'] = "error";
@@ -57,5 +57,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: cliente.php");
     exit();
   }
-}
+
 ?>
