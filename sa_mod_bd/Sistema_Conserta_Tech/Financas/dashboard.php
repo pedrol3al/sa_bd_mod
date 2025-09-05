@@ -3,6 +3,12 @@
     require_once("../Conexao/conexao.php");
     require_once("finance_functions.php");
 
+    if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 4) {
+  echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php'</script>";
+  exit();
+}
+
+
     // Buscar dados iniciais
     $periodo = isset($_GET['periodo']) ? intval($_GET['periodo']) : 30;
     $receitaTotal = getReceitaTotal($pdo, $periodo);

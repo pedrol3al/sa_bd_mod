@@ -1,6 +1,14 @@
 <?php
 session_start();
 require_once("../Conexao/conexao.php");
+
+
+if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
+    echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
+    exit();
+}
+
+
   // Buscar 
     $sql = "SELECT id_usuario, nome FROM usuario WHERE inativo = 0 ORDER BY nome";
     $stmt = $pdo->prepare($sql);

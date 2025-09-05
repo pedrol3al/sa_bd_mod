@@ -2,12 +2,6 @@
 session_start();
 require_once '../Conexao/conexao.php';
 
-//verifica se o usuario tem permissao 
-//supondo que o perfil 1 seja o administrador
-
-if ($_SESSION['perfil'] != 1) {
-  echo "Acesso Negado!";
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $id_usuario = $_POST['id_usuario'];

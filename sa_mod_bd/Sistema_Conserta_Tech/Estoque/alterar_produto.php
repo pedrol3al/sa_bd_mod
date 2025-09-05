@@ -3,9 +3,9 @@ session_start();
 require_once '../Conexao/conexao.php';
 
 // Verificar permissão do usuário
-if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
-    echo "Acesso Negado!";
-    exit;
+if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] !=5) {
+  echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php'</script>";
+  exit();
 }
 
 // Verificar se o ID foi passado
