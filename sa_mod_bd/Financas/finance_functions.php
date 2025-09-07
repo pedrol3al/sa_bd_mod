@@ -320,10 +320,10 @@ function getValorTotalOS($pdo, $id_os) {
  */
 function getValorPagoOS($pdo, $id_os) {
     try {
-        $query = "SELECT COALESCE(SUM(valor_total), 0) as valor_pago
-                  FROM pagamento 
-                  WHERE id_os = :id_os 
-                  AND status = 'Concluído'";
+       $query = "SELECT COALESCE(SUM(valor_total), 0) as valor_pago
+          FROM pagamento 
+          WHERE id_os = :id_os 
+          AND status = 'Concluído'";
         
         $stmt = $pdo->prepare($query);
         $stmt->bindValue(':id_os', $id_os, PDO::PARAM_INT);
