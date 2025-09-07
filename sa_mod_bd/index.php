@@ -48,6 +48,33 @@ session_start();
         <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
         <script src="../bootstrap/js/bootstrap.min.js"></script>
         <script src="../Login/inicio.js"></script>
+
+       <?php if (isset($_SESSION['msg'])): ?>
+  <script>
+    const notyf = new Notyf({
+      duration: 4000,
+      position: { x: 'center', y: 'top' },
+      types: [
+        {
+          type: 'error',
+          background: '#dc3545',
+          icon: { className: 'bi bi-x-circle-fill', tagName: 'i', text: '' }
+        }
+      ]
+    });
+
+    <?php if ($_SESSION['msg'] === "desativado"): ?>
+        notyf.error('Sua conta foi desativada, contate o administrador.');
+    <?php elseif ($_SESSION['msg'] === "senha_incorreta"): ?>
+        notyf.error('Senha incorreta, tente novamente.');
+    <?php elseif ($_SESSION['msg'] === "usuario_inexistente"): ?>
+        notyf.error('Usuário não encontrado.');
+    <?php endif; ?>
+  </script>
+  <?php unset($_SESSION['msg']); ?>
+<?php endif; ?>
+
+
     </main>
 </body>
 </html>

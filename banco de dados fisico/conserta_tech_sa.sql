@@ -54,17 +54,12 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`id_cliente`, `id_usuario`, `email`, `cpf`, `nome`, `observacao`, `data_nasc`, `data_cad`, `sexo`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `telefone`, `uf`, `bairro`, `inativo`) VALUES
-(1, 1, 'maria.silva@email.com', NULL, 'Maria Silva', 'Cliente preferencial', '1985-03-15', '2023-01-10', 'F', '01234-567', 'Rua das Flores', 'Casa', 'Apto 102', 123, 'São Paulo', '(11) 99999-1234', 'SP', 'Centro', 0),
-(2, 1, 'joao.santos@email.com', NULL, 'João Santos', NULL, '1990-07-22', '2023-02-15', 'M', '04567-890', 'Avenida Paulista', 'Apartamento', 'Bloco B', 456, 'São Paulo', '(11) 98888-5678', 'SP', 'Bela Vista', 0),
-(3, 1, 'ana.oliveira@email.com', NULL, 'Ana Oliveira', 'Entregar apenas à noite', '0000-00-00', '2023-03-20', 'F', '07890-123', 'Rua Augusta', 'Loja', 'Sala 3', 789, 'São Paulo', '(11) 97777-9012', 'SP', 'Consolação', 1),
-(4, 1, 'carlos.rodrigues@email.com', NULL, 'Carlos Rodrigues', 'Cliente desde 2022', '0000-00-00', '2023-04-25', 'M', '02345-678', 'Praça da Sé', 'Casa', 'Fundos', 101, 'São Paulo', '(11) 96666-3456', 'SP', 'Sé', 0),
-(5, 1, 'juliana.lima@email.com', NULL, 'Juliana Lima', NULL, '1995-05-18', '2023-05-30', 'F', '05678-901', 'Rua Oscar Freire', 'Apartamento', 'Apto 1501', 200, 'São Paulo', '(11) 95555-7890', 'SP', 'Jardins', 0),
-(6, 7, 'eduardo@eduardofdf', NULL, 'Eduardo Borsato Reinert', NULL, '2009-08-31', '2025-09-03', 'M', '45454-35', 'gsdfsdfs', 'R', 'sdfsf', 234324, 're', '(47) 99916-4144', 'PR', 'dffsf', 0),
-(7, 7, 'eduardo@eduardofdf', NULL, 'Eduardo Borsato Reinert', NULL, '2009-08-31', '2025-09-03', 'M', '45454-35', 'gsdfsdfs', 'R', 'sdfsf', 234324, 're', '(47) 99916-4144', 'PR', 'dffsf', 1),
-(8, 7, 'eduardo@eduardo234', NULL, 'Eduardo Borsato Reinert', NULL, '2009-08-31', '2025-09-04', 'F', '34243-242', 'rwerwerwer', 'R', 'sdfsdf', 2147483647, 'dsdfsdf', '(23) 43423-4234', 'PE', 'fsdfsdfsdf', 1),
-(9, 3, 'uihuiehu@weiooesadsa', NULL, 'Eduardo Borsato Reinert', '', '2009-09-02', '2025-09-04', 'F', '23424-223', 'erwerwer', 'R', 'rwrwrwe', 343424234, 'erwerwrwer', '(47) 99916-2234', 'PR', 'rwrwrw', 1);
-
--- --------------------------------------------------------
+(1, 1, 'maria.silva@email.com', '12345678901', 'Maria Silva', 'Cliente preferencial', '1985-03-15', '2023-01-10', 'F', '01234-567', 'Rua das Flores', 'Casa', 'Apto 102', 123, 'São Paulo', '(11) 99999-1234', 'SP', 'Centro', 0),
+(2, 1, 'joao.santos@email.com', '23456789012', 'João Santos', NULL, '1990-07-22', '2023-02-15', 'M', '04567-890', 'Avenida Paulista', 'Apartamento', 'Bloco B', 456, 'São Paulo', '(11) 98888-5678', 'SP', 'Bela Vista', 0),
+(3, 1, 'ana.oliveira@email.com', '34567890123', 'Ana Oliveira', 'Entregar apenas à noite', '0000-00-00', '2023-03-20', 'F', '07890-123', 'Rua Augusta', 'Loja', 'Sala 3', 789, 'São Paulo', '(11) 97777-9012', 'SP', 'Consolação', 1),
+(4, 1, 'carlos.rodrigues@email.com', '45678901234', 'Carlos Rodrigues', 'Cliente desde 2022', '0000-00-00', '2023-04-25', 'M', '02345-678', 'Praça da Sé', 'Casa', 'Fundos', 101, 'São Paulo', '(11) 96666-3456', 'SP', 'Sé', 0),
+(5, 1, 'juliana.lima@email.com', '56789012345', 'Juliana Lima', NULL, '1995-05-18', '2023-05-30', 'F', '05678-901', 'Rua Oscar Freire', 'Apartamento', 'Apto 1501', 200, 'São Paulo', '(11) 95555-7890', 'SP', 'Jardins', 0);
+-- ------------------------------------------------------
 
 --
 -- Estrutura para tabela `equipamentos_os`
@@ -89,46 +84,6 @@ INSERT INTO `equipamentos_os` (`id`, `id_os`, `fabricante`, `modelo`, `num_serie
 (18, 8, 'sdfsf', 'sdfdsfds', 'fsfsdfsd', 'fsfdf', 'fsfsf', 'sdfsdf'),
 (19, 9, 'fsdfsdfsdf', 'fsfsf', 'sdfsdf', 'sdfsdf', 'sdfsd', 'fsdfsdfs'),
 (21, 11, 'rtyryr', 'tyryrt', 'rtyrty', 'yryrty', 'hghgfh', 'ry');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `estoque`
---
-
-CREATE TABLE `estoque` (
-  `id_estoque` int(11) NOT NULL,
-  `id_produto` int(11) NOT NULL,
-  `id_fornecedor` int(11) NOT NULL,
-  `nome_peca` varchar(255) DEFAULT NULL,
-  `data_cadastro` date DEFAULT NULL,
-  `quantidade` int(11) NOT NULL,
-  `valor_unitario` decimal(10,2) NOT NULL,
-  `descricao` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `estoque`
---
-
-INSERT INTO `estoque` (`id_estoque`, `id_produto`, `id_fornecedor`, `nome_peca`, `data_cadastro`, `quantidade`, `valor_unitario`, `descricao`) VALUES
-(1, 1, 2, 'Bateria Original Samsung S23', '2024-03-15', 15, 89.90, 'Bateria Li-Po 3900mAh para Samsung Galaxy S23 - Original'),
-(2, 1, 2, 'Display OLED Samsung S23', '2024-03-20', 8, 299.90, 'Tela OLED 6.1\" Dynamic AMOLED 2X - Original Samsung'),
-(3, 3, 2, 'Cooler Notebook Dell G15', '2024-04-10', 12, 120.00, 'Ventoinha de refrigeração para notebook Dell Gamer G15'),
-(4, 5, 3, 'Placa Principal TV LG 55\"', '2024-04-15', 5, 350.00, 'Placa mãe para Smart TV LG 55\" 4K UHD - Modelo 55UN7300'),
-(5, 5, 3, 'Fonte Chaveada TV LED', '2024-04-20', 10, 180.00, 'Fonte de alimentação para TV LED 55\" - 120W'),
-(6, 1, 1, 'Conector USB-C Samsung', '2024-05-05', 25, 15.00, 'Conector de carga USB-C para smartphones Samsung'),
-(7, 3, 2, 'Pasta Térmica Premium', '2024-05-10', 30, 25.00, 'Pasta térmica Arctic MX-6 - Alta condutividade'),
-(8, 2, 2, 'Sensor de Temperatura Geladeira', '2024-05-12', 8, 65.00, 'Sensor NTC para geladeiras Brastemp e Consul'),
-(9, 4, 4, 'Espuma Densidade 28D', '2024-05-15', 20, 45.00, 'Espuma para assentos de sofá - Densidade 28D'),
-(10, 1, 2, 'Câmera Traseira Samsung S23', '2024-05-18', 6, 150.00, 'Módulo de câmera traseira 50MP para Galaxy S23'),
-(11, 3, 2, 'Teclado Notebook Dell', '2024-05-20', 4, 85.00, 'Teclado completo para notebook Dell Inspiron'),
-(12, 5, 3, 'LED Strip TV Backlight', '2024-05-22', 15, 35.00, 'Fita LED para backlight de TV LED 55\"'),
-(13, 2, 2, 'Compressor Geladeira 1/4HP', '2024-05-25', 3, 850.00, 'Compressor embraco 1/4HP para geladeiras frost free'),
-(14, 1, 1, 'Microfone Samsung S23', '2024-05-28', 10, 28.00, 'Módulo de microfone inferior para Galaxy S23'),
-(15, 3, 2, 'Memória RAM 8GB DDR4', '2024-06-01', 7, 180.00, 'Memória RAM 8GB DDR4 3200MHz para notebooks'),
-(17, 16, 2, NULL, '2025-09-04', -1, 1099.90, 'Saída para OS 8 - fsfdfs'),
-(18, 13, 2, NULL, '2025-09-04', -1, 899.90, 'Saída para OS 9 - sdfsfs');
 
 -- --------------------------------------------------------
 
@@ -162,12 +117,12 @@ CREATE TABLE `fornecedor` (
 -- Despejando dados para a tabela `fornecedor`
 --
 
-INSERT INTO `fornecedor` (`id_fornecedor`, `email`, `razao_social`, `cnpj`, `data_fundacao`, `produto_fornecido`, `data_cad`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `uf`, `bairro`, `telefone`, `observacoes`, `inativo`) VALUES
-(1, 'contato@alimentosbrasil.com.br', 'Alimentos Brasil Ltda', '12.345.678/0001-90', '1998-05-15', 'Matéria-prima alimentícia', '2023-01-10', '01234-567', 'Avenida Industrial', 'Galpão', 'Setor A', 1000, 'São Paulo', 'SP', 'Jardim Industrial', '(11) 3333-4444', 'Entrega apenas dias úteis', 0),
-(2, 'vendas@tecnoequip.com.br', 'Tecno Equipamentos ME', '98.765.432/0001-10', '2010-11-22', 'Equipamentos industriais', '2023-02-15', '04567-890', 'Rua das Máquinas', 'Prédio', 'Sala 201', 250, 'Campinas', 'SP', 'Centro', '(19) 2555-6666', 'Fornecedor premium', 0),
-(3, 'sac@quimicosa.com.br', 'Químicos Associados S/A', '45.678.912/0001-34', '1985-03-08', 'Produtos químicos', '2023-03-20', '07890-123', 'Estrada do Chemical', 'Complexo', 'Bloco B', 0, 'São Paulo', 'SP', 'Interlagos', '(11) 2777-8888', 'Necessita certificação para compra', 1),
-(4, 'contato@embalagensrj.com.br', 'Embalagens Rio Ltda', '76.543.210/0001-56', '2005-07-30', 'Embalagens plásticas', '2023-04-25', '20000-000', 'Rua do Porto', 'Armazém', 'Porto 12', 500, 'Rio de Janeiro', 'RJ', 'Centro', '(21) 3444-5555', 'Prazo de entrega 15 dias', 0),
-(5, 'vendas@madeirasul.com.br', 'Madeira Sul Madeireira', '23.456.789/0001-78', '2015-12-05', 'Madeira e derivados', '2023-05-30', '90000-000', 'Avenida das Araucárias', 'Depósito', 'Pátio 3', 750, 'Porto Alegre', 'RS', 'Navegantes', '(51) 3666-7777', 'Trabalham apenas com madeira certificada', 0);
+INSERT INTO `fornecedor` (`id_fornecedor`, `id_usuario`, `email`, `razao_social`, `cnpj`, `data_fundacao`, `produto_fornecido`, `data_cad`, `cep`, `logradouro`, `tipo`, `complemento`, `numero`, `cidade`, `uf`, `bairro`, `telefone`, `observacoes`, `inativo`) VALUES
+(1, 1, 'contato@alimentosbrasil.com.br', 'Alimentos Brasil Ltda', '12.345.678/0001-90', '1998-05-15', 'Matéria-prima alimentícia', '2023-01-10', '01234-567', 'Avenida Industrial', 'Galpão', 'Setor A', 1000, 'São Paulo', 'SP', 'Jardim Industrial', '(11) 3333-4444', 'Entrega apenas dias úteis', 0),
+(2, 1, 'vendas@tecnoequip.com.br', 'Tecno Equipamentos ME', '98.765.432/0001-10', '2010-11-22', 'Equipamentos industriais', '2023-02-15', '04567-890', 'Rua das Máquinas', 'Prédio', 'Sala 201', 250, 'Campinas', 'SP', 'Centro', '(19) 2555-6666', 'Fornecedor premium', 0),
+(3, 1, 'sac@quimicosa.com.br', 'Químicos Associados S/A', '45.678.912/0001-34', '1985-03-08', 'Produtos químicos', '2023-03-20', '07890-123', 'Estrada do Chemical', 'Complexo', 'Bloco B', 0, 'São Paulo', 'SP', 'Interlagos', '(11) 2777-8888', 'Necessita certificação para compra', 1),
+(4, 1, 'contato@embalagensrj.com.br', 'Embalagens Rio Ltda', '76.543.210/0001-56', '2005-07-30', 'Embalagens plásticas', '2023-04-25', '20000-000', 'Rua do Porto', 'Armazém', 'Porto 12', 500, 'Rio de Janeiro', 'RJ', 'Centro', '(21) 3444-5555', 'Prazo de entrega 15 dias', 0),
+(5, 1, 'vendas@madeirasul.com.br', 'Madeira Sul Madeireira', '23.456.789/0001-78', '2015-12-05', 'Madeira e derivados', '2023-05-30', '90000-000', 'Avenida das Araucárias', 'Depósito', 'Pátio 3', 750, 'Porto Alegre', 'RS', 'Navegantes', '(51) 3666-7777', 'Trabalham apenas com madeira certificada', 0);
 
 -- --------------------------------------------------------
 
@@ -393,13 +348,7 @@ ALTER TABLE `equipamentos_os`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_equipamentos_os` (`id_os`);
 
---
--- Índices de tabela `estoque`
---
-ALTER TABLE `estoque`
-  ADD PRIMARY KEY (`id_estoque`),
-  ADD KEY `fk_estoque_fornecedor` (`id_fornecedor`),
-  ADD KEY `fk_estoque_produto` (`id_produto`);
+
 
 --
 -- Índices de tabela `fornecedor`
@@ -480,12 +429,6 @@ ALTER TABLE `equipamentos_os`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT de tabela `estoque`
---
-ALTER TABLE `estoque`
-  MODIFY `id_estoque` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
 -- AUTO_INCREMENT de tabela `fornecedor`
 --
 ALTER TABLE `fornecedor`
@@ -549,12 +492,6 @@ ALTER TABLE `cliente`
 ALTER TABLE `equipamentos_os`
   ADD CONSTRAINT `fk_equipamentos_os` FOREIGN KEY (`id_os`) REFERENCES `ordens_servico` (`id`) ON DELETE CASCADE;
 
---
--- Restrições para tabelas `estoque`
---
-ALTER TABLE `estoque`
-  ADD CONSTRAINT `fk_estoque_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_estoque_produto` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id_produto`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `ordens_servico`

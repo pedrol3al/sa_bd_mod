@@ -94,12 +94,6 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
 
         <?php include("../Menu_lateral/menu.php"); ?>
 
-        <div class="mb-3">
-            <a href="buscar_cliente.php" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Voltar
-            </a>
-        </div>
-
         <!-- Seção de busca -->
         <div class="search-section">
             <form method="POST" action="">

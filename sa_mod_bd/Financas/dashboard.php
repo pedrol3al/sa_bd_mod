@@ -1,13 +1,52 @@
-    <?php
+<?php
     session_start();
     require_once("../Conexao/conexao.php");
     require_once("finance_functions.php");
 
     if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 4) {
-  echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php'</script>";
-  exit();
-}
+        echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php'</script>";
+        exit();
+    }
 
+    // Função alternativa para buscar pagamentos pendentes
+    function getPagamentosPendentesCorrigido($pdo) {
+        try {
+            // Primeiro tenta buscar da tabela pagamento
+            $query = "SELECT 
+                        COUNT(DISTINCT p.id_os) as total_os,
+                        COALESCE(SUM(p.valor), 0) as total_valor
+                    FROM pagamento p
+                    WHERE p.status != 'Concluído'";
+            
+            $stmt = $pdo->query($query);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($result['total_valor'] > 0) {
+                return $result;
+            }
+            
+            // Fallback: busca por OS não pagas
+            $query = "SELECT 
+                        COUNT(DISTINCT os.id) as total_os,
+                        COALESCE(SUM(s.valor), 0) as total_valor
+                    FROM ordens_servico os
+                    LEFT JOIN equipamentos_os e ON os.id = e.id_os
+                    LEFT JOIN servicos_os s ON e.id = s.id_equipamento
+                    WHERE NOT EXISTS (
+                        SELECT 1 FROM pagamento p 
+                        WHERE p.id_os = os.id AND p.status = 'Concluído'
+                    )";
+            
+            $stmt = $pdo->query($query);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return $result;
+            
+        } catch (Exception $e) {
+            error_log("Erro ao buscar pagamentos pendentes: " . $e->getMessage());
+            return ['total_os' => 0, 'total_valor' => 0];
+        }
+    }
 
     // Buscar dados iniciais
     $periodo = isset($_GET['periodo']) ? intval($_GET['periodo']) : 30;
@@ -18,21 +57,12 @@
     // Garante que nunca fique negativo
     $lucroLiquido = max(0, $lucroLiquido);
     
-    $pagamentosPendentes = getPagamentosPendentes($pdo);
-    
-    // Buscar quantidade de OS com pagamentos pendentes
-    try {
-        $query = "SELECT COUNT(DISTINCT id_os) as total 
-                FROM pagamento 
-                WHERE status != 'Concluído'";
-        $stmt = $pdo->query($query);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $quantidadePendentes = $row['total'];
-    } catch (Exception $e) {
-        $quantidadePendentes = 0;
-    }
+    // Buscar pagamentos pendentes (CORRIGIDO)
+    $dadosPendentes = getPagamentosPendentesCorrigido($pdo);
+    $pagamentosPendentes = $dadosPendentes['total_valor'];
+    $quantidadePendentes = $dadosPendentes['total_os'];
 
-    // Buscar últimas ordens de serviço
+    // Buscar últimas ordens de serviço (CORRIGIDO)
     try {
         $query = "SELECT os.id, c.nome as cliente, os.data_criacao, 
                             (SELECT COALESCE(SUM(valor), 0) 
@@ -40,8 +70,8 @@
                             INNER JOIN equipamentos_os e ON s.id_equipamento = e.id 
                             WHERE e.id_os = os.id) as valor_total,
                             (SELECT CASE 
-                                WHEN EXISTS (SELECT 1 FROM pagamento p WHERE p.id_os = os.id AND p.status != 'Concluído') 
-                                THEN 'Pendente' ELSE 'Pago' END) as status 
+                                WHEN EXISTS (SELECT 1 FROM pagamento p WHERE p.id_os = os.id AND p.status = 'Concluído') 
+                                THEN 'Pago' ELSE 'Pendente' END) as status 
                     FROM ordens_servico os 
                     LEFT JOIN cliente c ON os.id_cliente = c.id_cliente 
                     ORDER BY os.data_criacao DESC 
@@ -55,10 +85,10 @@
     // Buscar dados para gráficos
     $dadosGraficoReceita = [];
     $dadosGraficoDespesas = [];
-    $dadosStatus = ['total' => 0, 'concluidas' => 0, 'pendentes' => 0];
+    $dadosStatus = ['total' => 0, 'pagas' => 0, 'pendentes' => 0];
 
     try {
-        // Dados para gráfico de receita (exemplo simplificado)
+        // Dados para gráfico de receita
         $query = "SELECT 
                     DATE_FORMAT(os.data_criacao, '%Y-%m') as mes,
                     COALESCE(SUM(s.valor), 0) as receita
@@ -66,7 +96,7 @@
                 LEFT JOIN equipamentos_os e ON os.id = e.id_os
                 LEFT JOIN servicos_os s ON e.id = s.id_equipamento
                 WHERE os.data_criacao >= DATE_SUB(NOW(), INTERVAL :periodo DAY)
-                AND os.status = 'Concluído'
+                AND EXISTS (SELECT 1 FROM pagamento p WHERE p.id_os = os.id AND p.status = 'Concluído')
                 GROUP BY DATE_FORMAT(os.data_criacao, '%Y-%m')
                 ORDER BY mes";
         
@@ -82,7 +112,7 @@
                 FROM os_produto op
                 INNER JOIN ordens_servico os ON op.id_os = os.id
                 WHERE os.data_criacao >= DATE_SUB(NOW(), INTERVAL :periodo DAY)
-                AND os.status = 'Concluído'
+                AND EXISTS (SELECT 1 FROM pagamento p WHERE p.id_os = os.id AND p.status = 'Concluído')
                 GROUP BY DATE_FORMAT(os.data_criacao, '%Y-%m')
                 ORDER BY mes";
         
@@ -91,11 +121,11 @@
         $stmt->execute();
         $dadosGraficoDespesas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        // Dados de status
+        // Dados de status (CORRIGIDO)
         $query = "SELECT 
-                    COUNT(*) as total,
-                    SUM(CASE WHEN os.status = 'Concluído' THEN 1 ELSE 0 END) as concluidas,
-                    SUM(CASE WHEN os.status != 'Concluído' THEN 1 ELSE 0 END) as pendentes
+                    COUNT(DISTINCT os.id) as total,
+                    SUM(CASE WHEN EXISTS (SELECT 1 FROM pagamento p WHERE p.id_os = os.id AND p.status = 'Concluído') THEN 1 ELSE 0 END) as pagas,
+                    SUM(CASE WHEN NOT EXISTS (SELECT 1 FROM pagamento p WHERE p.id_os = os.id AND p.status = 'Concluído') THEN 1 ELSE 0 END) as pendentes
                 FROM ordens_servico os";
         
         $stmt = $pdo->query($query);
@@ -119,7 +149,6 @@
         <!-- Links bootstrapt e css -->
         <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-        <link rel="stylesheet" href="cliente.css" />
         <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
@@ -470,7 +499,7 @@
 
                 // Gráfico de Status
                 const total = data.dadosStatus.total || 1;
-                const percentualPagos = ((data.dadosStatus.concluidas || 0) / total) * 100;
+                const percentualPagos = ((data.dadosStatus.pagas || 0) / total) * 100;
                 const percentualPendentes = ((data.dadosStatus.pendentes || 0) / total) * 100;
 
                 atualizarGraficoStatusPagamentos([percentualPagos, percentualPendentes]);

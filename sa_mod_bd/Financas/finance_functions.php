@@ -5,7 +5,6 @@ function getReceitaTotal($pdo, $periodo) {
     $timezone = new DateTimeZone('America/Sao_Paulo');
     $dataAtual = new DateTime('now', $timezone);
     
-    // Primeiro, tente buscar da tabela de pagamentos se existir
     try {
         $query = "SELECT COALESCE(SUM(p.valor_total), 0) as total_receita
                   FROM pagamento p
@@ -19,16 +18,13 @@ function getReceitaTotal($pdo, $periodo) {
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        // Se encontrou valores na tabela de pagamentos, retorne
         if ($result['total_receita'] > 0) {
             return $result['total_receita'];
         }
     } catch (Exception $e) {
-        // Se a tabela pagamento não existir ou houver erro, continue com a lógica alternativa
         error_log("Erro ao buscar pagamentos: " . $e->getMessage());
     }
     
-    // Lógica alternativa: soma dos valores de serviços onde a OS está concluída
     $query = "SELECT COALESCE(SUM(s.valor), 0) as total_receita
               FROM servicos_os s
               INNER JOIN equipamentos_os e ON s.id_equipamento = e.id
@@ -48,56 +44,55 @@ function getReceitaTotal($pdo, $periodo) {
 function getDespesasTotal($pdo, $periodo) {
     $timezone = new DateTimeZone('America/Sao_Paulo');
     $dataAtual = new DateTime('now', $timezone);
-    
-    // Usar a tabela estoque para calcular despesas (custo das peças)
+
     try {
-        $query = "SELECT COALESCE(SUM(e.valor_unitario * e.quantidade), 0) as total_despesas
-                  FROM estoque e
-                  WHERE e.data_cadastro >= DATE_SUB(:data_atual, INTERVAL :periodo DAY)";
-        
+        $query = "SELECT COALESCE(SUM(op.valor_total), 0) as total_despesas
+                  FROM os_produto op
+                  INNER JOIN ordens_servico os ON op.id_os = os.id
+                  WHERE os.data_criacao >= DATE_SUB(:data_atual, INTERVAL :periodo DAY)";
+
         $stmt = $pdo->prepare($query);
         $stmt->bindValue(':periodo', $periodo, PDO::PARAM_INT);
         $stmt->bindValue(':data_atual', $dataAtual->format('Y-m-d H:i:s'));
         $stmt->execute();
-        
+
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Garantir que o valor retornado seja sempre positivo
         return abs((float) $result['total_despesas']);
-        
+
     } catch (Exception $e) {
-        error_log("Erro ao buscar despesas do estoque: " . $e->getMessage());
+        error_log("Erro ao buscar despesas de OS: " . $e->getMessage());
         return 0;
     }
 }
 
-
 function getDadosGraficoDespesas($pdo, $periodo) {
     $timezone = new DateTimeZone('America/Sao_Paulo');
     $dataAtual = new DateTime('now', $timezone);
-    
-    // Usar a tabela estoque para gráfico de despesas
+
     try {
         $query = "SELECT 
-                    DATE_FORMAT(e.data_cadastro, '%Y-%m') as mes,
-                    COALESCE(SUM(e.valor_unitario * e.quantidade), 0) as despesas
-                  FROM estoque e
-                  WHERE e.data_cadastro >= DATE_SUB(:data_atual, INTERVAL :periodo DAY)
-                  GROUP BY DATE_FORMAT(e.data_cadastro, '%Y-%m')
+                    DATE_FORMAT(os.data_criacao, '%Y-%m') as mes,
+                    COALESCE(SUM(op.valor_total), 0) as despesas
+                  FROM os_produto op
+                  INNER JOIN ordens_servico os ON op.id_os = os.id
+                  WHERE os.data_criacao >= DATE_SUB(:data_atual, INTERVAL :periodo DAY)
+                  GROUP BY DATE_FORMAT(os.data_criacao, '%Y-%m')
                   ORDER BY mes";
-        
+
         $stmt = $pdo->prepare($query);
         $stmt->bindValue(':periodo', $periodo, PDO::PARAM_INT);
         $stmt->bindValue(':data_atual', $dataAtual->format('Y-m-d H:i:s'));
         $stmt->execute();
-        
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
     } catch (Exception $e) {
-        error_log("Erro ao buscar dados gráfico de despesas: " . $e->getMessage());
+        error_log("Erro ao buscar gráfico de despesas de OS: " . $e->getMessage());
         return [];
     }
 }
+
 
 function getPagamentosPendentes($pdo) {
     // Primeiro, tente buscar da tabela de pagamentos se existir
