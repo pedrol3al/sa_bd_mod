@@ -161,7 +161,7 @@ try {
                 </button>
                 
                 <div id="equipment-container">
-                    <!-- Os equipamentos serão adicionados dinamicamente aqui -->
+                    <!-- Os equipamentos são adicionados dinamicamente aqui -->
                 </div>
             </div>
             
@@ -224,11 +224,11 @@ try {
                     <div class="row">
                         <div class="col-md-6 mb-2">
                             <label>Número de Série:</label>
-                            <input type="text" name="equipamentos[${equipmentIndex}][num_serie]" class="form-control">
+                            <input type="number" name="equipamentos[${equipmentIndex}][num_serie]" class="form-control">
                         </div>
                         <div class="col-md-6 mb-2">
                             <label>Número do Aparelho:</label>
-                            <input type="text" name="equipamentos[${equipmentIndex}][num_aparelho]" class="form-control">
+                            <input type="number" name="equipamentos[${equipmentIndex}][num_aparelho]" class="form-control">
                         </div>
                     </div>
                     <div class="row">
@@ -247,7 +247,7 @@ try {
                             <i class="bi bi-plus"></i> Adicionar Serviço
                         </button>
                         <div class="service-list mt-2" id="service-list-${equipmentIndex}">
-                            <!-- Serviços serão adicionados aqui -->
+                            
                         </div>
                     </div>
                 </div>
