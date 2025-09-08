@@ -179,14 +179,7 @@ class AutomacaoCadastroProdutos:
                 {'id': 'aparelho_utilizado', 'tipo': 'text', 'valor': dados_produto.get('aparelho_utilizado', 'Equipamentos diversos')},
                 {'id': 'quantidade', 'tipo': 'number', 'valor': dados_produto.get('quantidade', 10)},
                 {'id': 'preco', 'tipo': 'number', 'valor': dados_produto.get('preco', 99.90)},
-                {'id': 'data_registro', 'tipo': 'date', 'valor': dados_produto.get('data_registro', datetime.now().strftime("%Y-%m-%d"))},
                 {'id': 'descricao', 'tipo': 'textarea', 'valor': dados_produto.get('descricao', 'Produto de alta qualidade')},
-                # Campos adicionais que podem existir
-                {'id': 'marca', 'tipo': 'text', 'valor': dados_produto.get('marca', 'Marca Padrão'), 'opcional': True},
-                {'id': 'modelo', 'tipo': 'text', 'valor': dados_produto.get('modelo', 'Modelo Padrão'), 'opcional': True},
-                {'id': 'codigo_barras', 'tipo': 'text', 'valor': dados_produto.get('codigo_barras', '1234567890'), 'opcional': True},
-                {'id': 'localizacao', 'tipo': 'text', 'valor': dados_produto.get('localizacao', 'Prateleira A'), 'opcional': True},
-                {'id': 'estoque_minimo', 'tipo': 'number', 'valor': dados_produto.get('estoque_minimo', 5), 'opcional': True},
             ]
             
             for campo in campos:
@@ -337,19 +330,15 @@ dados_produto = {
     'aparelho_utilizado': 'Computadores Gaming e Workstations',
     'quantidade': 8,
     'preco': 1899.90,
-    'data_registro': '2023-09-05',
     'descricao': 'Placa de vídeo NVIDIA GeForce RTX 3060 12GB GDDR6 com ray tracing',
     'marca': 'NVIDIA',
     'modelo': 'RTX 3060',
-    'codigo_barras': 'NV306012GB2023',
-    'localizacao': 'Setor B - Prateleira 3',
-    'estoque_minimo': 2
 }
 
 # Configurações
-url_sistema = "http://localhost:8080/sa_bd_mod/sa_mod_bd/Sistema_Conserta_Tech/Login/index.php"
+url_sistema = "http://localhost/001Turma2024_2V1_TARDE/sa_bd_mod/sa_mod_bd/"
 usuario = "pedro_gabriel@gmail.com"
-senha = "12345678"
+senha = "30052008"
 
 # Executar a automação
 if __name__ == "__main__":
