@@ -70,6 +70,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_usuario'])){
         $id_usuario = $_POST['id_usuario'];
         $nome = $_POST['nome'];
         $email = $_POST['email'];
+        $sexo = $_POST['sexo'];
         $id_perfil = $_POST['perfil'];
         $cpf = $_POST['cpf'];
         $username = $_POST['username'];
@@ -85,6 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_usuario'])){
         $sql = "UPDATE usuario SET 
                     nome = :nome, 
                     email = :email, 
+                    sexo = :sexo, 
                     id_perfil = :id_perfil, 
                     cpf = :cpf, 
                     username = :username, 
@@ -101,6 +103,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_usuario'])){
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':nome', $nome);
         $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':sexo', $sexo);
         $stmt->bindParam(':id_perfil', $id_perfil, PDO::PARAM_INT);
         $stmt->bindParam(':cpf', $cpf);
         $stmt->bindParam(':username', $username);

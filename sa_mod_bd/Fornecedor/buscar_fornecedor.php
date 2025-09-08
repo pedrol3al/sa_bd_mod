@@ -8,10 +8,14 @@ if ($_SESSION['perfil'] != 1) {
   exit();
 }
 
-$success = isset($_GET['success']);
-$error = isset($_GET['error']) ? urldecode($_GET['error']) : '';
+// Processar mensagens da sessão
+if (isset($_SESSION['mensagem'])) {
+    $mensagem = $_SESSION['mensagem'];
+    $tipo_mensagem = $_SESSION['tipo_mensagem'];
+    unset($_SESSION['mensagem']);
+    unset($_SESSION['tipo_mensagem']);
+}
 
-// Processar busca
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $fornecedores = [];
 
@@ -177,6 +181,20 @@ try {
         // Dados dos fornecedores em formato JSON para uso no modal
         const fornecedoresData = <?php echo json_encode($fornecedores); ?>;
 
+        // Inicializar Notyf para notificações
+        const notyf = new Notyf({
+            duration: 4000,
+            position: {
+                x: 'right',
+                y: 'top',
+            }
+        });
+
+        // Mostrar mensagens da sessão se existirem
+        <?php if (isset($mensagem)): ?>
+            notyf.<?= $tipo_mensagem ?>('<?= addslashes($mensagem) ?>');
+        <?php endif; ?>
+
         // Funções para controlar o modal de detalhes
         function abrirModalDetalhes(idFornecedor) {
             // Encontrar o fornecedor com o ID correspondente
@@ -224,12 +242,8 @@ try {
                                 <span class="info-value">${dataFundacao}</span>
                             </div>
                             <div class="info-item">
-                                <span class="info-label">Data de Cadastro:</span>
-                                <span class="info-value">${dataCadastro}</span>
-                            </div>
-                            <div class="info-item">
                                 <span class="info-label">Status:</span>
-                                <span class="info-value">${statusFormatado}</span>
+                                <span class="info-value status-badge ${fornecedor.inativo == 1 ? 'status-inativo' : 'status-ativo'}">${statusFormatado}</span>
                             </div>
                         </div>
                     </div>
@@ -244,6 +258,10 @@ try {
                             <div class="info-item">
                                 <span class="info-label">Logradouro:</span>
                                 <span class="info-value">${fornecedor.logradouro ? escapeHtml(fornecedor.logradouro) : 'Não informado'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Tipo:</span>
+                                <span class="info-value">${fornecedor.tipo ? escapeHtml(fornecedor.tipo) : 'Não informado'}</span>
                             </div>
                             <div class="info-item">
                                 <span class="info-label">Número:</span>
@@ -265,51 +283,46 @@ try {
                                 <span class="info-label">UF:</span>
                                 <span class="info-value">${fornecedor.uf ? escapeHtml(fornecedor.uf) : 'Não informado'}</span>
                             </div>
-                            <div class="info-item">
-                                <span class="info-label">Tipo de Estabelecimento:</span>
-                                <span class="info-value">${fornecedor.tipo === 'R' ? 'Residencial' : (fornecedor.tipo === 'C' ? 'Comercial' : 'Não informado')}</span>
-                            </div>
                         </div>
                     </div>
                     
-                    ${fornecedor.observacoes ? `
                     <div class="info-section">
-                        <h4>Observações</h4>
-                        <div class="info-item">
-                            <span class="info-value">${escapeHtml(fornecedor.observacoes)}</span>
+                        <h4>Outras Informações</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Data de Cadastro:</span>
+                                <span class="info-value">${dataCadastro}</span>
+                            </div>
+                            <div class="info-item full-width">
+                                <span class="info-label">Observações:</span>
+                                <span class="info-value">${fornecedor.observacoes ? escapeHtml(fornecedor.observacoes) : 'Nenhuma observação'}</span>
+                            </div>
                         </div>
                     </div>
-                    ` : ''}
                 `;
                 
                 // Inserir o HTML no modal
                 document.getElementById('modalDetalhesBody').innerHTML = modalHTML;
-            } else {
-                document.getElementById('modalDetalhesBody').innerHTML = '<div class="alert alert-danger">Fornecedor não encontrado.</div>';
+                
+                // Mostrar o modal
+                document.getElementById('modalDetalhes').style.display = 'flex';
             }
-            
-            // Mostrar o modal
-            document.getElementById('modalDetalhes').style.display = 'flex';
         }
 
         function fecharModalDetalhes() {
             document.getElementById('modalDetalhes').style.display = 'none';
         }
 
-        // Função para formatar data (de YYYY-MM-DD para DD/MM/YYYY)
         function formatarData(data) {
-            if (!data) return 'Não informado';
+            if (!data) return 'Não informada';
             
-            const partes = data.split('-');
-            if (partes.length === 3) {
-                return `${partes[2]}/${partes[1]}/${partes[0]}`;
-            }
-            return data;
+            const dataObj = new Date(data + 'T00:00:00');
+            return dataObj.toLocaleDateString('pt-BR');
         }
 
-        // Função para escapar HTML (prevenir XSS)
         function escapeHtml(text) {
-            if (!text) return '';
+            if (text === null || text === undefined) return '';
+            
             const map = {
                 '&': '&amp;',
                 '<': '&lt;',
@@ -317,34 +330,16 @@ try {
                 '"': '&quot;',
                 "'": '&#039;'
             };
+            
             return text.toString().replace(/[&<>"']/g, function(m) { return map[m]; });
         }
 
-        // Fechar modal ao clicar fora do conteúdo
-        document.getElementById('modalDetalhes').addEventListener('click', function(e) {
-            if (e.target === this) {
+        // Fechar o modal ao clicar fora do conteúdo
+        document.getElementById('modalDetalhes').addEventListener('click', function(event) {
+            if (event.target === this) {
                 fecharModalDetalhes();
             }
         });
-
-        // Fechar modal com a tecla ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                fecharModalDetalhes();
-            }
-        });
-
-      document.addEventListener('DOMContentLoaded', function() {
-    const notyf = new Notyf({ position: { x: 'right', y: 'top' }, duration: 3000 });
-    
-    <?php if ($success): ?>
-        notyf.success('Fornecedor atualizado com sucesso!');
-    <?php endif; ?>
-
-    <?php if ($error): ?>
-        notyf.error('<?= addslashes($error) ?>');
-    <?php endif; ?>
-});
     </script>
 </body>
 </html>

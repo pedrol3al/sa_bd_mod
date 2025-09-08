@@ -20,37 +20,39 @@ if (!isset($_GET['id'])) {
 
 $id_fornecedor = $_GET['id'];
 
-// Processar exclusão se solicitado
-if (isset($_GET['excluir_fornecedor'])) {
+// Processar ativação/inativação se solicitado
+if (isset($_GET['alterar_status'])) {
     try {
-        // Verificar se o fornecedor está vinculado a alguma compra antes de excluir
-        $sql_check = "SELECT COUNT(*) as total FROM produto WHERE id_fornecedor = :id_fornecedor";
+        // Buscar status atual
+        $sql_check = "SELECT inativo FROM fornecedor WHERE id_fornecedor = :id_fornecedor";
         $stmt_check = $pdo->prepare($sql_check);
         $stmt_check->bindParam(':id_fornecedor', $id_fornecedor);
         $stmt_check->execute();
-        $result = $stmt_check->fetch();
+        $fornecedor_status = $stmt_check->fetch();
         
-        if ($result['total'] > 0) {
-            $_SESSION['mensagem'] = 'Não é possível excluir este fornecedor pois existem produtos vinculados a ele!';
+        if ($fornecedor_status) {
+            $novo_status = $fornecedor_status['inativo'] == 1 ? 0 : 1;
+            $status_text = $novo_status == 1 ? 'inativado' : 'ativado';
+            
+            // Atualizar status
+            $sql = "UPDATE fornecedor SET inativo = :inativo WHERE id_fornecedor = :id_fornecedor";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':inativo', $novo_status);
+            $stmt->bindParam(':id_fornecedor', $id_fornecedor);
+            $stmt->execute();
+            
+            $_SESSION['mensagem'] = "Fornecedor $status_text com sucesso!";
+            $_SESSION['tipo_mensagem'] = 'success';
+        } else {
+            $_SESSION['mensagem'] = 'Fornecedor não encontrado!';
             $_SESSION['tipo_mensagem'] = 'error';
-            header('Location: buscar_fornecedor.php');
-            exit;
         }
-        
-        // Excluir fornecedor
-        $sql = "DELETE FROM fornecedor WHERE id_fornecedor = :id_fornecedor";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':id_fornecedor', $id_fornecedor);
-        $stmt->execute();
-        
-        $_SESSION['mensagem'] = 'Fornecedor excluído com sucesso!';
-        $_SESSION['tipo_mensagem'] = 'success';
         
         header('Location: buscar_fornecedor.php');
         exit;
         
     } catch (Exception $e) {
-        $_SESSION['mensagem'] = 'Erro ao excluir fornecedor: ' . $e->getMessage();
+        $_SESSION['mensagem'] = 'Erro ao alterar status do fornecedor: ' . $e->getMessage();
         $_SESSION['tipo_mensagem'] = 'error';
         header('Location: buscar_fornecedor.php');
         exit;
@@ -376,8 +378,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar_fornecedor']
                 <a href="buscar_fornecedor.php" class="btn btn-secondary">
                     <i class="bi bi-arrow-left"></i> Voltar
                 </a>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
-                    <i class="bi bi-trash"></i> Excluir Fornecedor
+                <button type="button" class="btn <?= $fornecedor['inativo'] == 1 ? 'btn-success' : 'btn-danger' ?>" data-bs-toggle="modal" data-bs-target="#confirmStatusModal">
+                    <i class="bi <?= $fornecedor['inativo'] == 1 ? 'bi-check-circle' : 'bi-x-circle' ?>"></i> 
+                    <?= $fornecedor['inativo'] == 1 ? 'Ativar' : 'Inativar' ?> Fornecedor
                 </button>
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-check-circle"></i> Salvar Alterações
@@ -386,21 +389,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar_fornecedor']
         </form>
     </div>
 
-    <!-- Modal de Confirmação de Exclusão -->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <!-- Modal de Confirmação de Alteração de Status -->
+    <div class="modal fade" id="confirmStatusModal" tabindex="-1" aria-labelledby="confirmStatusModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+                    <h5 class="modal-title" id="confirmStatusModalLabel">Confirmar Alteração de Status</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Tem certeza que deseja excluir este Fornecedor?</p>
-                    <p class="text-danger"><strong>Esta ação não pode ser desfeita!</strong></p>
+                    <p>Tem certeza que deseja <?= $fornecedor['inativo'] == 1 ? 'ativar' : 'inativar' ?> este Fornecedor?</p>
+                    <p class="text-warning"><strong>Fornecedores inativos não aparecerão em novas compras!</strong></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <a href="alterar_fornecedor.php?id=<?= $id_fornecedor ?>&excluir_fornecedor=1" class="btn btn-danger">Excluir Permanentemente</a>
+                    <a href="alterar_fornecedor.php?id=<?= $id_fornecedor ?>&alterar_status=1" class="btn <?= $fornecedor['inativo'] == 1 ? 'btn-success' : 'btn-danger' ?>">
+                        <?= $fornecedor['inativo'] == 1 ? 'Ativar' : 'Inativar' ?> Fornecedor
+                    </a>
                 </div>
             </div>
         </div>

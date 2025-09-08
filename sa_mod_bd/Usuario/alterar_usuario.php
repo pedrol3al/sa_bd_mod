@@ -158,6 +158,16 @@ include 'processa_alteracao.php';
                                 value="<?= safe_html($usuarioAtual['email']) ?>" required>
                         </div>
 
+                        <!-- CAMPO DE SEXO ADICIONADO AQUI -->
+                        <div class="form-group">
+                            <label for="sexo">Sexo:</label>
+                            <select id="sexo" name="sexo" class="form-control">
+                                <option value="">Selecione</option>
+                                <option value="M" <?= $usuarioAtual['sexo'] == 'M' ? 'selected' : '' ?>>Masculino</option>
+                                <option value="F" <?= $usuarioAtual['sexo'] == 'F' ? 'selected' : '' ?>>Feminino</option>
+                            </select>
+                        </div>
+
                         <div class="form-group">
                             <label for="data_nasc">Data de Nascimento:</label>
                             <input type="date" id="data_nasc" name="data_nasc" class="form-control"
