@@ -291,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `senha` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `data_cad` date DEFAULT NULL,
   `data_nasc` date DEFAULT NULL,
-  `sexo` enum('M','F','O') COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `sexo` enum('M','F') COLLATE utf8mb4_general_ci DEFAULT NULL,
   `cep` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `logradouro` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `tipo` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
