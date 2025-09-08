@@ -24,23 +24,11 @@ if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 4) {
     <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-    
-    <style>
-        .selected-row {
-            background-color: #f8f9fa !important;
-            font-weight: bold;
-        }
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            color: white;
-        }
-        .status-aberto { background-color: #17a2b8; }
-        .status-andamento { background-color: #ffc107; color: #000; }
-        .status-pendente { background-color: #fd7e14; }
-        .status-concluido { background-color: #28a745; }
-    </style>
+    <link rel="stylesheet" href="pagamento.css">
+
+        <!-- Imagem no navegador -->
+    <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
+
 </head>
 <body>
     <div class="container">
@@ -276,9 +264,27 @@ if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 4) {
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     
-    <script>
+     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const notyf = new Notyf();
+            const notyf = new Notyf({
+                position: {
+                    x: 'right',
+                    y: 'top'
+                },
+                duration: 3000,
+                ripple: true,
+                dismissible: false
+            });
+            
+            // Mostrar mensagens de sessão
+            <?php if (isset($_SESSION['mensagem'])): ?>
+                notyf.<?= $_SESSION['tipo_mensagem'] === 'danger' ? 'error' : 'success' ?>('<?= $_SESSION['mensagem'] ?>');
+                <?php
+                unset($_SESSION['mensagem']);
+                unset($_SESSION['tipo_mensagem']);
+                ?>
+            <?php endif; ?>
+
             const osRadios = document.querySelectorAll('input[name="selected_os"]');
             const paymentSection = document.getElementById('payment-section');
             const idOsInput = document.getElementById('id_os');

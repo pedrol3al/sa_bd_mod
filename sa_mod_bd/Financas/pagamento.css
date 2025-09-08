@@ -1,124 +1,155 @@
+body{
+    scrollbar-width: none;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-        
-        h1 {
-            margin-bottom: 30px;
-            color: #2c3e50;
-            text-align: center;
-        }
-        
-        .card {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            border: none;
-            border-radius: 10px;
-        }
-        
-        .card-header {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e3e6f0;
-            font-weight: bold;
-        }
-        
-        .table-responsive {
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        
-        .table th {
-            background-color: #4e73df;
-            color: white;
-            border: none;
-        }
-        
-        .btn-primary {
-            background-color: #4e73df;
-            border-color: #4e73df;
-        }
-        
-        .btn-primary:hover {
-            background-color: #2e59d9;
-            border-color: #2e59d9;
-        }
-        
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        .status-aberto {
-            background-color: #f8f9fa;
-            color: #858796;
-        }
-        
-        .status-andamento {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-        
-        .status-pendente {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        
-        .status-concluido {
-            background-color: #d1ecf1;
-            color: #0c5460;
-        }
-        
-        .form-section {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .selected-row {
-            background-color: #e3f2fd !important;
-        }
-        
-        .valor-total {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #2e59d9;
-        }
-        
-        .search-container {
-            width: 400px;
-        }
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
 
-        .form-control-sm {
-            height: 32px;
-        }
+h1 {
+    margin-bottom: 30px;
+    color: #2c3e50;
+    text-align: center;
+}
 
-        .btn-sm {
-            height: 32px;
-            padding: 0.25rem 0.5rem;
-        }
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 10px;
+}
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .search-container {
-                width: 100%;
-                margin-top: 10px;
-            }
-            
-            .card-header {
-                flex-direction: column;
-                align-items: flex-start !important;
-            }
-        }
-    
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e3e6f0;
+    font-weight: bold;
+}
+
+.table-responsive {
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.table th {
+    background-color: #4e73df;
+    color: white;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #4e73df;
+    border-color: #4e73df;
+}
+
+.btn-primary:hover {
+    background-color: #2e59d9;
+    border-color: #2e59d9;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-aberto {
+    background-color: #f8f9fa;
+    color: #858796;
+}
+
+.status-andamento {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-pendente {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.status-concluido {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.form-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.selected-row {
+    background-color: #e3f2fd !important;
+}
+
+.valor-total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2e59d9;
+}
+
+.search-container {
+    width: 400px;
+}
+
+.form-control-sm {
+    height: 32px;
+}
+
+.btn-sm {
+    height: 32px;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .search-container {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+}
+
+.selected-row {
+    background-color: #f8f9fa !important;
+    font-weight: bold;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: white;
+}
+
+.status-aberto {
+    background-color: #17a2b8;
+}
+
+.status-andamento {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.status-pendente {
+    background-color: #fd7e14;
+}
+
+.status-concluido {
+    background-color: #28a745;
+}

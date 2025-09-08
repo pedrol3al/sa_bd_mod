@@ -1,9 +1,15 @@
 <?php
-// ARQUIVO: processa_pagamento.php (versão corrigida)
 session_start();
 require_once '../Conexao/conexao.php';
 require_once '../Financas/finance_functions.php';
 
+// Verifica se o usuário tem permissão
+if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 4) {
+    $_SESSION['mensagem'] = 'Acesso negado!';
+    $_SESSION['tipo_mensagem'] = 'error'; 
+    header('Location: ../Principal/main.php');
+    exit();
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
@@ -61,13 +67,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         atualizarStatusOS($pdo, $id_os);
         
         $_SESSION['mensagem'] = 'Pagamento registrado com sucesso!';
-        $_SESSION['tipo_mensagem'] = 'success';
+        $_SESSION['tipo_mensagem'] = 'success'; 
         header('Location: pagamento_os.php');
         exit;
         
     } catch (Exception $e) {
         $_SESSION['mensagem'] = 'Erro ao registrar pagamento: ' . $e->getMessage();
-        $_SESSION['tipo_mensagem'] = 'danger';
+        $_SESSION['tipo_mensagem'] = 'error'; // Alterado para 'error'
         header('Location: pagamento_os.php');
         exit;
     }

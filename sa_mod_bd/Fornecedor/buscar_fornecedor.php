@@ -8,6 +8,9 @@ if ($_SESSION['perfil'] != 1) {
   exit();
 }
 
+$success = isset($_GET['success']);
+$error = isset($_GET['error']) ? urldecode($_GET['error']) : '';
+
 // Processar busca
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $fornecedores = [];
@@ -58,283 +61,11 @@ try {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-    
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --background-color: #ecf0f1;
-            --text-color: #2c3e50;
-            --border-color: #bdc3c7;
-            --success-color: #27ae60;
-            --danger-color: #e74c3c;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 20px 20px 20px 220px;
-            padding: 20px;
-            transition: margin-left 0.3s ease;
-        }
-        
-        h1 {
-            margin-bottom: 30px;
-            color: #2c3e50;
-            text-align: center;
-        }
-        
-        .search-section {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .card {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            border: none;
-            border-radius: 10px;
-        }
-        
-        .card-header {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e3e6f0;
-            font-weight: bold;
-        }
-        
-        .table-responsive {
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        
-        .table th {
-            background-color: #4e73df;
-            color: white;
-            border: none;
-        }
-        
-        .btn-primary {
-            background-color: #4e73df;
-            border-color: #4e73df;
-        }
-        
-        .btn-info {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-        }
-        
-        .btn-primary:hover {
-            background-color: #2e59d9;
-            border-color: #2e59d9;
-        }
-        
-        .btn-info:hover {
-            background-color: #2980b9;
-            border-color: #2980b9;
-        }
-        
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        .status-ativo {
-            background-color: #d1ecf1;
-            color: #0c5460;
-        }
-        
-        .status-inativo {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        
-        .actions {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .btn-sm {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-        }
-        
-        .search-container {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .search-input {
-            flex: 1;
-        }
-        
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            color: #6c757d;
-        }
-        
-        /* Modal de Detalhes Estilizado */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .modal-content {
-            background-color: white;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: modalFadeIn 0.3s;
-        }
-        
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 10px 10px 0 0;
-        }
-        
-        .modal-header h3 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: white;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-body {
-            padding: 20px;
-        }
-        
-        .info-section {
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .info-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        
-        .info-section h4 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--secondary-color);
-            display: inline-block;
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-        }
-        
-        .info-item {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 12px;
-        }
-        
-        .info-label {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 4px;
-            font-size: 0.9rem;
-        }
-        
-        .info-value {
-            color: #555;
-            background-color: #f9f9f9;
-            padding: 8px 12px;
-            border-radius: 5px;
-            border-left: 3px solid var(--secondary-color);
-        }
-        
-        /* Botão de detalhes personalizado */
-        .btn-detalhes {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.875rem;
-            transition: background-color 0.2s;
-        }
-        
-        .btn-detalhes:hover {
-            background-color: #2980b9;
-            color: white;
-        }
-        
-        /* Garantir que o menu lateral não sobreponha o conteúdo */
-        @media (min-width: 768px) {
-            body {
-                overflow-x: hidden;
-            }
-        }
-        
-        /* Ajuste para telas menores */
-        @media (max-width: 992px) {
-            .container {
-                margin-left: 20px;
-                margin-right: 20px;
-            }
-            
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+     <link rel="stylesheet" href="buscar_fornecedor.css">
+
+  <!-- Imagem no navegador -->
+  <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
+
 </head>
 <body>
     <div class="container">
@@ -603,18 +334,17 @@ try {
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const notyf = new Notyf();
-            
-            // Mostrar mensagens de sessão
-            <?php if (isset($_SESSION['mensagem'])): ?>
-                notyf.<?= $_SESSION['tipo_mensagem'] ?>('<?= $_SESSION['mensagem'] ?>');
-                <?php
-                unset($_SESSION['mensagem']);
-                unset($_SESSION['tipo_mensagem']);
-                ?>
-            <?php endif; ?>
-        });
+      document.addEventListener('DOMContentLoaded', function() {
+    const notyf = new Notyf({ position: { x: 'right', y: 'top' }, duration: 3000 });
+    
+    <?php if ($success): ?>
+        notyf.success('Fornecedor atualizado com sucesso!');
+    <?php endif; ?>
+
+    <?php if ($error): ?>
+        notyf.error('<?= addslashes($error) ?>');
+    <?php endif; ?>
+});
     </script>
 </body>
 </html>

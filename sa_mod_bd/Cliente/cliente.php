@@ -226,7 +226,7 @@ $usuarios = $stmt->fetchAll();
   <script>
     const notyf = new Notyf({
       duration: 4000,
-      position: { x: 'center', y: 'top' },
+      position: { x: 'right', y: 'top' },
       types: [
         {
           type: 'success',

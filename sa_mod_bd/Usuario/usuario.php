@@ -72,7 +72,7 @@ if($_SESSION['perfil'] !=1){
               <option value="2">Atendente</option>
               <option value="3">Técnico</option>
               <option value="4">Financeiro</option>
-              <option value="5">Financeiro</option>
+              <option value="5">Almoxarife</option>
             </select>
           </div>
 
@@ -216,7 +216,7 @@ if($_SESSION['perfil'] !=1){
   <script>
     const notyf = new Notyf({
       duration: 4000,
-      position: { x: 'center', y: 'top' },
+      position: { x: 'right', y: 'top' },
       types: [
         {
           type: 'success',
@@ -232,7 +232,7 @@ if($_SESSION['perfil'] !=1){
     });
 
     <?php if ($_SESSION['msg'] === "success"): ?>
-      notyf.success('Cadastro realizado com sucesso!');
+      notyf.success('Usuário cadastrado com sucesso!');
     <?php else: ?>
       notyf.error('Erro ao cadastrar cliente.');
     <?php endif; ?>

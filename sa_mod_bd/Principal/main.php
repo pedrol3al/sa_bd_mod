@@ -4,8 +4,8 @@ require_once("../Conexao/conexao.php");
 require_once("../Financas/finance_functions.php");
 
 // Verificar se usuário está logado
-if (!isset($_SESSION['usuario'])) {
-    header('Location: ../index.php');
+if (!isset($_SESSION['usuario'])){
+    echo "<script>alert('Acesso negado!');window.location.href='../index.php'</script>";
     exit;
 }
 

@@ -23,6 +23,7 @@
             color: #333;
             display: flex;
             min-height: 100vh;
+            scrollbar-width: none;
         }
         
         

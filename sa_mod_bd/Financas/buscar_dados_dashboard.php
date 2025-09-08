@@ -6,17 +6,8 @@ error_reporting(E_ALL);
 
 session_start();
 
-// Verificar se o arquivo de conexão existe
-$conexaoPath = "../Conexao/conexao.php";
-if (!file_exists($conexaoPath)) {
-    echo json_encode([
-        'sucesso' => false,
-        'erro' => "Arquivo de conexão não encontrado: " . $conexaoPath
-    ]);
-    exit;
-}
+require_once '../Conexao/conexao.php';
 
-require_once($conexaoPath);
 
 // Verificar se a conexão foi estabelecida
 if (!isset($pdo) || !$pdo) {

@@ -1,0 +1,102 @@
+  body{
+    scrollbar-width: none;
+  }
+  
+  .container {
+            max-width: 1400px;
+            margin: 20px 20px 20px 220px;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+            margin-left: 350px;
+        }
+        
+        h1 {
+            margin-bottom: 30px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .search-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 10px;
+        }
+        
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e3e6f0;
+            font-weight: bold;
+        }
+        
+        .table-responsive {
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .table th {
+            background-color: #4e73df;
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2e59d9;
+            border-color: #2e59d9;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-input {
+            flex: 1;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        
+        /* Garantir que o menu lateral não sobreponha o conteúdo */
+        @media (min-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+        }
+        
+        /* Ajuste para telas menores */
+        @media (max-width: 992px) {
+            .container {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            
+            .table-responsive {
+                overflow-x: auto;
+            }
+        }

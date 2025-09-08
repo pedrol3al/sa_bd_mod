@@ -59,7 +59,7 @@
             </div>
           </a>
           <div id="sub-fornecedor" class="sub-menu" style="display: none;">
-            <a href="../Fornecedor/front_fornecedor.php"><i class="bi bi-circle-fill"></i><span>Cadastrar Fornecedor</span></a>
+            <a href="../Fornecedor/fornecedor.php"><i class="bi bi-circle-fill"></i><span>Cadastrar Fornecedor</span></a>
             <a href="../Fornecedor/buscar_fornecedor.php"><i class="bi bi-circle-fill"></i><span>Pesquisar Fornecedor</span></a>
           </div>
         </li>

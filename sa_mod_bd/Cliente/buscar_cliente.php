@@ -231,87 +231,88 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
 
                 // Construir o HTML do modal
                 const modalHTML = `
-                    <div class="info-section">
-                        <h4>Dados Pessoais</h4>
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <span class="info-label">ID:</span>
-                                <span class="info-value">${escapeHtml(cliente.id_cliente)}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Nome:</span>
-                                <span class="info-value">${escapeHtml(cliente.nome)}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Email:</span>
-                                <span class="info-value">${escapeHtml(cliente.email)}</span>
-                            <div class="info-item">
-                                <span class="info-label">Cpf:</span>
-                                <span class="info-value">${escapeHtml(cliente.cpf)}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Data de Nascimento:</span>
-                                <span class="info-value">${dataNasc}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Sexo:</span>
-                                <span class="info-value">${sexoFormatado}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Data de Cadastro:</span>
-                                <span class="info-value">${dataCad}</span>
-                            </div>
-                        </div>
-                        ${cliente.observacao ? `
-                        <div class="info-item m-0">
-                            <span class="info-label">Observação:</span>
-                            <span class="info-value">${escapeHtml(cliente.observacao)}</span>
-                        </div>
-                        ` : ''}
-                    </div>
-                    
-                    <div class="info-section">
-                        <h4>Endereço</h4>
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <span class="info-label">CEP:</span>
-                                <span class="info-value">${cliente.cep ? escapeHtml(cliente.cep) : 'Não informado'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Logradouro:</span>
-                                <span class="info-value">${cliente.logradouro ? escapeHtml(cliente.logradouro) : 'Não informado'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Número:</span>
-                                <span class="info-value">${cliente.numero ? escapeHtml(cliente.numero) : 'Não informado'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Complemento:</span>
-                                <span class="info-value">${cliente.complemento ? escapeHtml(cliente.complemento) : 'Não informado'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Bairro:</span>
-                                <span class="info-value">${cliente.bairro ? escapeHtml(cliente.bairro) : 'Não informado'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Cidade:</span>
-                                <span class="info-value">${cliente.cidade ? escapeHtml(cliente.cidade) : 'Não informado'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">UF:</span>
-                                <span class="info-value">${cliente.uf ? escapeHtml(cliente.uf) : 'Não informado'}</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="info-section">
-                        <h4>Contato</h4>
-                        <div class="info-item">
-                            <span class="info-label">Telefone:</span>
-                            <span class="info-value">${cliente.telefone ? escapeHtml(cliente.telefone) : 'Não informado'}</span>
-                        </div>
-                    </div>
-                `;
+    <div class="info-section">
+        <h4>Dados Pessoais</h4>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">ID:</span>
+                <span class="info-value">${escapeHtml(cliente.id_cliente)}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Nome:</span>
+                <span class="info-value">${escapeHtml(cliente.nome)}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Email:</span>
+                <span class="info-value">${escapeHtml(cliente.email)}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">CPF:</span>
+                <span class="info-value">${escapeHtml(cliente.cpf)}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Data de Nascimento:</span>
+                <span class="info-value">${dataNasc}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Sexo:</span>
+                <span class="info-value">${sexoFormatado}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Data de Cadastro:</span>
+                <span class="info-value">${dataCad}</span>
+            </div>
+            ${cliente.observacao ? `
+            <div class="info-item" style="grid-column: 1 / -1;">
+                <span class="info-label">Observação:</span>
+                <span class="info-value">${escapeHtml(cliente.observacao)}</span>
+            </div>
+            ` : ''}
+        </div>
+    </div>
+    
+    <div class="info-section">
+        <h4>Endereço</h4>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">CEP:</span>
+                <span class="info-value">${cliente.cep ? escapeHtml(cliente.cep) : 'Não informado'}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Logradouro:</span>
+                <span class="info-value">${cliente.logradouro ? escapeHtml(cliente.logradouro) : 'Não informado'}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Número:</span>
+                <span class="info-value">${cliente.numero ? escapeHtml(cliente.numero) : 'Não informado'}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Complemento:</span>
+                <span class="info-value">${cliente.complemento ? escapeHtml(cliente.complemento) : 'Não informado'}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Bairro:</span>
+                <span class="info-value">${cliente.bairro ? escapeHtml(cliente.bairro) : 'Não informado'}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Cidade:</span>
+                <span class="info-value">${cliente.cidade ? escapeHtml(cliente.cidade) : 'Não informado'}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">UF:</span>
+                <span class="info-value">${cliente.uf ? escapeHtml(cliente.uf) : 'Não informado'}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="info-section">
+        <h4>Contato</h4>
+        <div class="info-item">
+            <span class="info-label">Telefone:</span>
+            <span class="info-value">${cliente.telefone ? escapeHtml(cliente.telefone) : 'Não informado'}</span>
+        </div>
+    </div>
+`;
 
                 // Inserir o HTML no modal
                 document.getElementById('modalDetalhesBody').innerHTML = modalHTML;
@@ -374,6 +375,23 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
             flatpickr("#dataNascimento", { dateFormat: "d/m/Y" });
             flatpickr("#dataFundacao", { dateFormat: "d/m/Y" });
         });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const msgType = urlParams.get('msg');   // 'success' ou 'error'
+        const msgText = urlParams.get('text');  // texto da mensagem
+
+        if (msgType && msgText) {
+            const notyf = new Notyf({
+                duration: 4000,
+                position: { x: 'right', y: 'top' }
+            });
+
+            notyf[msgType](decodeURIComponent(msgText));
+
+            // Remove os parâmetros da URL sem recarregar a página
+            const newUrl = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, newUrl);
+        }
     </script>
 </body>
 

@@ -41,12 +41,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Máscaras
-  $(document).ready(function () {
-    $("#cnpj_forn").mask("00.000.000/0000-00");
-    $("#telefone_forn").mask("(00) 00000-0000");
-    $("#cep_forn").mask("00000-000");
-  });
+    // Aplicar máscaras aos campos
+    $(document).ready(function(){
+      $('#cnpj_forn').mask('00.000.000/0000-00');
+      $('#telefone_forn').mask('(00) 00000-0000');
+      $('#cep_forn').mask('00000-000');
+      
+      // Inicializar datepickers
+      $("#dataFundacao_forn").flatpickr({
+        dateFormat: "d/m/Y",
+        allowInput: true
+      });
+      
+      $("#dataCadastro_forn").flatpickr({
+        dateFormat: "d/m/Y",
+        allowInput: true,
+        defaultDate: "today"
+      });
+      
+      // Buscar endereço pelo CEP
+      $('#cep_forn').on('blur', function() {
+        var cep = $(this).val().replace(/\D/g, '');
+      
+      });
+    });
+    
 
   // Expor função para botão
   window.conferirCampos = conferirCampos;

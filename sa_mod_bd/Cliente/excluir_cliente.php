@@ -21,7 +21,7 @@
     if(isset($_GET['id']) && is_numeric($_GET['id'])){
         $id_cliente=$_GET['id'];
 
-        //exclui o usuario do banco de dados
+        //exclui o cliente do banco de dados
         $sql="DELETE FROM cliente WHERE id_cliente =:id";
         $stmt=$pdo->prepare($sql);
         $stmt->bindParam(':id',$id_cliente,PDO::PARAM_INT);

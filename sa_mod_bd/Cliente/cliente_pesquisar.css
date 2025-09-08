@@ -8,6 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    scrollbar-width: none;
     
    background-image: url("../img/fundo_site.png");
   }
@@ -33,6 +34,7 @@
     animation: aparecer 0.6s ease-in-out; /* Animação de entrada */
     overflow-y: auto; /* Rolagem apenas vertical */
     max-height: 90vh; /* Impede que ultrapasse a tela */
+    scrollbar-width: none;
 }
 
 /* ==========================

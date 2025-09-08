@@ -3,11 +3,10 @@ session_start();
 require_once '../Conexao/conexao.php';
 
 // Verificar permissão do usuário
-if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] !=5) {
-  echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php'</script>";
-  exit();
+if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 5) {
+    echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php'</script>";
+    exit();
 }
-
 
 // Inicializar variáveis
 $fornecedores = [];
@@ -61,202 +60,146 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':preco', $preco);
         $stmt->bindParam(':data_registro', $data_registro);
         $stmt->bindParam(':descricao', $descricao);
-        
+
         if ($stmt->execute()) {
-            $_SESSION['mensagem'] = 'Produto cadastrado com sucesso!';
-            $_SESSION['tipo_mensagem'] = 'success';
-            header('Location: buscar_produto.php');
-            exit;
+            // Redirecionar para a mesma página com flag de sucesso
+            header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
+            exit();
         } else {
             throw new Exception("Erro ao executar a query de inserção.");
         }
 
     } catch (Exception $e) {
         $error_message = 'Erro ao cadastrar produto: ' . $e->getMessage();
-        // Não redirecionar, manter na mesma página para mostrar o erro
     }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Produtos (Estoque)</title>
 
-    <!-- Links bootstrap e css -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-
-    <style>
-        .container {
-            max-width: 1400px;
-            margin: 20px auto;
-            padding: 20px;
-            margin-left: 200px;
-        }
-        
-        h1 {
-            text-align: center;
-            font-weight: bold;
-            color: rgb(0, 0, 58);
-            margin-bottom: 20px;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .form-section {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .form-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .form-group {
-            flex: 1;
-        }
-        
-        .form-label {
-            font-weight: 500;
-            margin-bottom: 5px;
-            display: block;
-        }
-        
-        .actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .btn-danger {
-            background-color: #e74a3b;
-            border-color: #e74a3b;
-        }
-        
-        .btn-success {
-            background-color: #1cc88a;
-            border-color: #1cc88a;
-        }
-    </style>
+    <link rel="stylesheet" href="cadastro.css">
+    <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
 </head>
-<body>
-    <div class="container">
-        <h1>CADASTRO DE PRODUTOS (ESTOQUE)</h1>
-        
-        <?php include("../Menu_lateral/menu.php"); ?>
-        
-        <!-- Exibir mensagens de erro -->
-        <?php if (!empty($error_message)): ?>
-            <div class="alert alert-danger alert-dismissible fade show">
-                <?= $error_message ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
-        
-        <form method="POST" action="">
-            <div class="form-section">
-                <h2>Dados do Produto</h2>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="id_fornecedor" class="form-label">Fornecedor:</label>
-                        <select id="id_fornecedor" name="id_fornecedor" class="form-control" required>
-                            <option value="">Selecione um fornecedor</option>
-                            <?php foreach ($fornecedores as $fornecedor): ?>
-                                <option value="<?= $fornecedor['id_fornecedor'] ?>" <?= (isset($_POST['id_fornecedor']) && $_POST['id_fornecedor'] == $fornecedor['id_fornecedor']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($fornecedor['razao_social']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="tipo" class="form-label">Tipo:</label>
-                        <select id="tipo" name="tipo" class="form-control" required>
-                            <option value="">Selecione o tipo</option>
-                            <option value="Peça" <?= (isset($_POST['tipo']) && $_POST['tipo'] == 'Peça') ? 'selected' : '' ?>>Peça</option>
-                            <option value="Componente" <?= (isset($_POST['tipo']) && $_POST['tipo'] == 'Componente') ? 'selected' : '' ?>>Componente</option>
-                            <option value="Acessório" <?= (isset($_POST['tipo']) && $_POST['tipo'] == 'Acessório') ? 'selected' : '' ?>>Acessório</option>
-                            <option value="Material" <?= (isset($_POST['tipo']) && $_POST['tipo'] == 'Material') ? 'selected' : '' ?>>Material</option>
-                            <option value="Equipamento" <?= (isset($_POST['tipo']) && $_POST['tipo'] == 'Equipamento') ? 'selected' : '' ?>>Equipamento</option>
-                            <option value="Outro" <?= (isset($_POST['tipo']) && $_POST['tipo'] == 'Outro') ? 'selected' : '' ?>>Outro</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="nome" class="form-label">Nome do Produto:</label>
-                        <input type="text" id="nome" name="nome" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '' ?>" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="aparelho_utilizado" class="form-label">Aparelho Utilizado:</label>
-                        <input type="text" id="aparelho_utilizado" name="aparelho_utilizado" class="form-control" value="<?= isset($_POST['aparelho_utilizado']) ? htmlspecialchars($_POST['aparelho_utilizado']) : '' ?>">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="quantidade" class="form-label">Quantidade:</label>
-                        <input type="number" id="quantidade" name="quantidade" class="form-control" min="0" value="<?= isset($_POST['quantidade']) ? $_POST['quantidade'] : '0' ?>" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="preco" class="form-label">Preço Unitário (R$):</label>
-                        <input type="number" id="preco" name="preco" class="form-control" step="0.01" min="0" value="<?= isset($_POST['preco']) ? $_POST['preco'] : '' ?>" required>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="data_registro" class="form-label">Data de Registro:</label>
-                        <input type="date" id="data_registro" name="data_registro" class="form-control" value="<?= isset($_POST['data_registro']) ? $_POST['data_registro'] : date('Y-m-d') ?>">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="descricao" class="form-label">Descrição:</label>
-                        <textarea id="descricao" name="descricao" class="form-control" rows="3"><?= isset($_POST['descricao']) ? htmlspecialchars($_POST['descricao']) : '' ?></textarea>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="actions">
-                <button type="button" class="btn btn-danger" onclick="window.history.back()">
-                    <i class="bi bi-x-circle"></i> Cancelar
-                </button>
-                <button type="submit" class="btn btn-success">
-                    <i class="bi bi-check-circle"></i> Cadastrar Produto
-                </button>
-            </div>
-        </form>
-    </div>
 
-    <!-- Scripts -->
-    <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Formatação do preço
-            const precoInput = document.getElementById('preco');
-            precoInput.addEventListener('blur', function() {
-                if (this.value) {
-                    this.value = parseFloat(this.value).toFixed(2);
-                }
-            });
-        });
-    </script>
+<body>
+<div class="container">
+    <h1>CADASTRO DE PRODUTOS (ESTOQUE)</h1>
+
+    <?php include("../Menu_lateral/menu.php"); ?>
+
+    <?php if (!empty($error_message)): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($error_message) ?></div>
+    <?php endif; ?>
+
+    <form method="POST" action="">
+        <div class="form-section">
+            <h2>Dados do Produto</h2>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_fornecedor" class="form-label">Fornecedor:</label>
+                    <select id="id_fornecedor" name="id_fornecedor" class="form-control" required>
+                        <option value="">Selecione um fornecedor</option>
+                        <?php foreach ($fornecedores as $fornecedor): ?>
+                            <option value="<?= $fornecedor['id_fornecedor'] ?>">
+                                <?= htmlspecialchars($fornecedor['razao_social']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo" class="form-label">Tipo:</label>
+                    <select id="tipo" name="tipo" class="form-control" required>
+                        <option value="">Selecione o tipo</option>
+                        <option value="Peça">Peça</option>
+                        <option value="Componente">Componente</option>
+                        <option value="Acessório">Acessório</option>
+                        <option value="Material">Material</option>
+                        <option value="Equipamento">Equipamento</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nome" class="form-label">Nome do Produto:</label>
+                    <input type="text" id="nome" name="nome" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="aparelho_utilizado" class="form-label">Aparelho Utilizado:</label>
+                    <input type="text" id="aparelho_utilizado" name="aparelho_utilizado" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="quantidade" class="form-label">Quantidade:</label>
+                    <input type="number" id="quantidade" name="quantidade" class="form-control" min="0" value="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="preco" class="form-label">Preço Unitário (R$):</label>
+                    <input type="number" id="preco" name="preco" class="form-control" step="0.01" min="0" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="data_registro" class="form-label">Data de Registro:</label>
+                    <input type="date" id="data_registro" name="data_registro" class="form-control" value="<?= date('Y-m-d') ?>">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="descricao" class="form-label">Descrição:</label>
+                    <textarea id="descricao" name="descricao" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="button" class="btn btn-danger" onclick="window.history.back()">
+                <i class="bi bi-x-circle"></i> Cancelar
+            </button>
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-check-circle"></i> Cadastrar Produto
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+<?php if (isset($_GET['success'])): ?>
+<script>
+    const notyf = new Notyf({ position: { x: 'right', y: 'top' }, duration: 4000 });
+    notyf.success('Produto cadastrado com sucesso!');
+</script>
+<?php endif; ?>
+
+<script>
+    // Formatação do preço
+    const precoInput = document.getElementById('preco');
+    precoInput.addEventListener('blur', function () {
+        if (this.value) {
+            this.value = parseFloat(this.value).toFixed(2);
+        }
+    });
+</script>
 </body>
 </html>
