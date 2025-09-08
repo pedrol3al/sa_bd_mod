@@ -6,7 +6,7 @@ require '../Conexao/conexao.php';
 if($_SESSION['perfil'] !=1){
     $_SESSION['mensagem'] = 'Acesso negado!';
     $_SESSION['tipo_mensagem'] = 'error';
-    header('Location: buscar_usuario.php'); // Alterado para buscar_usuario.php
+    header('Location: buscar_usuario.php');
     exit();
 }
 
@@ -21,18 +21,18 @@ if(isset($_GET['inativar']) && is_numeric($_GET['inativar'])){
         if($stmt->execute()){
             $_SESSION['mensagem'] = 'Usuário inativado com sucesso!';
             $_SESSION['tipo_mensagem'] = 'success';
-            header('Location: buscar_usuario.php'); // Alterado para buscar_usuario.php
+            header('Location: buscar_usuario.php');
             exit;
         } else {
             $_SESSION['mensagem'] = 'Erro ao inativar o usuário!';
             $_SESSION['tipo_mensagem'] = 'error';
-            header('Location: buscar_usuario.php'); // Redireciona mesmo em caso de erro
+            header('Location: buscar_usuario.php');
             exit;
         }
     } catch (PDOException $e) {
         $_SESSION['mensagem'] = 'Erro ao inativar usuário: ' . $e->getMessage();
         $_SESSION['tipo_mensagem'] = 'error';
-        header('Location: buscar_usuario.php'); // Redireciona mesmo em caso de erro
+        header('Location: buscar_usuario.php');
         exit;
     }
 }
@@ -48,18 +48,18 @@ if(isset($_GET['ativar']) && is_numeric($_GET['ativar'])){
         if($stmt->execute()){
             $_SESSION['mensagem'] = 'Usuário ativado com sucesso!';
             $_SESSION['tipo_mensagem'] = 'success';
-            header('Location: buscar_usuario.php'); // Alterado para buscar_usuario.php
+            header('Location: buscar_usuario.php');
             exit;
         } else {
             $_SESSION['mensagem'] = 'Erro ao ativar o usuário!';
             $_SESSION['tipo_mensagem'] = 'error';
-            header('Location: buscar_usuario.php'); // Redireciona mesmo em caso de erro
+            header('Location: buscar_usuario.php');
             exit;
         }
     } catch (PDOException $e) {
         $_SESSION['mensagem'] = 'Erro ao ativar usuário: ' . $e->getMessage();
         $_SESSION['tipo_mensagem'] = 'error';
-        header('Location: buscar_usuario.php'); // Redireciona mesmo em caso de erro
+        header('Location: buscar_usuario.php');
         exit;
     }
 }
@@ -70,7 +70,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_usuario'])){
         $id_usuario = $_POST['id_usuario'];
         $nome = $_POST['nome'];
         $email = $_POST['email'];
+        
+        // CORREÇÃO DO CAMPO SEXO - TRATAMENTO CORRETO
         $sexo = $_POST['sexo'];
+        $sexo = ($sexo === '') ? null : $sexo;
+        // Validar se é um valor permitido
+        if ($sexo !== null && !in_array($sexo, ['M', 'F'])) {
+            $sexo = null;
+        }
+        
         $id_perfil = $_POST['perfil'];
         $cpf = $_POST['cpf'];
         $username = $_POST['username'];
@@ -120,19 +128,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_usuario'])){
         if($stmt->execute()){
             $_SESSION['mensagem'] = 'Usuário alterado com sucesso!';
             $_SESSION['tipo_mensagem'] = 'success';
-            header('Location: buscar_usuario.php'); // Alterado para buscar_usuario.php
+            header('Location: buscar_usuario.php');
             exit;
         } else {
             $_SESSION['mensagem'] = 'Erro ao alterar o usuário!';
             $_SESSION['tipo_mensagem'] = 'error';
-            header('Location: buscar_usuario.php'); // Redireciona mesmo em caso de erro
+            header('Location: buscar_usuario.php');
             exit;
         }
         
     } catch (PDOException $e) {
         $_SESSION['mensagem'] = 'Erro ao alterar usuário: ' . $e->getMessage();
         $_SESSION['tipo_mensagem'] = 'error';
-        header('Location: buscar_usuario.php'); // Redireciona mesmo em caso de erro
+        header('Location: buscar_usuario.php');
         exit;
     }
 }

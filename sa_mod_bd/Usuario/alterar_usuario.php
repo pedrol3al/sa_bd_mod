@@ -159,6 +159,7 @@ include 'processa_alteracao.php';
                         </div>
 
                         <!-- CAMPO DE SEXO ADICIONADO AQUI -->
+                        <!-- CAMPO DE SEXO CORRIGIDO -->
                         <div class="form-group">
                             <label for="sexo">Sexo:</label>
                             <select id="sexo" name="sexo" class="form-control">
@@ -167,7 +168,6 @@ include 'processa_alteracao.php';
                                 <option value="F" <?= $usuarioAtual['sexo'] == 'F' ? 'selected' : '' ?>>Feminino</option>
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label for="data_nasc">Data de Nascimento:</label>
                             <input type="date" id="data_nasc" name="data_nasc" class="form-control"
