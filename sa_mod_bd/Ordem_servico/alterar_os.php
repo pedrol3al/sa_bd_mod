@@ -21,6 +21,10 @@ include 'alterar_os_back.php';
     <!-- Bootstrap 5 JS (inclui Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+     <!-- Imagem no navegador -->
+     <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
+
+
     <link rel="stylesheet" href="alterar.css">
 
 </head>
