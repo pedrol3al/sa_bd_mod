@@ -12,6 +12,7 @@
         body {
             background-color: #ecf0f1 !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scrollbar-width: none;
         }
         
         .dashboard-container {

@@ -13,12 +13,14 @@
       padding: 0;
       box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      scrollbar-width: none;
     }
     
     body {
       background-color: var(--background-color);
       color: var(--text-color);
       padding: 20px;
+      scrollbar-width: none;
     }
     
     .container {
