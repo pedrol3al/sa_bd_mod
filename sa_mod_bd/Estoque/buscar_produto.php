@@ -185,7 +185,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <p align="center">
-            <a class="btn btn-secondary" role="button" href="index.php">
+            <a class="btn btn-secondary" role="button" href="buscar_produto.php">
                 <i class="bi bi-arrow-left"></i> Voltar
             </a>
             <a class="btn btn-success" role="button" href="cadastro_produto.php">

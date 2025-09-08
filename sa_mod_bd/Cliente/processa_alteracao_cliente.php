@@ -1,375 +1,117 @@
 <?php
-// alterar_usuario_frontend.php
-// Inclui o backend primeiro para ter acesso às variáveis
-include 'processa_alteracao.php';
+session_start();
+require_once("../Conexao/conexao.php");
+
+// Função para sanitizar dados
+function safe_html($data) {
+    return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+}
+
+// Buscar todos os usuários ativos
+$sql = "SELECT * FROM usuario WHERE inativo = 0 ORDER BY nome";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$usuarios = $stmt->fetchAll();
+
+// Verificar se há um ID de usuário para editar
+$usuarioAtual = null;
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $id_usuario = $_GET['id'];
+    $sql = "SELECT * FROM usuario WHERE id_usuario = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $id_usuario, PDO::PARAM_INT);
+    $stmt->execute();
+    $usuarioAtual = $stmt->fetch();
+}
+
+// Processar inativação de usuário
+if (isset($_GET['inativar']) && is_numeric($_GET['inativar'])) {
+    $id_inativar = $_GET['inativar'];
+    $sql = "UPDATE usuario SET inativo = 1 WHERE id_usuario = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $id_inativar, PDO::PARAM_INT);
+    
+    if ($stmt->execute()) {
+        header("Location: processa_alteracao_cliente.php?inactivated=1&id=" . $id_inativar);
+        exit();
+    } else {
+        header("Location: processa_alteracao_cliente.php?error=1");
+        exit();
+    }
+}
+
+// Processar ativação de usuário
+if (isset($_GET['ativar']) && is_numeric($_GET['ativar'])) {
+    $id_ativar = $_GET['ativar'];
+    $sql = "UPDATE usuario SET inativo = 0 WHERE id_usuario = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $id_ativar, PDO::PARAM_INT);
+    
+    if ($stmt->execute()) {
+        header("Location: processa_alteracao_cliente.php?activated=1&id=" . $id_ativar);
+        exit();
+    } else {
+        header("Location: processa_alteracao_cliente.php?error=1");
+        exit();
+    }
+}
+
+// Processar atualização de dados do usuário
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_usuario'])) {
+    $id_usuario = $_POST['id_usuario'];
+    $perfil = $_POST['perfil'];
+    $nome = $_POST['nome'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $cpf = $_POST['cpf'] ?? null;
+    $data_nasc = $_POST['data_nasc'] ?? null;
+    $cep = $_POST['cep'] ?? null;
+    $logradouro = $_POST['logradouro'] ?? null;
+    $numero = $_POST['numero'] ?? null;
+    $cidade = $_POST['cidade'] ?? null;
+    $estado = $_POST['estado'] ?? null;
+    $bairro = $_POST['bairro'] ?? null;
+    $telefone = $_POST['telefone'] ?? null;
+
+    $sql = "UPDATE usuario SET 
+            id_perfil = :perfil, 
+            nome = :nome, 
+            username = :username, 
+            email = :email, 
+            cpf = :cpf, 
+            data_nasc = :data_nasc, 
+            cep = :cep, 
+            logradouro = :logradouro, 
+            numero = :numero, 
+            cidade = :cidade, 
+            uf = :estado, 
+            bairro = :bairro, 
+            telefone = :telefone 
+            WHERE id_usuario = :id";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':perfil', $perfil, PDO::PARAM_INT);
+    $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
+    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':cpf', $cpf, PDO::PARAM_STR);
+    $stmt->bindParam(':data_nasc', $data_nasc, PDO::PARAM_STR);
+    $stmt->bindParam(':cep', $cep, PDO::PARAM_STR);
+    $stmt->bindParam(':logradouro', $logradouro, PDO::PARAM_STR);
+    $stmt->bindParam(':numero', $numero, PDO::PARAM_STR);
+    $stmt->bindParam(':cidade', $cidade, PDO::PARAM_STR);
+    $stmt->bindParam(':estado', $estado, PDO::PARAM_STR);
+    $stmt->bindParam(':bairro', $bairro, PDO::PARAM_STR);
+    $stmt->bindParam(':telefone', $telefone, PDO::PARAM_STR);
+    $stmt->bindParam(':id', $id_usuario, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        header("Location: processa_alteracao_cliente.php?updated=1&id=" . $id_usuario);
+        exit();
+    } else {
+        header("Location: processa_alteracao_cliente.php?error=1");
+        exit();
+    }
+}
+
 ?>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alterar usuario</title>
-    
-    <!-- Links bootstrap e css -->
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-
-    <!-- Imagem no navegador -->
-    <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
-
-    <link rel="stylesheet" href="alterar.css">
-
-</head>
-<body>
-    <div class="container">
-        <h1>ALTERAR USUÁRIOS</h1>
-        
-        <?php include("../Menu_lateral/menu.php"); ?>
-        
-        <!-- Removido o sistema de alertas antigo -->
-
-        <div class="mb-3">
-            <a href="buscar_usuario.php" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Voltar
-            </a>
-        </div>
-
-        <!-- Tabela de usuários -->
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-people-fill"></i> Lista de Usuários Ativos
-            </div>
-            <div class="card-body">
-                <?php if(!empty($usuarios)): ?>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Perfil</th>
-                                    <th>Nome</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>Status</th>
-                                    <th>Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($usuarios as $usuario): 
-                                    $perfil_text = '';
-                                    $perfil_class = '';
-                                    switch($usuario['id_perfil']) {
-                                        case 1: $perfil_text = 'Admin'; $perfil_class = 'perfil-1'; break;
-                                        case 2: $perfil_text = 'Atendente'; $perfil_class = 'perfil-2'; break;
-                                        case 3: $perfil_text = 'Técnico'; $perfil_class = 'perfil-3'; break;
-                                        case 4: $perfil_text = 'Financeiro'; $perfil_class = 'perfil-4'; break;
-                                        default: $perfil_text = $usuario['id_perfil']; $perfil_class = '';
-                                    }
-                                    
-                                    $status_text = $usuario['inativo'] ? 'Inativo' : 'Ativo';
-                                    $status_class = $usuario['inativo'] ? 'status-inativo' : 'status-ativo';
-                                ?>
-                                <tr>
-                                    <td><?= safe_html($usuario['id_usuario']) ?></td>
-                                    <td><span class="perfil-badge <?= $perfil_class ?>"><?= $perfil_text ?></span></td>
-                                    <td><?= safe_html($usuario['nome']) ?></td>
-                                    <td><?= safe_html($usuario['username']) ?></td>
-                                    <td><?= safe_html($usuario['email']) ?></td>
-                                    <td><span class="status-badge <?= $status_class ?>"><?= $status_text ?></span></td>
-                                    <td>
-                                        <a class="btn btn-warning btn-sm" href="alterar_usuario.php?id=<?= safe_html($usuario['id_usuario']) ?>">
-                                            <i class="bi bi-pencil"></i> Alterar
-                                        </a>
-                                    </td>
-                                </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php else: ?>
-                    <div class="alert alert-info">
-                        <i class="bi bi-info-circle"></i> Nenhum usuário ativo encontrado!
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <!-- Formulário de edição -->
-        <?php if($usuarioAtual): ?>
-        <div class="form-section">
-            <h2>Editar Usuário: <?= safe_html($usuarioAtual['nome']) ?></h2>
-            
-            <form method="POST" id="formEditarUsuario">
-                <input type="hidden" name="id_usuario" value="<?= safe_html($usuarioAtual['id_usuario']) ?>">
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="perfil">Perfil:</label>
-                        <select id="perfil" name="perfil" class="form-control" required>
-                            <option value="1" <?= $usuarioAtual['id_perfil'] == 1 ? 'selected' : '' ?>>Administrador</option>
-                            <option value="2" <?= $usuarioAtual['id_perfil'] == 2 ? 'selected' : '' ?>>Atendente</option>
-                            <option value="3" <?= $usuarioAtual['id_perfil'] == 3 ? 'selected' : '' ?>>Técnico</option>
-                            <option value="4" <?= $usuarioAtual['id_perfil'] == 4 ? 'selected' : '' ?>>Financeiro</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome" name="nome" class="form-control" 
-                               value="<?= safe_html($usuarioAtual['nome']) ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="cpf">CPF:</label>
-                        <input type="text" id="cpf" name="cpf" class="form-control" 
-                               value="<?= safe_html($usuarioAtual['cpf']) ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="username" class="form-control" 
-                               value="<?= safe_html($usuarioAtual['username']) ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">E-mail:</label>
-                        <input type="email" id="email" name="email" class="form-control" 
-                               value="<?= safe_html($usuarioAtual['email']) ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="data_nasc">Data de Nascimento:</label>
-                        <input type="date" id="data_nasc" name="data_nasc" class="form-control" 
-                               value="<?= safe_html($usuarioAtual['data_nasc']) ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="cep">CEP:</label>
-                        <input type="text" id="cep" name="cep" class="form-control" 
-                               value="<?= safe_html($usuarioAtual['cep']) ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="logradouro">Logradouro:</label>
-                        <input type="text" id="logradouro" name="logradouro" class="form-control" 
-                               value="<?= safe_html($usuarioAtual['logradouro']) ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="numero">Número:</label>
-                        <input type="text" id="numero" name="numero" class="form-control" 
-                               value="<?= safe_html($usuarioAtual['numero']) ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="cidade">Cidade:</label>
-                        <input type="text" id="cidade" name="cidade" class="form-control" 
-                               value="<?= safe_html($usuarioAtual['cidade']) ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="estado">Estado:</label>
-                        <select id="estado" name="estado" class="form-control">
-                            <option value="">Selecione</option>
-                            <?php
-                            $ufs = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
-                            foreach($ufs as $uf){
-                                $selected = ($usuarioAtual['uf'] == $uf) ? 'selected' : '';
-                                echo "<option value='$uf' $selected>$uf</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="bairro">Bairro:</label>
-                        <input type="text" id="bairro" name="bairro" class="form-control" 
-                               value="<?= safe_html($usuarioAtual['bairro']) ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="telefone">Telefone:</label>
-                        <input type="text" id="telefone" name="telefone" class="form-control" 
-                               value="<?= safe_html($usuarioAtual['telefone']) ?>">
-                    </div>
-                </div>
-
-                <div class="actions">
-                    <button type="reset" class="btn btn-secondary">Limpar</button>
-                    <button type="submit" class="btn btn-success">
-                        <i class="bi bi-check-circle"></i> Salvar Alterações
-                    </button>
-                    
-                    <?php if($usuarioAtual['inativo'] == 0): ?>
-                        <a href="alterar_usuario.php?inativar=<?= $usuarioAtual['id_usuario'] ?>" 
-                           class="btn btn-danger" 
-                           onclick="return confirm('Tem certeza que deseja inativar este usuário?')">
-                            <i class="bi bi-person-x"></i> Inativar Usuário
-                        </a>
-                    <?php else: ?>
-                        <a href="alterar_usuario.php?ativar=<?= $usuarioAtual['id_usuario'] ?>" 
-                           class="btn btn-success" 
-                           onclick="return confirm('Tem certeza que deseja ativar este usuário?')">
-                            <i class="bi bi-person-check"></i> Ativar Usuário
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </form>
-        </div>
-        <?php endif; ?>
-    </div>
-
-    <!-- Scripts -->
-    <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    
-    <script>
-        // Inicializar Notyf
-        const notyf = new Notyf({
-            duration: 5000,
-            position: {
-                x: 'right',
-                y: 'top'
-            },
-            types: [
-                {
-                    type: 'success',
-                    background: '#198754',
-                    icon: {
-                        className: 'bi bi-check-circle',
-                        tagName: 'i',
-                        color: '#fff'
-                    }
-                },
-                {
-                    type: 'error',
-                    background: '#dc3545',
-                    icon: {
-                        className: 'bi bi-exclamation-circle',
-                        tagName: 'i',
-                        color: '#fff'
-                    }
-                },
-                {
-                    type: 'info',
-                    background: '#0dcaf0',
-                    icon: {
-                        className: 'bi bi-info-circle',
-                        tagName: 'i',
-                        color: '#fff'
-                    }
-                },
-                {
-                    type: 'warning',
-                    background: '#ffc107',
-                    icon: {
-                        className: 'bi bi-exclamation-triangle',
-                        tagName: 'i',
-                        color: '#fff'
-                    }
-                }
-            ]
-        });
-
-        $(document).ready(function(){
-            // Aplicar máscaras aos campos
-            $('#cpf').mask('000.000.000-00');
-            $('#telefone').mask('(00) 00000-0000');
-            $('#cep').mask('00000-000');
-            
-            // Buscar endereço pelo CEP
-            $('#cep').on('blur', function() {
-                var cep = $(this).val().replace(/\D/g, '');
-                
-                if (cep.length === 8) {
-                    $.getJSON('https://viacep.com.br/ws/' + cep + '/json/', function(data) {
-                        if (!data.erro) {
-                            $('#logradouro').val(data.logradouro);
-                            $('#bairro').val(data.bairro);
-                            $('#cidade').val(data.localidade);
-                            $('#estado').val(data.uf);
-                            $('#numero').focus();
-                            notyf.success('Endereço preenchido automaticamente!');
-                        } else {
-                            notyf.error('CEP não encontrado!');
-                        }
-                    }).fail(function() {
-                        notyf.error('Erro ao buscar CEP. Verifique sua conexão!');
-                    });
-                }
-            });
-
-            // Enviar formulário via AJAX para mostrar notificações toast
-            $('#formEditarUsuario').on('submit', function(e) {
-                e.preventDefault();
-                
-                // Validação básica
-                if ($('#nome').val().trim() === '' || $('#username').val().trim() === '' || $('#email').val().trim() === '') {
-                    notyf.error('Preencha os campos obrigatórios!');
-                    return;
-                }
-                
-                // Validação de email
-                const email = $('#email').val();
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    notyf.error('Formato de email inválido!');
-                    return;
-                }
-                
-                // Simular envio (substitua pelo seu código de envio real)
-                notyf.success('Alterações salvas com sucesso!');
-                
-                // Se estiver usando AJAX real, descomente o código abaixo:
-                /*
-                $.ajax({
-                    url: 'processa_alteracao.php',
-                    type: 'POST',
-                    data: $(this).serialize(),
-                    success: function(response) {
-                        if (response.success) {
-                            notyf.success(response.message);
-                        } else {
-                            notyf.error(response.message);
-                        }
-                    },
-                    error: function() {
-                        notyf.error('Erro ao comunicar com o servidor!');
-                    }
-                });
-                */
-            });
-
-            // Mostrar notificações baseadas nos parâmetros da URL
-            const urlParams = new URLSearchParams(window.location.search);
-            
-            if (urlParams.has('success')) {
-                notyf.success('Operação realizada com sucesso!');
-            }
-            
-            if (urlParams.has('error')) {
-                notyf.error('Erro ao processar a solicitação!');
-            }
-            
-            if (urlParams.has('updated')) {
-                notyf.success('Usuário atualizado com sucesso!');
-            }
-            
-            if (urlParams.has('inactivated')) {
-                notyf.success('Usuário inativado com sucesso!');
-            }
-            
-            if (urlParams.has('activated')) {
-                notyf.success('Usuário ativado com sucesso!');
-            }
-        });
-    </script>
-</body>
-</html>

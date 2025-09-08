@@ -247,10 +247,6 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
                 <span class="info-value">${escapeHtml(cliente.email)}</span>
             </div>
             <div class="info-item">
-                <span class="info-label">CPF:</span>
-                <span class="info-value">${escapeHtml(cliente.cpf)}</span>
-            </div>
-            <div class="info-item">
                 <span class="info-label">Data de Nascimento:</span>
                 <span class="info-value">${dataNasc}</span>
             </div>
@@ -374,24 +370,54 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
             $('#cep, #cep_jur').mask('00000-000');
             flatpickr("#dataNascimento", { dateFormat: "d/m/Y" });
             flatpickr("#dataFundacao", { dateFormat: "d/m/Y" });
+
+            // Verificar se há mensagens nos parâmetros da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const msgType = urlParams.get('msg');   // 'success' ou 'error'
+            const msgText = urlParams.get('text');  // texto da mensagem
+
+            if (msgType && msgText) {
+                const notyf = new Notyf({
+                    duration: 4000,
+                    position: { x: 'right', y: 'top' },
+                    types: [
+                        {
+                            type: 'success',
+                            background: '#4caf50',
+                            icon: {
+                                className: 'material-icons',
+                                tagName: 'i',
+                                text: 'check'
+                            }
+                        },
+                        {
+                            type: 'error',
+                            background: '#f44336',
+                            icon: {
+                                className: 'material-icons',
+                                tagName: 'i',
+                                text: 'error'
+                            }
+                        },
+                        {
+                            type: 'warning',
+                            background: '#ff9800',
+                            icon: {
+                                className: 'material-icons',
+                                tagName: 'i',
+                                text: 'warning'
+                            }
+                        }
+                    ]
+                });
+
+                notyf[msgType](decodeURIComponent(msgText));
+
+                // Remove os parâmetros da URL sem recarregar a página
+                const newUrl = window.location.origin + window.location.pathname;
+                window.history.replaceState({}, document.title, newUrl);
+            }
         });
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const msgType = urlParams.get('msg');   // 'success' ou 'error'
-        const msgText = urlParams.get('text');  // texto da mensagem
-
-        if (msgType && msgText) {
-            const notyf = new Notyf({
-                duration: 4000,
-                position: { x: 'right', y: 'top' }
-            });
-
-            notyf[msgType](decodeURIComponent(msgText));
-
-            // Remove os parâmetros da URL sem recarregar a página
-            const newUrl = window.location.origin + window.location.pathname;
-            window.history.replaceState({}, document.title, newUrl);
-        }
     </script>
 </body>
 

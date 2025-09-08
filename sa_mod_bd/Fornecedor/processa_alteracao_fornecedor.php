@@ -2,7 +2,29 @@
 session_start();
 require_once '../Conexao/conexao.php';
 
-// Verifica se o formulário foi enviado
+// Processar exclusão do fornecedor
+if (isset($_GET['excluir_fornecedor']) && isset($_GET['id'])) {
+    $id_fornecedor = intval($_GET['id']);
+    
+    try {
+        $sql = "DELETE FROM fornecedor WHERE id_fornecedor = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id_fornecedor, PDO::PARAM_INT);
+        
+        if ($stmt->execute()) {
+            header("Location: buscar_fornecedor.php?msg=success&text=Fornecedor excluído com sucesso!");
+            exit;
+        } else {
+            header("Location: buscar_fornecedor.php?msg=error&text=Erro ao excluir fornecedor!");
+            exit;
+        }
+    } catch (Exception $e) {
+        header("Location: buscar_fornecedor.php?msg=error&text=Erro ao excluir fornecedor: " . urlencode($e->getMessage()));
+        exit;
+    }
+}
+
+// Verifica se o formulário foi enviado para atualização
 if (isset($_POST['atualizar_fornecedor'])) {
     try {
         $id = intval($_POST['id_fornecedor']);
@@ -45,13 +67,14 @@ if (isset($_POST['atualizar_fornecedor'])) {
             ':id' => $id
         ]);
 
-        // Redireciona para a página de listagem ou sucesso
-        header("Location: buscar_fornecedor.php?success=1");
+        // Redireciona para a página de listagem com mensagem de sucesso
+        header("Location: buscar_fornecedor.php?msg=success&text=Fornecedor atualizado com sucesso!");
         exit;
 
     } catch (Exception $e) {
-        // Mostra erro na mesma página
-        $error_message = "Erro ao atualizar fornecedor: " . $e->getMessage();
+        // Redireciona com mensagem de erro
+        header("Location: alterar_fornecedor.php?id=" . $id . "&error=" . urlencode("Erro ao atualizar fornecedor: " . $e->getMessage()));
+        exit;
     }
 }
 ?>

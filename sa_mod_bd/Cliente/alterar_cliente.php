@@ -16,17 +16,16 @@ if (isset($_GET['inativar']) && is_numeric($_GET['inativar'])) {
         $stmt->bindParam(':id_cliente', $id_cliente, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $_SESSION['notyf_message'] = 'Cliente inativado com sucesso!';
-            $_SESSION['notyf_type'] = 'success';
-            header('Location: alterar_cliente.php');
+            // Redirecionar para buscar_cliente.php com mensagem de sucesso
+            header("Location: buscar_cliente.php?msg=success&text=Cliente inativado com sucesso!");
             exit;
         } else {
-            $_SESSION['notyf_message'] = 'Erro ao inativar o cliente!';
-            $_SESSION['notyf_type'] = 'error';
+            header("Location: buscar_cliente.php?msg=error&text=Erro ao inativar o cliente!");
+            exit;
         }
     } catch (PDOException $e) {
-        $_SESSION['notyf_message'] = 'Erro ao inativar cliente: ' . $e->getMessage();
-        $_SESSION['notyf_type'] = 'error';
+        header("Location: buscar_cliente.php?msg=error&text=Erro ao inativar cliente: " . urlencode($e->getMessage()));
+        exit;
     }
 }
 
@@ -39,17 +38,16 @@ if (isset($_GET['ativar']) && is_numeric($_GET['ativar'])) {
         $stmt->bindParam(':id_cliente', $id_cliente, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $_SESSION['notyf_message'] = 'Cliente ativado com sucesso!';
-            $_SESSION['notyf_type'] = 'success';
-            header('Location: alterar_cliente.php');
+            // Redirecionar para buscar_cliente.php com mensagem de sucesso
+            header("Location: buscar_cliente.php?msg=success&text=Cliente ativado com sucesso!");
             exit;
         } else {
-            $_SESSION['notyf_message'] = 'Erro ao ativar o cliente!';
-            $_SESSION['notyf_type'] = 'error';
+            header("Location: buscar_cliente.php?msg=error&text=Erro ao ativar o cliente!");
+            exit;
         }
     } catch (PDOException $e) {
-        $_SESSION['notyf_message'] = 'Erro ao ativar cliente: ' . $e->getMessage();
-        $_SESSION['notyf_type'] = 'error';
+        header("Location: buscar_cliente.php?msg=error&text=Erro ao ativar cliente: " . urlencode($e->getMessage()));
+        exit;
     }
 }
 
@@ -140,16 +138,12 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
     // Se não encontrar o cliente, redireciona
     if (!$clienteAtual) {
-        $_SESSION['notyf_message'] = 'Cliente não encontrado!';
-        $_SESSION['notyf_type'] = 'error';
-        header('Location: buscar_cliente.php');
+        header("Location: buscar_cliente.php?msg=error&text=Cliente não encontrado!");
         exit;
     }
 } else {
     // Se não tem ID, redireciona para busca
-    $_SESSION['notyf_message'] = 'Nenhum cliente selecionado!';
-    $_SESSION['notyf_type'] = 'warning';
-    header('Location: buscar_cliente.php');
+    header("Location: buscar_cliente.php?msg=warning&text=Nenhum cliente selecionado!");
     exit;
 }
 
@@ -373,54 +367,6 @@ function safe_html($value)
                     });
                 }
             });
-
-            // Exibir notificações Notyf
-            <?php if (isset($_SESSION['notyf_message'])): ?>
-                const notyf = new Notyf({
-                    position: {
-                        x: 'right',
-                        y: 'top'
-                    },
-                    duration: 3000,
-                    types: [
-                        {
-                            type: 'success',
-                            background: '#4caf50',
-                            icon: {
-                                className: 'material-icons',
-                                tagName: 'i',
-                                text: 'check'
-                            }
-                        },
-                        {
-                            type: 'error',
-                            background: '#f44336',
-                            icon: {
-                                className: 'material-icons',
-                                tagName: 'i',
-                                text: 'error'
-                            }
-                        },
-                        {
-                            type: 'warning',
-                            background: '#ff9800',
-                            icon: {
-                                className: 'material-icons',
-                                tagName: 'i',
-                                text: 'warning'
-                            }
-                        }
-                    ]
-                });
-
-                notyf.<?= $_SESSION['notyf_type'] ?>('<?= $_SESSION['notyf_message'] ?>');
-
-                <?php
-                // Limpar a mensagem da sessão após exibir
-                unset($_SESSION['notyf_message']);
-                unset($_SESSION['notyf_type']);
-                ?>
-            <?php endif; ?>
         });
     </script>
 </body>
