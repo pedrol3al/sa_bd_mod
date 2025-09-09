@@ -160,9 +160,7 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
                                                 case 'F':
                                                     echo 'Feminino';
                                                     break;
-                                                case 'O':
-                                                    echo 'Outro';
-                                                    break;
+                    
                                                 default:
                                                     echo htmlspecialchars($cliente['sexo']); // Exibe o valor original se não for M/F/O
                                             }
@@ -237,7 +235,7 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
                 switch (cliente.sexo) {
                     case 'M': sexoFormatado = 'Masculino'; break;
                     case 'F': sexoFormatado = 'Feminino'; break;
-                    case 'O': sexoFormatado = 'Outro'; break;
+                    
                 }
 
                 // Construir o HTML do modal
