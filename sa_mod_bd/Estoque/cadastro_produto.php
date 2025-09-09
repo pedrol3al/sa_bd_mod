@@ -1,18 +1,20 @@
 <?php
+// Inicia a sessão para acessar variáveis de sessão
 session_start();
+// Inclui o arquivo de conexão com o banco
 require_once '../Conexao/conexao.php';
 
-// Verificar permissão do usuário
+// Verifica se o usuário tem perfil de admin (1) ou estoque (5)
 if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 5) {
     echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php'</script>";
     exit();
 }
 
-// Inicializar variáveis
+// Inicializa variáveis
 $fornecedores = [];
 $error_message = '';
 
-// Buscar fornecedores do banco
+// Busca fornecedores ativos do banco
 try {
     $sql_fornecedores = "SELECT id_fornecedor, razao_social FROM fornecedor WHERE inativo = 0 ORDER BY razao_social";
     $stmt_fornecedores = $pdo->prepare($sql_fornecedores);
@@ -22,10 +24,10 @@ try {
     $error_message = "Erro ao carregar fornecedores: " . $e->getMessage();
 }
 
-// Processar o formulário apenas se for método POST
+// Processa o formulário quando enviado via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        // Obter dados do formulário
+        // Obtém dados do formulário
         $id_usuario = $_SESSION['id_usuario'];
         $id_fornecedor = $_POST['id_fornecedor'];
         $tipo = $_POST['tipo'];
@@ -36,12 +38,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data_registro = $_POST['data_registro'];
         $descricao = $_POST['descricao'];
 
-        // Validar dados
+        // Valida campos obrigatórios
         if (empty($id_fornecedor) || empty($tipo) || empty($nome) || $quantidade === '' || $preco === '') {
             throw new Exception("Todos os campos obrigatórios devem ser preenchidos!");
         }
 
-        // Inserir o produto
+        // Prepara query para inserir novo produto
         $sql = "INSERT INTO produto (
             id_usuario, id_fornecedor, tipo, nome, aparelho_utilizado, 
             quantidade, preco, data_registro, descricao
@@ -51,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         )";
 
         $stmt = $pdo->prepare($sql);
+        // Associa parâmetros para prevenir SQL injection
         $stmt->bindParam(':id_usuario', $id_usuario);
         $stmt->bindParam(':id_fornecedor', $id_fornecedor);
         $stmt->bindParam(':tipo', $tipo);
@@ -62,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':descricao', $descricao);
 
         if ($stmt->execute()) {
-            // Redirecionar para a mesma página com flag de sucesso
+            // Redireciona com flag de sucesso
             header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
             exit();
         } else {
@@ -83,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Produtos (Estoque)</title>
 
+    <!-- Links para CSS e frameworks -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
@@ -97,6 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include("../Menu_lateral/menu.php"); ?>
 
+    <!-- Exibe mensagem de erro se existir -->
     <?php if (!empty($error_message)): ?>
         <div class="alert alert-danger"><?= htmlspecialchars($error_message) ?></div>
     <?php endif; ?>
@@ -106,6 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2>Dados do Produto</h2>
 
             <div class="form-row">
+                <!-- Seleção de fornecedor -->
                 <div class="form-group">
                     <label for="id_fornecedor" class="form-label">Fornecedor:</label>
                     <select id="id_fornecedor" name="id_fornecedor" class="form-control" required>
@@ -118,6 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </select>
                 </div>
 
+                <!-- Seleção de tipo de produto -->
                 <div class="form-group">
                     <label for="tipo" class="form-label">Tipo:</label>
                     <select id="tipo" name="tipo" class="form-control" required>
@@ -133,11 +140,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-row">
+                <!-- Nome do produto -->
                 <div class="form-group">
                     <label for="nome" class="form-label">Nome do Produto:</label>
                     <input type="text" id="nome" name="nome" class="form-control" required>
                 </div>
 
+                <!-- Aparelho utilizado -->
                 <div class="form-group">
                     <label for="aparelho_utilizado" class="form-label">Aparelho Utilizado:</label>
                     <input type="text" id="aparelho_utilizado" name="aparelho_utilizado" class="form-control">
@@ -145,11 +154,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-row">
+                <!-- Quantidade em estoque -->
                 <div class="form-group">
                     <label for="quantidade" class="form-label">Quantidade:</label>
                     <input type="number" id="quantidade" name="quantidade" class="form-control" min="0" value="0" required>
                 </div>
 
+                <!-- Preço unitário -->
                 <div class="form-group">
                     <label for="preco" class="form-label">Preço Unitário (R$):</label>
                     <input type="number" id="preco" name="preco" class="form-control" step="0.01" min="0" required>
@@ -157,6 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-row">
+                <!-- Data de registro -->
                 <div class="form-group">
                     <label for="data_registro" class="form-label">Data de Registro:</label>
                     <input type="date" id="data_registro" name="data_registro" class="form-control" value="<?= date('Y-m-d') ?>">
@@ -164,6 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-row">
+                <!-- Descrição do produto -->
                 <div class="form-group">
                     <label for="descricao" class="form-label">Descrição:</label>
                     <textarea id="descricao" name="descricao" class="form-control" rows="3"></textarea>
@@ -171,6 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
 
+        <!-- Botões de ação -->
         <div class="actions">
             <button type="button" class="btn btn-danger" onclick="window.history.back()">
                 <i class="bi bi-x-circle"></i> Cancelar
@@ -182,9 +196,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 </div>
 
+<!-- Scripts JavaScript -->
 <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
+<!-- Exibe notificação de sucesso se o cadastro foi bem-sucedido -->
 <?php if (isset($_GET['success'])): ?>
 <script>
     const notyf = new Notyf({ position: { x: 'right', y: 'top' }, duration: 4000 });
@@ -192,8 +208,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </script>
 <?php endif; ?>
 
+<!-- Formata o preço para 2 casas decimais quando o campo perde o foco -->
 <script>
-    // Formatação do preço
     const precoInput = document.getElementById('preco');
     precoInput.addEventListener('blur', function () {
         if (this.value) {
