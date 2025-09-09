@@ -166,12 +166,13 @@ try {
             </div>
             
             <div class="actions mt-4">
-                <button type="button" class="btn btn-danger" onclick="window.history.back()">
-                    <i class="bi bi-x-circle"></i> Cancelar
-                </button>
-                <button type="submit" class="btn btn-success">
+            <button type="submit" class="btn btn-success">
                     <i class="bi bi-check-circle"></i> Salvar Ordem de Serviço
                 </button>
+                <button type="button" class="btn btn-danger" onclick=" window.history.back() ">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </button>
+
             </div>
         </form>
     </div>

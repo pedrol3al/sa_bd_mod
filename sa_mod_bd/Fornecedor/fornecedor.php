@@ -192,10 +192,11 @@ if ($_SESSION['perfil'] != 1) {
       </div>
 
       <div class="container-botoes">
-        <button type="reset" class="btn btn-limpar">Limpar</button>
-        <button type="submit" class="btn btn-enviar">
+      <button type="submit" class="btn btn-enviar">
           <i class="bi bi-check-circle"></i> Cadastrar
         </button>
+        <button type="reset" class="btn btn-limpar">Limpar</button>
+       
       </div>
     </form>
   </div>

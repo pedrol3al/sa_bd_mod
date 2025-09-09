@@ -2,7 +2,7 @@
 session_start();
 require_once("../Conexao/conexao.php");
 
-if($_SESSION['perfil'] !=1){
+if ($_SESSION['perfil'] != 1) {
   echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
   exit();
 }
@@ -33,13 +33,13 @@ if($_SESSION['perfil'] !=1){
 <body>
   <div class="container">
     <h1>CADASTRO DE FUNCIONÁRIOS</h1>
-    
+
     <?php include("../Menu_lateral/menu.php"); ?>
-    
+
     <form method="POST" action="cadastrar_usuario.php">
       <div class="form-section">
         <h2>Dados Pessoais</h2>
-        
+
         <div class="campo_usuario">
           <div class="linha">
             <label for="nome_usuario">Nome:</label>
@@ -48,8 +48,8 @@ if($_SESSION['perfil'] !=1){
 
           <div class="linha">
             <label for="username">Nome de usuário:</label>
-            <input type="text" id="username" name="username" class="form-control"
-              placeholder="Nome de usuário" required>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Nome de usuário"
+              required>
           </div>
 
           <div class="linha">
@@ -78,8 +78,8 @@ if($_SESSION['perfil'] !=1){
 
           <div class="linha">
             <label for="cpf_usuario">CPF:</label>
-            <input type="text" id="cpf_usuario" name="cpf_usuario" class="form-control"
-              placeholder="000.000.000-00" required>
+            <input type="text" id="cpf_usuario" name="cpf_usuario" class="form-control" placeholder="000.000.000-00"
+              required>
           </div>
 
           <div class="linha">
@@ -90,8 +90,8 @@ if($_SESSION['perfil'] !=1){
 
           <div class="linha">
             <label for="dataCadastro">Data Cadastro:</label>
-            <input type="text" id="dataCadastro" name="dataCadastro" class="form-control"
-              placeholder="Data de Cadastro" required>
+            <input type="text" id="dataCadastro" name="dataCadastro" class="form-control" placeholder="Data de Cadastro"
+              required>
           </div>
 
           <div class="linha">
@@ -113,7 +113,7 @@ if($_SESSION['perfil'] !=1){
 
       <div class="form-section">
         <h2>Endereço</h2>
-        
+
         <div class="campo_usuario">
           <div class="linha">
             <label for="cep_usuario">CEP:</label>
@@ -172,20 +172,20 @@ if($_SESSION['perfil'] !=1){
 
           <div class="linha">
             <label for="numero_usuario">Número:</label>
-            <input type="number" id="numero_usuario" name="numero_usuario" class="form-control"
-              placeholder="Número" required>
+            <input type="number" id="numero_usuario" name="numero_usuario" class="form-control" placeholder="Número"
+              required>
           </div>
 
           <div class="linha">
             <label for="cidade_usuario">Cidade:</label>
-            <input type="text" id="cidade_usuario" name="cidade_usuario" class="form-control"
-              placeholder="Cidade" required>
+            <input type="text" id="cidade_usuario" name="cidade_usuario" class="form-control" placeholder="Cidade"
+              required>
           </div>
 
           <div class="linha">
             <label for="bairro_usuario">Bairro:</label>
-            <input type="text" id="bairro_usuario" name="bairro_usuario" class="form-control"
-              placeholder="Bairro" required>
+            <input type="text" id="bairro_usuario" name="bairro_usuario" class="form-control" placeholder="Bairro"
+              required>
           </div>
 
           <div class="linha">
@@ -197,10 +197,11 @@ if($_SESSION['perfil'] !=1){
       </div>
 
       <div class="container-botoes">
+        <button type="submit" class="btn btn-enviar" onclick="return conferirCampos()"> <i
+            class="bi bi-check-circle"></i> Cadastrar </button>
+
         <button type="reset" class="btn btn-limpar">Cancelar</button>
-        <button type="submit" class="btn btn-enviar" onclick="return conferirCampos()">
-          <i class="bi bi-check-circle"></i> Cadastrar
-        </button>
+
       </div>
     </form>
   </div>
@@ -212,7 +213,7 @@ if($_SESSION['perfil'] !=1){
   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
   <script src="../Menu_lateral/carregar-menu.js" defer></script>
   <script src="usuario.js"></script>
-  
+
   <script>
     const notyf = new Notyf({
       duration: 4000,
@@ -239,7 +240,8 @@ if($_SESSION['perfil'] !=1){
   </script>
   <?php unset($_SESSION['msg']); ?>
 
-  
+
 
 </body>
+
 </html>
