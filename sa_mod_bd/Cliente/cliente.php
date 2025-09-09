@@ -1,21 +1,23 @@
 <?php
+// Inicia a sessão para poder acessar variáveis de sessão
 session_start();
+// Inclui o arquivo de conexão com o banco de dados (usando require_once para incluir apenas uma vez)
 require_once("../Conexao/conexao.php");
 
-
-
+// Verifica se o usuário tem permissão de administrador (perfil 1) ou atendente (perfil 2)
+// Se não tiver, exibe alerta e redireciona para a página principal
 if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
   echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
-  exit();
+  exit(); // Encerra a execução do script
 }
 
-
-// Buscar os usuarios administradores e atendente
+// Buscar os usuários administradores e atendentes ativos
+// Query SQL para selecionar ID e nome de usuários inativos com perfil 1 ou 2
 $sql = "SELECT id_usuario, nome FROM usuario WHERE inativo = 0 AND (id_perfil = 1 OR id_perfil = 2)
-    ORDER BY nome";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$usuarios = $stmt->fetchAll();
+    ORDER BY nome"; // Ordena os resultados por nome
+$stmt = $pdo->prepare($sql); // Prepara a query para execução
+$stmt->execute(); // Executa a query
+$usuarios = $stmt->fetchAll(); // Obtém todos os resultados e armazena na variável $usuarios
 ?>
 
 <!DOCTYPE html>
@@ -241,13 +243,28 @@ $usuarios = $stmt->fetchAll();
       ]
     });
 
-    <?php if ($_SESSION['msg'] === "success"): ?>
-      notyf.success('Cadastro realizado com sucesso!');
-    <?php else: ?>
-      notyf.error('Erro ao cadastrar cliente.');
-    <?php endif; ?>
+    <?php 
+// Verifica se existe uma mensagem na sessão e se ela é do tipo "success"
+if ($_SESSION['msg'] === "success"): ?>
+  <!-- Exibe uma notificação de sucesso usando a biblioteca Notyf -->
+  <script>
+    notyf.success('Cadastro realizado com sucesso!');
   </script>
-  <?php unset($_SESSION['msg']); ?>
+<?php else: ?>
+  <!-- Se a mensagem não for "success", exibe uma notificação de erro -->
+  <script>
+    notyf.error('Erro ao cadastrar cliente.');
+  </script>
+<?php endif; ?>
+
+</script>
+
+<?php 
+// Remove a mensagem da sessão após exibi-la
+// Isso é importante para evitar que a mensagem seja exibida novamente
+// em recarregamentos ou navegações subsequentes
+unset($_SESSION['msg']); ?>
+
 <?php endif; ?>
 
 

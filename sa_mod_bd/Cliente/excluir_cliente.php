@@ -1,34 +1,40 @@
 <?php
+    // Inicia ou resume uma sessão existente para acessar variáveis de sessão
     session_start();
+    // Inclui o arquivo de conexão com o banco de dados
     require '../Conexao/conexao.php';
 
-    //verifica se o usuario tem permissao de adm
-    if($_SESSION['perfil'] !=1){
+    // Verifica se o usuário tem permissão de administrador (perfil 1)
+    // Se não for administrador, exibe alerta e redireciona
+    if($_SESSION['perfil'] != 1){
         echo "<script>alert('Acesso negado!');window.location.href='principal.php';</script>";
-        exit();
+        exit(); // Termina a execução do script
     }
 
-    //inicializa vriavel para amarzenar usuarios
-    $clientes=[];
+    // Inicializa variável para armazenar a lista de clientes (como array vazio)
+    $clientes = [];
 
-    //busca todos os usuarios cadastrados em ordem alfabetica
-    $sql="SELECT * FROM cliente ORDER BY nome ASC";
-    $stmt=$pdo->prepare($sql);
-    $stmt->execute();
-    $clientes=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Busca todos os clientes cadastrados em ordem alfabética
+    $sql = "SELECT * FROM cliente ORDER BY nome ASC"; // Query SQL para selecionar todos os clientes ordenados por nome
+    $stmt = $pdo->prepare($sql); // Prepara a query para execução
+    $stmt->execute(); // Executa a query no banco de dados
+    $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC); // Armazena todos os resultados como array associativo
 
-    //se um id for passado via get exclui o usuario
+    // Verifica se um ID foi passado via GET e se é numérico (para exclusão)
     if(isset($_GET['id']) && is_numeric($_GET['id'])){
-        $id_cliente=$_GET['id'];
+        $id_cliente = $_GET['id']; // Armazena o ID do cliente a ser excluído
 
-        //exclui o cliente do banco de dados
-        $sql="DELETE FROM cliente WHERE id_cliente =:id";
-        $stmt=$pdo->prepare($sql);
-        $stmt->bindParam(':id',$id_cliente,PDO::PARAM_INT);
+        // Prepara a query SQL para excluir o cliente do banco de dados
+        $sql = "DELETE FROM cliente WHERE id_cliente = :id"; // Query com parâmetro nomeado
+        $stmt = $pdo->prepare($sql); // Prepara a query para execução
+        $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT); // Associa o parâmetro :id ao valor, especificando que é inteiro
 
+        // Tenta executar a exclusão e verifica se foi bem-sucedida
         if($stmt->execute()){
+            // Se a exclusão foi bem-sucedida, exibe alerta de sucesso e recarrega a página
             echo "<script>alert('Cliente excluído com sucesso!');window.location.href='excluir_cliente.php';</script>";
         } else {
+            // Se houve erro na exclusão, exibe alerta de erro
             echo "<script>alert('Erro ao excluir o cliente!');</script>";
         }
     }

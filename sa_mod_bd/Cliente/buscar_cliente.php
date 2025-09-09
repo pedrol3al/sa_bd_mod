@@ -1,64 +1,73 @@
 <?php
+// Inicia a sessão para poder acessar variáveis de sessão
 session_start();
+// Inclui o arquivo de conexão com o banco de dados (usando require_once para incluir apenas uma vez)
 require_once '../Conexao/conexao.php';
 
-// verifica se o cliente tem permissão de adm ou atendente
+// Verifica se o usuário tem permissão de administrador (perfil 1) ou atendente (perfil 2)
+// Se não tiver, exibe alerta e redireciona para a página principal
 if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 2) {
     echo "<script>alert('Acesso negado!');window.location.href='../Principal/main.php';</script>";
-    exit();
+    exit(); // Encerra a execução do script
 }
 
-$clientes = []; // inicializa a variavel
+$clientes = []; // Inicializa a variável que armazenará os clientes
 
-// Se o formulário for enviado, busca o cliente pelo id ou nome
+// Verifica se o formulário de busca foi submetido via método POST e se o campo de busca não está vazio
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca_cliente'])) {
-    $busca = trim($_POST['busca_cliente']);
+    $busca = trim($_POST['busca_cliente']); // Remove espaços em branco do início e fim da busca
 
+    // Verifica se a busca é numérica (provavelmente um ID)
     if (is_numeric($busca)) {
+        // Query para buscar cliente por ID
         $sql = "SELECT * FROM cliente WHERE id_cliente = :busca ORDER BY nome ASC";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':busca', $busca, PDO::PARAM_INT);
+        $stmt = $pdo->prepare($sql); // Prepara a query
+        $stmt->bindParam(':busca', $busca, PDO::PARAM_INT); // Associa o parâmetro como inteiro
     } else {
+        // Query para buscar cliente por nome (usando LIKE para busca parcial)
         $sql = "SELECT * FROM cliente WHERE nome LIKE :busca_nome ORDER BY nome ASC";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':busca_nome', "$busca%", PDO::PARAM_STR); // busca em qualquer posição
+        $stmt = $pdo->prepare($sql); // Prepara a query
+        $stmt->bindValue(':busca_nome', "$busca%", PDO::PARAM_STR); // Busca nomes que começam com o termo
     }
 } else {
-    // Se não enviou busca, lista todos
+    // Se não houve busca, lista todos os clientes ordenados por nome
     $sql = "SELECT * FROM cliente ORDER BY nome ASC";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $pdo->prepare($sql); // Prepara a query
 }
 
-$stmt->execute();
-$clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt->execute(); // Executa a query
+$clientes = $stmt->fetchAll(PDO::FETCH_ASSOC); // Obtém todos os resultados como array associativo
 
-// Se um GET com id for passado, busca os dados do cliente
-$clienteAtual = null;
+// Se um ID foi passado via GET, busca os dados do cliente correspondente para edição
+$clienteAtual = null; // Inicializa a variável
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id_cliente = $_GET['id'];
-    $sql = "SELECT * FROM cliente WHERE id_cliente = :id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
-    $stmt->execute();
-    $clienteAtual = $stmt->fetch(PDO::FETCH_ASSOC);
+    $sql = "SELECT * FROM cliente WHERE id_cliente = :id"; // Query para buscar cliente por ID
+    $stmt = $pdo->prepare($sql); // Prepara a query
+    $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT); // Associa o parâmetro ID
+    $stmt->execute(); // Executa a query
+    $clienteAtual = $stmt->fetch(PDO::FETCH_ASSOC); // Obtém o resultado
 }
 
-// Atualização do cliente
+// Processamento da atualização do cliente (se os campos necessários foram enviados)
 if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
     $id_cliente = $_POST['id_cliente'];
     $nome = $_POST['nome'];
     $email = $_POST['email'];
 
+    // Query para atualizar nome e email do cliente
     $sql = "UPDATE cliente SET nome = :nome, email = :email WHERE id_cliente = :id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':nome', $nome);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT);
+    $stmt = $pdo->prepare($sql); // Prepara a query
+    $stmt->bindParam(':nome', $nome); // Associa o parâmetro nome
+    $stmt->bindParam(':email', $email); // Associa o parâmetro email
+    $stmt->bindParam(':id', $id_cliente, PDO::PARAM_INT); // Associa o parâmetro ID como inteiro
 
     if ($stmt->execute()) {
+        // Se a atualização foi bem-sucedida, exibe alerta e redireciona
         echo "<script>alert('Cliente alterado com sucesso!');window.location.href='alterar_cliente.php';</script>";
-        exit;
+        exit; // Encerra a execução do script
     } else {
+        // Se houve erro na atualização, exibe alerta de erro
         echo "<script>alert('Erro ao alterar o cliente!');</script>";
     }
 }
@@ -69,43 +78,43 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar cliente</title>
+    <meta charset="UTF-8"> <!-- Define a codificação de caracteres como UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configura viewport para responsividade -->
+    <title>Buscar cliente</title> <!-- Título da página -->
 
-    <!-- Links bootstrap e css -->
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <!-- Links para frameworks e bibliotecas CSS -->
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" /> <!-- Ícones Bootstrap -->
+    <link rel="stylesheet" href="../Menu_lateral/css-home-bar.css" /> <!-- CSS personalizado para menu lateral -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> <!-- Datepicker CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"> <!-- Notificações CSS -->
 
-    <!-- Imagem no navegador -->
+    <!-- Favicon (ícone na aba do navegador) -->
     <link rel="shortcut icon" href="../img/favicon-16x16.ico" type="image/x-icon">
 
+    <!-- CSS personalizado para esta página -->
     <link rel="stylesheet" href="buscar.css">
-
-
 </head>
 
 <body>
-    <div class="container">
-        <h1>BUSCAR CLIENTES</h1>
+    <div class="container"> <!-- Container principal do Bootstrap -->
+        <h1>BUSCAR CLIENTES</h1> <!-- Título principal da página -->
 
-        <?php include("../Menu_lateral/menu.php"); ?>
+        <?php include("../Menu_lateral/menu.php"); ?> <!-- Inclui o menu lateral -->
 
         <!-- Seção de busca -->
         <div class="search-section">
-            <form method="POST" action="">
+            <form method="POST" action=""> <!-- Formulário de busca com método POST -->
                 <div class="form-group">
                     <label for="busca_cliente" class="form-label fw-bold">Digite o ID ou Nome do cliente:</label>
                     <div class="search-container">
+                        <!-- Campo de input para busca -->
                         <input type="text" id="busca_cliente" name="busca_cliente" class="form-control search-input"
                             placeholder="Ex: 12 ou João"
                             value="<?= isset($_POST['busca_cliente']) ? htmlspecialchars($_POST['busca_cliente']) : '' ?>"
-                            required>
-                        <button class="btn btn-primary px-4" type="submit">
-                            <i class="bi bi-search"></i> Buscar
+                            required> <!-- Campo obrigatório -->
+                        <button class="btn btn-primary px-4" type="submit"> <!-- Botão de submit -->
+                            <i class="bi bi-search"></i> Buscar <!-- Ícone e texto do botão -->
                         </button>
                     </div>
                 </div>
@@ -113,15 +122,15 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
         </div>
 
         <!-- Tabela de resultados -->
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-people-fill"></i> Clientes Encontrados
+        <div class="card"> <!-- Card Bootstrap para organizar a tabela -->
+            <div class="card-header"> <!-- Cabeçalho do card -->
+                <i class="bi bi-people-fill"></i> Clientes Encontrados <!-- Ícone e texto -->
             </div>
-            <div class="card-body">
-                <?php if (!empty($clientes)): ?>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
-                            <thead>
+            <div class="card-body"> <!-- Corpo do card -->
+                <?php if (!empty($clientes)): ?> <!-- Verifica se há clientes para exibir -->
+                    <div class="table-responsive"> <!-- Torna a tabela responsiva -->
+                        <table class="table table-bordered table-hover" width="100%" cellspacing="0"> <!-- Tabela Bootstrap -->
+                            <thead> <!-- Cabeçalho da tabela -->
                                 <tr>
                                     <th>ID</th>
                                     <th>Nome</th>
@@ -129,20 +138,21 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
                                     <th>Observação</th>
                                     <th>Data de Nascimento</th>
                                     <th>Sexo</th>
-                                    <th>Ações</th>
+                                    <th>Ações</th> <!-- Coluna para botões de ação -->
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php foreach ($clientes as $cliente): ?>
-                                    <tr>
-                                        <td><?= htmlspecialchars($cliente['id_cliente']) ?></td>
-                                        <td><?= htmlspecialchars($cliente['nome']) ?></td>
-                                        <td><?= htmlspecialchars($cliente['email']) ?></td>
+                            <tbody> <!-- Corpo da tabela -->
+                                <?php foreach ($clientes as $cliente): ?> <!-- Loop através de cada cliente -->
+                                    <tr> <!-- Linha da tabela -->
+                                        <td><?= htmlspecialchars($cliente['id_cliente']) ?></td> <!-- ID do cliente -->
+                                        <td><?= htmlspecialchars($cliente['nome']) ?></td> <!-- Nome do cliente -->
+                                        <td><?= htmlspecialchars($cliente['email']) ?></td> <!-- Email do cliente -->
                                         <td><?= !empty($cliente['observacao']) ? htmlspecialchars($cliente['observacao']) : 'Nenhuma' ?>
-                                        </td>
-                                        <td><?= htmlspecialchars($cliente['data_nasc']) ?></td>
-                                        <td>
+                                        </td> <!-- Observação ou "Nenhuma" se vazia -->
+                                        <td><?= htmlspecialchars($cliente['data_nasc']) ?></td> <!-- Data de nascimento -->
+                                        <td> <!-- Sexo formatado -->
                                             <?php
+                                            // Converte a sigla do sexo para texto completo
                                             switch ($cliente['sexo']) {
                                                 case 'M':
                                                     echo 'Masculino';
@@ -154,58 +164,59 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
                                                     echo 'Outro';
                                                     break;
                                                 default:
-                                                    echo htmlspecialchars($cliente['sexo']);
+                                                    echo htmlspecialchars($cliente['sexo']); // Exibe o valor original se não for M/F/O
                                             }
                                             ?>
                                         </td>
-                                        <td class="actions">
+                                        <td class="actions"> <!-- Célula de ações -->
+                                            <!-- Botão para alterar cliente -->
                                             <a class="btn btn-warning btn-sm"
                                                 href="alterar_cliente.php?id=<?= htmlspecialchars($cliente['id_cliente']) ?>">
-                                                <i class="bi bi-pencil"></i> Alterar
+                                                <i class="bi bi-pencil"></i> Alterar <!-- Ícone e texto -->
                                             </a>
-                                            <!-- Botão de Informações Detalhadas -->
+                                            <!-- Botão para ver detalhes do cliente (abre modal) -->
                                             <button class="btn btn-info btn-sm btn-detalhes"
                                                 onclick="abrirModalDetalhes(<?= $cliente['id_cliente'] ?>)">
-                                                <i class="bi bi-info-circle"></i> Detalhes
+                                                <i class="bi bi-info-circle"></i> Detalhes <!-- Ícone e texto -->
                                             </button>
                                         </td>
                                     </tr>
-                                <?php endforeach; ?>
+                                <?php endforeach; ?> <!-- Fim do loop -->
                             </tbody>
                         </table>
                     </div>
-                <?php else: ?>
-                    <div class="no-results">
-                        <i class="bi bi-search" style="font-size: 3rem;"></i>
-                        <h4>Nenhum cliente encontrado</h4>
+                <?php else: ?> <!-- Se não há clientes -->
+                    <div class="no-results"> <!-- Container para mensagem de nenhum resultado -->
+                        <i class="bi bi-search" style="font-size: 3rem;"></i> <!-- Ícone de busca -->
+                        <h4>Nenhum cliente encontrado</h4> <!-- Título -->
                         <p><?= isset($_POST['busca_cliente']) ? 'Tente ajustar os termos da busca.' : 'Não há clientes cadastrados.' ?>
-                        </p>
+                        </p> <!-- Mensagem contextual -->
                     </div>
-                <?php endif; ?>
+                <?php endif; ?> <!-- Fim da verificação -->
             </div>
         </div>
     </div>
 
-    <!-- Modal de Detalhes do Cliente -->
+    <!-- Modal de Detalhes do Cliente (inicialmente oculto) -->
     <div class="modal-overlay" id="modalDetalhes">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3>Informações Detalhadas do Cliente</h3>
-                <button class="modal-close" onclick="fecharModalDetalhes()">&times;</button>
+            <div class="modal-header"> <!-- Cabeçalho do modal -->
+                <h3>Informações Detalhadas do Cliente</h3> <!-- Título do modal -->
+                <button class="modal-close" onclick="fecharModalDetalhes()">&times;</button> <!-- Botão de fechar -->
             </div>
-            <div class="modal-body" id="modalDetalhesBody">
+            <div class="modal-body" id="modalDetalhesBody"> <!-- Corpo do modal -->
                 <!-- Conteúdo será carregado via JavaScript -->
-                <div class="text-center p-4">Carregando informações do cliente...</div>
+                <div class="text-center p-4">Carregando informações do cliente...</div> <!-- Placeholder -->
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Scripts JavaScript -->
+    <script src="../bootstrap/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script> <!-- Notificações JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script> <!-- Máscaras para inputs -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> <!-- Datepicker JS -->
 
     <script>
         // Dados dos clientes em formato JSON para uso no modal
@@ -335,7 +346,7 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
             return data;
         }
 
-        // Função para escapar HTML (prevenir XSS)
+        // Função para escapar HTML (prevenir XSS - Cross-Site Scripting)
         function escapeHtml(text) {
             if (!text) return '';
             const map = {
@@ -362,14 +373,14 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
             }
         });
 
-        // Aplicar máscaras aos campos
+        // Aplicar máscaras aos campos quando o documento estiver pronto
         $(document).ready(function () {
-            $('#cpf').mask('000.000.000-00');
-            $('#cnpj').mask('00.000.000/0000-00');
-            $('#telefone, #telefone_jur').mask('(00) 00000-0000');
-            $('#cep, #cep_jur').mask('00000-000');
-            flatpickr("#dataNascimento", { dateFormat: "d/m/Y" });
-            flatpickr("#dataFundacao", { dateFormat: "d/m/Y" });
+            $('#cpf').mask('000.000.000-00'); // Máscara para CPF
+            $('#cnpj').mask('00.000.000/0000-00'); // Máscara para CNPJ
+            $('#telefone, #telefone_jur').mask('(00) 00000-0000'); // Máscara para telefone
+            $('#cep, #cep_jur').mask('00000-000'); // Máscara para CEP
+            flatpickr("#dataNascimento", { dateFormat: "d/m/Y" }); // Datepicker para data de nascimento
+            flatpickr("#dataFundacao", { dateFormat: "d/m/Y" }); // Datepicker para data de fundação
 
             // Verificar se há mensagens nos parâmetros da URL
             const urlParams = new URLSearchParams(window.location.search);
@@ -378,31 +389,31 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
 
             if (msgType && msgText) {
                 const notyf = new Notyf({
-                    duration: 4000,
-                    position: { x: 'right', y: 'top' },
-                    types: [
+                    duration: 4000, // Duração da notificação em milissegundos
+                    position: { x: 'right', y: 'top' }, // Posição da notificação
+                    types: [ // Tipos de notificação
                         {
-                            type: 'success',
-                            background: '#4caf50',
-                            icon: {
+                            type: 'success', // Tipo sucesso
+                            background: '#4caf50', // Cor de fundo verde
+                            icon: { // Ícone de sucesso
                                 className: 'material-icons',
                                 tagName: 'i',
                                 text: 'check'
                             }
                         },
                         {
-                            type: 'error',
-                            background: '#f44336',
-                            icon: {
+                            type: 'error', // Tipo erro
+                            background: '#f44336', // Cor de fundo vermelho
+                            icon: { // Ícone de erro
                                 className: 'material-icons',
                                 tagName: 'i',
                                 text: 'error'
                             }
                         },
                         {
-                            type: 'warning',
-                            background: '#ff9800',
-                            icon: {
+                            type: 'warning', // Tipo aviso
+                            background: '#ff9800', // Cor de fundo laranja
+                            icon: { // Ícone de aviso
                                 className: 'material-icons',
                                 tagName: 'i',
                                 text: 'warning'
@@ -411,7 +422,7 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
                     ]
                 });
 
-                notyf[msgType](decodeURIComponent(msgText));
+                notyf[msgType](decodeURIComponent(msgText)); // Exibe a notificação
 
                 // Remove os parâmetros da URL sem recarregar a página
                 const newUrl = window.location.origin + window.location.pathname;
