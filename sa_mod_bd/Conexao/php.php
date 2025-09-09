@@ -26,4 +26,8 @@ try {
 } catch (PDOException $e) {
     echo "Erro ao atualizar senha: " . $e->getMessage();
 }
+
+//em desuso, servia para criptografar as senhas no banco, porem não se é mais necessario 
 ?>
+
+
