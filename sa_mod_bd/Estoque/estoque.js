@@ -1,83 +1,93 @@
+// Aguarda o carregamento completo do DOM antes de executar o código
 document.addEventListener("DOMContentLoaded", function () {
+  // Cria uma instância da fábrica de modais para criar janelas popup
   const modalFactory = new ModalFactory();
+  
+  // Seleciona os botões principais da interface
   const cadastrarBtn = document.querySelector(".cadastrar");
   const novoBtn = document.querySelector(".novo");
   const pesquisarBtn = document.querySelector(".pesquisar");
+  
+  // Variável para controlar se está editando um item existente
   let editandoItem = null;
 
   // Função para alternar entre modo de edição e cadastro
   function toggleModoEdicao(editando, item = null) {
-    editandoItem = item;
+    editandoItem = item; // Armazena o item sendo editado
 
     if (editando) {
+      // Modo edição: altera textos dos botões
       cadastrarBtn.textContent = "Salvar alterações";
       if (novoBtn) novoBtn.textContent = "Cancelar edição";
       
-      // Bloquear o campo ID durante a edição
+      // Bloqueia o campo ID durante a edição (não pode alterar ID)
       const idPecaInput = document.getElementById("id_pecas");
       if (idPecaInput) {
-        idPecaInput.readOnly = true;
-        idPecaInput.style.backgroundColor = "#f5f5f5";
-        idPecaInput.style.cursor = "not-allowed";
+        idPecaInput.readOnly = true; // Impede edição
+        idPecaInput.style.backgroundColor = "#f5f5f5"; // Visual cinza
+        idPecaInput.style.cursor = "not-allowed"; // Cursor bloqueado
       }
     } else {
+      // Modo cadastro: textos normais dos botões
       cadastrarBtn.textContent = "Salvar";
       if (novoBtn) novoBtn.textContent = "Novo";
+      
+      // Limpa o formulário e reseta variável de edição
       document.querySelector(".formulario").reset();
       editandoItem = null;
       
-      // Liberar o campo ID
+      // Libera o campo ID para edição
       const idPecaInput = document.getElementById("id_pecas");
       if (idPecaInput) {
         idPecaInput.readOnly = false;
-        idPecaInput.style.backgroundColor = "";
-        idPecaInput.style.cursor = "";
+        idPecaInput.style.backgroundColor = ""; // Volta cor normal
+        idPecaInput.style.cursor = ""; // Cursor normal
       }
     }
   }
 
-  // Função para validar campos obrigatórios
+  // Função para validar campos obrigatórios antes de salvar
   function validarCampos() {
+    // Lista de IDs dos campos obrigatórios
     const campos = [
-      "id_pecas",
-      "id_fornecedor",
-      "nome",
-      "aparelho_utilizado",
-      "quantidade",
-      "preco",
-      "data_registro",
-      "status",
-      "tipo",
-      "numero_serie",
-      "descricao"
+      "id_pecas", "id_fornecedor", "nome", "aparelho_utilizado",
+      "quantidade", "preco", "data_registro", "status",
+      "tipo", "numero_serie", "descricao"
     ];
 
+    // Verifica cada campo da lista
     for (let id of campos) {
       const campo = document.getElementById(id);
+      // Se campo existe e está vazio, mostra erro
       if (campo && campo.value.trim() === "") {
         Swal.fire({
           icon: 'warning',
           title: 'Campo obrigatório',
+          // Mensagem com nome do campo (pega do label ou do ID)
           text: `Preencha o campo: ${campo.previousElementSibling?.innerText || id.replace(/_/g, ' ')}`
         });
-        campo.focus();
-        return false;
+        campo.focus(); // Coloca foco no campo vazio
+        return false; // Impede o salvamento
       }
     }
-    return true;
+    return true; // Todos os campos preenchidos
   }
 
-  // Função para salvar ou atualizar item
+  // Função principal para salvar ou atualizar item
   function salvarItem() {
-    if (!validarCampos()) return;
+    if (!validarCampos()) return; // Se validação falhar, não continua
 
     const idPeca = document.getElementById("id_pecas").value.trim();
+    // Busca estoque do localStorage ou array vazio se não existir
     let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
 
+    // ========== MODO EDIÇÃO ==========
     if (editandoItem) {
+      // Encontra índice do item sendo editado
       const index = estoque.findIndex(item => item.id_pecas === editandoItem.id_pecas);
 
       if (index !== -1) {
+        // Verifica se o novo ID já existe (se foi alterado)
         if (idPeca !== editandoItem.id_pecas && estoque.some(item => item.id_pecas === idPeca)) {
           Swal.fire({
             icon: 'error',
@@ -85,9 +95,10 @@ document.addEventListener("DOMContentLoaded", function () {
             text: 'Já existe uma peça com esse ID. Por favor, use outro.'
           });
           document.getElementById("id_pecas").focus();
-          return;
+          return; // Impede salvar com ID duplicado
         }
 
+        // Atualiza o item no array estoque
         estoque[index] = {
           id_pecas: idPeca,
           id_fornecedor: document.getElementById("id_fornecedor").value.trim(),
@@ -102,17 +113,23 @@ document.addEventListener("DOMContentLoaded", function () {
           descricao: document.getElementById("descricao").value.trim()
         };
 
+        // Salva array atualizado no localStorage
         localStorage.setItem("estoque", JSON.stringify(estoque));
 
+        // Feedback de sucesso
         Swal.fire({
           icon: 'success',
           title: 'Sucesso!',
           text: 'Item atualizado com sucesso!'
         });
 
+        // Volta para modo cadastro
         toggleModoEdicao(false);
       }
+      
+    // ========== MODO CADASTRO ==========
     } else {
+      // Verifica se ID já existe
       if (estoque.some(item => item.id_pecas === idPeca)) {
         Swal.fire({
           icon: 'error',
@@ -123,6 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
+      // Cria novo objeto com dados do formulário
       const itemEstoque = {
         id_pecas: idPeca,
         id_fornecedor: document.getElementById("id_fornecedor").value.trim(),
@@ -137,29 +155,37 @@ document.addEventListener("DOMContentLoaded", function () {
         descricao: document.getElementById("descricao").value.trim()
       };
 
+      // Adiciona novo item ao array
       estoque.push(itemEstoque);
+      // Salva no localStorage
       localStorage.setItem("estoque", JSON.stringify(estoque));
 
+      // Feedback de sucesso
       Swal.fire({
         icon: 'success',
         title: 'Sucesso!',
         text: 'Item cadastrado com sucesso!'
       });
 
+      // Limpa formulário
       document.querySelector(".formulario").reset();
     }
   }
 
-  // Event listeners para os botões principais
+  // ========== EVENT LISTENERS DOS BOTÕES ==========
+
+  // Botão Salvar/Salvar alterações
   cadastrarBtn.addEventListener("click", function (e) {
-    e.preventDefault();
-    salvarItem();
+    e.preventDefault(); // Impede submit padrão do formulário
+    salvarItem(); // Chama função de salvar
   });
 
+  // Botão Novo/Cancelar
   if (novoBtn) {
     novoBtn.addEventListener("click", function (e) {
       e.preventDefault();
 
+      // Se está editando, pede confirmação para cancelar
       if (editandoItem) {
         Swal.fire({
           title: 'Cancelar edição?',
@@ -172,16 +198,19 @@ document.addEventListener("DOMContentLoaded", function () {
           cancelButtonText: 'Continuar editando'
         }).then((result) => {
           if (result.isConfirmed) {
-            toggleModoEdicao(false);
+            toggleModoEdicao(false); // Volta ao modo cadastro
           }
         });
       } else {
+        // Se não está editando, apenas limpa o formulário
         document.querySelector(".formulario").reset();
       }
     });
   }
 
-  // Função para preencher formulário com dados de um item
+  // ========== FUNÇÕES GLOBAIS (acessíveis via HTML) ==========
+
+  // Preenche formulário com dados de um item
   window.preencherFormulario = function (item) {
     const campos = [
       "id_pecas", "id_fornecedor", "nome", "aparelho_utilizado",
@@ -189,20 +218,22 @@ document.addEventListener("DOMContentLoaded", function () {
       "tipo", "numero_serie", "descricao"
     ];
     
+    // Para cada campo, preenche com valor do item ou string vazia
     campos.forEach(campo => {
       const input = document.getElementById(campo);
       if (input) input.value = item[campo] || '';
     });
   };
 
-  // Função para editar um item
+  // Inicia edição de um item
   window.editarItem = function (item) {
-    preencherFormulario(item);
-    toggleModoEdicao(true, item);
+    preencherFormulario(item); // Preenche formulário
+    toggleModoEdicao(true, item); // Muda para modo edição
   };
 
-  // Configuração do modal de pesquisa
+  // ========== MODAL DE PESQUISA ==========
   if (pesquisarBtn) {
+    // Cria modal de pesquisa personalizado
     const pesquisaModal = modalFactory.createModal({
       id: 'modal-pesquisa-pecas',
       title: 'Pesquisar Peça',
@@ -222,25 +253,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const inputPesquisa = document.getElementById('input-pesquisa');
     const resultado = document.getElementById('resultado-pesquisa');
 
+    // Abre modal ao clicar em Pesquisar
     pesquisarBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      pesquisaModal.show();
-      inputPesquisa.value = "";
-      resultado.innerHTML = "<p>Digite um termo para buscar.</p>";
-      inputPesquisa.focus();
+      pesquisaModal.show(); // Mostra modal
+      inputPesquisa.value = ""; // Limpa campo de pesquisa
+      resultado.innerHTML = "<p>Digite um termo para buscar.</p>"; // Mensagem inicial
+      inputPesquisa.focus(); // Foca no campo de pesquisa
     });
 
+    // Pesquisa em tempo real enquanto digita
     inputPesquisa.addEventListener("input", function () {
-      const termo = inputPesquisa.value.trim().toLowerCase();
-      const estoque = JSON.parse(localStorage.getItem("estoque")) || [];
+      const termo = inputPesquisa.value.trim().toLowerCase(); // Termo em minúsculo
+      const estoque = JSON.parse(localStorage.getItem("estoque")) || []; // Busca estoque
 
+      // Atualiza resultados ou mostra mensagem padrão
       resultado.innerHTML = termo === ""
         ? "<p>Digite um termo para buscar.</p>"
         : gerarResultadosPesquisa(estoque, termo);
     });
 
-    // Função para gerar resultados da pesquisa
+    // Gera HTML dos resultados da pesquisa
     function gerarResultadosPesquisa(estoque, termo) {
+      // Filtra itens que contenham o termo no nome ou ID
       const encontrados = estoque.filter(item =>
         item.nome.toLowerCase().includes(termo) ||
         item.id_pecas.toLowerCase().includes(termo)
@@ -250,12 +285,13 @@ document.addEventListener("DOMContentLoaded", function () {
         return "<p>Nenhum resultado encontrado.</p>";
       }
 
+      // Constrói HTML para cada item encontrado
       let html = '';
       encontrados.forEach(item => {
         html += `
           <div style="padding: 8px; border-bottom: 1px solid #ccc; cursor: pointer;
               transition: background-color 0.2s; margin-bottom: 10px;"
-              onmouseenter="this.style.backgroundColor='#f5f5f5'"
+              onmouseenter="this.style.backgroundColor='#f5f5f5'" // Efeito hover
               onmouseleave="this.style.backgroundColor=''"
               onclick="preencherFormularioEfechar(${JSON.stringify(item).replace(/"/g, '&quot;')})">
               
@@ -286,7 +322,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return html;
     }
 
-    // Função para visualizar detalhes de um item
+    // Abre modal com detalhes completos do item
     window.visualizarDetalhes = function(item) {
       const detalhesContent = `
         <h3 style="margin-top: 0; color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">
@@ -312,7 +348,7 @@ document.addEventListener("DOMContentLoaded", function () {
       detalhesModal.show();
     };
 
-    // Função para excluir um item
+    // Exclui item com confirmação
     window.excluirItem = function(item) {
       Swal.fire({
         title: 'Tem certeza?',
@@ -326,8 +362,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }).then((result) => {
         if (result.isConfirmed) {
           let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
+          // Filtra removendo o item pelo ID
           estoque = estoque.filter(peca => peca.id_pecas !== item.id_pecas);
           localStorage.setItem("estoque", JSON.stringify(estoque));
+          // Atualiza resultados da pesquisa
           inputPesquisa.dispatchEvent(new Event('input'));
           Swal.fire(
             'Excluído!',
@@ -338,7 +376,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     };
 
-    // Função para preencher formulário e fechar modal
+    // Preenche formulário e fecha modal de pesquisa
     window.preencherFormularioEfechar = function(item) {
       preencherFormulario(item);
       pesquisaModal.close();
@@ -346,13 +384,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Classe ModalFactory (mantida igual)
+// ========== CLASSE ModalFactory ==========
+// Responsável por criar e gerenciar modais (janelas popup)
 class ModalFactory {
   constructor() {
-    this.overlay = this.createOverlay();
+    this.overlay = this.createOverlay(); // Fundo escuro
     document.body.appendChild(this.overlay);
   }
 
+  // Cria overlay (fundo escuro semi-transparente)
   createOverlay() {
     const overlay = document.createElement("div");
     overlay.id = 'modal-overlay';
@@ -363,10 +403,13 @@ class ModalFactory {
     return overlay;
   }
 
+  // Cria modal personalizado com configurações
   createModal({ id = 'custom-modal', title = '', content = '', width = 'auto', height = 'auto', maxWidth = 'none' }) {
+    // Remove modal existente com mesmo ID (evita duplicação)
     const existing = document.getElementById(id);
     if (existing) existing.remove();
 
+    // Cria elemento do modal
     const modal = document.createElement("div");
     modal.id = id;
     modal.className = 'custom-modal';
@@ -377,6 +420,7 @@ class ModalFactory {
       zIndex: '1000', height, width, maxWidth, overflow: 'auto'
     });
 
+    // Cria cabeçalho do modal com título e botão fechar
     const header = document.createElement("div");
     Object.assign(header.style, {
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
@@ -388,7 +432,7 @@ class ModalFactory {
     titleElement.style.margin = '0';
 
     const closeButton = document.createElement("button");
-    closeButton.innerHTML = '&times;';
+    closeButton.innerHTML = '&times;'; // "X" para fechar
     Object.assign(closeButton.style, {
       background: 'none', border: 'none', fontSize: '24px',
       cursor: 'pointer', color: 'black'
@@ -397,6 +441,7 @@ class ModalFactory {
     header.appendChild(titleElement);
     header.appendChild(closeButton);
 
+    // Corpo do modal com conteúdo HTML
     const body = document.createElement("div");
     body.className = 'modal-body';
     body.innerHTML = content;
@@ -405,9 +450,11 @@ class ModalFactory {
     modal.appendChild(body);
     document.body.appendChild(modal);
 
+    // Eventos para fechar modal
     closeButton.addEventListener('click', () => this.closeModal(modal));
     this.overlay.addEventListener('click', () => this.closeModal(modal));
 
+    // Retorna interface pública do modal
     return {
       element: modal,
       show: () => this.showModal(modal),
@@ -416,26 +463,30 @@ class ModalFactory {
     };
   }
 
+  // Mostra modal e overlay
   showModal(modal) {
     modal.style.display = 'block';
     this.overlay.style.display = 'block';
-    this.aplicarBlur();
+    this.aplicarBlur(); // Aplica efeito blur no fundo
   }
 
+  // Esconde modal e overlay
   closeModal(modal) {
     modal.style.display = 'none';
     this.overlay.style.display = 'none';
-    this.removerBlur();
+    this.removerBlur(); // Remove efeito blur
   }
 
+  // Aplica efeito blur nos elementos de fundo
   aplicarBlur() {
     document.querySelectorAll("#menu-container, .conteudo").forEach(el => {
       el.style.filter = "blur(5px)";
-      el.style.pointerEvents = "none";
-      el.style.userSelect = "none";
+      el.style.pointerEvents = "none"; // Impede interação
+      el.style.userSelect = "none"; // Impede seleção de texto
     });
   }
 
+  // Remove efeito blur dos elementos de fundo
   removerBlur() {
     document.querySelectorAll("#menu-container, .conteudo").forEach(el => {
       el.style.filter = "";
@@ -444,27 +495,28 @@ class ModalFactory {
     });
   }
 }
-// Aplicar mascaras
 
+// ========== MÁSCARAS E VALIDAÇÕES ==========
 document.addEventListener("DOMContentLoaded", function () {
-  // ========== APLICA MÁSCARA DE VALOR ==============
+  // Aplica máscara de valor monetário (R$) nos campos
   function aplicarMascaraValor() {
-    const campos = document.querySelectorAll('.input-valor, #preco'); // Adiciona tanto classes quanto IDs específicos
+    const campos = document.querySelectorAll('.input-valor, #preco');
 
     campos.forEach(campo => {
-      // Adiciona os event listeners
+      // Adiciona eventos para formatar durante digitação
       campo.addEventListener('input', formatarValor);
       campo.addEventListener('blur', finalizarFormatacao);
       campo.addEventListener('focus', prepararEdicao);
 
-      // Preenche com R$ 0,00 ao carregar vazio
+      // Inicializa com R$ 0,00 se estiver vazio
       if (!campo.value.trim() || campo.value === 'R$ NaN') {
         campo.value = 'R$ 0,00';
       }
     });
 
+    // Formata valor durante digitação
     function formatarValor(e) {
-      let valor = e.target.value.replace(/\D/g, '');
+      let valor = e.target.value.replace(/\D/g, ''); // Remove não-dígitos
       
       if (valor === '') {
         e.target.value = 'R$ 0,00';
@@ -477,7 +529,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Formata com 2 casas decimais
+      // Formata como moeda brasileira (divide por 100 para centavos)
       valor = (numero / 100).toLocaleString('pt-BR', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -486,6 +538,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.target.value = 'R$ ' + valor;
     }
 
+    // Formatação final quando perde foco
     function finalizarFormatacao(e) {
       let valor = e.target.value.replace(/\D/g, '');
       if (valor === '' || parseInt(valor) === 0) {
@@ -493,77 +546,73 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
+    // Prepara campo para edição (remove formatação)
     function prepararEdicao(e) {
       let valor = e.target.value.replace(/\D/g, '');
       e.target.value = valor === '0' ? '' : valor;
     }
   }
 
-  // Chama a função para aplicar as máscaras
-  aplicarMascaraValor();
+  aplicarMascaraValor(); // Aplica máscaras
 
-  // ========== VALIDAÇÃO DE CAMPOS NUMÉRICOS ==============
+  // Validação para campos numéricos (apenas números)
   const camposNumericos = ["id_pecas", "id_fornecedor"];
   camposNumericos.forEach(id => {
     const campo = document.getElementById(id);
     if (campo) {
       campo.addEventListener("keydown", function(e) {
         const teclasPermitidas = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
-        if (teclasPermitidas.includes(e.key)) return;
-        if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+        if (teclasPermitidas.includes(e.key)) return; // Permite teclas de controle
+        if (!/^[0-9]$/.test(e.key)) e.preventDefault(); // Bloqueia não-números
       });
     }
   });
 
- document.addEventListener("DOMContentLoaded", function () {
-  // ========== VALIDAÇÃO DE CAMPOS NUMÉRICOS ==============
-  const camposNumericos = ["id_pecas", "id_fornecedor", "quantidade"]; 
-  
-  camposNumericos.forEach(id => {
-    const campo = document.getElementById(id);
-    if (campo) {
-      // Impede a digitação de caracteres não numéricos 
-      campo.addEventListener("keydown", function(e) {
-        const teclasPermitidas = [
-          'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab',
-          'Home', 'End'
-        ];
-        
-        // Permite: teclas de controle, números e numpad
-        if (teclasPermitidas.includes(e.key) || 
-            /^[0-9]$/.test(e.key) || 
-            (e.key >= '0' && e.key <= '9' && e.key.length === 1)) {
-          return;
-        }
-        
-        // Permite Ctrl+C, Ctrl+V, Ctrl+X
-        if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'x')) {
-          return;
-        }
-        
-        // Bloqueia qualquer outra tecla
-        e.preventDefault();
-      });
+  // Validação mais completa para campos numéricos
+  document.addEventListener("DOMContentLoaded", function () {
+    const camposNumericos = ["id_pecas", "id_fornecedor", "quantidade"]; 
+    
+    camposNumericos.forEach(id => {
+      const campo = document.getElementById(id);
+      if (campo) {
+        // Impede digitação de caracteres não numéricos
+        campo.addEventListener("keydown", function(e) {
+          const teclasPermitidas = [
+            'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab',
+            'Home', 'End'
+          ];
+          
+          // Permite: teclas de controle, números do teclado e numpad
+          if (teclasPermitidas.includes(e.key) || 
+              /^[0-9]$/.test(e.key) || 
+              (e.key >= '0' && e.key <= '9' && e.key.length === 1)) {
+            return;
+          }
+          
+          // Permite atalhos de copiar/colar/recortar
+          if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'x')) {
+            return;
+          }
+          
+          e.preventDefault(); // Bloqueia outras teclas
+        });
 
-      // Validação adicional ao colar conteúdo
-      campo.addEventListener("paste", function(e) {
-        e.preventDefault();
-        const texto = (e.clipboardData || window.clipboardData).getData('text');
-        const numeros = texto.replace(/\D/g, '');
-        document.execCommand('insertText', false, numeros);
-      });
+        // Tratamento especial para colar (Ctrl+V)
+        campo.addEventListener("paste", function(e) {
+          e.preventDefault(); // Impede colagem padrão
+          const texto = (e.clipboardData || window.clipboardData).getData('text');
+          const numeros = texto.replace(/\D/g, ''); // Filtra apenas números
+          document.execCommand('insertText', false, numeros); // Insere números filtrados
+        });
 
-      // Garante que o valor final seja numérico
-      campo.addEventListener("blur", function() {
-        if (campo.value && !/^\d+$/.test(campo.value)) {
-          campo.value = campo.value.replace(/\D/g, '');
-          if (!campo.value) campo.value = '0';
-        }
-      });
-    }
+        // Validação final quando perde foco
+        campo.addEventListener("blur", function() {
+          if (campo.value && !/^\d+$/.test(campo.value)) {
+            campo.value = campo.value.replace(/\D/g, ''); // Remove não-números
+            if (!campo.value) campo.value = '0'; // Padrão para vazio
+          }
+        });
+      }
+    });
   });
-
- 
 });
-});
-
