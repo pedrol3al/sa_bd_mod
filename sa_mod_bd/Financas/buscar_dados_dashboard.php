@@ -1,16 +1,15 @@
 <?php
-// Habilitar exibição de erros para debug (útil durante desenvolvimento)
+// Habilitar exibição de erros para debug
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Inicia a sessão para manter dados do usuário
 session_start();
 
-// Inclui arquivo de conexão com o banco de dados
 require_once '../Conexao/conexao.php';
 
-// Verificar se a conexão foi estabelecida corretamente
+
+// Verificar se a conexão foi estabelecida
 if (!isset($pdo) || !$pdo) {
     echo json_encode([
         'sucesso' => false,
@@ -19,11 +18,10 @@ if (!isset($pdo) || !$pdo) {
     exit;
 }
 
-// Função para calcular a receita total em um período específico
+// Funções de busca de dados
 function getReceitaTotal($pdo, $periodo)
 {
     try {
-        // Query principal: busca receita de pagamentos concluídos
         $query = $query = "SELECT COALESCE(SUM(p.valor_total), 0) as total_receita
           FROM pagamento p
           INNER JOIN ordens_servico os ON p.id_os = os.id
@@ -36,16 +34,14 @@ function getReceitaTotal($pdo, $periodo)
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Se encontrou receita, retorna o valor
         if ($result['total_receita'] > 0) {
             return $result['total_receita'];
         }
     } catch (Exception $e) {
-        // Log de erro para debug
         error_log("Erro ao buscar pagamentos: " . $e->getMessage());
     }
 
-    // Fallback: busca receita dos serviços caso a query principal falhe
+    // Fallback: buscar apenas dos serviços
     try {
         $query = "SELECT COALESCE(SUM(s.valor), 0) as total_receita
                   FROM servicos_os s
@@ -62,19 +58,16 @@ function getReceitaTotal($pdo, $periodo)
         return $result['total_receita'];
     } catch (Exception $e) {
         error_log("Erro no fallback de receita: " . $e->getMessage());
-        return 0; // Retorna 0 em caso de erro
+        return 0;
     }
 }
 
-// Função para calcular despesas totais em um período
 function getDespesasTotal($pdo, $periodo)
 {
-    // Configura timezone para garantir datas corretas
     $timezone = new DateTimeZone('America/Sao_Paulo');
     $dataAtual = new DateTime('now', $timezone);
 
     try {
-        // Busca despesas totais (valor absoluto) de produtos usados em OS concluídas
         $query = "SELECT COALESCE(SUM(ABS(op.valor_total)), 0) as total_despesas
                   FROM os_produto op
                   INNER JOIN ordens_servico os ON op.id_os = os.id
@@ -95,14 +88,12 @@ function getDespesasTotal($pdo, $periodo)
     }
 }
 
-// Função para obter dados de despesas por mês para gráfico
 function getDadosGraficoDespesas($pdo, $periodo)
 {
     try {
         $timezone = new DateTimeZone('America/Sao_Paulo');
         $dataAtual = new DateTime('now', $timezone);
 
-        // Agrupa despesas por mês para exibição em gráfico
         $query = "SELECT 
                     DATE_FORMAT(os.data_criacao, '%Y-%m') as mes,
                     COALESCE(SUM(ABS(op.valor_total)), 0) as despesas
@@ -125,10 +116,9 @@ function getDadosGraficoDespesas($pdo, $periodo)
     }
 }
 
-// Função para calcular pagamentos pendentes (não concluídos)
+// Substituir a função getPagamentosPendentes
 function getPagamentosPendentes($pdo) {
     try {
-        // Calcula valor pendente: soma dos serviços menos pagamentos já realizados
         $query = "SELECT 
                     COALESCE(SUM(
                         (SELECT COALESCE(SUM(s.valor), 0) 
@@ -156,11 +146,10 @@ function getPagamentosPendentes($pdo) {
     }
 }
 
-// Função para contar quantidade de ordens pendentes
+// Substituir a função getQuantidadePendentes
 function getQuantidadePendentes($pdo)
 {
     try {
-        // Conta ordens de serviço que não estão concluídas ou têm pagamentos pendentes
         $query = "SELECT COUNT(DISTINCT os.id) as total_pendentes
                   FROM ordens_servico os
                   WHERE os.status != 'Concluído' 
@@ -178,11 +167,9 @@ function getQuantidadePendentes($pdo)
     }
 }
 
-// Função para obter dados de receita por mês para gráfico
 function getDadosGraficoReceita($pdo, $periodo)
 {
     try {
-        // Agrupa receita por mês a partir dos pagamentos
         $query = "SELECT 
                     DATE_FORMAT(p.data_pagamento, '%Y-%m') as mes,
                     COALESCE(SUM(p.valor), 0) as receita
@@ -205,7 +192,6 @@ function getDadosGraficoReceita($pdo, $periodo)
         error_log("Erro ao buscar dados gráfico receita: " . $e->getMessage());
     }
 
-    // Fallback: busca receita dos serviços caso a query principal falhe
     try {
         $query = "SELECT 
                     DATE_FORMAT(os.data_criacao, '%Y-%m') as mes,
@@ -229,11 +215,9 @@ function getDadosGraficoReceita($pdo, $periodo)
     }
 }
 
-// Função para obter estatísticas de status dos pagamentos
 function getDadosStatusPagamentos($pdo)
 {
     try {
-        // Conta total de ordens, concluídas e pendentes
         $query = "SELECT 
                     COUNT(*) as total,
                     SUM(CASE WHEN os.status = 'Concluído' THEN 1 ELSE 0 END) as concluidas,
@@ -250,11 +234,9 @@ function getDadosStatusPagamentos($pdo)
     }
 }
 
-// Função para buscar as últimas ordens de serviço
 function getUltimasOrdens($pdo, $limite = 5)
 {
     try {
-        // Busca últimas ordens com informações do cliente e status de pagamento
         $query = "SELECT 
                     os.id, 
                     c.nome as cliente, 
@@ -281,7 +263,6 @@ function getUltimasOrdens($pdo, $limite = 5)
     } catch (Exception $e) {
         error_log("Erro ao buscar últimas ordens: " . $e->getMessage());
 
-        // Fallback: versão simplificada da query
         try {
             $query = "SELECT 
                         os.id, 
@@ -312,11 +293,10 @@ function getUltimasOrdens($pdo, $limite = 5)
     }
 }
 
-// Processamento principal: busca dados com período informado
-$periodo = isset($_GET['periodo']) ? intval($_GET['periodo']) : 30; // Padrão: 30 dias
+// Buscar dados com período informado
+$periodo = isset($_GET['periodo']) ? intval($_GET['periodo']) : 30;
 
 try {
-    // Executa todas as funções para coletar dados do dashboard
     $receitaTotal = getReceitaTotal($pdo, $periodo);
     $despesasTotal = getDespesasTotal($pdo, $periodo);
 
@@ -333,7 +313,6 @@ try {
     $dadosStatus = getDadosStatusPagamentos($pdo);
     $ultimasOrdens = getUltimasOrdens($pdo, 5);
 
-    // Monta array com todos os dados para retorno JSON
     $dadosDashboard = [
         'receitaTotal' => $receitaTotal,
         'despesasTotal' => $despesasTotal,
@@ -349,14 +328,12 @@ try {
     ];
 
 } catch (Exception $e) {
-    // Em caso de erro geral, retorna mensagem de erro
     $dadosDashboard = [
         'sucesso' => false,
         'erro' => "Erro geral: " . $e->getMessage()
     ];
 }
 
-// Define cabeçalho para resposta JSON
 header('Content-Type: application/json');
-echo json_encode($dadosDashboard); // Retorna dados em formato JSON
+echo json_encode($dadosDashboard);
 ?>

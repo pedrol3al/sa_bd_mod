@@ -212,7 +212,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             // Mostrar mensagens de sessão
             <?php if (isset($_SESSION['mensagem'])): ?>
-                notyf.<?= $_SESSION['tipo_mensagem'] === 'error' ? 'error' : 'success' ?>('<?= $_SESSION['mensagem'] ?>');
+                notyf.<?= $_SESzSION['tipo_mensagem'] === 'error' ? 'error' : 'success' ?>('<?= $_SESSION['mensagem'] ?>');
                 <?php
                 unset($_SESSION['mensagem']);
                 unset($_SESSION['tipo_mensagem']);
