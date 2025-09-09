@@ -137,17 +137,14 @@ $total_pendentes = $result['total_pendentes'];
         
         <!-- Métricas adicionais -->
         <div class="metrics-section">
-            <h2>Status das Ordens de Serviço</h2>
+            <h2>Métricas gerais do sistema</h2>
             <div class="metrics-grid">
                 <div class="metric-item os-andamento">
-                    <h4>Em Andamento</h4>
+                    <h4>Ordens em Andamento</h4>
                     <div class="metric-value"><?php echo $total_andamento; ?></div>
                 </div>
                 
-                <div class="metric-item os-pendentes">
-                    <h4>Pendentes</h4>
-                    <div class="metric-value"><?php echo $total_pendentes; ?></div>
-                </div>
+               
                 
                 <div class="metric-item total-clientes">
                     <h4>Total Clientes</h4>
