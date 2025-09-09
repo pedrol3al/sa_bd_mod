@@ -150,9 +150,7 @@ if (isset($_POST['id_cliente'], $_POST['nome'], $_POST['email'])) {
                                                 case 'F':
                                                     echo 'Feminino';
                                                     break;
-                                                case 'O':
-                                                    echo 'Outro';
-                                                    break;
+                    
                                                 default:
                                                     echo htmlspecialchars($cliente['sexo']);
                                             }
