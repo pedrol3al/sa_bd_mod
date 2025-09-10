@@ -59,11 +59,7 @@ $stmt = $pdo->query($sqlOsAndamento);
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 $total_andamento = $result['total_andamento'];
 
-// Query para OS pendentes
-$sqlOsPendentes = "SELECT COUNT(*) AS total_pendentes FROM ordens_servico WHERE status = 'Pendente'";
-$stmt = $pdo->query($sqlOsPendentes);
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-$total_pendentes = $result['total_pendentes'];
+
 ?>
 
 <!DOCTYPE HTML>
@@ -135,16 +131,14 @@ $total_pendentes = $result['total_pendentes'];
             </div>
         </div>
         
-        <!-- Métricas adicionais -->
         <div class="metrics-section">
+            <h2>Status das Ordens de Serviço</h2>
             <h2>Métricas gerais do sistema</h2>
             <div class="metrics-grid">
                 <div class="metric-item os-andamento">
                     <h4>Ordens em Andamento</h4>
                     <div class="metric-value"><?php echo $total_andamento; ?></div>
-                </div>
-                
-               
+                </div> 
                 
                 <div class="metric-item total-clientes">
                     <h4>Total Clientes</h4>
