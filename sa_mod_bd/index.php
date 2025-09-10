@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Guarda a mensagem antes de destruir a sessão
+// guarda a mensagem antes de apagar a sessão
 $mensagem = isset($_SESSION['msg']) ? $_SESSION['msg'] : null;
 
 if (isset($_SESSION['mensagem_sucesso'])) {
@@ -18,11 +18,10 @@ if (isset($_SESSION['mensagem_sucesso'])) {
 }
 
 
-// DESTRUIR a sessão completamente
-$_SESSION = array(); // Limpa todas as variáveis de sessão
+// limpa variáveis e cookies da sessão → evita voltar pelo histórico
 
+$_SESSION = array(); 
 
-// Se deseja destruir o cookie de sessão também
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(

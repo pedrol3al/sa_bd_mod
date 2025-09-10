@@ -306,7 +306,7 @@ include 'buscar_os_back.php';
             }
         });
 
-       // Configuração do Notyf (mantenha esta)
+       // Configuração do Notyf 
 const notyf = new Notyf({
     duration: 4000,
     position: {
@@ -335,7 +335,7 @@ const notyf = new Notyf({
     ]
 });
 
-// REMOVA a segunda declaração do Notyf e use apenas:
+
 document.addEventListener('DOMContentLoaded', function() {
     // Mostrar mensagens de sessão
     <?php if (isset($_SESSION['mensagem'])): ?>

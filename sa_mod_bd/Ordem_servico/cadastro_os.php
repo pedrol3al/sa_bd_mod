@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':status' => $_POST['status'],
             ':observacoes' => $_POST['observacoes']
         ]);
-        
+
         $id_os = $pdo->lastInsertId();
 
         // Processar equipamentos e serviços
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':defeito_reclamado' => $equipamento['defeito_reclamado'] ?? null,
                     ':condicao' => $equipamento['condicao'] ?? null
                 ]);
-                
+
                 $id_equipamento = $pdo->lastInsertId();
 
                 // Processar serviços do equipamento
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $stmt_preco = $pdo->prepare($sql_preco);
                             $stmt_preco->execute([':id_produto' => $servico['id_produto']]);
                             $produto = $stmt_preco->fetch(PDO::FETCH_ASSOC);
-                            
+
                             $valor_peca = $produto['preco'];
 
                             // Atualizar estoque
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                   WHERE id_produto = :id_produto AND quantidade > 0";
                             $stmt_estoque = $pdo->prepare($sql_update_estoque);
                             $stmt_estoque->execute([':id_produto' => $servico['id_produto']]);
-                            
+
                             if ($stmt_estoque->rowCount() === 0) {
                                 throw new Exception("Produto selecionado não está disponível em estoque");
                             }
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $pdo->commit();
-        
+
         $_SESSION['notyf_message'] = "Ordem de serviço cadastrada com sucesso!";
         $_SESSION['notyf_type'] = "success";
         header("Location: os.php");
