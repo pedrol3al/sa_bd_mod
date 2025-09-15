@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/09/2025 às 19:47
+-- Tempo de geração: 15/09/2025 às 22:02
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -58,7 +58,27 @@ INSERT INTO `cliente` (`id_cliente`, `id_usuario`, `email`, `cpf`, `nome`, `obse
 (2, 1, 'joao.santos@email.com', '23456789012', 'João Santos', NULL, '1990-07-22', '2023-02-15', 'M', '04567-890', 'Avenida Paulista', 'Apartamento', 'Bloco B', 456, 'São Paulo', '(11) 98888-5678', 'SP', 'Bela Vista', 0),
 (3, 1, 'ana.oliveira@email.com', '34567890123', 'Ana Oliveira', 'Entregar apenas de dia', '2000-09-06', '2023-03-20', 'F', '07897-757', 'Rua Augusto', 'Loja', 'Sala 3', 789, 'São Paulo', '(11) 97777-9013', 'SC', 'Consolação', 1),
 (4, 1, 'carlos.rodrigues@email.com', '45678901234', 'Carlos Rodrigues', 'Cliente desde 2022', '2006-09-14', '2023-04-25', 'M', '02345-678', 'Praça da Sé', 'Casa', 'Fundos', 101, 'São Paulo', '(11) 96666-3456', 'SP', 'Sé', 1),
-(5, 1, 'juliana.lima@email.com', '56789012345', 'Juliana Lima', NULL, '1995-05-18', '2023-05-30', 'F', '05678-901', 'Rua Oscar Freire', 'Apartamento', 'Apto 1501', 200, 'São Paulo', '(11) 95555-7890', 'SP', 'Jardins', 0);
+(5, 1, 'juliana.lima@email.com', '56789012345', 'Juliana Lima', NULL, '1995-05-18', '2023-05-30', 'F', '05678-901', 'Rua Oscar Freire', 'Apartamento', 'Apto 1501', 200, 'São Paulo', '(11) 95555-7890', 'SP', 'Jardins', 0),
+(6, 1, 'carla.oliveira@email.com', '678.901.234-56', 'Carla Oliveira', 'Cliente fidelidade', '1992-08-12', '2023-06-10', 'F', '03456-789', 'Rua das Palmeiras', 'Apartamento', 'Apto 302', 300, 'São Paulo', '(11) 94444-1234', 'SP', 'Vila Madalena', 0),
+(7, 1, 'ricardo.santos@email.com', '789.012.345-67', 'Ricardo Santos', NULL, '1988-11-25', '2023-07-15', 'M', '04567-890', 'Avenida Brigadeiro Faria Lima', 'Apartamento', 'Apto 501', 1500, 'São Paulo', '(11) 93333-5678', 'SP', 'Itaim Bibi', 0),
+(8, 1, 'fernanda.costa@email.com', '890.123.456-78', 'Fernanda Costa', 'Entregar após 18h', '1995-03-18', '2023-08-20', 'F', '05678-901', 'Rua Augusta', 'Loja', 'Sala 5', 789, 'São Paulo', '(11) 92222-9012', 'SP', 'Consolação', 0),
+(9, 1, 'paulo.rodrigues@email.com', '901.234.567-89', 'Paulo Rodrigues', 'Cliente desde 2021', '1980-12-05', '2023-09-25', 'M', '06789-012', 'Alameda Santos', 'Apartamento', 'Apto 1201', 200, 'São Paulo', '(11) 91111-3456', 'SP', 'Jardim Paulista', 0),
+(10, 1, 'amanda.lima@email.com', '012.345.678-90', 'Amanda Lima', NULL, '1998-07-30', '2023-10-30', 'F', '07890-123', 'Rua Oscar Freire', 'Apartamento', 'Apto 801', 350, 'São Paulo', '(11) 98888-7890', 'SP', 'Jardins', 0),
+(11, 1, 'marcos.silva@email.com', '123.456.789-01', 'Marcos Silva', 'Prefere contato por WhatsApp', '1991-04-22', '2023-11-05', 'M', '08901-234', 'Rua da Consolação', 'Casa', 'Fundos', 450, 'São Paulo', '(11) 97777-1234', 'SP', 'Consolação', 0),
+(12, 1, 'juliana.oliveira@email.com', '234.567.890-12', 'Juliana Oliveira', 'Cliente premium', '1987-09-15', '2023-12-10', 'F', '09012-345', 'Avenida Paulista', 'Apartamento', 'Apto 1502', 2100, 'São Paulo', '(11) 96666-5678', 'SP', 'Bela Vista', 0),
+(13, 1, 'roberto.santos@email.com', '345.678.901-23', 'Roberto Santos', NULL, '1993-01-08', '2024-01-15', 'M', '10123-456', 'Rua Haddock Lobo', 'Apartamento', 'Apto 602', 800, 'São Paulo', '(11) 95555-9012', 'SP', 'Cerqueira César', 0),
+(14, 1, 'patricia.costa@email.com', '456.789.012-34', 'Patricia Costa', 'Não ligar após 21h', '1985-06-20', '2024-02-20', 'F', '11234-567', 'Rua Frei Caneca', 'Loja', 'Sala 10', 600, 'São Paulo', '(11) 94444-3456', 'SP', 'Consolação', 0),
+(15, 1, 'felipe.rodrigues@email.com', '567.890.123-45', 'Felipe Rodrigues', 'Cliente corporativo', '1979-02-14', '2024-03-25', 'M', '12345-678', 'Alameda Jaú', 'Apartamento', 'Apto 301', 950, 'São Paulo', '(11) 93333-7890', 'SP', 'Jardim Paulista', 0),
+(16, 1, 'larissa.lima@email.com', '678.901.234-56', 'Larissa Lima', NULL, '1996-10-03', '2024-04-30', 'F', '13456-789', 'Rua Bela Cintra', 'Apartamento', 'Apto 402', 1100, 'São Paulo', '(11) 92222-1234', 'SP', 'Consolação', 0),
+(17, 1, 'gabriel.silva@email.com', '789.012.345-67', 'Gabriel Silva', 'Estudante - desconto', '2000-05-17', '2024-05-05', 'M', '14567-890', 'Rua Augusta', 'Casa', 'Frente', 120, 'São Paulo', '(11) 91111-5678', 'SP', 'Consolação', 0),
+(18, 1, 'vanessa.oliveira@email.com', '890.123.456-78', 'Vanessa Oliveira', 'Cliente fidelidade', '1994-08-28', '2024-06-10', 'F', '15678-901', 'Avenida Rebouças', 'Apartamento', 'Apto 701', 1300, 'São Paulo', '(11) 98888-9012', 'SP', 'Pinheiros', 0),
+(19, 1, 'daniel.santos@email.com', '901.234.567-89', 'Daniel Santos', NULL, '1983-03-12', '2024-07-15', 'M', '16789-012', 'Rua dos Pinheiros', 'Apartamento', 'Apto 202', 1400, 'São Paulo', '(11) 97777-3456', 'SP', 'Pinheiros', 0),
+(20, 1, 'camila.costa@email.com', '012.345.678-90', 'Camila Costa', 'Entregar apenas finais de semana', '1997-11-07', '2024-08-20', 'F', '17890-123', 'Rua Artur de Azevedo', 'Apartamento', 'Apto 901', 1500, 'São Paulo', '(11) 96666-7890', 'SP', 'Pinheiros', 0),
+(21, 1, 'rafael.rodrigues@email.com', '123.456.789-01', 'Rafael Rodrigues', 'Cliente VIP', '1989-07-24', '2024-09-25', 'M', '18901-234', 'Rua Estados Unidos', 'Apartamento', 'Apto 502', 1600, 'São Paulo', '(11) 95555-1234', 'SP', 'Jardim América', 0),
+(22, 1, 'tatiane.lima@email.com', '234.567.890-12', 'Tatiane Lima', NULL, '1992-12-19', '2024-10-30', 'F', '19012-345', 'Alameda Santos', 'Apartamento', 'Apto 1101', 1700, 'São Paulo', '(11) 94444-5678', 'SP', 'Jardim Paulista', 0),
+(23, 1, 'leonardo.silva@email.com', '345.678.901-23', 'Leonardo Silva', 'Não enviar SMS', '1986-04-02', '2024-11-05', 'M', '20123-456', 'Rua Oscar Freire', 'Loja', 'Sala 3', 1800, 'São Paulo', '(11) 93333-9012', 'SP', 'Jardins', 0),
+(24, 1, 'bruna.oliveira@email.com', '456.789.012-34', 'Bruna Oliveira', 'Cliente desde 2020', '1999-09-15', '2024-12-10', 'F', '21234-567', 'Avenida Europa', 'Apartamento', 'Apto 601', 1900, 'São Paulo', '(11) 92222-3456', 'SP', 'Jardim Europa', 0),
+(25, 1, 'thiago.santos@email.com', '567.890.123-45', 'Thiago Santos', NULL, '1984-01-28', '2025-01-15', 'M', '22345-678', 'Rua Gomes de Carvalho', 'Apartamento', 'Apto 801', 2000, 'São Paulo', '(11) 91111-7890', 'SP', 'Vila Olímpia', 0);
 
 -- --------------------------------------------------------
 
@@ -76,6 +96,38 @@ CREATE TABLE `equipamentos_os` (
   `defeito_reclamado` text DEFAULT NULL,
   `condicao` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `equipamentos_os`
+--
+
+INSERT INTO `equipamentos_os` (`id`, `id_os`, `fabricante`, `modelo`, `num_serie`, `num_aparelho`, `defeito_reclamado`, `condicao`) VALUES
+(32, 22, 'apple', 'iphone 14', '5445323', '878543', 'tela trincada', 'tela trincada'),
+(53, 48, 'Samsung', 'Galaxy S23 Ultra', 'SN100000001', 'IMEI100000001', 'Defeito relatado para ordem 1', 'Condição do equipamento para ordem 1'),
+(54, 49, 'Apple', 'iPhone 15 Pro Max', 'SN100000002', 'IMEI100000002', 'Defeito relatado para ordem 2', 'Condição do equipamento para ordem 2'),
+(55, 50, 'Dell', 'Inspiron 15 5000', 'SN100000003', 'IMEI100000003', 'Defeito relatado para ordem 3', 'Condição do equipamento para ordem 3'),
+(56, 51, 'LG', 'OLED 55C3', 'SN100000004', 'IMEI100000004', 'Defeito relatado para ordem 4', 'Condição do equipamento para ordem 4'),
+(57, 52, 'Samsung', 'QLED 65Q80C', 'SN100000005', 'IMEI100000005', 'Defeito relatado para ordem 5', 'Condição do equipamento para ordem 5'),
+(58, 53, 'Sony', 'PlayStation 5', 'SN100000006', 'IMEI100000006', 'Defeito relatado para ordem 6', 'Condição do equipamento para ordem 6'),
+(59, 54, 'Microsoft', 'Xbox Series X', 'SN100000007', 'IMEI100000007', 'Defeito relatado para ordem 7', 'Condição do equipamento para ordem 7'),
+(60, 55, 'Brastemp', 'Frost Free 375L', 'SN100000008', 'IMEI100000008', 'Defeito relatado para ordem 8', 'Condição do equipamento para ordem 8'),
+(61, 56, 'Samsung', 'Galaxy S22', 'SN100000009', 'IMEI100000009', 'Defeito relatado para ordem 9', 'Condição do equipamento para ordem 9'),
+(62, 57, 'Apple', 'MacBook Pro 13\"', 'SN100000010', 'IMEI100000010', 'Defeito relatado para ordem 10', 'Condição do equipamento para ordem 10'),
+(63, 58, 'Dell', 'G15 Gaming', 'SN100000011', 'IMEI100000011', 'Defeito relatado para ordem 11', 'Condição do equipamento para ordem 11'),
+(64, 59, 'Samsung', 'Galaxy Z Fold4', 'SN100000012', 'IMEI100000012', 'Defeito relatado para ordem 12', 'Condição do equipamento para ordem 12'),
+(65, 60, 'Apple', 'iPad Pro 12.9\"', 'SN100000013', 'IMEI100000013', 'Defeito relatado para ordem 13', 'Condição do equipamento para ordem 13'),
+(66, 61, 'LG', 'WashTower', 'SN100000014', 'IMEI100000014', 'Defeito relatado para ordem 14', 'Condição do equipamento para ordem 14'),
+(67, 62, 'Sony', 'WH-1000XM4', 'SN100000015', 'IMEI100000015', 'Defeito relatado para ordem 15', 'Condição do equipamento para ordem 15'),
+(68, 63, 'Microsoft', 'Surface Laptop 4', 'SN100000016', 'IMEI100000016', 'Defeito relatado para ordem 16', 'Condição do equipamento para ordem 16'),
+(69, 64, 'Samsung', 'Galaxy Watch 6', 'SN100000017', 'IMEI100000017', 'Defeito relatado para ordem 17', 'Condição do equipamento para ordem 17'),
+(70, 65, 'Apple', 'AirPods Pro', 'SN100000018', 'IMEI100000018', 'Defeito relatado para ordem 18', 'Condição do equipamento para ordem 18'),
+(71, 66, 'Dell', 'XPS 13', 'SN100000019', 'IMEI100000019', 'Defeito relatado para ordem 19', 'Condição do equipamento para ordem 19'),
+(72, 67, 'Samsung', 'The Frame 55\"', 'SN100000020', 'IMEI100000020', 'Defeito relatado para ordem 20', 'Condição do equipamento para ordem 20'),
+(73, 68, 'Motorola', 'Moto G Power', 'SN200000001', 'IMEI200000001', 'Não carrega', 'Bateria descarregada'),
+(74, 69, 'Sony', 'Xperia 1 III', 'SN200000002', 'IMEI200000002', 'Tela quebrada', 'Display danificado'),
+(75, 70, 'Apple', 'iPhone 13', 'SN200000003', 'IMEI200000003', 'Não liga', 'Problema na placa mãe'),
+(76, 71, 'Samsung', 'Galaxy A54', 'SN200000004', 'IMEI200000004', 'Áudio não funciona', 'Alto-falante danificado'),
+(93, 88, 'apple', 'iphone 14', '5445323', '878543', 'tela', 'tela');
 
 -- --------------------------------------------------------
 
@@ -133,6 +185,38 @@ CREATE TABLE `ordens_servico` (
   `data_criacao` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `ordens_servico`
+--
+
+INSERT INTO `ordens_servico` (`id`, `id_cliente`, `id_usuario`, `data_termino`, `status`, `observacoes`, `data_criacao`) VALUES
+(22, 5, 3, '2025-09-25', 'Concluído', '.', '2025-09-15 17:43:49'),
+(48, 1, 3, '2025-09-16', 'Concluído', 'Observação para ordem 1', '2025-08-27 18:19:02'),
+(49, 1, 2, NULL, 'Concluído', 'Observação para ordem 2', '2025-08-28 18:19:02'),
+(50, 1, 3, '2025-09-18', 'Concluído', 'Observação para ordem 3', '2025-08-29 18:19:02'),
+(51, 1, 5, NULL, 'Concluído', 'Observação para ordem 4', '2025-08-30 18:19:02'),
+(52, 1, 3, '2025-09-20', 'Concluído', 'Observação para ordem 5', '2025-08-31 18:19:02'),
+(53, 2, 2, NULL, 'Concluído', 'Observação para ordem 6', '2025-09-01 18:19:02'),
+(54, 2, 3, '2025-09-22', 'Concluído', 'Observação para ordem 7', '2025-09-02 18:19:02'),
+(55, 2, 5, NULL, 'Concluído', 'Observação para ordem 8', '2025-09-03 18:19:02'),
+(56, 2, 3, '2025-09-24', 'Concluído', 'Observação para ordem 9', '2025-09-04 18:19:02'),
+(57, 2, 2, NULL, 'Concluído', 'Observação para ordem 10', '2025-09-05 18:19:02'),
+(58, 5, 3, '2025-09-26', 'Concluído', 'Observação para ordem 11', '2025-09-06 18:19:02'),
+(59, 5, 5, NULL, 'Concluído', 'Observação para ordem 12', '2025-09-07 18:19:02'),
+(60, 5, 3, '2025-09-28', 'Concluído', 'Observação para ordem 13', '2025-09-08 18:19:02'),
+(61, 5, 2, NULL, 'Concluído', 'Observação para ordem 14', '2025-09-09 18:19:02'),
+(62, 5, 3, '2025-09-30', 'Concluído', 'Observação para ordem 15', '2025-09-10 18:19:02'),
+(63, 5, 5, NULL, 'Concluído', 'Observação para ordem 16', '2025-09-11 18:19:02'),
+(64, 1, 3, '2025-10-02', 'Concluído', 'Observação para ordem 17', '2025-09-12 18:19:02'),
+(65, 1, 2, NULL, 'Concluído', 'Observação para ordem 18', '2025-09-13 18:19:02'),
+(66, 1, 3, '2025-10-04', 'Concluído', 'Observação para ordem 19', '2025-09-14 18:19:02'),
+(67, 2, 5, NULL, 'Concluído', 'Observação para ordem 20', '2025-09-15 18:19:02'),
+(68, 3, 3, '2025-02-15', 'Concluído', 'OS criada há 7 meses', '2024-02-15 13:30:00'),
+(69, 3, 2, '2025-03-20', 'Concluído', 'OS criada há 6 meses', '2024-03-20 17:45:00'),
+(70, 4, 5, '2025-01-10', 'Concluído', 'OS criada há 8 meses', '2024-01-10 12:15:00'),
+(71, 4, 3, '2025-04-05', 'Concluído', 'OS criada há 5 meses', '2024-04-05 19:20:00'),
+(88, 19, 11, '2025-09-30', 'Concluído', '.', '2025-09-15 18:53:24');
+
 -- --------------------------------------------------------
 
 --
@@ -148,6 +232,25 @@ CREATE TABLE `os_produto` (
   `quantidade` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `os_produto`
+--
+
+INSERT INTO `os_produto` (`id_os_produto`, `id_os`, `id_produto`, `valor_unitario`, `valor_total`, `quantidade`) VALUES
+(18, 22, 16, 1099.90, 1099.90, 1),
+(19, 48, 1, 899.90, 899.90, 1),
+(20, 51, 4, 1299.90, 1299.90, 1),
+(21, 54, 7, 39.90, 39.90, 1),
+(22, 57, 10, 199.90, 199.90, 1),
+(23, 60, 13, 899.90, 899.90, 1),
+(24, 63, 16, 1099.90, 1099.90, 1),
+(25, 66, 19, 24.90, 24.90, 1),
+(26, 68, 3, 149.90, 149.90, 1),
+(27, 69, 16, 1099.90, 1099.90, 1),
+(28, 70, 7, 39.90, 39.90, 1),
+(29, 71, 10, 199.90, 199.90, 1),
+(46, 88, 16, 1099.90, 1099.90, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -162,6 +265,38 @@ CREATE TABLE `pagamento` (
   `data_pagamento` date DEFAULT NULL,
   `status` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `pagamento`
+--
+
+INSERT INTO `pagamento` (`id_pagamento`, `id_os`, `valor_total`, `frm_pagamento`, `data_pagamento`, `status`) VALUES
+(24, 67, 650.00, 'Boleto', '2025-09-15', 'Concluído'),
+(25, 66, 630.00, 'Boleto', '2025-09-15', 'Concluído'),
+(26, 64, 590.00, 'Boleto', '2025-09-15', 'Concluído'),
+(27, 63, 570.00, 'Cartão de Débito', '2025-09-15', 'Concluído'),
+(28, 62, 650.00, 'PIX', '2025-09-15', 'Concluído'),
+(29, 60, 590.00, 'Boleto', '2025-09-15', 'Concluído'),
+(30, 59, 560.00, 'Cartão de Débito', '2025-09-15', 'Concluído'),
+(31, 58, 530.00, 'Dinheiro', '2025-09-15', 'Concluído'),
+(32, 56, 510.00, 'Cartão de Débito', '2025-09-15', 'Concluído'),
+(33, 55, 470.00, 'Cartão de Crédito', '2025-09-15', 'Concluído'),
+(34, 54, 430.00, 'Dinheiro', '2025-09-15', 'Concluído'),
+(35, 52, 350.00, 'Boleto', '2025-09-15', 'Concluído'),
+(36, 51, 300.00, 'Cartão de Débito', '2025-09-15', 'Concluído'),
+(37, 50, 250.00, 'Dinheiro', '2025-09-15', 'Concluído'),
+(38, 48, 150.00, 'Cartão de Crédito', '2025-09-15', 'Concluído'),
+(39, 49, 200.00, 'Transferência', '2025-09-15', 'Concluído'),
+(40, 22, 250.00, 'Cartão de Débito', '2025-09-15', 'Concluído'),
+(41, 65, 610.00, 'Dinheiro', '2025-09-15', 'Concluído'),
+(42, 61, 620.00, 'Transferência', '2025-09-15', 'Concluído'),
+(43, 57, 550.00, 'Transferência', '2025-09-15', 'Concluído'),
+(44, 53, 390.00, 'Dinheiro', '2025-09-15', 'Concluído'),
+(68, 71, 120.00, 'Cartão de Débito', '2025-09-15', 'Concluído'),
+(76, 69, 350.00, 'Dinheiro', '2025-09-15', 'Concluído'),
+(79, 68, 180.00, 'Cartão de Crédito', '2025-09-15', 'Concluído'),
+(81, 70, 420.00, 'Cartão de Crédito', '2025-09-15', 'Concluído'),
+(85, 88, 500.00, 'Boleto', '2025-09-15', 'Concluído');
 
 -- --------------------------------------------------------
 
@@ -223,7 +358,7 @@ INSERT INTO `produto` (`id_produto`, `id_usuario`, `id_fornecedor`, `tipo`, `nom
 (13, 1, 2, 'Componente', 'Compressor Embraco 1/4HP', 'Geladeiras Frost Free', 2, 899.90, '2024-05-25', 'Compressor 1/4HP - Modelo VEMT10K - Nove'),
 (14, 1, 1, 'Microfone', 'Microfone Samsung', 'Samsung Galaxy系列', 12, 39.90, '2024-05-28', 'Módulo microfone inferior - Compatível S20-S23'),
 (15, 1, 2, 'Memória', 'RAM 8GB DDR4 3200MHz', 'Notebooks', 8, 199.90, '2024-06-01', 'Memória SODIMM 8GB DDR4 3200MHz - Kingston'),
-(16, 1, 2, 'Display', 'Tela iPhone 15 Pro Max', 'iPhone 15 Pro Max', 5, 1099.90, '2024-06-05', 'Tela Original 6.7\" Super Retina XDR - Com True Tone'),
+(16, 1, 2, 'Display', 'Tela iPhone 15 Pro Max', 'iPhone 15 Pro Max', 3, 1099.90, '2024-06-05', 'Tela Original 6.7\" Super Retina XDR - Com True Tone'),
 (17, 1, 3, 'Placa', 'Placa Xbox Series X', 'Xbox Series X', 5, 599.90, '2024-06-08', 'Placa mãe principal - Modelo 1882A'),
 (18, 1, 2, 'Ventoinha', 'Cooler PlayStation 5', 'PlayStation 5', 8, 79.90, '2024-06-12', 'Ventoinha de refrigeração - Original Sony'),
 (19, 1, 1, 'Flex', 'Flex Cable Volume Samsung', 'Samsung Galaxy系列', 15, 24.90, '2024-06-15', 'Cabo flex botões volume/power - Compatível'),
@@ -243,6 +378,38 @@ CREATE TABLE `servicos_os` (
   `descricao` text DEFAULT NULL,
   `valor` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `servicos_os`
+--
+
+INSERT INTO `servicos_os` (`id`, `id_equipamento`, `tipo_servico`, `descricao`, `valor`) VALUES
+(24, 32, 'troca de tela', 'troca de tela superficial', 250.00),
+(25, 53, 'Troca de Tela', 'Descrição do serviço para ordem 1', 150.00),
+(26, 54, 'Troca de Bateria', 'Descrição do serviço para ordem 2', 200.00),
+(27, 55, 'Limpeza e Manutenção', 'Descrição do serviço para ordem 3', 250.00),
+(28, 56, 'Troca de Placa', 'Descrição do serviço para ordem 4', 300.00),
+(29, 57, 'Troca de Tela', 'Descrição do serviço para ordem 5', 350.00),
+(30, 58, 'Reparo Componente', 'Descrição do serviço para ordem 6', 390.00),
+(31, 59, 'Limpeza e Manutenção', 'Descrição do serviço para ordem 7', 430.00),
+(32, 60, 'Troca de Placa', 'Descrição do serviço para ordem 8', 470.00),
+(33, 61, 'Troca de Bateria', 'Descrição do serviço para ordem 9', 510.00),
+(34, 62, 'Reparo Componente', 'Descrição do serviço para ordem 10', 550.00),
+(35, 63, 'Limpeza e Manutenção', 'Descrição do serviço para ordem 11', 530.00),
+(36, 64, 'Diagnóstico e Reparo', 'Descrição do serviço para ordem 12', 560.00),
+(37, 65, 'Troca de Bateria', 'Descrição do serviço para ordem 13', 590.00),
+(38, 66, 'Reparo Componente', 'Descrição do serviço para ordem 14', 620.00),
+(39, 67, 'Diagnóstico e Reparo', 'Descrição do serviço para ordem 15', 650.00),
+(40, 68, 'Troca de Tela', 'Descrição do serviço para ordem 16', 570.00),
+(41, 69, 'Troca de Bateria', 'Descrição do serviço para ordem 17', 590.00),
+(42, 70, 'Reparo Componente', 'Descrição do serviço para ordem 18', 610.00),
+(43, 71, 'Troca de Bateria', 'Descrição do serviço para ordem 19', 630.00),
+(44, 72, 'Diagnóstico e Reparo', 'Descrição do serviço para ordem 20', 650.00),
+(45, 73, 'Troca de Bateria', 'Substituição da bateria original', 180.00),
+(46, 74, 'Troca de Tela', 'Substituição do display original', 350.00),
+(47, 75, 'Reparo na Placa Mãe', 'Reparo do circuito de energia', 420.00),
+(48, 76, 'Troca de Alto-falante', 'Substituição do módulo de áudio', 120.00),
+(65, 93, 'troca de tela', 'troca de tela superficial', 500.00);
 
 -- --------------------------------------------------------
 
@@ -288,7 +455,10 @@ INSERT INTO `usuario` (`id_usuario`, `id_perfil`, `nome`, `cpf`, `username`, `em
 (7, 1, 'Eduardo Reinert', '123.456.789-00', 'admin.eduardo', 'eduardo_reinert@gmail.com', '$2y$10$UAUtMkyxnfnOxyVt6/M6/.gqX9ekbr66jgIufWU96GYYFMklG2hZG', '2023-01-15', '2009-08-13', 'M', '75757-572', 'Rua das Flores', 'Casa', 'Apto 101', 123456, 'São Paulo', 'SP', 'Centro', '(11) 99999-1234', 0, 0),
 (8, 5, 'Roberto', '321.654.875-43', 'roberto.leal', 'roberto@gmail.com', '$2y$10$x8zuFb1aJYYz4BEGLYOxHeDJN48QMDL.G2.HIJYvbrAXpQQRWSkDC', '2025-09-07', '2003-07-10', 'M', '35264-564', 'Rua de asfalto', 'R', 'Sobrado', 123, 'Joinville', 'SC', 'Iririu', '(47) 91465-4655', 0, 0),
 (9, 1, 'Tatiane Vieira', '321.865.165-89', 'admin.tati', 'tatiane@gmail.com', '$2y$10$IctlVKGNtug30Blg3LLQRezOYxcFIyd2GptLFdwZgmS3JlQG1lSn6', '2025-09-07', '2009-06-23', 'F', '46546-456', 'Rua de asfalto', 'R', 'Casa de dois an', 1970, 'Joinville', 'SC', 'Jardim Iririu', '(47) 98430-3837', 0, 0),
-(10, 1, 'admininstrador', '123.654.984-65', 'admin', 'admin@admin', '$2y$10$mmioZtsg5FHbI/6FPDW7FO9JPOlMKRb3XboDpA8XW3pA2zpUNYj6e', '2025-09-08', '1980-09-18', 'M', '32424-324', 'Rua de asfalto', 'R', 'Sobrado', 13213, 'Joinville', 'SC', 'Iririu', '(47) 95453-2164', 0, 0);
+(10, 1, 'admininstrador', '123.654.984-65', 'admin', 'admin@admin', '$2y$10$YshzEiLBqoKR9.P9qsfw4.hho6jLJ/EGnLdtWl/7ntEK2JtQ2dZBq', '2025-09-08', '1980-09-18', 'M', '32424-324', 'Rua de asfalto', 'R', 'Sobrado', 13213, 'Joinville', 'SC', 'Iririu', '(47) 95453-2164', 0, 0),
+(11, 3, 'Carlos Eduardo Martins', '123.456.789-11', 'carlos.tec', 'carlos.martins@consortech.com.br', '$2y$10$6OMMGHN8dASk58q5z3744uestlKnv64uM0nNfL2Pzm9aU/UNttGaC', '2024-01-15', '1990-05-20', 'M', '04567-890', 'Rua das Tecnologias', 'Casa', 'Fundos', 123, 'São Paulo', 'SP', 'Vila Olímpia', '(11) 97777-8888', 0, 0),
+(12, 3, 'Ana Carolina Silva', '234.567.890-22', 'ana.tec', 'ana.silva@consortech.com.br', '$2y$10$hfG7IFiYbwPfTCtqoPxLZuLdI8SjcPxjXQkAjKBoYYIdZLJZf5uea', '2024-02-20', '1988-09-12', 'F', '05678-901', 'Avenida dos Inventores', 'Apartamento', 'Apto 302', 456, 'São Paulo', 'SP', 'Itaim Bibi', '(11) 96666-7777', 0, 0),
+(13, 3, 'Ricardo Oliveira Santos', '345.678.901-33', 'ricardo.tec', 'ricardo.santos@consortech.com.br', '$2y$10$vU2fW1xY0z8b7cS5qN9rM6O', '2024-03-10', '1992-03-25', 'M', '06789-012', 'Praça das Inovações', 'Casa', 'Sobrado', 789, 'São Paulo', 'SP', 'Pinheiros', '(11) 95555-6666', 0, 0);
 
 --
 -- Índices para tabelas despejadas
@@ -378,13 +548,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de tabela `equipamentos_os`
 --
 ALTER TABLE `equipamentos_os`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedor`
@@ -396,19 +566,19 @@ ALTER TABLE `fornecedor`
 -- AUTO_INCREMENT de tabela `ordens_servico`
 --
 ALTER TABLE `ordens_servico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT de tabela `os_produto`
 --
 ALTER TABLE `os_produto`
-  MODIFY `id_os_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_os_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de tabela `pagamento`
 --
 ALTER TABLE `pagamento`
-  MODIFY `id_pagamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_pagamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT de tabela `perfil`
@@ -426,13 +596,13 @@ ALTER TABLE `produto`
 -- AUTO_INCREMENT de tabela `servicos_os`
 --
 ALTER TABLE `servicos_os`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restrições para tabelas despejadas
