@@ -93,6 +93,39 @@ function getDadosGraficoDespesas($pdo, $periodo) {
     }
 }
 
+// Função getPagamentosPendentesCorrigido - ADICIONADA PARA RESOLVER O ERRO
+function getPagamentosPendentesCorrigido($pdo) {
+    try {
+        // Buscar valor total de serviços de OS não concluídas OU com pagamentos pendentes
+        $query = "SELECT 
+                    COUNT(DISTINCT os.id) as total_os,
+                    COALESCE(SUM(
+                        (SELECT COALESCE(SUM(s.valor), 0) 
+                         FROM servicos_os s 
+                         INNER JOIN equipamentos_os e ON s.id_equipamento = e.id 
+                         WHERE e.id_os = os.id)
+                    ), 0) as total_valor
+                  FROM ordens_servico os
+                  WHERE os.status != 'Concluído' 
+                  OR os.id IN (
+                      SELECT p.id_os 
+                      FROM pagamento p 
+                      WHERE p.status != 'Concluído' 
+                      OR p.id_os NOT IN (
+                          SELECT id_os FROM pagamento WHERE status = 'Concluído'
+                      )
+                  )";
+        
+        $stmt = $pdo->query($query);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result;
+        
+    } catch (Exception $e) {
+        error_log("Erro ao buscar pagamentos pendentes: " . $e->getMessage());
+        return ['total_os' => 0, 'total_valor' => 0];
+    }
+}
 
 function getPagamentosPendentes($pdo) {
     // Primeiro, tente buscar da tabela de pagamentos se existir
