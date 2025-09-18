@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 15/09/2025 às 22:02
+-- Tempo de geração: 18/09/2025 às 19:02
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -127,7 +127,8 @@ INSERT INTO `equipamentos_os` (`id`, `id_os`, `fabricante`, `modelo`, `num_serie
 (74, 69, 'Sony', 'Xperia 1 III', 'SN200000002', 'IMEI200000002', 'Tela quebrada', 'Display danificado'),
 (75, 70, 'Apple', 'iPhone 13', 'SN200000003', 'IMEI200000003', 'Não liga', 'Problema na placa mãe'),
 (76, 71, 'Samsung', 'Galaxy A54', 'SN200000004', 'IMEI200000004', 'Áudio não funciona', 'Alto-falante danificado'),
-(93, 88, 'apple', 'iphone 14', '5445323', '878543', 'tela', 'tela');
+(93, 88, 'apple', 'iphone 14', '5445323', '878543', 'tela', 'tela'),
+(94, 89, 'apple', 'iphone 14', '5445323', '878543', 'tela trincada', 'tela rachada');
 
 -- --------------------------------------------------------
 
@@ -215,7 +216,68 @@ INSERT INTO `ordens_servico` (`id`, `id_cliente`, `id_usuario`, `data_termino`, 
 (69, 3, 2, '2025-03-20', 'Concluído', 'OS criada há 6 meses', '2024-03-20 17:45:00'),
 (70, 4, 5, '2025-01-10', 'Concluído', 'OS criada há 8 meses', '2024-01-10 12:15:00'),
 (71, 4, 3, '2025-04-05', 'Concluído', 'OS criada há 5 meses', '2024-04-05 19:20:00'),
-(88, 19, 11, '2025-09-30', 'Concluído', '.', '2025-09-15 18:53:24');
+(88, 19, 11, '2025-09-30', 'Concluído', '.', '2025-09-15 18:53:24'),
+(89, 15, 11, '2025-09-25', 'Concluído', '.', '2025-09-18 16:53:16'),
+(90, 1, 3, '2024-09-15', 'Concluído', 'Manutenção preventiva realizada', '2024-09-05 13:00:00'),
+(91, 2, 2, '2024-09-20', 'Concluído', 'Troca de peças necessárias', '2024-09-10 17:30:00'),
+(92, 3, 5, '2024-09-25', 'Concluído', 'Serviço de limpeza interna', '2024-09-15 12:15:00'),
+(93, 4, 3, '2024-09-30', 'Concluído', 'Reparo completo do sistema', '2024-09-20 19:45:00'),
+(94, 5, 2, '2024-10-05', 'Concluído', 'Atualização de firmware', '2024-09-25 14:20:00'),
+(95, 6, 5, '2024-10-10', 'Concluído', 'Substituição de componentes', '2024-09-30 16:10:00'),
+(96, 7, 3, '2024-10-15', 'Concluído', 'Manutenção corretiva', '2024-10-05 18:30:00'),
+(97, 8, 2, '2024-10-20', 'Concluído', 'Reparo na placa mãe', '2024-10-10 13:45:00'),
+(98, 9, 5, '2024-10-25', 'Concluído', 'Troca de tela', '2024-10-15 17:20:00'),
+(99, 10, 3, '2024-10-30', 'Concluído', 'Serviço de calibração', '2024-10-20 12:30:00'),
+(100, 11, 2, '2024-11-05', 'Concluído', 'Reparo no sistema de áudio', '2024-10-25 19:15:00'),
+(101, 12, 5, '2024-11-10', 'Concluído', 'Substituição da bateria', '2024-10-30 14:40:00'),
+(102, 13, 3, '2024-11-15', 'Concluído', 'Manutenção preventiva', '2024-11-05 16:25:00'),
+(103, 14, 2, '2024-11-20', 'Concluído', 'Reparo no sistema de energia', '2024-11-10 18:50:00'),
+(104, 15, 5, '2024-11-25', 'Concluído', 'Troca de conectores', '2024-11-15 13:35:00'),
+(105, 16, 3, '2024-11-30', 'Concluído', 'Atualização de software', '2024-11-20 17:10:00'),
+(106, 17, 2, '2024-12-05', 'Concluído', 'Reparo no display', '2024-11-25 12:45:00'),
+(107, 18, 5, '2024-12-10', 'Concluído', 'Limpeza e manutenção', '2024-11-30 19:30:00'),
+(108, 19, 3, '2024-12-15', 'Concluído', 'Substituição de peças', '2024-12-05 15:15:00'),
+(109, 20, 2, '2024-12-20', 'Concluído', 'Reparo completo', '2024-12-10 18:40:00'),
+(110, 21, 5, '2024-12-25', 'Concluído', 'Manutenção anual', '2024-12-15 14:25:00'),
+(111, 22, 3, '2024-12-30', 'Concluído', 'Troca de componentes', '2024-12-20 17:50:00'),
+(112, 23, 2, '2025-01-05', 'Concluído', 'Reparo no sistema', '2024-12-25 13:35:00'),
+(113, 24, 5, '2025-01-10', 'Concluído', 'Atualização de drivers', '2024-12-30 16:20:00'),
+(114, 25, 3, '2025-01-15', 'Concluído', 'Manutenção preventiva', '2025-01-05 19:05:00'),
+(115, 1, 2, '2025-01-20', 'Concluído', 'Reparo na fonte', '2025-01-10 15:50:00'),
+(116, 2, 5, '2025-01-25', 'Concluído', 'Troca de ventoinha', '2025-01-15 12:35:00'),
+(117, 3, 3, '2025-01-30', 'Concluído', 'Serviço de limpeza', '2025-01-20 17:10:00'),
+(118, 4, 2, '2025-02-05', 'Concluído', 'Reparo na placa de vídeo', '2025-01-25 14:45:00'),
+(119, 5, 5, '2025-02-10', 'Concluído', 'Substituição de memória', '2025-01-30 19:30:00'),
+(120, 6, 3, '2025-02-15', 'Concluído', 'Manutenção corretiva', '2025-02-05 16:15:00'),
+(121, 7, 2, '2025-02-20', 'Concluído', 'Reparo no teclado', '2025-02-10 13:00:00'),
+(122, 8, 5, '2025-02-25', 'Concluído', 'Troca de tela touch', '2025-02-15 17:35:00'),
+(123, 9, 3, '2025-03-02', 'Concluído', 'Atualização de BIOS', '2025-02-20 15:20:00'),
+(124, 10, 2, '2025-03-07', 'Concluído', 'Reparo no sistema operacional', '2025-02-25 12:05:00'),
+(125, 11, 5, '2025-03-12', 'Concluído', 'Manutenção preventiva', '2025-03-02 18:40:00'),
+(126, 12, 3, '2025-03-17', 'Concluído', 'Substituição de HD', '2025-03-07 14:25:00'),
+(127, 13, 2, '2025-03-22', 'Concluído', 'Reparo na placa de rede', '2025-03-12 17:10:00'),
+(128, 14, 5, '2025-03-27', 'Concluído', 'Troca de cooler', '2025-03-17 13:45:00'),
+(129, 15, 3, '2025-04-01', 'Concluído', 'Serviço de calibração', '2025-03-22 19:30:00'),
+(130, 16, 2, '2025-04-06', 'Concluído', 'Reparo no sistema de som', '2025-03-27 16:15:00'),
+(131, 17, 5, '2025-04-11', 'Concluído', 'Manutenção completa', '2025-04-01 12:50:00'),
+(132, 18, 3, '2025-04-16', 'Concluído', 'Substituição de SSD', '2025-04-06 17:25:00'),
+(133, 19, 2, '2025-04-21', 'Concluído', 'Reparo na fonte de alimentação', '2025-04-11 15:00:00'),
+(134, 20, 5, '2025-04-26', 'Concluído', 'Troca de conectores USB', '2025-04-16 18:35:00'),
+(135, 21, 3, '2025-05-01', 'Concluído', 'Atualização de sistema', '2025-04-21 14:20:00'),
+(136, 22, 2, '2025-05-06', 'Concluído', 'Reparo na placa lógica', '2025-04-26 17:55:00'),
+(137, 23, 5, '2025-05-11', 'Concluído', 'Manutenção preventiva', '2025-05-01 13:40:00'),
+(138, 24, 3, '2025-05-16', 'Concluído', 'Substituição de componentes', '2025-05-06 16:15:00'),
+(139, 25, 2, '2025-05-21', 'Concluído', 'Reparo no display LCD', '2025-05-11 19:50:00'),
+(140, 1, 5, '2025-05-26', 'Concluído', 'Serviço de limpeza interna', '2025-05-16 15:25:00'),
+(141, 2, 3, '2025-05-31', 'Concluído', 'Troca de bateria', '2025-05-21 12:10:00'),
+(142, 3, 2, '2025-06-05', 'Concluído', 'Reparo na placa mãe', '2025-05-26 17:45:00'),
+(143, 4, 5, '2025-06-10', 'Concluído', 'Atualização de firmware', '2025-05-31 14:30:00'),
+(144, 5, 3, '2025-06-15', 'Concluído', 'Manutenção corretiva', '2025-06-05 19:15:00'),
+(145, 6, 2, '2025-06-20', 'Concluído', 'Substituição de tela', '2025-06-10 16:00:00'),
+(146, 7, 5, '2025-06-25', 'Concluído', 'Reparo no sistema', '2025-06-15 12:45:00'),
+(147, 8, 3, '2025-06-30', 'Concluído', 'Serviço de calibração', '2025-06-20 17:20:00'),
+(148, 9, 2, '2025-07-05', 'Concluído', 'Manutenção preventiva', '2025-06-25 15:05:00'),
+(149, 10, 5, '2025-07-10', 'Concluído', 'Reparo completo', '2025-06-30 18:40:00');
 
 -- --------------------------------------------------------
 
@@ -249,7 +311,8 @@ INSERT INTO `os_produto` (`id_os_produto`, `id_os`, `id_produto`, `valor_unitari
 (27, 69, 16, 1099.90, 1099.90, 1),
 (28, 70, 7, 39.90, 39.90, 1),
 (29, 71, 10, 199.90, 199.90, 1),
-(46, 88, 16, 1099.90, 1099.90, 1);
+(46, 88, 16, 1099.90, 1099.90, 1),
+(47, 89, 16, 1099.90, 1099.90, 1);
 
 -- --------------------------------------------------------
 
@@ -296,7 +359,68 @@ INSERT INTO `pagamento` (`id_pagamento`, `id_os`, `valor_total`, `frm_pagamento`
 (76, 69, 350.00, 'Dinheiro', '2025-09-15', 'Concluído'),
 (79, 68, 180.00, 'Cartão de Crédito', '2025-09-15', 'Concluído'),
 (81, 70, 420.00, 'Cartão de Crédito', '2025-09-15', 'Concluído'),
-(85, 88, 500.00, 'Boleto', '2025-09-15', 'Concluído');
+(85, 88, 500.00, 'Boleto', '2025-09-15', 'Concluído'),
+(86, 89, 700.00, 'PIX', '2024-10-18', 'Concluído'),
+(87, 89, 250.00, 'Cartão de Crédito', '2024-09-10', 'Concluído'),
+(88, 90, 180.00, 'PIX', '2024-09-15', 'Concluído'),
+(89, 91, 320.00, 'Boleto', '2024-09-20', 'Concluído'),
+(90, 92, 150.00, 'Dinheiro', '2024-09-25', 'Concluído'),
+(91, 93, 280.00, 'Cartão de Débito', '2024-09-30', 'Concluído'),
+(92, 94, 220.00, 'Transferência', '2024-10-05', 'Concluído'),
+(93, 95, 190.00, 'Cartão de Crédito', '2024-10-10', 'Concluído'),
+(94, 96, 310.00, 'PIX', '2024-10-15', 'Concluído'),
+(95, 97, 170.00, 'Boleto', '2024-10-20', 'Concluído'),
+(96, 98, 260.00, 'Dinheiro', '2024-10-25', 'Concluído'),
+(97, 99, 230.00, 'Cartão de Débito', '2024-10-30', 'Concluído'),
+(98, 100, 200.00, 'Transferência', '2024-11-05', 'Concluído'),
+(99, 101, 340.00, 'Cartão de Crédito', '2024-11-10', 'Concluído'),
+(100, 102, 160.00, 'PIX', '2024-11-15', 'Concluído'),
+(101, 103, 290.00, 'Boleto', '2024-11-20', 'Concluído'),
+(102, 104, 210.00, 'Dinheiro', '2024-11-25', 'Concluído'),
+(103, 105, 270.00, 'Cartão de Débito', '2024-11-30', 'Concluído'),
+(104, 106, 240.00, 'Transferência', '2024-12-05', 'Concluído'),
+(105, 107, 330.00, 'Cartão de Crédito', '2024-12-10', 'Concluído'),
+(106, 108, 140.00, 'PIX', '2024-12-15', 'Concluído'),
+(107, 109, 300.00, 'Boleto', '2024-12-20', 'Concluído'),
+(108, 110, 190.00, 'Dinheiro', '2024-12-25', 'Concluído'),
+(109, 111, 250.00, 'Cartão de Débito', '2024-12-30', 'Concluído'),
+(110, 112, 220.00, 'Transferência', '2025-01-05', 'Concluído'),
+(111, 113, 180.00, 'Cartão de Crédito', '2025-01-10', 'Concluído'),
+(112, 114, 320.00, 'PIX', '2025-01-15', 'Concluído'),
+(113, 115, 150.00, 'Boleto', '2025-01-20', 'Concluído'),
+(114, 116, 280.00, 'Dinheiro', '2025-01-25', 'Concluído'),
+(115, 117, 230.00, 'Cartão de Débito', '2025-01-30', 'Concluído'),
+(116, 118, 200.00, 'Transferência', '2025-02-05', 'Concluído'),
+(117, 119, 340.00, 'Cartão de Crédito', '2025-02-10', 'Concluído'),
+(118, 120, 160.00, 'PIX', '2025-02-15', 'Concluído'),
+(119, 121, 290.00, 'Boleto', '2025-02-20', 'Concluído'),
+(120, 122, 210.00, 'Dinheiro', '2025-02-25', 'Concluído'),
+(121, 123, 270.00, 'Cartão de Débito', '2025-03-02', 'Concluído'),
+(122, 124, 240.00, 'Transferência', '2025-03-07', 'Concluído'),
+(123, 125, 330.00, 'Cartão de Crédito', '2025-03-12', 'Concluído'),
+(124, 126, 140.00, 'PIX', '2025-03-17', 'Concluído'),
+(125, 127, 300.00, 'Boleto', '2025-03-22', 'Concluído'),
+(126, 128, 190.00, 'Dinheiro', '2025-03-27', 'Concluído'),
+(127, 129, 250.00, 'Cartão de Débito', '2025-04-01', 'Concluído'),
+(128, 130, 220.00, 'Transferência', '2025-04-06', 'Concluído'),
+(129, 131, 180.00, 'Cartão de Crédito', '2025-04-11', 'Concluído'),
+(130, 132, 320.00, 'PIX', '2025-04-16', 'Concluído'),
+(131, 133, 150.00, 'Boleto', '2025-04-21', 'Concluído'),
+(132, 134, 280.00, 'Dinheiro', '2025-04-26', 'Concluído'),
+(133, 135, 230.00, 'Cartão de Débito', '2025-05-01', 'Concluído'),
+(134, 136, 200.00, 'Transferência', '2025-05-06', 'Concluído'),
+(135, 137, 340.00, 'Cartão de Crédito', '2025-05-11', 'Concluído'),
+(136, 138, 160.00, 'PIX', '2025-05-16', 'Concluído'),
+(137, 139, 290.00, 'Boleto', '2025-05-21', 'Concluído'),
+(138, 140, 210.00, 'Dinheiro', '2025-05-26', 'Concluído'),
+(139, 141, 270.00, 'Cartão de Débito', '2025-05-31', 'Concluído'),
+(140, 142, 240.00, 'Transferência', '2025-06-05', 'Concluído'),
+(141, 143, 330.00, 'Cartão de Crédito', '2025-06-10', 'Concluído'),
+(142, 144, 140.00, 'PIX', '2025-06-15', 'Concluído'),
+(143, 145, 300.00, 'Boleto', '2025-06-20', 'Concluído'),
+(144, 146, 190.00, 'Dinheiro', '2025-06-25', 'Concluído'),
+(145, 147, 250.00, 'Cartão de Débito', '2025-06-30', 'Concluído'),
+(146, 148, 220.00, 'Transferência', '2025-07-05', 'Concluído');
 
 -- --------------------------------------------------------
 
@@ -358,7 +482,7 @@ INSERT INTO `produto` (`id_produto`, `id_usuario`, `id_fornecedor`, `tipo`, `nom
 (13, 1, 2, 'Componente', 'Compressor Embraco 1/4HP', 'Geladeiras Frost Free', 2, 899.90, '2024-05-25', 'Compressor 1/4HP - Modelo VEMT10K - Nove'),
 (14, 1, 1, 'Microfone', 'Microfone Samsung', 'Samsung Galaxy系列', 12, 39.90, '2024-05-28', 'Módulo microfone inferior - Compatível S20-S23'),
 (15, 1, 2, 'Memória', 'RAM 8GB DDR4 3200MHz', 'Notebooks', 8, 199.90, '2024-06-01', 'Memória SODIMM 8GB DDR4 3200MHz - Kingston'),
-(16, 1, 2, 'Display', 'Tela iPhone 15 Pro Max', 'iPhone 15 Pro Max', 3, 1099.90, '2024-06-05', 'Tela Original 6.7\" Super Retina XDR - Com True Tone'),
+(16, 1, 2, 'Display', 'Tela iPhone 15 Pro Max', 'iPhone 15 Pro Max', 2, 1099.90, '2024-06-05', 'Tela Original 6.7\" Super Retina XDR - Com True Tone'),
 (17, 1, 3, 'Placa', 'Placa Xbox Series X', 'Xbox Series X', 5, 599.90, '2024-06-08', 'Placa mãe principal - Modelo 1882A'),
 (18, 1, 2, 'Ventoinha', 'Cooler PlayStation 5', 'PlayStation 5', 8, 79.90, '2024-06-12', 'Ventoinha de refrigeração - Original Sony'),
 (19, 1, 1, 'Flex', 'Flex Cable Volume Samsung', 'Samsung Galaxy系列', 15, 24.90, '2024-06-15', 'Cabo flex botões volume/power - Compatível'),
@@ -409,7 +533,8 @@ INSERT INTO `servicos_os` (`id`, `id_equipamento`, `tipo_servico`, `descricao`, 
 (46, 74, 'Troca de Tela', 'Substituição do display original', 350.00),
 (47, 75, 'Reparo na Placa Mãe', 'Reparo do circuito de energia', 420.00),
 (48, 76, 'Troca de Alto-falante', 'Substituição do módulo de áudio', 120.00),
-(65, 93, 'troca de tela', 'troca de tela superficial', 500.00);
+(65, 93, 'troca de tela', 'troca de tela superficial', 500.00),
+(66, 94, 'troca de tela', 'troca de tela superficial', 700.00);
 
 -- --------------------------------------------------------
 
@@ -554,7 +679,7 @@ ALTER TABLE `cliente`
 -- AUTO_INCREMENT de tabela `equipamentos_os`
 --
 ALTER TABLE `equipamentos_os`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedor`
@@ -566,19 +691,19 @@ ALTER TABLE `fornecedor`
 -- AUTO_INCREMENT de tabela `ordens_servico`
 --
 ALTER TABLE `ordens_servico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
 
 --
 -- AUTO_INCREMENT de tabela `os_produto`
 --
 ALTER TABLE `os_produto`
-  MODIFY `id_os_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id_os_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de tabela `pagamento`
 --
 ALTER TABLE `pagamento`
-  MODIFY `id_pagamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id_pagamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
 
 --
 -- AUTO_INCREMENT de tabela `perfil`
@@ -596,7 +721,7 @@ ALTER TABLE `produto`
 -- AUTO_INCREMENT de tabela `servicos_os`
 --
 ALTER TABLE `servicos_os`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
