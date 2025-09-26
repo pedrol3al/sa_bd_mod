@@ -1,5 +1,4 @@
 
-@@ -1,14 +0,0 @@
 # Usa imagem oficial PHP com Apache
 FROM php:8.1-apache
 
