@@ -1,9 +1,9 @@
 <?php
-$host = "seu_host_do_railway";    // ex: containers-us-west-123.railway.app
-$port = "porta_do_railway";       // ex: 12345
-$dbname = "nome_do_banco";
-$username = "usuario_do_banco";
-$password = "senha_do_banco";
+$host = "mysql.railway.internal";    // ex: containers-us-west-123.railway.app
+$port = "3306";       // ex: 12345
+$dbname = "railway";
+$username = "root";
+$password = "REdhhCojiuDxlwkZVLrYGethCAKKjkVT";
 
 try {
     $pdo = new PDO(
