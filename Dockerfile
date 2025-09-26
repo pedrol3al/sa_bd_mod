@@ -1,18 +1,18 @@
-
 # Usa imagem oficial PHP com Apache
 FROM php:8.1-apache
 
-# Instala extensões necessárias (MySQL, PDO)
+# Instala extensões PHP necessárias
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Copia os arquivos do projeto para a pasta do Apache
 COPY . /var/www/html/
-
-# Dá permissão para a pasta
 RUN chown -R www-data:www-data /var/www/html
 
-# Expõe a porta 80 (web)
+# Expõe porta 80 (Railway vai mapear automaticamente a porta real)
 EXPOSE 80
 
-ENV APACHE_RUN_PORT=${PORT}
-RUN sed -i "s/80/${PORT}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
+# Copia o entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/
+
+# ENTRYPOINT adaptado para Windows (executa via bash)
+ENTRYPOINT ["bash", "/usr/local/bin/docker-entrypoint.sh"]
