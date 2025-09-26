@@ -1,12 +1,9 @@
 <?php
 $host = getenv("MYSQLHOST");
+$port = getenv("MYSQLPORT") ?: "3306";
 $dbname = getenv("MYSQLDATABASE");
 $username = getenv("MYSQLUSER");
 $password = getenv("MYSQLPASSWORD");
-$port = getenv("MYSQLPORT") ?: "3306";
-
-// Debug: ver se as variáveis estão corretas
-var_dump($host, $port, $dbname, $username, $password);
 
 try {
     $pdo = new PDO(
