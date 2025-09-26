@@ -12,3 +12,4 @@ try {
     die("Erro na conexão: " . $e->getMessage());
 }
 ?>
+ 
