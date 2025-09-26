@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($usuario) {
         if ($usuario['inativo'] == 1) {
             $_SESSION['msg'] = "error"; // Usuário inativo
-            header("Location: ../index.php");
+            header("Location: ../../index.php");
             exit();
         }
 
@@ -32,12 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         } else {
             $_SESSION['msg'] = "senha_incorreta"; // Senha incorreta
-            header("Location: ../index.php");
+            header("Location: ../../index.php");
             exit();
         }
     } else {
         $_SESSION['msg'] = "usuario_inexistente"; // Usuário não encontrado
-        header("Location: ../index.php");
+        header("Location: ../../index.php");
         exit();
     }
 }

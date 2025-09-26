@@ -29,18 +29,18 @@ unset($_SESSION['usuario']);  // Exemplo, só limpa usuário antigo
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-    <link rel="shortcut icon" href="img/favicon-16x16.ico" type="image/x-icon">
-    <link rel="stylesheet" href="Login/index.css">
+    <link rel="shortcut icon" href="/sa_mod_bd/img/favicon-16x16.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/sa_mod_bd/Login/index.css">
 </head>
 
 <body>
 <main class="container">
     <div class="topoPag">
-        <img class="imagemLogo" src="img/techinho.png" alt="Logo Techinho">
+        <img class="imagemLogo" src="/sa_mod_bd/img/techinho.png" alt="Logo Techinho">
     </div>
 
     <div class="Formulario">
-        <form method="POST" action="Login/login.php">
+        <form method="POST" action="/sa_mod_bd/Login/login.php">
             <div class="informacoes">
                 <input name="email" id="email" type="email" placeholder="Digite seu email corporativo" class="form-control">
                 <div class="password-container">
@@ -52,7 +52,7 @@ unset($_SESSION['usuario']);  // Exemplo, só limpa usuário antigo
             </div>
             <div class="interacoes">
                 <button id="login" class="btn btn-primary" type="submit">Logar</button>
-                <a href="Login/esqueci_senha.php">Esqueci minha senha</a>
+                <a href="/sa_mod_bd/Login/esqueci_senha.php">Esqueci minha senha</a>
             </div>
             <div class="rodape">
                 <footer class="text-center mt-5"> <small>© 2025 Conserta Tech - Suporte: (47) 98472-8108</small>

@@ -1,9 +1,9 @@
 <?php
-$host = getenv("MYSQLHOST");
-$port = getenv("MYSQLPORT") ?: "3306";
-$dbname = getenv("MYSQLDATABASE");
-$username = getenv("MYSQLUSER");
-$password = getenv("MYSQLPASSWORD");
+$host = "seu_host_do_railway";    // ex: containers-us-west-123.railway.app
+$port = "porta_do_railway";       // ex: 12345
+$dbname = "nome_do_banco";
+$username = "usuario_do_banco";
+$password = "senha_do_banco";
 
 try {
     $pdo = new PDO(
@@ -12,7 +12,7 @@ try {
         $password
     );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Conexão Railway OK!";
+    echo "Conexão OK!";
 } catch (PDOException $e) {
     die("Erro na conexão: " . $e->getMessage());
 }

@@ -27,7 +27,7 @@
 
             //simula o envio do email (grava em txt)
             simularEnvioEmail($email,$senha_temporaria);
-            echo "<script>alert('Uma senha temporaria foi gerada e enviada (simulação). Verifique o arquivo emails_simulados.txt'); window.location.href='../index.php';</script>";
+            echo "<script>alert('Uma senha temporaria foi gerada e enviada (simulação). Verifique o arquivo emails_simulados.txt'); window.location.href='../../index.php';</script>";
         } else {
             echo "<script>alert('E-mail não encontrado!');</script>";
         }
@@ -67,7 +67,7 @@
                 
                 <button type="submit" class="btn-primary">Enviar Senha Temporária</button>
                 
-                <a href="../index.php" class="back-link">
+                <a href="../../index.php" class="back-link">
                     <i class="bi bi-arrow-left"></i> Voltar para o login
                 </a>
             </form>
