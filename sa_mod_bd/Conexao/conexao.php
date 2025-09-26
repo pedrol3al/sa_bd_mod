@@ -1,6 +1,6 @@
 <?php
 $host = "mysql.railway.internal";    // ex: containers-us-west-123.railway.app
-$port = "3306";       // ex: 12345
+$port = "3306";       
 $dbname = "conserta_tech_sa";
 $username = "root";
 $password = "REdhhCojiuDxlwkZVLrYGethCAKKjkVT";
@@ -12,7 +12,7 @@ try {
         $password
     );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Conexão OK!";
+    // echo "Conexão OK!";  ← REMOVIDO
 } catch (PDOException $e) {
     die("Erro na conexão: " . $e->getMessage());
 }
