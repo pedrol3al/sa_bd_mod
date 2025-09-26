@@ -1,7 +1,7 @@
 <?php
 $host = "mysql.railway.internal";    // ex: containers-us-west-123.railway.app
 $port = "3306";       // ex: 12345
-$dbname = "railway";
+$dbname = "conserta_tech_sa";
 $username = "root";
 $password = "REdhhCojiuDxlwkZVLrYGethCAKKjkVT";
 
