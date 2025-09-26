@@ -13,3 +13,6 @@ RUN chown -R www-data:www-data /var/www/html
 
 # Expõe a porta 80 (web)
 EXPOSE 80
+
+ENV APACHE_RUN_PORT=${PORT}
+RUN sed -i "s/80/${PORT}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
