@@ -87,9 +87,6 @@ h1 {
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
-.form-control:required:invalid {
-  border-color: var(--danger-color);
-}
 
 .btn {
   padding: 10px 15px;
