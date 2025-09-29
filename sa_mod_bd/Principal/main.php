@@ -132,7 +132,6 @@ $total_andamento = $result['total_andamento'];
         </div>
         
         <div class="metrics-section">
-            <h2>Status das Ordens de Serviço</h2>
             <h2>Métricas gerais do sistema</h2>
             <div class="metrics-grid">
                 <div class="metric-item os-andamento">
