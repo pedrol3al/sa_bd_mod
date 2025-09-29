@@ -134,18 +134,6 @@ h1 {
   gap: 10px;
 }
 
-.alert {
-  padding: 12px 15px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  border: 1px solid transparent;
-}
-
-.alert-danger {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-}
 
 /* Responsividade */
 @media (max-width: 768px) {
@@ -189,11 +177,6 @@ select.form-control {
 textarea.form-control {
   resize: vertical;
   min-height: 80px;
-}
-
-/* Estilos para número inputs */
-input[type="number"].form-control {
-  -moz-appearance: textfield;
 }
 
 input[type="number"].form-control::-webkit-outer-spin-button,
